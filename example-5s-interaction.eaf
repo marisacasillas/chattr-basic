@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ANNOTATION_DOCUMENT AUTHOR="" DATE="2019-11-08T16:15:50+01:00" FORMAT="3.0" VERSION="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv3.0.xsd">
+    <HEADER MEDIA_FILE="" TIME_UNITS="milliseconds">
+        <PROPERTY NAME="URN">urn:nl-mpi-tools-elan-eaf:d125a8fb-617c-4f24-99e8-1af3f1dc2d9c</PROPERTY>
+        <PROPERTY NAME="lastUsedAnnotationId">16</PROPERTY>
+    </HEADER>
+    <TIME_ORDER>
+        <TIME_SLOT TIME_SLOT_ID="ts1" TIME_VALUE="210"/>
+        <TIME_SLOT TIME_SLOT_ID="ts2" TIME_VALUE="450"/>
+        <TIME_SLOT TIME_SLOT_ID="ts3" TIME_VALUE="1080"/>
+        <TIME_SLOT TIME_SLOT_ID="ts4" TIME_VALUE="1260"/>
+        <TIME_SLOT TIME_SLOT_ID="ts5" TIME_VALUE="2273"/>
+        <TIME_SLOT TIME_SLOT_ID="ts6" TIME_VALUE="3390"/>
+        <TIME_SLOT TIME_SLOT_ID="ts7" TIME_VALUE="3500"/>
+        <TIME_SLOT TIME_SLOT_ID="ts8" TIME_VALUE="4910"/>
+        <TIME_SLOT TIME_SLOT_ID="ts9" TIME_VALUE="4970"/>
+        <TIME_SLOT TIME_SLOT_ID="ts10" TIME_VALUE="5250"/>
+        <TIME_SLOT TIME_SLOT_ID="ts11" TIME_VALUE="5255"/>
+        <TIME_SLOT TIME_SLOT_ID="ts12" TIME_VALUE="5286"/>
+        <TIME_SLOT TIME_SLOT_ID="ts13" TIME_VALUE="5788"/>
+        <TIME_SLOT TIME_SLOT_ID="ts14" TIME_VALUE="5908"/>
+        <TIME_SLOT TIME_SLOT_ID="ts15" TIME_VALUE="8057"/>
+        <TIME_SLOT TIME_SLOT_ID="ts16" TIME_VALUE="8603"/>
+    </TIME_ORDER>
+    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="CHI">
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a1" TIME_SLOT_REF1="ts2" TIME_SLOT_REF2="ts3">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a2" TIME_SLOT_REF1="ts5" TIME_SLOT_REF2="ts7">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a3" TIME_SLOT_REF1="ts10" TIME_SLOT_REF2="ts13">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a13" TIME_SLOT_REF1="ts15" TIME_SLOT_REF2="ts16">
+                <ANNOTATION_VALUE></ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="MA1">
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a4" TIME_SLOT_REF1="ts1" TIME_SLOT_REF2="ts4">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a5" TIME_SLOT_REF1="ts8" TIME_SLOT_REF2="ts11">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a6" TIME_SLOT_REF1="ts12" TIME_SLOT_REF2="ts14">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="FC1">
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a7" TIME_SLOT_REF1="ts6" TIME_SLOT_REF2="ts9">
+                <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="CHI" TIER_ID="xds@CHI">
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a8" ANNOTATION_REF="a1">
+                <ANNOTATION_VALUE>MA1</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a9" ANNOTATION_REF="a2">
+                <ANNOTATION_VALUE>MA1</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a10" ANNOTATION_REF="a3">
+                <ANNOTATION_VALUE>FC1</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a14" ANNOTATION_REF="a13">
+                <ANNOTATION_VALUE></ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="MA1" TIER_ID="xds@MA1">
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a11" ANNOTATION_REF="a4">
+                <ANNOTATION_VALUE>FC1</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a15" ANNOTATION_REF="a5">
+                <ANNOTATION_VALUE>CHI</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a16" ANNOTATION_REF="a6">
+                <ANNOTATION_VALUE>FC1</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="FC1" TIER_ID="xds@FC1">
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a12" ANNOTATION_REF="a7">
+                <ANNOTATION_VALUE>CHI</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="hide"/>
+    <LINGUISTIC_TYPE GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="default-lt" TIME_ALIGNABLE="true"/>
+    <LINGUISTIC_TYPE CONSTRAINTS="Symbolic_Association" GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="addressee" TIME_ALIGNABLE="false"/>
+    <CONSTRAINT DESCRIPTION="Time subdivision of parent annotation's time interval, no time gaps allowed within this interval" STEREOTYPE="Time_Subdivision"/>
+    <CONSTRAINT DESCRIPTION="Symbolic subdivision of a parent annotation. Annotations refering to the same parent are ordered" STEREOTYPE="Symbolic_Subdivision"/>
+    <CONSTRAINT DESCRIPTION="1-1 association with a parent annotation" STEREOTYPE="Symbolic_Association"/>
+    <CONSTRAINT DESCRIPTION="Time alignable annotations within the parent annotation's time interval, gaps are allowed" STEREOTYPE="Included_In"/>
+</ANNOTATION_DOCUMENT>

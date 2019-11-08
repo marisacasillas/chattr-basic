@@ -1,0 +1,465 @@
+@UTF8
+@PID:	11312/a-00002747-1
+@Begin
+@Languages:	eng
+@Participants:	CHI Target_Child, MOT Mother, SIB Sibling
+@ID:	eng|VanDam-5minute|CHI||male|NH||Target_Child|||
+@ID:	eng|VanDam-5minute|MOT||female|||Mother|||
+@ID:	eng|VanDam-5minute|SIB|||||Sibling|||
+@Media:	FJ11_020816b, audio
+@Date:	24-JUL-2010
+@Comment:	start at 9178, 10:15
+*CHI:	huh and another one . 0_5701
+%mor:	co|huh coord|and qn|another pro:indef|one .
+%gra:	1|0|INCROOT 2|1|CONJ 3|4|QUANT 4|2|COORD 5|1|PUNCT
+*CHI:	it time to go a fish [?] ! 5701_8816
+%mor:	pro:per|it v|time inf|to v|go det:art|a n|fish !
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|INF 4|2|COMP 5|6|DET 6|4|OBJ 7|2|PUNCT
+*MOT:	a fish right . 9394_10258
+%mor:	det:art|a n|fish adj|right .
+%gra:	1|2|DET 2|0|INCROOT 3|2|POSTMOD 4|2|PUNCT
+*CHI:	+< yeah I like those fish . 10258_12549
+%mor:	co|yeah pro:sub|I co|like det:dem|those n|fish .
+%gra:	1|5|COM 2|5|SUBJ 3|2|COM 4|5|DET 5|0|INCROOT 6|5|PUNCT
+*MOT:	you do ? 12549_13138
+%mor:	pro:per|you v|do ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PUNCT
+*CHI:	yeah . 13138_13990
+%mor:	co|yeah .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	you do ? 13990_14998
+%mor:	pro:per|you v|do ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PUNCT
+*MOT:	yep . 14998_16045
+%mor:	co|yep .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	I like fish . 16045_16865
+%mor:	pro:sub|I v|like n|fish .
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|OBJ 4|2|PUNCT
+*CHI:	and ladybugs . 16865_19463
+%mor:	coord|and n|+n|lady+n|bug-PL .
+%gra:	1|2|LINK 2|0|INCROOT 3|2|PUNCT
+*CHI:	they have baby ones . 19463_21360
+%mor:	pro:sub|they v|have n|baby n|one-PL .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|MOD 4|2|OBJ 5|2|PUNCT
+*CHI:	on here . 21360_22706
+%mor:	prep|on n|here .
+%gra:	1|0|INCROOT 2|1|POBJ 3|1|PUNCT
+*MOT:	what's that ? 22706_27024
+%mor:	pro:int|what~cop|be&3S pro:dem|that ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PRED 4|2|PUNCT
+*CHI:	<a yyy> [/] it's a title [: turtle] . 27024_29559
+%mor:	pro:per|it~cop|be&3S det:art|a n|turtle .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|2|PUNCT
+*MOT:	it's a turtle right . 29559_30727
+%mor:	pro:per|it~cop|be&3S det:art|a n|turtle adj|right .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|4|POSTMOD 6|2|PUNCT
+*CHI:	yeah yyy a turtle ! 30727_33280
+%mor:	co|yeah det:art|a n|turtle !
+%gra:	1|3|COM 2|3|DET 3|0|INCROOT 4|3|PUNCT
+*MOT:	right . 33280_33852
+%mor:	co|right .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	yellow . 33852_40379
+%mor:	n|yellow .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	red . 40379_42296
+%mor:	adj|red .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	orange . 42296_43382
+%mor:	adj|orange .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	red . 43382_44289
+%mor:	adj|red .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	give me five . 44289_45060
+%mor:	v|give pro:obj|me det:num|five .
+%gra:	1|0|ROOT 2|1|OBJ 3|1|OBJ 4|1|PUNCT
+*MOT:	nice colors . 45060_46108
+%mor:	adj|nice n|color-PL .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	one two three four five . 46108_48413
+%mor:	det:num|one det:num|two det:num|three det:num|four det:num|five .
+%gra:	1|5|DATE 2|4|DATE 3|4|DATE 4|5|DATE 5|0|INCROOT 6|5|PUNCT
+*MOT:	+< four . 48413_48929
+%mor:	det:num|four .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	one two three four . 48929_50175
+%mor:	det:num|one det:num|two det:num|three det:num|four .
+%gra:	1|4|DATE 2|4|DATE 3|4|DATE 4|0|INCROOT 5|4|PUNCT
+*CHI:	+< four . 50175_50484
+%mor:	det:num|four .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	right . 50484_51616
+%mor:	co|right .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	give me five . 51914_53107
+%mor:	v|give pro:obj|me det:num|five .
+%gra:	1|0|ROOT 2|1|OBJ 3|1|OBJ 4|1|PUNCT
+*CHI:	&=grunt . 53107_54982
+*MOT:	you rock . 54982_55866
+%mor:	pro:per|you v|rock .
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PUNCT
+*CHI:	yeah . 55866_56700
+%mor:	co|yeah .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	good job honey . 56700_57241
+%mor:	adj|good n|job n|honey .
+%gra:	1|3|MOD 2|3|MOD 3|0|INCROOT 4|3|PUNCT
+*MOT:	Ok turn the page . 57241_58160
+%mor:	n:prop|Ok n|turn det:art|the n|page .
+%gra:	1|2|MOD 2|0|INCROOT 3|4|DET 4|2|OBJ 5|2|PUNCT
+*CHI:	Ok . 58160_58780
+%mor:	n:prop|Ok .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	yyy . 58780_61978
+*MOT:	yep that's right . 61978_62694
+%mor:	co|yep pro:dem|that~cop|be&3S co|right .
+%gra:	1|3|COM 2|3|SUBJ 3|0|ROOT 4|3|PRED 5|3|PUNCT
+*CHI:	long time ago a duck . 62694_66093
+%mor:	adj|long n|time post|ago det:art|a n|duck .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|POSTMOD 4|5|DET 5|2|OBJ 6|2|PUNCT
+*CHI:	yyy yyy a goose . 68211_70582
+%mor:	det:art|a n|goose .
+%gra:	1|2|DET 2|0|INCROOT 3|2|PUNCT
+*MOT:	what ? 70582_71396
+%mor:	pro:int|what ?
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	yyy goose . 71396_73092
+%mor:	n|goose .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	it's not a goose . 73092_74042
+%mor:	pro:per|it~cop|be&3S neg|not det:art|a n|goose .
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|NEG 4|5|DET 5|2|PRED 6|2|PUNCT
+*MOT:	it's a duck . 74042_75428
+%mor:	pro:per|it~cop|be&3S det:art|a n|duck .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|2|PUNCT
+*CHI:	+< duck . 75428_75921
+%mor:	n|duck .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	yyy yyy yyy a duck . 75921_78651
+%mor:	det:art|a n|duck .
+%gra:	1|2|DET 2|0|INCROOT 3|2|PUNCT
+*CHI:	red orange red . 78631_83075
+%mor:	adj|red n|orange n|red .
+%gra:	1|3|MOD 2|3|MOD 3|0|INCROOT 4|3|PUNCT
+*MOT:	right . 83075_83886
+%mor:	co|right .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	one two three four . 83886_85914
+%mor:	det:num|one det:num|two det:num|three det:num|four .
+%gra:	1|4|DATE 2|4|DATE 3|4|DATE 4|0|INCROOT 5|4|PUNCT
+*MOT:	nope count them again . 85914_87423
+%mor:	co|nope v|count pro:obj|them adv|again .
+%gra:	1|2|COM 2|0|ROOT 3|2|OBJ 4|2|JCT 5|2|PUNCT
+*MOT:	touch each one . 87423_88901
+%mor:	v|touch qn|each pro:indef|one .
+%gra:	1|0|ROOT 2|3|QUANT 3|1|OBJ 4|1|PUNCT
+*MOT:	one . 88901_89690
+%mor:	det:num|one .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	+< one . 89690_90127
+%mor:	det:num|one .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	two . 90127_91647
+%mor:	det:num|two .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	+< two . 91647_92450
+%mor:	det:num|two .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	three . 92450_94176
+%mor:	det:num|three .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	+< three . 94176_95272
+%mor:	det:num|three .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	good three . 95272_96139
+%mor:	adj|good det:num|three .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	turn page yyy a frog ! 96158_102643
+%mor:	n|turn v|page det:art|a n|frog !
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|OBJ 5|2|PUNCT
+*MOT:	right . 102643_103271
+%mor:	co|right .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	one red . 103271_105684
+%mor:	det:num|one n|red .
+%gra:	1|2|QUANT 2|0|INCROOT 3|2|PUNCT
+*MOT:	right . 105684_107567
+%mor:	co|right .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	how many are there count them .
+%mor:	pro:rel|how qn|many aux|be&PRES adv|there v|count pro:obj|them .
+%gra:	1|5|LINK 2|5|SUBJ 3|5|AUX 4|5|SUBJ 5|0|ROOT 6|5|OBJ 7|5|PUNCT
+*CHI:	+< one two three . 107567_108736
+%mor:	det:num|one det:num|two det:num|three .
+%gra:	1|2|QUANT 2|3|QUANT 3|0|INCROOT 4|3|PUNCT
+*MOT:	count them . 108736_109547
+%mor:	v|count pro:obj|them .
+%gra:	1|0|ROOT 2|1|OBJ 3|1|PUNCT
+*MOT:	touch each one when you count . 109547_110908
+%mor:	v|touch qn|each pro:indef|one conj|when pro:per|you v|count .
+%gra:	1|0|ROOT 2|3|QUANT 3|1|OBJ 4|6|LINK 5|6|SUBJ 6|1|CJCT 7|1|PUNCT
+*MOT:	one . 110908_112340
+%mor:	det:num|one .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	+< one . 112340_113003
+%mor:	det:num|one .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	two . 113003_115471
+%mor:	det:num|two .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	two . 115471_116401
+%mor:	det:num|two .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	nice job James . 116401_117997
+%mor:	adj|nice n|job n:prop|James .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|APP 4|2|PUNCT
+*CHI:	thanks mom . 117512_120094
+%mor:	co|thanks n|mom .
+%gra:	1|2|COM 2|0|INCROOT 3|2|PUNCT
+*CHI:	I love you . 120094_121277
+%mor:	pro:sub|I v|love pro:per|you .
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|OBJ 4|2|PUNCT
+*CHI:	give me a five . 121277_124563
+%mor:	v|give pro:obj|me det:art|a det:num|five .
+%gra:	1|0|ROOT 2|1|OBJ2 3|4|DET 4|1|OBJ 5|1|PUNCT
+*CHI:	and I give you a five . 124563_127158
+%mor:	coord|and pro:sub|I v|give pro:per|you det:art|a det:num|five .
+%gra:	1|3|LINK 2|3|SUBJ 3|0|ROOT 4|3|OBJ2 5|6|DET 6|3|OBJ 7|3|PUNCT
+*CHI:	that's a lot of fives . 127158_131717
+%mor:	pro:dem|that~cop|be&3S det:art|a n|lot prep|of n|five-PL .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|4|NJCT 6|5|POBJ 7|2|PUNCT
+*CHI:	yeah . 131717_133320
+%mor:	co|yeah .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	Ok turn it now what do you see ? 133320_135765
+%mor:	n:prop|Ok n|turn pro:per|it adv|now pro:int|what mod|do pro:per|you
+	v|see ?
+%gra:	1|2|MOD 2|8|SUBJ 3|2|OBJ 4|8|JCT 5|8|SUBJ 6|8|AUX 7|8|SUBJ 8|0|ROOT
+	9|8|PUNCT
+*CHI:	I see &=&-um one ladybug . 135765_139567
+%mor:	pro:sub|I v|see det:num|one n|+n|lady+n|bug .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|QUANT 4|2|OBJ 5|2|PUNCT
+*MOT:	right . 139567_140140
+%mor:	co|right .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	just one . 140140_141195
+%mor:	adv|just det:num|one .
+%gra:	1|2|JCT 2|0|INCROOT 3|2|PUNCT
+*CHI:	yeah . 141195_142389
+%mor:	co|yeah .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	what else do you see ? 142389_143448
+%mor:	pro:int|what post|else v|do pro:per|you v|see ?
+%gra:	1|3|JCT 2|1|PQ 3|0|ROOT 4|5|SUBJ 5|3|COMP 6|3|PUNCT
+*CHI:	yyy ? 143448_144420
+*MOT:	that's a one . 144420_145215
+%mor:	pro:dem|that~cop|be&3S det:art|a pro:indef|one .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|2|PUNCT
+*CHI:	oh . 145215_145789
+%mor:	co|oh .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	and what do you see over here what are all these ? 145789_148596
+%mor:	coord|and pro:int|what mod|do pro:per|you v|see prep|over n|here
+	pro:int|what cop|be&PRES adv|all det:dem|these ?
+%gra:	1|5|LINK 2|5|SUBJ 3|5|AUX 4|5|SUBJ 5|0|ROOT 6|5|JCT 7|6|POBJ 8|9|SUBJ
+	9|5|COMP 10|11|JCT 11|9|PRED 12|5|PUNCT
+*CHI:	yyy . 148596_150077
+*CHI:	some animals . 150077_153703
+%mor:	qn|some n|animal-PL .
+%gra:	1|2|QUANT 2|0|INCROOT 3|2|PUNCT
+*MOT:	nope no animals . 153703_154743
+%mor:	co|nope co|no n|animal-PL .
+%gra:	1|3|COM 2|3|COM 3|0|INCROOT 4|3|PUNCT
+*MOT:	but what are these ? 154743_155586
+%mor:	conj|but pro:int|what cop|be&PRES pro:dem|these ?
+%gra:	1|3|LINK 2|3|SUBJ 3|0|ROOT 4|3|PRED 5|3|PUNCT
+*MOT:	what are these ? 156129_157663
+%mor:	pro:int|what cop|be&PRES pro:dem|these ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PRED 4|2|PUNCT
+*MOT:	what are these ? 157663_159517
+%mor:	pro:int|what cop|be&PRES pro:dem|these ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PRED 4|2|PUNCT
+*CHI:	&=&-um flowers . 159517_160897
+%mor:	n|flower-PL .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	flowers . 160897_161583
+%mor:	n|flower-PL .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	what those ? 162284_165754
+%mor:	pro:int|what det:dem|those ?
+%gra:	1|0|INCROOT 2|3|DET 3|1|PUNCT
+*CHI:	<be> [/] bees . 165754_167198
+%mor:	n|bee-PL .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	yep . 167198_167820
+%mor:	co|yep .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	it's a little one . 167820_169113
+%mor:	pro:per|it~cop|be&3S det:art|a adj|little pro:indef|one .
+%gra:	1|2|SUBJ 2|0|ROOT 3|5|DET 4|5|MOD 5|2|PRED 6|2|PUNCT
+*CHI:	ant . 169489_174739
+%mor:	n|ant .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	that's a grasshopper . 174739_176069
+%mor:	pro:dem|that~cop|be&3S det:art|a n|+n|grass+n|hopper .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|2|PUNCT
+*CHI:	grasshopper . 176069_177414
+%mor:	n|+n|grass+n|hopper .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	butterfly . 177414_178123
+%mor:	n|+n|butter+n|fly .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*CHI:	butterfly . 178123_179552
+%mor:	n|+n|butter+n|fly .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	I know these pictures are kind of hard to tell . 179357_181292
+%mor:	pro:sub|I v|know det:dem|these n|picture-PL cop|be&PRES n|kind
+	prep|of adj|hard inf|to v|tell .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|5|SUBJ 5|2|COMP 6|5|PRED 7|6|NJCT 8|7|POBJ
+	9|10|INF 10|8|XMOD 11|2|PUNCT
+*CHI:	bee bee . 181292_183147
+%mor:	n|bee n|bee .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	bee [x 5] . 183147_187296
+%mor:	n|bee .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	Erin can you find me the animal book that we like ? 187296_188693
+%mor:	n:prop|Erin mod|can pro:per|you v|find pro:obj|me det:art|the
+	n|animal n|book pro:rel|that pro:sub|we co|like ?
+%gra:	1|4|SUBJ 2|4|AUX 3|4|SUBJ 4|0|ROOT 5|4|OBJ2 6|8|DET 7|8|MOD 8|4|OBJ
+	9|10|LINK 10|8|CMOD 11|10|COM 12|4|PUNCT
+*MOT:	you now the little white one my first book of animals or +... 188693_193361
+%mor:	pro:per|you adv|now det:art|the adj|little n|white det:num|one
+	det:poss|my adj|first n|book prep|of n|animal-PL coord|or +...
+%gra:	1|2|SUBJ 2|12|JCT 3|5|DET 4|5|MOD 5|12|SUBJ 6|9|QUANT 7|9|DET 8|9|MOD
+	9|5|APP 10|9|NJCT 11|10|POBJ 12|0|ROOT 13|12|PUNCT
+*CHI:	yyy . 193361_195933
+*SIB:	first of all well yeah with the new sink since its higher . 195933_199263
+%mor:	adv|first prep|of qn|all n|well co|yeah prep|with det:art|the
+	adj|new n|sink prep|since det:poss|its adj|high-CP .
+%gra:	1|5|JCT 2|1|JCT 3|4|QUANT 4|2|POBJ 5|0|ROOT 6|5|JCT 7|9|DET 8|9|MOD
+	9|6|POBJ 10|9|NJCT 11|12|DET 12|10|POBJ 13|5|PUNCT
+*MOT:	yep . 199263_199932
+%mor:	co|yep .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*SIB:	+< I can't yyy . 199932_201763
+%mor:	pro:sub|I mod|can~neg|not .
+%gra:	1|0|INCROOT 2|4|AUX 3|2|NEG 4|1|PUNCT
+*CHI:	yyy . 201763_204332
+*SIB:	if I leaned over it like this yyy . 204332_205900
+%mor:	conj|if pro:sub|I v|lean-PAST adv|over pro:per|it v|like
+	pro:dem|this .
+%gra:	1|3|LINK 2|3|SUBJ 3|6|CJCT 4|3|JCT 5|6|SUBJ 6|0|ROOT 7|6|OBJ 8|6|PUNCT
+*SIB:	but then if I leaned over the other sink this would slip out and it
+	would go in the sink . 205900_211299
+%mor:	conj|but adv:tem|then conj|if pro:sub|I v|lean-PAST prep|over
+	det:art|the qn|other n|sink pro:dem|this mod|will&COND v|slip
+	adv|out coord|and pro:per|it mod|will&COND v|go prep|in det:art|the
+	n|sink .
+%gra:	1|12|LINK 2|12|JCT 3|5|LINK 4|5|SUBJ 5|12|CJCT 6|5|JCT 7|9|DET
+	8|9|QUANT 9|6|POBJ 10|12|SUBJ 11|12|AUX 12|0|ROOT 13|12|JCT 14|17|LINK
+	15|17|SUBJ 16|17|AUX 17|12|CJCT 18|17|JCT 19|20|DET 20|18|POBJ 21|12|PUNCT
+*SIB:	hey mom can I read this to you ? 224957_227449
+%mor:	co|hey n|mom mod|can pro:sub|I v|read&ZERO det:dem|this inf|to
+	pro:per|you ?
+%gra:	1|5|COM 2|5|SUBJ 3|5|AUX 4|5|SUBJ 5|0|ROOT 6|8|DET 7|8|INF 8|5|OBJ
+	9|5|PUNCT
+*CHI:	red orange . 227449_228748
+%mor:	adj|red n|orange .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*SIB:	www . 228748_230968
+%exp:	talking to mother in background .
+*CHI:	red orange . 230968_232887
+%mor:	adj|red n|orange .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	red orange . 232887_235023
+%mor:	adj|red n|orange .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	red orange . 235023_237530
+%mor:	adj|red n|orange .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	orange red . 237530_239410
+%mor:	adj|orange n|red .
+%gra:	1|2|MOD 2|0|INCROOT 3|2|PUNCT
+*CHI:	red orange red orange red baby one ? 239694_250199
+%mor:	adj|red n|orange n|red n|orange n|red n|baby pro:indef|one ?
+%gra:	1|6|MOD 2|6|MOD 3|6|MOD 4|6|MOD 5|6|MOD 6|7|SUBJ 7|0|ROOT 8|7|PUNCT
+*SIB:	the baby one ? 250199_251706
+%mor:	det:art|the n|baby pro:indef|one ?
+%gra:	1|2|DET 2|3|SUBJ 3|0|INCROOT 4|3|PUNCT
+*CHI:	baby one ? 251706_254472
+%mor:	n|baby pro:indef|one ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PUNCT
+*CHI:	baby one . 254378_256755
+%mor:	n|baby pro:indef|one .
+%gra:	1|2|MOD 2|0|ROOT 3|2|PUNCT
+*CHI:	baby one baby one . 256755_260592
+%mor:	n|baby det:num|one n|baby pro:indef|one .
+%gra:	1|2|SUBJ 2|3|QUANT 3|4|SUBJ 4|0|ROOT 5|4|PUNCT
+*CHI:	yyy . 260592_266342
+*MOT:	found it come sit here . 266342_267730
+%mor:	v|find&PAST pro:per|it v|come v|sit adv|here .
+%gra:	1|0|ROOT 2|1|OBJ 3|1|ENUM 4|3|COMP 5|4|JCT 6|1|PUNCT
+*CHI:	I read it to you . 267730_269635
+%mor:	pro:sub|I v|read&ZERO pro:per|it prep|to pro:per|you .
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|OBJ 4|2|JCT 5|4|POBJ 6|2|PUNCT
+*MOT:	yes that would be great . 269552_270739
+%mor:	co|yes pro:dem|that mod|will&COND cop|be adj|great .
+%gra:	1|4|COM 2|4|SUBJ 3|4|AUX 4|0|ROOT 5|4|PRED 6|4|PUNCT
+*CHI:	yyy no I read it to you . 270739_274513
+%mor:	co|no pro:sub|I v|read&ZERO pro:per|it prep|to pro:per|you .
+%gra:	1|3|COM 2|3|SUBJ 3|0|ROOT 4|3|OBJ 5|3|JCT 6|5|POBJ 7|3|PUNCT
+*MOT:	yep you got to get up here first . 274513_275661
+%mor:	co|yep pro:per|you v|get&PAST inf|to v|get prep|up n|here adv|first
+	.
+%gra:	1|3|COM 2|3|SUBJ 3|0|ROOT 4|5|INF 5|3|COMP 6|5|JCT 7|6|POBJ 8|5|JCT
+	9|3|PUNCT
+*CHI:	&=laughs . 275661_277508
+*MOT:	oh no not that one . 277508_278392
+%mor:	co|oh co|no neg|not adv|that pro:indef|one .
+%gra:	1|5|COM 2|5|COM 3|2|NEG 4|5|JCT 5|0|INCROOT 6|5|PUNCT
+*MOT:	that's Ok this is good . 278392_279594
+%mor:	pro:dem|that~cop|be&3S n:prop|Ok pro:dem|this cop|be&3S adj|good .
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|PRED 4|5|SUBJ 5|2|PRED 6|5|PRED 7|2|PUNCT
+*CHI:	I'm gonna [: going to] read to you . 279594_281377
+%mor:	pro:sub|I~aux|be&1S part|go-PRESP inf|to v|read&ZERO prep|to
+	pro:per|you .
+%gra:	1|3|SUBJ 2|3|AUX 3|0|ROOT 4|5|INF 5|3|COMP 6|5|JCT 7|6|POBJ 8|3|PUNCT
+*MOT:	good . 281377_282729
+%mor:	adj|good .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	Ok show me what you got . 282729_284809
+%mor:	n:prop|Ok v|show pro:obj|me pro:int|what pro:per|you part|get&PASTP
+	.
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|OBJ 4|6|LINK 5|6|SUBJ 6|2|COMP 7|2|PUNCT
+*MOT:	what's on the front ? 284809_285629
+%mor:	pro:int|what~cop|be&3S prep|on det:art|the n|front ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|JCT 4|5|DET 5|3|POBJ 6|2|PUNCT
+*MOT:	what's on the front that's the back ? 285629_288755
+%mor:	pro:int|what~cop|be&3S prep|on det:art|the n|front
+	pro:rel|that~cop|be&3S det:art|the n|back ?
+%gra:	1|2|SUBJ 2|0|ROOT 3|2|JCT 4|5|DET 5|3|POBJ 6|7|LINK 7|5|CMOD 8|9|DET
+	9|7|PRED 10|2|PUNCT
+*CHI:	oh . 288755_289752
+%mor:	co|oh .
+%gra:	1|0|INCROOT 2|1|PUNCT
+*MOT:	here's the front . 289752_290347
+%mor:	pro:exist|here~cop|be&3S det:art|the n|front .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|PRED 5|2|PUNCT
+*MOT:	what do you see ? 290347_291467
+%mor:	pro:int|what mod|do pro:per|you v|see ?
+%gra:	1|4|OBJ 2|4|AUX 3|4|SUBJ 4|0|ROOT 5|4|PUNCT
+*CHI:	I see some dogs and a tiger . 291467_294741
+%mor:	pro:sub|I v|see qn|some n|dog-PL coord|and det:art|a n|tiger .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|QUANT 4|2|OBJ 5|4|CONJ 6|7|DET 7|5|COORD
+	8|2|PUNCT
+*MOT:	right what else do you see ? 294811_296006
+%mor:	adv|right pro:int|what post|else v|do pro:per|you v|see ?
+%gra:	1|2|JCT 2|4|OBJ 3|2|PQ 4|0|ROOT 5|6|SUBJ 6|4|COMP 7|4|PUNCT
+*CHI:	I see a sheep . 296006_297986
+%mor:	pro:sub|I v|see det:art|a n|sheep .
+%gra:	1|2|SUBJ 2|0|ROOT 3|4|DET 4|2|OBJ 5|2|PUNCT
+*CHI:	0 .
+@End
