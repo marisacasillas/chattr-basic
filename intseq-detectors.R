@@ -1,0 +1,160 @@
+# Interactional sequences:
+# continuous sequences only including target-child vocalization and
+# target-child-directed talk
+turn.sequences <- tibble()
+for (i in 1:nrow(all.segments)) {
+  # retrieve all the target child vocs and xds == T vocalizations
+  subdata.tcds <- all.data %>%
+    filter(aclew_child_id == all.segments$aclew_child_id[i] &
+             segment == all.segments$segment[i] &
+             grepl('xds@', tier) &
+             val == "T") %>%
+    mutate(uttid = paste0(speaker, start))
+  subdata.chi <- all.data %>%
+    filter(aclew_child_id == all.segments$aclew_child_id[i] &
+             segment == all.segments$segment[i] &
+             tier == "CHI") %>%
+    mutate(uttid = paste0(speaker, start))
+  subdata <- bind_rows(subdata.tcds, subdata.chi) %>%
+    arrange(start)
+  # work through each target child voc in the clip
+  if (nrow(subdata) > 0) {
+    if (nrow(subdata.chi) > 0) {
+      chi.vocs <- mutate(subdata.chi,
+          seq.num = rep(NA,nrow(subdata.chi)),
+          seq.start = rep(NA,nrow(subdata.chi)),
+          seq.start.spkr = rep(NA,nrow(subdata.chi)),
+          seq.stop = rep(NA,nrow(subdata.chi)),
+          seq.stop.spkr = rep(NA,nrow(subdata.chi)))
+      seq.num <- 1
+      for (j in 1:nrow(chi.vocs)) {
+        curr.start <- chi.vocs$start[j]
+        curr.stop <- chi.vocs$stop[j]
+        curr.spk <- "CHI"
+        curr.utt <- chi.vocs$uttid[j]
+        # First check if this chi voc is already in a sequence. If so, skip it
+        if (seq.num > 1) {
+          prev.seq <- which(chi.vocs$seq.num == seq.num - 1)[1]
+          prev.seq.start <- chi.vocs$seq.start[prev.seq]
+          prev.seq.stop <- chi.vocs$seq.stop[prev.seq]
+          if (curr.start >= prev.seq.start & curr.stop <= prev.seq.stop) {
+            chi.vocs$seq.start[j] <- chi.vocs$seq.start[prev.seq]
+            chi.vocs$seq.start.spkr[j] <- chi.vocs$seq.start.spkr[prev.seq]
+            chi.vocs$seq.stop[j] <- chi.vocs$seq.stop[prev.seq]
+            chi.vocs$seq.stop.spkr[j] <- chi.vocs$seq.stop.spkr[prev.seq]
+            chi.vocs$seq.num[j] <- chi.vocs$seq.num[prev.seq]
+            next
+          }
+        }
+        # We start a loop to look for related utterances to the LEFT
+        stop.looking.left <- FALSE
+        # Look first for prior turns from that STOP
+        #    - earliest: within the maximum gap allowed before the curr utt begins
+        #    - latest: up to the limit on vocal overlap or the end of
+        #              the curr utt (whichever comes first)
+        while (stop.looking.left == FALSE) {
+          candidate.vocs <- subdata %>%
+            filter(uttid != curr.utt &
+                     start <= curr.start &
+                     stop >= curr.start - allowed.gap &
+                     stop <= min(curr.stop, (curr.start + allowed.overlap))) %>%
+            arrange(start)
+          if (nrow(candidate.vocs) > 0) {
+            # continue with the earliest (first occurring) candidate
+            curr.start <- candidate.vocs$start[1]
+            curr.stop <- candidate.vocs$stop[1]
+            curr.spk <- candidate.vocs$speaker[1]
+            curr.utt <- candidate.vocs$uttid[1]
+          } else {
+            stop.looking.left <- TRUE
+          }
+        }
+        seq.start <- curr.start
+        seq.start.spkr <- curr.spk
+
+        # We start a loop to look for related utterances to the RIGHT
+        curr.start <- chi.vocs$start[j]
+        curr.stop <- chi.vocs$stop[j]
+        curr.spk <- "CHI"
+        stop.looking.right <- FALSE
+        # Look first for turn transitions that START
+        #    - earliest: within the allowed vocal overlap over the current utt,
+        #              up to its start time (whichever comes later)
+        #    - latest: before the maximum allowed gap after the curr utt ends
+        while(stop.looking.right == FALSE) {
+          candidate.vocs <- subdata %>%
+            filter(uttid != curr.utt &
+                     stop >= curr.stop &
+                     start >= max(curr.start, (curr.stop - allowed.overlap)) &
+                     start <= curr.stop + allowed.gap) %>%
+            arrange(-stop)
+          if (nrow(candidate.vocs) > 0) {
+            # continue with the earliest (first occurring) candidate
+            curr.start <- candidate.vocs$start[1]
+            curr.stop <- candidate.vocs$stop[1]
+            curr.spk <- candidate.vocs$speaker[1]
+            curr.utt <- candidate.vocs$uttid[1]
+          } else {
+            stop.looking.right <- TRUE
+          }
+        }
+        seq.stop <- curr.stop
+        seq.stop.spkr <- curr.spk
+
+        # Check if the "sequence" is actually just 1+ CHI utterances
+        if (seq.start == chi.vocs$start[j] & seq.stop == chi.vocs$stop[j]) {
+          chi.vocs$seq.stop[j] <-  0
+          chi.vocs$seq.stop.spkr[j] <- "NONE"
+          chi.vocs$seq.start[j] <- 0
+          chi.vocs$seq.start.spkr[j] <- "NONE"
+        } else if (length(unique(subset(subdata, start >= seq.start & stop <= seq.stop)$speaker)) == 1) {
+          chi.vocs$seq.stop[j] <-  0
+          chi.vocs$seq.stop.spkr[j] <- "NONE"
+          chi.vocs$seq.start[j] <- 0
+          chi.vocs$seq.start.spkr[j] <- "NONE"
+        } else {
+          chi.vocs$seq.stop[j] <- seq.stop
+          chi.vocs$seq.stop.spkr[j] <- seq.stop.spkr
+          chi.vocs$seq.start[j] <- seq.start
+          chi.vocs$seq.start.spkr[j] <- seq.start.spkr
+          # Write the sequence number
+          chi.vocs$seq.num[j] <- seq.num
+          seq.num <- seq.num + 1
+        }
+      }
+      turn.sequences <- bind_rows(turn.sequences, chi.vocs)
+    }
+  }
+}
+
+# Sequence duration summary
+turn.sequences <- turn.sequences %>%
+  filter(!(is.na(seq.num))) %>%
+  mutate(seq.dur = (seq.stop - seq.start)/60000)
+turn.sequences.overview <- turn.sequences %>%
+  group_by(aclew_child_id, sample, segment, seq.num, seq.start, seq.stop, seq.dur) %>%
+  summarise(n_cvcs_seq = n()) %>%
+  left_join(ptcp.info, by = "aclew_child_id") %>%
+  left_join(spkrs.per.seg.all, by = c("aclew_child_id", "segment", "sample")) %>%
+  left_join(dplyr::select(seg.info, c("aclew_id", "CodeName", "start.hr")),
+            by = c("aclew_child_id" = "aclew_id", "segment" = "CodeName"))
+turn.seq.by.sample <- turn.sequences.overview %>%
+  group_by(sample) %>%
+  summarise(mean.tsq_dur = mean(seq.dur),
+            median.tsq_dur = median(seq.dur),
+            min.tsq_dur = min(seq.dur),
+            max.tsq_dur = max(seq.dur),
+            mean.cvcs = mean(n_cvcs_seq),
+            median.cvcs = median(n_cvcs_seq),
+            min.cvcs = min(n_cvcs_seq),
+            max.cvcs = max(n_cvcs_seq))
+turn.seq.by.sample.by.child <- turn.sequences.overview %>%
+  group_by(aclew_child_id, sample) %>%
+  summarise(mean.tsq_dur = mean(seq.dur),
+            median.tsq_dur = median(seq.dur),
+            min.tsq_dur = min(seq.dur),
+            max.tsq_dur = max(seq.dur),
+            mean.cvcs = mean(n_cvcs_seq),
+            median.cvcs = median(n_cvcs_seq),
+            min.cvcs = min(n_cvcs_seq),
+            max.cvcs = max(n_cvcs_seq))

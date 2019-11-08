@@ -1,7 +1,4 @@
 library(tidyverse)
-library(vctrs)
-library(tidyr)
-
 
 aastbl.classes <- paste0(c("character", "character",
                     "integer", "integer", "integer", "character"), collapse = "")
@@ -30,14 +27,13 @@ aas_to_spchtbl <- function(tbl) {
     select(speaker, start.ms, value) %>%
     rename(addressee = value)
   # add in vocal maturity data
-  vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
-    spread(tier, value) %>%
-    rename(lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
-    select(speaker, start.ms, lex, mwu)
+#  vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
+#    spread(tier, value) %>%
 #    rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
 #    select(speaker, start.ms, vcm, lex, mwu)
   # add all info to wide table
   wide.aastbl <- left_join(wide.aastbl, xds.aastbl) %>%
-    left_join(vcm.aastbl)
+#    left_join(vcm.aastbl) %>%
+    select(speaker, start.ms, stop.ms, addressee)
   return(wide.aastbl)
 }
