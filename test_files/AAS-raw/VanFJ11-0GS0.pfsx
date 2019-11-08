@@ -128,7 +128,7 @@
         <String>Modification Date</String>
     </prefList>
     <pref key="LayoutManager.SplitPaneDividerLocation">
-        <Int>85</Int>
+        <Int>2</Int>
     </pref>
     <pref key="TimeLineViewer.ActiveAnnotationBold">
         <Boolean>false</Boolean>
@@ -285,7 +285,7 @@
             <String>http://lux17.mpi.nl/aamlr/</String>
         </pref>
         <pref key="source_audio">
-            <String>///Users/mctice/Documents/Academic/Git-Projects/ACLEW-GoldStandard/GSCompareApp/eafs/VanDam_FJ11_020816b.wav</String>
+            <String>///Users/mctice/Documents/Academic/Git-Projects/ACLEW-GoldStandard/Development-Errors/VanDam_FJ11_020816b.wav</String>
         </pref>
     </prefGroup>
     <prefGroup key="InterlinearizationConfigurations.ExcludedTierConfigurations"/>
@@ -330,6 +330,6 @@
     <pref key="TimeScaleBeginTime">
         <Long>262135</Long>
     </pref>
-    <prefList key="InterlinearizationConfigurations"/>
     <prefList key="MultiTierViewer.HiddenTiers"/>
+    <prefList key="InterlinearizationConfigurations"/>
 </preferences>
