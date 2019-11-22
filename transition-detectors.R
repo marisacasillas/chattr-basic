@@ -1,6 +1,30 @@
-allowed.overlap <- 1000 #ms
-allowed.gap <- 2000 #ms
-addressee.tags <- FALSE
+# Finds turn transitions between a focus child and other speakers
+# within the annotated clips indicated in the spchtbl
+fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
+  focus.child, interactants, addressee.tags, mode) {
+  # extract the focus child utterances (each is considered an 'utt_0')
+  chi.utts <- filter(spchtbl, speaker == focus.child)
+  # extract the interactant utterances
+  if (interactants == ".all-speakers") {
+    int.utts <- filter(spchtbl, speaker != "CHI" &
+        !grepl("^annotated-", speaker))
+  } else {
+    int.utts <- filter(spchtbl, speaker %in% interactants)
+  }
+  # only include those that are addressed appropriately
+  if (addressee.tags == "TCDS") {
+    int.utts <- filter(int.utts, addressee == "T")
+  } else if (addressee.tags == "CDS") {
+    int.utts <- filter(int.utts, addressee == "C")
+  }
+  # OTH-CHI transitions (i.e., utt_-1)
+  # find candidate utterances to which utt_0 can be a response
+  
+  # CHI-OTH transitions (i.e., utt_+1)
+  # find candidate utterances which can be a response to utt_0
+  
+}
+
 
 # Turn transitions:
 # other-to-child and child-to-other

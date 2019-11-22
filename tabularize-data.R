@@ -70,7 +70,8 @@ elanbasic_to_spchtbl <- function(tbl, cliptier) {
   if (cliptier %in% unique(ebtbl$speaker)) {
     clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
       mutate(speaker = paste0("annotated-", start.ms, "-", value))
-    ebtbl <- bind_rows(clip.tbl, ebtbl)
+    ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
+      select(-value)
     return(ebtbl)
   } else {
     print("Error: no rows from the clip tier found.")
