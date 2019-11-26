@@ -1,5 +1,5 @@
 source("tabularize-data.R")
-source("transition-detectors.R")
+#source("transition-detectors.R")
 
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
 ai.elan.txt <- "test_files/AltELAN-tabular/CT_sample1.txt"
