@@ -1,6 +1,7 @@
 library(tidyverse)
 
 ebtbl.colnames <- c("tier", "speaker", "start.ms", "stop.ms", "duration", "value")
+ann.marker <- "annotated-" ## ALSO USED IN CHATTR HELPERS
 
 # This must be in the rigid spchtbl format specified in the docs
 read_spchtbl <- function(filepath, tbltype, cliptier) {
@@ -43,7 +44,7 @@ aas_to_spchtbl <- function(tbl, cliptier) {
   # (if no annotation, stop and tell the user)
   if (cliptier %in% unique(aastbl$tier)) {
     clip.tbl <- filter(aastbl, tier == cliptier) %>%
-      mutate(speaker = paste0("annotated-", start.ms, "-", value),
+      mutate(speaker = paste0(ann.marker, start.ms, "-", value),
         addressee = NA) %>%
       select(speaker, start.ms, stop.ms, addressee)
     wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
@@ -69,7 +70,7 @@ elanbasic_to_spchtbl <- function(tbl, cliptier) {
   # (if no annotation, stop and tell the user)
   if (cliptier %in% unique(ebtbl$speaker)) {
     clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
-      mutate(speaker = paste0("annotated-", start.ms, "-", value))
+      mutate(speaker = paste0(ann.marker, start.ms, "-", value))
     ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
       select(-value)
     return(ebtbl)

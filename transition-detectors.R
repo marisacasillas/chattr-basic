@@ -1,28 +1,162 @@
+ann.marker <- "annotated-" ## ALSO USED IN TABULARIZE DATA
+start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN CHATTR HELPERS
+modes <- c("strict", "stretch", "luqr", "qulr")
+
+
+choose_bigger_idx_LR <- function(conttbl) {
+  if(check_conttbl(conttbl)) {
+    prev_boundary <- NA
+    for (i in 1:nrow(conttbl)) {
+      boundaries <- as.numeric(unlist(strsplit(
+        conttbl$cont.utt.boundary[i], "_")))
+      speakers <- unlist(strsplit(
+        conttbl$cont.utt.speaker[i], "_"))
+      match.prev <- which(boundaries == prev_boundary)
+      if (length(match.prev) > 0) {
+        boundaries <- boundaries[-match.prev]
+        speakers <- speakers[-match.prev]
+      }
+      if (length(boundaries) > 0) {
+        conttbl$cont.utt.boundary[i] <- boundaries[length(boundaries)]
+        conttbl$cont.utt.speaker[i] <- speakers[length(speakers)]
+        prev_boundary <- boundaries[length(boundaries)]
+      } else {
+        conttbl$cont.utt.boundary[i] <- NA
+        conttbl$cont.utt.speaker[i] <- NA
+      }
+    }
+  }
+  return(conttbl)
+}
+
+choose_smaller_idx_LR <- function(conttbl) {
+  if(check_conttbl(conttbl)) {
+    prev_boundary <- NA
+    for (i in 1:nrow(conttbl)) {
+      boundaries <- as.numeric(unlist(strsplit(
+        conttbl$cont.utt.boundary[i], "_")))
+      speakers <- unlist(strsplit(
+        conttbl$cont.utt.speaker[i], "_"))
+      match.prev <- which(boundaries == prev_boundary)
+      if (length(match.prev) > 0) {
+        boundaries <- boundaries[-match.prev]
+        speakers <- speakers[-match.prev]
+      }
+      if (length(boundaries) > 0) {
+        conttbl$cont.utt.boundary[i] <- boundaries[1]
+        conttbl$cont.utt.speaker[i] <- speakers[1]
+        prev_boundary <- boundaries[length(boundaries)]
+      } else {
+        conttbl$cont.utt.boundary[i] <- NA
+        conttbl$cont.utt.speaker[i] <- NA
+      }
+    }
+  }
+  return(conttbl)
+}
+
+#mode: stretch, strict, luqr, qulr
+
+# converts msec window match tables into a (proto-)contingency table
+convert_prwpswtbl <- function(windowtbl) {
+  if(check_windowtbl(windowtbl)) {
+    names(windowtbl)[2] <- "matching.utt.idx"
+    uniq.utt.idx <- as.numeric(unique(unlist(strsplit(paste(
+      pull(windowtbl, matching.utt.idx), collapse = ""), "_"))))
+    uniq.utt.idx <- uniq.utt.idx[which(!(is.na(uniq.utt.idx)))]
+  }
+  protoconttbl <- tibble(
+    utt.idx = uniq.utt.idx,
+    cont.utt.boundary = NA,
+    cont.utt.speaker = NA
+  )
+  for (i in 1:nrow(protoconttbl)) {
+    utt.ptn <- paste0("(_", protoconttbl$utt.idx[i], "$)|(_", protoconttbl$utt.idx[i], "_)")
+    cont.utt.rows <- which(grepl(utt.ptn, windowtbl$matching.utt.idx))
+    protoconttbl$cont.utt.boundary[i] <- paste(windowtbl$msec[cont.utt.rows], collapse = "_")
+    protoconttbl$cont.utt.speaker[i] <- paste(windowtbl$speaker[cont.utt.rows], collapse = "_")
+  }
+  return(protoconttbl)
+}
+
+# converts pre- and post-window match results into a contingency table
+combine_prwpsw_utts <- function(prewindow.stops, postwindow.starts) {
+  prompts <- convert_prwpswtbl(prewindow.stops) %>%
+    mutate(cont.type = "prompt")
+  responses <- convert_prwpswtbl(postwindow.starts) %>%
+    mutate(cont.type = "response")
+  conttbl <- bind_rows(prompts, responses)
+  return(conttbl)
+}
+
+# selects up to one prompt and one response per utt_0 and returns
+# a turn transition table with boundary time and speaker for each
+# contingent utterance (prompt or response), with one utt_0 per row
+create_tttbl <- function(conttbl, mode) {
+  if(check_conttbl(conttbl)) {
+    conttbl <- conttbl %>%
+      arrange(cont.type, utt.idx)
+    if (!(mode %in% modes)) {
+      # TO DO
+      print("NOT A MODE")
+    } else {
+      if (mode == "strict") {
+        prompts <- choose_bigger_idx_LR(filter(conttbl,
+          cont.type == "prompt"))
+        responses <- choose_smaller_idx_LR(filter(conttbl,
+          cont.type == "response"))
+      }
+      if (mode == "stretch") {
+        prompts <- choose_smaller_idx_LR(filter(conttbl,
+          cont.type == "prompt"))
+        responses <- choose_bigger_idx_LR(filter(conttbl,
+          cont.type == "response"))
+      }
+      if (mode == "luqr") {
+        prompts <- choose_smaller_idx_LR(filter(conttbl,
+          cont.type == "prompt"))
+        responses <- choose_smaller_idx_LR(filter(conttbl,
+          cont.type == "response"))
+      }
+      if (mode == "qulr") {
+        prompts <- choose_bigger_idx_LR(filter(conttbl,
+          cont.type == "prompt"))
+        responses <- choose_bigger_idx_LR(filter(conttbl,
+          cont.type == "response"))
+      }
+      prompts <- prompts %>%
+        filter(!is.na(cont.utt.boundary)) %>%
+        rename(prompt.stop.ms = cont.utt.boundary,
+          prompt.spkr = cont.utt.speaker) %>%
+        select(-cont.type)
+      responses <- responses %>%
+        filter(!is.na(cont.utt.boundary)) %>%
+        rename(response.start.ms = cont.utt.boundary,
+          response.spkr = cont.utt.speaker) %>%
+        select(-cont.type)
+      tttbl <- full_join(prompts, responses, by = "utt.idx") %>%
+        arrange(utt.idx)
+    }
+  }
+  return(tttbl)
+}
+
 # Finds turn transitions between a focus child and other speakers
 # within the annotated clips indicated in the spchtbl
 fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   focus.child, interactants, addressee.tags, mode) {
   # only include utterances occurring within annotated clips
-  # TO-DO!
-  # extract the focus child utterances (each is considered an 'utt_0')
-  # and add transition window information
-  chi.utts <- filter(spchtbl, speaker == focus.child) %>%
-    mutate(
-      # utt_-1 earliest: within the maximum gap allowed before the child begins vocalizing
-      # utt_-1 latest: when the child stops vocalizing, with a limit on vocal overlap
-      prewindow.start = start.ms - allowed.gap,
-      prewindow.stop = pmin(stop.ms, start.ms + allowed.overlap),
-      # utt_+1 earliest: when the child starts vocalizing, with a limit on vocal overlap
-      # utt_+1 latest: before the maximum allowed gap after the child's voc ends
-      postwindow.start = pmax(start.ms, stop.ms - allowed.overlap),
-      postwindow.stop = stop.ms + allowed.gap)
+  # (clips over-hanging utterances)
+  spchtbl.cropped <- crop_to_annots(spchtbl)
+  spchtbl.annsubset <- filter(spchtbl.cropped,
+    annotclip != "none assigned")
   # extract the interactant utterances
   if (interactants == ".all-speakers") {
-    int.utts <- filter(spchtbl, speaker != "CHI" &
-        !grepl("^annotated-", speaker))
+    int.utts <- filter(spchtbl.annsubset, speaker != "CHI" &
+        !grepl(start.ann, speaker))
   } else {
-    int.utts <- filter(spchtbl, speaker %in% interactants &
-        !grepl("^annotated-", speaker))
+    int.utts <- filter(spchtbl.annsubset, speaker %in% interactants &
+        !grepl(start.ann, speaker))
   }
   # only include those that are addressed appropriately
   if (addressee.tags == "TCDS") {
@@ -31,38 +165,37 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     int.utts <- filter(int.utts, addressee == "C")
   } # no need to subset further if there is no addressee coding
     # (i.e., if addressee == "none")
-
-  window.ms.tbl <- tibble(
-    msec = c(min(chi.utts$prewindow.start):max(chi.utts$postwindow.stop)),
-    chi.utt.idx.prw = "",
-    chi.utt.idx.psw = ""
-  )
-  for (i in 1:nrow(chi.utts)) {
-    utt.idx.prw <- which(
-      window.ms.tbl$msec >= chi.utts$prewindow.start[i] &
-      window.ms.tbl$msec <= chi.utts$prewindow.stop[i])
-    window.ms.tbl$chi.utt.idx.prw[utt.idx.prw] <- paste(
-      window.ms.tbl$chi.utt.idx.prw[utt.idx.prw], as.character(i), sep = '_')
-    utt.idx.psw <- which(
-      window.ms.tbl$msec >= chi.utts$postwindow.start[i] &
-      window.ms.tbl$msec <= chi.utts$postwindow.stop[i])
-    window.ms.tbl$chi.utt.idx.psw[utt.idx.psw] <- paste(
-      window.ms.tbl$chi.utt.idx.psw[utt.idx.psw], as.character(i), sep = '_')
-  }
+  # extract the focus child utterances (each is considered an 'utt_0')
+  # and add transition window information
+  chi.utts <- extract_focusutts(spchtbl.annsubset, focus.child) %>%
+    mutate(utt.idx = c(1:nrow(chi.utts)))
+  # define pre- and post- utterance windows for all utt_0s
+  # (window overlap is possible with closely sequenced utts)
+  chi.utts.ms.tbl <- expand_msec_windows(chi.utts, allowed.gap, allowed.overlap)
   # OTH-CHI transitions (i.e., utt_-1)
   # find candidate utterances to which utt_0 can be a response
-  prewindow.stops <- filter(window.ms.tbl, nchar(chi.utt.idx.prw) > 0) %>%
-    dplyr::select(-chi.utt.idx.psw) %>%
+  prewindow.stops <- filter(chi.utts.ms.tbl, focal.utt.idx.prw != "") %>%
+    dplyr::select(-focal.utt.idx.psw) %>%
     left_join(select(int.utts, c(speaker, stop.ms)),
       by = c("msec" = "stop.ms")) %>%
     filter(!is.na(speaker))
   # CHI-OTH transitions (i.e., utt_+1)
   # find candidate utterances which can be a response to utt_0
-  postwindow.starts <- filter(window.ms.tbl, nchar(chi.utt.idx.psw) > 0) %>%
-    dplyr::select(-chi.utt.idx.prw) %>%
+  postwindow.starts <- filter(chi.utts.ms.tbl, focal.utt.idx.psw != "") %>%
+    dplyr::select(-focal.utt.idx.prw) %>%
     left_join(select(int.utts, c(speaker, start.ms)),
       by = c("msec" = "start.ms")) %>%
     filter(!is.na(speaker))
+  contingent.utts <- combine_prwpsw_utts(prewindow.stops, postwindow.starts)
+  chi.idx.tttbl <- create_tttbl(contingent.utts, mode)
+  chi.tttbl <- right_join(chi.utts, chi.idx.tttbl, by = "utt.idx") %>%
+    select(-utt.idx) %>%
+    mutate(
+      prompt.stop.ms = as.numeric(prompt.stop.ms),
+      response.start.ms = as.numeric(response.start.ms))
+  return(chi.tttbl)
+}
+
   # Select the final set of transitions from these candidates
   # - one pre and one post per child voc (uses stretch/strict)
   # - each int voc can only be one of each type max

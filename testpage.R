@@ -11,13 +11,28 @@ ai.data <- read_spchtbl(filepath = ai.elan.txt,
   tbltype = "elan-basic-txt", cliptier = "Coded Segment")
 
 # find all turn transitions within annotated clips
-mc.transitions <- fetch_transitions(spchtbl = mc.data,
+mc.transitions.stretch <- fetch_transitions(spchtbl = mc.data,
   allowed.gap = 1000, allowed.overlap = 2000,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
+#default values (as above)
 #addressee.tags: TCDS, CDS, none
-#mode: stretch, strict
+#mode: stretch, strict, luqr, qulr
 
+mc.transitions.strict <- fetch_transitions(spchtbl = mc.data,
+  allowed.gap = 1000, allowed.overlap = 2000,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "strict")
+mc.transitions.luqr <- fetch_transitions(spchtbl = mc.data,
+  allowed.gap = 1000, allowed.overlap = 2000,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "luqr")
+mc.transitions.qulr <- fetch_transitions(spchtbl = mc.data,
+  allowed.gap = 1000, allowed.overlap = 2000,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "qulr")
+
+# NOT WORKING
 mc.ADU.tiers <- unique(mc.data$speaker)[grep(
   "[MFU]A\\d", unique(mc.data$speaker))]
 mc.transitions.ADUonly <- fetch_transitions(spchtbl = mc.data,
@@ -25,6 +40,7 @@ mc.transitions.ADUonly <- fetch_transitions(spchtbl = mc.data,
   focus.child = "CHI", interactants = mc.ADU.tiers,
   addressee.tags = "CDS", mode = "stretch")
 
+# NOT WORKING
 my.transitions <- fetch_transitions(spchtbl = ai.data,
   allowed.gap = 1000, allowed.overlap = 2000,
   focus.child = "Child Utterances", interactants = "all-speakers",
