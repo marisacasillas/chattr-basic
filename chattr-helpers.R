@@ -5,19 +5,29 @@ start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN TRAN
 # check if speech table format is valid
 check_spchtbl <- function(spchtbl) {
   # TO DO!
-  return(TRUE)
+  nonempty <- nrow(spchtbl) > 0
+  return(nonempty)
 }
 
 # check if window table format is valid
 check_windowtbl <- function(windowtbl) {
   # TO DO!
-  return(TRUE)
+  nonempty <- nrow(windowtbl) > 0
+  return(nonempty)
 }
 
 # check if contingency table format is valid
 check_conttbl <- function(conttbl) {
   # TO DO!
-  return(TRUE)
+  nonempty <- nrow(conttbl) > 0
+  return(nonempty)
+}
+
+# check if turn transition table format is valid
+check_tttbl <- function(tttbl) {
+  # TO DO!
+  nonempty <- nrow(tttbl) > 0
+  return(nonempty)
 }
 
 # crop utterances to annotated clip boundaries
@@ -27,13 +37,13 @@ crop_to_annots <- function(spchtbl) {
     ann.idx <- which(grepl(start.ann, spchtbl$speaker))
     anns <- spchtbl[ann.idx,]
     spch <- spchtbl[-ann.idx,]
-    spch$annotclip <- "none assigned"
+    spch$annot.clip <- "none assigned"
     for (i in 1:nrow(anns)) {
       ann.name <- anns$speaker[i]
       spch.ann <- which(
         spch$start.ms >= anns$start.ms[i] &
           spch$stop.ms <= anns$stop.ms[i])
-      spch$annotclip[spch.ann] <- ann.name
+      spch$annot.clip[spch.ann] <- ann.name
       # include (and crop) utterances that spill over
       # annotated boundaries
       spch.ann.overleft <- which(
@@ -41,13 +51,13 @@ crop_to_annots <- function(spchtbl) {
           spch$stop.ms > anns$start.ms[i] &
           spch$stop.ms <= anns$stop.ms[i])
       spch$start.ms[spch.ann.overleft] <- anns$start.ms[i]
-      spch$annotclip[spch.ann.overleft] <- ann.name
+      spch$annot.clip[spch.ann.overleft] <- ann.name
       spch.ann.overright <- which(
         spch$stop.ms > anns$stop.ms[i] &
           spch$start.ms < anns$stop.ms[i] &
           spch$start.ms >= anns$start.ms[i])
       spch$stop.ms[spch.ann.overright] <- anns$stop.ms[i]
-      spch$annotclip[spch.ann.overright] <- ann.name
+      spch$annot.clip[spch.ann.overright] <- ann.name
     }
   }
   return(spch)

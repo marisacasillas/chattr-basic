@@ -1,5 +1,6 @@
 source("tabularize-data.R")
-#source("transition-detectors.R")
+source("transition-detectors.R")
+source("chattr-helpers.R")
 
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
 ai.elan.txt <- "test_files/AltELAN-tabular/CT_sample1.txt"
@@ -19,6 +20,7 @@ mc.transitions.stretch <- fetch_transitions(spchtbl = mc.data,
 #addressee.tags: TCDS, CDS, none
 #mode: stretch, strict, luqr, qulr
 
+
 mc.transitions.strict <- fetch_transitions(spchtbl = mc.data,
   allowed.gap = 1000, allowed.overlap = 2000,
   focus.child = "CHI", interactants = ".all-speakers",
@@ -32,16 +34,22 @@ mc.transitions.qulr <- fetch_transitions(spchtbl = mc.data,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "qulr")
 
-# NOT WORKING
 mc.ADU.tiers <- unique(mc.data$speaker)[grep(
   "[MFU]A\\d", unique(mc.data$speaker))]
 mc.transitions.ADUonly <- fetch_transitions(spchtbl = mc.data,
   allowed.gap = 1000, allowed.overlap = 2000,
   focus.child = "CHI", interactants = mc.ADU.tiers,
   addressee.tags = "CDS", mode = "stretch")
-
-# NOT WORKING
-my.transitions <- fetch_transitions(spchtbl = ai.data,
+mc.transitions.FA1 <- fetch_transitions(spchtbl = mc.data,
   allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "Child Utterances", interactants = "all-speakers",
+  focus.child = "CHI", interactants = "FA1",
+  addressee.tags = "CDS", mode = "stretch")
+mc.transitions.FA2 <- fetch_transitions(spchtbl = mc.data,
+  allowed.gap = 1000, allowed.overlap = 2000,
+  focus.child = "CHI", interactants = "FA2",
+  addressee.tags = "CDS", mode = "stretch")
+
+ai.transitions <- fetch_transitions(spchtbl = ai.data,
+  allowed.gap = 1000, allowed.overlap = 2000,
+  focus.child = "Child Utterances", interactants = ".all-speakers",
   addressee.tags = "none", mode = "strict")
