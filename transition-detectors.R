@@ -2,7 +2,8 @@ ann.marker <- "annotated-" ## ALSO USED IN TABULARIZE DATA
 start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN CHATTR HELPERS
 modes <- c("strict", "stretch", "luqr", "qulr")
 
-
+# Returns the latest (largest) contingent
+# utterances found per utt_0
 choose_bigger_idx_LR <- function(conttbl) {
   if(check_conttbl(conttbl)) {
     prev_boundary <- NA
@@ -29,6 +30,8 @@ choose_bigger_idx_LR <- function(conttbl) {
   return(conttbl)
 }
 
+# Returns the earliest (smallest) contingent
+# utterances found per utt_0
 choose_smaller_idx_LR <- function(conttbl) {
   if(check_conttbl(conttbl)) {
     prev_boundary <- NA
@@ -55,9 +58,7 @@ choose_smaller_idx_LR <- function(conttbl) {
   return(conttbl)
 }
 
-#mode: stretch, strict, luqr, qulr
-
-# converts msec window match tables into a (proto-)contingency table
+# Converts msec window match tables into a (proto-)contingency table
 convert_prwpswtbl <- function(windowtbl) {
   if(check_windowtbl(windowtbl)) {
     names(windowtbl)[2] <- "matching.utt.idx"
@@ -85,7 +86,7 @@ convert_prwpswtbl <- function(windowtbl) {
   return(protoconttbl)
 }
 
-# converts pre- and post-window match results into a contingency table
+# Converts pre- and post-window match results into a contingency table
 combine_prwpsw_utts <- function(prewindow.stops, postwindow.starts) {
   prompts <- convert_prwpswtbl(prewindow.stops) %>%
     mutate(cont.type = "prompt")
@@ -103,9 +104,10 @@ combine_prwpsw_utts <- function(prewindow.stops, postwindow.starts) {
   return(conttbl)
 }
 
-# selects up to one prompt and one response per utt_0 and returns
+# Selects up to one prompt and one response per utt_0 and returns
 # a turn transition table with boundary time and speaker for each
 # contingent utterance (prompt or response), with one utt_0 per row
+# also includes speaker continuation information for each transition
 create_tttbl <- function(conttbl, mode) {
   if(check_conttbl(conttbl)) {
     conttbl <- conttbl %>%

@@ -20,6 +20,11 @@ mc.transitions.stretch <- fetch_transitions(spchtbl = mc.data,
 #addressee.tags: TCDS, CDS, none
 #mode: stretch, strict, luqr, qulr
 
+# use the resulting turn transition table to compute
+# interactional sequences
+ms.intseqs.stretch <- fetch_intseqs(tttbl = mc.transitions.stretch)
+
+
 
 mc.transitions.strict <- fetch_transitions(spchtbl = mc.data,
   allowed.gap = 1000, allowed.overlap = 2000,
