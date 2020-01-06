@@ -1,5 +1,6 @@
 source("tabularize-data.R")
 source("transition-detectors.R")
+source("intseq-detectors.R")
 source("chattr-helpers.R")
 
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
@@ -23,7 +24,6 @@ mc.transitions.stretch <- fetch_transitions(spchtbl = mc.data,
 # use the resulting turn transition table to compute
 # interactional sequences
 ms.intseqs.stretch <- fetch_intseqs(tttbl = mc.transitions.stretch)
-
 
 
 mc.transitions.strict <- fetch_transitions(spchtbl = mc.data,

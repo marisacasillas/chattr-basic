@@ -250,7 +250,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     continuation.utts <- find_tttbl_continuations(chi.tttbl,
       chi.utts, int.utts, allowed.gap)
   } else {
-    chi.tttbl <- tibble(
+    continuation.utts <- tibble(
       speaker = character(),
       annot.clip = character(),
       start.ms = integer(),
@@ -272,6 +272,6 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       response.post.increment.stop = integer()
     )
   }
-  return(chi.tttbl)
+  return(continuation.utts)
 }
 

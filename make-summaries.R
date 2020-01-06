@@ -53,3 +53,35 @@
 #          median.n.c_o.tpm = median(n.c_o.tpm),
 #          min.n.c_o.tpm = min(n.c_o.tpm),
 #          max.n.c_o.tpm = max(n.c_o.tpm))
+
+# # Sequence duration summary
+# turn.sequences <- turn.sequences %>%
+#   filter(!(is.na(seq.num))) %>%
+#   mutate(seq.dur = (seq.stop - seq.start)/60000)
+# turn.sequences.overview <- turn.sequences %>%
+#   group_by(aclew_child_id, sample, segment, seq.num, seq.start, seq.stop, seq.dur) %>%
+#   summarise(n_cvcs_seq = n()) %>%
+#   left_join(ptcp.info, by = "aclew_child_id") %>%
+#   left_join(spkrs.per.seg.all, by = c("aclew_child_id", "segment", "sample")) %>%
+#   left_join(dplyr::select(seg.info, c("aclew_id", "CodeName", "start.hr")),
+#     by = c("aclew_child_id" = "aclew_id", "segment" = "CodeName"))
+# turn.seq.by.sample <- turn.sequences.overview %>%
+#   group_by(sample) %>%
+#   summarise(mean.tsq_dur = mean(seq.dur),
+#     median.tsq_dur = median(seq.dur),
+#     min.tsq_dur = min(seq.dur),
+#     max.tsq_dur = max(seq.dur),
+#     mean.cvcs = mean(n_cvcs_seq),
+#     median.cvcs = median(n_cvcs_seq),
+#     min.cvcs = min(n_cvcs_seq),
+#     max.cvcs = max(n_cvcs_seq))
+# turn.seq.by.sample.by.child <- turn.sequences.overview %>%
+#   group_by(aclew_child_id, sample) %>%
+#   summarise(mean.tsq_dur = mean(seq.dur),
+#     median.tsq_dur = median(seq.dur),
+#     min.tsq_dur = min(seq.dur),
+#     max.tsq_dur = max(seq.dur),
+#     mean.cvcs = mean(n_cvcs_seq),
+#     median.cvcs = median(n_cvcs_seq),
+#     min.cvcs = min(n_cvcs_seq),
+#     max.cvcs = max(n_cvcs_seq))
