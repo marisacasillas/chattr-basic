@@ -64,7 +64,7 @@ crop_to_annots <- function(spchtbl) {
 }
 
 # extract focus child speech utterances only
-extract_focusutts <- function(utts, focus) {
+extract_focus_utts <- function(utts, focus) {
   focus.utts <- filter(utts, speaker == focus)
   return(focus.utts)
 }
@@ -100,3 +100,76 @@ expand_msec_windows <- function(utts, allowed.gap, allowed.overlap) {
     focal.utt.idx.prw != "" | focal.utt.idx.prw != "")
   return(utt0.windows.msec)
 }
+
+find_tttbl_continuations <- function(tttbl, focus.utts,
+  int.utts, allowed.gap) {
+  addl.boundaries <- tibble(
+    speaker = tttbl$speaker[1],
+    spkr.prev.increment.start = integer(),
+    spkr.prev.increment.stop = integer(),
+    spkr.post.increment.start = integer(),
+    spkr.post.increment.stop = integer(),
+    prompt.prev.increment.start = integer(),
+    prompt.prev.increment.stop = integer(),
+    response.post.increment.start = integer(),
+    response.post.increment.stop = integer()
+  )
+  tttbl <- left_join(tttbl, addl.boundaries, by = "speaker")
+  for (i in 1:nrow(tttbl)) {
+    # add pre- and post-increments for focus utterances
+    focus.utt.prev.increment <- focus.utts %>%
+      filter(stop.ms >= tttbl$start.ms[i] - allowed.gap &
+          start.ms < tttbl$start.ms[i])
+    if (nrow(focus.utt.prev.increment) > 0) {
+      tttbl$spkr.prev.increment.start[i] <-
+        focus.utt.prev.increment$start.ms[1]
+      tttbl$spkr.prev.increment.stop[i] <-
+        focus.utt.prev.increment$stop.ms[1]
+    }
+    focus.utt.post.increment <- focus.utts %>%
+      filter(start.ms <= tttbl$stop.ms[i] + allowed.gap &
+          stop.ms > tttbl$stop.ms[i])
+    if (nrow(focus.utt.post.increment) > 0) {
+      tttbl$spkr.post.increment.start[i] <-
+        focus.utt.post.increment$start.ms[nrow(focus.utt.post.increment)]
+      tttbl$spkr.post.increment.stop[i] <-
+        focus.utt.post.increment$stop.ms[nrow(focus.utt.post.increment)]
+    }
+    # add pre- and post-increments for prompts
+    if (!is.na(tttbl$prompt.spkr[i])) {
+      prompt.prev.increment <- int.utts %>%
+        filter(speaker == tttbl$response.spkr[i] &
+            stop.ms >= tttbl$prompt.start.ms[i] - allowed.gap &
+            start.ms < tttbl$prompt.start.ms[i])
+      if (nrow(prompt.prev.increment) > 0) {
+        tttbl$prompt.prev.increment.start[i] <-
+          prompt.prev.increment$start.ms[1]
+        tttbl$prompt.prev.increment.stop[i] <-
+          prompt.prev.increment$stop.ms[1]
+      }
+    }
+    # add pre- and post-increments for responses
+    if (!is.na(tttbl$response.spkr[i])) {
+      response.post.increment <- int.utts %>%
+        filter(speaker == tttbl$response.spkr[i] &
+            start.ms <= tttbl$response.stop.ms[i] + allowed.gap &
+            stop.ms > tttbl$response.stop.ms[i])
+      if (nrow(response.post.increment) > 0) {
+        tttbl$response.post.increment.start[i] <-
+          response.post.increment$start.ms[nrow(response.post.increment)]
+        tttbl$response.post.increment.stop[i] <-
+          response.post.increment$stop.ms[nrow(response.post.increment)]
+      }
+    }
+  }
+  tttbl <- tttbl %>%
+    select(speaker, annot.clip, start.ms, stop.ms, addressee,
+      spkr.prev.increment.start, spkr.prev.increment.stop,
+      spkr.post.increment.start, spkr.post.increment.stop,
+      prompt.spkr, prompt.start.ms, prompt.stop.ms,
+      prompt.prev.increment.start, prompt.prev.increment.stop,
+      response.spkr, response.start.ms, response.stop.ms,
+      response.post.increment.start, response.post.increment.stop)
+  return(tttbl)
+}
+

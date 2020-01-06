@@ -10,19 +10,24 @@ choose_bigger_idx_LR <- function(conttbl) {
     for (i in 1:nrow(conttbl)) {
       boundaries <- as.numeric(unlist(strsplit(
         conttbl$cont.utt.boundary[i], "_")))
+      boundary.opps <- as.numeric(unlist(strsplit(
+        conttbl$cont.utt.boundary.opp[i], "_")))
       speakers <- unlist(strsplit(
         conttbl$cont.utt.speaker[i], "_"))
       match.prev <- which(boundaries == prev_boundary)
       if (length(match.prev) > 0) {
         boundaries <- boundaries[-match.prev]
+        boundary.opps <- boundary.opps[-match.prev]
         speakers <- speakers[-match.prev]
       }
       if (length(boundaries) > 0) {
         conttbl$cont.utt.boundary[i] <- boundaries[length(boundaries)]
+        conttbl$cont.utt.boundary.opp[i] <- boundary.opps[length(boundaries)]
         conttbl$cont.utt.speaker[i] <- speakers[length(speakers)]
         prev_boundary <- boundaries[length(boundaries)]
       } else {
         conttbl$cont.utt.boundary[i] <- NA
+        conttbl$cont.utt.boundary.opp[i] <- NA
         conttbl$cont.utt.speaker[i] <- NA
       }
     }
@@ -38,19 +43,24 @@ choose_smaller_idx_LR <- function(conttbl) {
     for (i in 1:nrow(conttbl)) {
       boundaries <- as.numeric(unlist(strsplit(
         conttbl$cont.utt.boundary[i], "_")))
+      boundary.opps <- as.numeric(unlist(strsplit(
+        conttbl$cont.utt.boundary.opp[i], "_")))
       speakers <- unlist(strsplit(
         conttbl$cont.utt.speaker[i], "_"))
       match.prev <- which(boundaries == prev_boundary)
       if (length(match.prev) > 0) {
         boundaries <- boundaries[-match.prev]
+        boundary.opps <- boundary.opps[-match.prev]
         speakers <- speakers[-match.prev]
       }
       if (length(boundaries) > 0) {
         conttbl$cont.utt.boundary[i] <- boundaries[1]
+        conttbl$cont.utt.boundary.opp[i] <- boundary.opps[1]
         conttbl$cont.utt.speaker[i] <- speakers[1]
         prev_boundary <- boundaries[length(boundaries)]
       } else {
         conttbl$cont.utt.boundary[i] <- NA
+        conttbl$cont.utt.boundary.opp[i] <- NA
         conttbl$cont.utt.speaker[i] <- NA
       }
     }
@@ -69,16 +79,20 @@ convert_prwpswtbl <- function(windowtbl) {
   protoconttbl <- tibble(
     utt.idx = uniq.utt.idx,
     cont.utt.boundary = NA,
+    cont.utt.boundary.opp = NA,
     cont.utt.speaker = NA
   )
   if (nrow(protoconttbl) > 0){
     for (i in 1:nrow(protoconttbl)) {
       utt.ptn <- paste0(
-        "(_", protoconttbl$utt.idx[i], "$)|(_", protoconttbl$utt.idx[i], "_)")
+        "(_", protoconttbl$utt.idx[i],
+        "$)|(_", protoconttbl$utt.idx[i], "_)")
       cont.utt.rows <- which(grepl(
         utt.ptn, windowtbl$matching.utt.idx))
       protoconttbl$cont.utt.boundary[i] <- paste(
         windowtbl$msec[cont.utt.rows], collapse = "_")
+      protoconttbl$cont.utt.boundary.opp[i] <- paste(
+        windowtbl$other.boundary[cont.utt.rows], collapse = "_")
       protoconttbl$cont.utt.speaker[i] <- paste(
         windowtbl$speaker[cont.utt.rows], collapse = "_")
     }
@@ -97,6 +111,7 @@ combine_prwpsw_utts <- function(prewindow.stops, postwindow.starts) {
     conttbl <- tibble(
       utt.idx = double(),
       cont.utt.boundary = character(),
+      cont.utt.boundary.opp = character(),
       cont.utt.speaker = character(),
       cont.type = character()
     )
@@ -142,23 +157,31 @@ create_tttbl <- function(conttbl, mode) {
       }
       prompts <- prompts %>%
         filter(!is.na(cont.utt.boundary)) %>%
-        rename(prompt.stop.ms = cont.utt.boundary,
+        rename(
+          prompt.start.ms = cont.utt.boundary.opp,
+          prompt.stop.ms = cont.utt.boundary,
           prompt.spkr = cont.utt.speaker) %>%
         select(-cont.type)
       responses <- responses %>%
         filter(!is.na(cont.utt.boundary)) %>%
-        rename(response.start.ms = cont.utt.boundary,
+        rename(
+          response.start.ms = cont.utt.boundary,
+          response.stop.ms = cont.utt.boundary.opp,
           response.spkr = cont.utt.speaker) %>%
         select(-cont.type)
       tttbl <- full_join(prompts, responses, by = "utt.idx") %>%
-        arrange(utt.idx)
+        arrange(utt.idx) %>%
+        select(utt.idx, prompt.start.ms, prompt.stop.ms, prompt.spkr,
+          response.start.ms, response.stop.ms, response.spkr)
     }
   } else {
     tttbl <- tibble(
       utt.idx = double(),
+      prompt.start.ms = character(),
       prompt.stop.ms = character(),
       prompt.spkr = character(),
       response.start.ms = character(),
+      response.stop.ms = character(),
       response.spkr = character()
     )
   }
@@ -191,24 +214,27 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     # (i.e., if addressee == "none")
   # extract the focus child utterances (each is considered an 'utt_0')
   # and add transition window information
-  chi.utts <- extract_focusutts(spchtbl.annsubset, focus.child)
+  chi.utts <- extract_focus_utts(spchtbl.annsubset, focus.child)
   chi.utts <- mutate(chi.utts, utt.idx = c(1:nrow(chi.utts)))
   # define pre- and post- utterance windows for all utt_0s
   # (window overlap is possible with closely sequenced utts)
-  chi.utts.ms.tbl <- expand_msec_windows(chi.utts, allowed.gap, allowed.overlap)
+  chi.utts.ms.tbl <- expand_msec_windows(
+    chi.utts, allowed.gap, allowed.overlap)
   # OTH-CHI transitions (i.e., utt_-1)
   # find candidate utterances to which utt_0 can be a response
   prewindow.stops <- filter(chi.utts.ms.tbl, focal.utt.idx.prw != "") %>%
     dplyr::select(-focal.utt.idx.psw) %>%
-    left_join(select(int.utts, c(speaker, stop.ms)),
+    left_join(select(int.utts, c(speaker, stop.ms, start.ms)),
       by = c("msec" = "stop.ms")) %>%
+    rename("other.boundary" = "start.ms") %>%
     filter(!is.na(speaker))
   # CHI-OTH transitions (i.e., utt_+1)
   # find candidate utterances which can be a response to utt_0
   postwindow.starts <- filter(chi.utts.ms.tbl, focal.utt.idx.psw != "") %>%
     dplyr::select(-focal.utt.idx.prw) %>%
-    left_join(select(int.utts, c(speaker, start.ms)),
+    left_join(select(int.utts, c(speaker, start.ms, stop.ms)),
       by = c("msec" = "start.ms")) %>%
+    rename("other.boundary" = "stop.ms") %>%
     filter(!is.na(speaker))
   contingent.utts <- combine_prwpsw_utts(prewindow.stops, postwindow.starts)
   chi.idx.tttbl <- create_tttbl(contingent.utts, mode)
@@ -216,20 +242,34 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     chi.tttbl <- right_join(chi.utts, chi.idx.tttbl, by = "utt.idx") %>%
       select(-utt.idx) %>%
       mutate(
+        prompt.start.ms = as.numeric(prompt.start.ms),
         prompt.stop.ms = as.numeric(prompt.stop.ms),
         response.start.ms = as.numeric(response.start.ms),
+        response.stop.ms = as.numeric(response.stop.ms),
         annot.clip = gsub(ann.marker, "", annot.clip))
+    continuation.utts <- find_tttbl_continuations(chi.tttbl,
+      chi.utts, int.utts, allowed.gap)
   } else {
     chi.tttbl <- tibble(
       speaker = character(),
+      annot.clip = character(),
       start.ms = integer(),
       stop.ms = integer(),
       addressee = character(),
-      annot.clip = character(),
-      prompt.stop.ms = double(),
+      spkr.prev.increment.start = integer(),
+      spkr.prev.increment.stop = integer(),
+      spkr.post.increment.start = integer(),
+      spkr.post.increment.stop = integer(),
       prompt.spkr = character(),
+      prompt.start.ms = double(),
+      prompt.stop.ms = double(),
+      prompt.prev.increment.start = integer(),
+      prompt.prev.increment.stop = integer(),
       response.start.ms = double(),
-      response.spkr = character()
+      response.stop.ms = double(),
+      response.spkr = character(),
+      response.post.increment.start = integer(),
+      response.post.increment.stop = integer()
     )
   }
   return(chi.tttbl)
