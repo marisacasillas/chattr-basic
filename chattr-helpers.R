@@ -162,6 +162,10 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
       }
     }
   }
+  if (!("addressee" %in% names(tttbl))) {
+    tttbl <- tttbl %>%
+      mutate(addressee = NA)
+  }
   tttbl <- tttbl %>%
     select(speaker, annot.clip, start.ms, stop.ms, addressee,
       spkr.prev.increment.start, spkr.prev.increment.stop,

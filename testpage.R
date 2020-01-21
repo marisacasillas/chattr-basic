@@ -25,36 +25,40 @@ mc.transitions.stretch <- fetch_transitions(spchtbl = mc.data,
 # interactional sequences
 ms.intseqs.stretch <- fetch_intseqs(tttbl = mc.transitions.stretch)
 
-
-mc.transitions.strict <- fetch_transitions(spchtbl = mc.data,
-  allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "strict")
-mc.transitions.luqr <- fetch_transitions(spchtbl = mc.data,
-  allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "luqr")
-mc.transitions.qulr <- fetch_transitions(spchtbl = mc.data,
-  allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "qulr")
-
-mc.ADU.tiers <- unique(mc.data$speaker)[grep(
-  "[MFU]A\\d", unique(mc.data$speaker))]
-mc.transitions.ADUonly <- fetch_transitions(spchtbl = mc.data,
-  allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "CHI", interactants = mc.ADU.tiers,
-  addressee.tags = "CDS", mode = "stretch")
-mc.transitions.FA1 <- fetch_transitions(spchtbl = mc.data,
-  allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "CHI", interactants = "FA1",
-  addressee.tags = "CDS", mode = "stretch")
-mc.transitions.FA2 <- fetch_transitions(spchtbl = mc.data,
-  allowed.gap = 1000, allowed.overlap = 2000,
-  focus.child = "CHI", interactants = "FA2",
-  addressee.tags = "CDS", mode = "stretch")
+# mc.transitions.strict <- fetch_transitions(spchtbl = mc.data,
+#   allowed.gap = 1000, allowed.overlap = 2000,
+#   focus.child = "CHI", interactants = ".all-speakers",
+#   addressee.tags = "CDS", mode = "strict")
+# mc.transitions.luqr <- fetch_transitions(spchtbl = mc.data,
+#   allowed.gap = 1000, allowed.overlap = 2000,
+#   focus.child = "CHI", interactants = ".all-speakers",
+#   addressee.tags = "CDS", mode = "luqr")
+# mc.transitions.qulr <- fetch_transitions(spchtbl = mc.data,
+#   allowed.gap = 1000, allowed.overlap = 2000,
+#   focus.child = "CHI", interactants = ".all-speakers",
+#   addressee.tags = "CDS", mode = "qulr")
+# 
+# mc.ADU.tiers <- unique(mc.data$speaker)[grep(
+#   "[MFU]A\\d", unique(mc.data$speaker))]
+# mc.transitions.ADUonly <- fetch_transitions(spchtbl = mc.data,
+#   allowed.gap = 1000, allowed.overlap = 2000,
+#   focus.child = "CHI", interactants = mc.ADU.tiers,
+#   addressee.tags = "CDS", mode = "stretch")
+# mc.transitions.FA1 <- fetch_transitions(spchtbl = mc.data,
+#   allowed.gap = 1000, allowed.overlap = 2000,
+#   focus.child = "CHI", interactants = "FA1",
+#   addressee.tags = "CDS", mode = "stretch")
+# mc.transitions.FA2 <- fetch_transitions(spchtbl = mc.data,
+#   allowed.gap = 1000, allowed.overlap = 2000,
+#   focus.child = "CHI", interactants = "FA2",
+#   addressee.tags = "CDS", mode = "stretch")
 
 ai.transitions <- fetch_transitions(spchtbl = ai.data,
   allowed.gap = 1000, allowed.overlap = 2000,
   focus.child = "Child Utterances", interactants = ".all-speakers",
   addressee.tags = "none", mode = "strict")
+
+# use the resulting turn transition table to compute
+# interactional sequences
+ai.intseqs.stretch <- fetch_intseqs(tttbl = ai.transitions)
+
