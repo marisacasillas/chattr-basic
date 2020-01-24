@@ -2,6 +2,7 @@ library(tidyverse)
 
 ebtbl.colnames <- c("tier", "speaker", "start.ms", "stop.ms", "duration", "value")
 ann.marker <- "annotated-" ## ALSO USED IN CHATTR HELPERS
+spch.seg.ptrn <- ".*Segment spkr=\"([A-Z]{3}).*startTime=\"([A-Z0-9.]+)\" endTime=\"([A-Z0-9.]+)\".*"
 
 # This must be in the rigid spchtbl format specified in the docs
 read_spchtbl <- function(filepath, tbltype, cliptier) {
@@ -9,6 +10,8 @@ read_spchtbl <- function(filepath, tbltype, cliptier) {
     spchtbl <- aas_to_spchtbl(filepath, cliptier)
   } else if (tbltype == "elan-basic-txt") {
     spchtbl <- elanbasic_to_spchtbl(filepath, cliptier)
+  } else if (tbltype == "lena-its") {
+    spchtbl <- its_to_spchtbl(filepath)
   } else {
     print("Sorry, that file type isn't available!")
   }
@@ -77,4 +80,38 @@ elanbasic_to_spchtbl <- function(tbl, cliptier) {
   } else {
     print("Error: no rows from the clip tier found.")
   }
+}
+
+its_to_spchtbl <- function(its.file) {
+  
+  # Extract the speaker segment lines from the .its file
+  its.data <- read_lines(its.file)
+  seg.spkr.lines <- which(grepl("Segment spkr=", its.data))
+  its.spkr.data <- its.data[seg.spkr.lines]
+  
+  # Extract only the speaker, start, and stop times for each segment
+  spchtbl <- stringr::str_match(
+    its.spkr.data, spch.seg.ptrn)[,2:4]
+  colnames(spchtbl) <- c("speaker", "start.LENA", "stop.LENA")
+  
+  # Reformat to a chattr spchtbl format
+  spchtbl <- as_tibble(spchtbl) %>%
+    mutate(
+      start.ms = as.numeric(gsub("[A-Z]", "", start.LENA))*1000,
+      stop.ms = as.numeric(gsub("[A-Z]", "", stop.LENA))*1000,
+      duration = stop.ms - start.ms,
+      value = NA
+    ) %>%
+    select(speaker, start.ms, stop.ms, duration, value)
+  min.rec <- min(spchtbl$start.ms)
+  max.rec <- max(spchtbl$stop.ms)
+  clip.tbl <- tibble(
+    speaker = paste0(ann.marker, min.rec, "-", "FULL_RECORDING"),
+    start.ms = min.rec,
+    stop.ms = max.rec,
+    duration = stop.ms - start.ms,
+    value = NA
+  )
+  spchtbl <- bind_rows(clip.tbl, spchtbl)
+  return(spchtbl)
 }

@@ -1,5 +1,5 @@
 ann.marker <- "annotated-" ## ALSO USED IN TABULARIZE DATA
-start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN TRANSITION-DETECTORS
+start.ann <- paste0("^", ann.marker, "\\d+.*", collapse = "") ## ALSO USED IN TRANSITION-DETECTORS
 
 
 # check if speech table format is valid
