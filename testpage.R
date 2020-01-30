@@ -5,12 +5,15 @@ source("chattr-helpers.R")
 
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
 ai.elan.txt <- "test_files/AltELAN-tabular/CT_sample1.txt"
+yd.lena.txt <- "test_files/ITS/e20100727_110707_003581.its"
 
 # read data into the spchtbl format
 mc.data <- read_spchtbl(filepath = mc.elan.txt,
   tbltype = "aas-elan-txt", cliptier = "code")
 ai.data <- read_spchtbl(filepath = ai.elan.txt,
   tbltype = "elan-basic-txt", cliptier = "Coded Segment")
+yd.data <- read_spchtbl(filepath = yd.lena.txt,
+  tbltype = "lena-its")
 
 # find all turn transitions within annotated clips
 mc.transitions.stretch <- fetch_transitions(spchtbl = mc.data,
@@ -62,3 +65,9 @@ ai.transitions <- fetch_transitions(spchtbl = ai.data,
 # interactional sequences
 ai.intseqs.stretch <- fetch_intseqs(tttbl = ai.transitions)
 
+### LENA ###
+FAN.MAN <- c("FAN", "MAN")
+ln.transitions <- fetch_transitions(spchtbl = yd.data,
+  allowed.gap = 1000, allowed.overlap = 2000,
+  focus.child = "CHN", interactants = FAN.MAN,
+  addressee.tags = "none", mode = "strict")
