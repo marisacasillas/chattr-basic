@@ -1,6 +1,8 @@
 ann.marker <- "annotated-" ## ALSO USED IN TABULARIZE DATA
 start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN CHATTR HELPERS
 modes <- c("strict", "stretch", "luqr", "qulr")
+prewindow.string <- "pre"
+postwindow.string <- "post"
 
 # Returns the latest (largest) contingent
 # utterances found per utt_0
@@ -188,6 +190,83 @@ create_tttbl <- function(conttbl, mode) {
   return(tttbl)
 }
 
+
+choose_prompt <- function(utttbl, mode, window, cont.utt) {
+  if (!(mode %in% modes)) {
+    # TO DO
+    print("NOT A MODE")
+  } else {
+    if (mode == "strict") {
+      if (window == prewindow.string) {
+        prompt.stop <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(prompt.stop.ms) %>%
+          max()
+      } else if (window == postwindow.string) {
+        response.start <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(response.start.ms) %>%
+          min()
+      } else {
+        # TO DO
+        print("NOT A WINDOW")
+      }
+    }
+    if (mode == "stretch") {
+      if (window == prewindow.string) {
+        prompt.stop <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(prompt.stop.ms) %>%
+          min()
+      } else if (window == postwindow.string) {
+        response.start <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(response.start.ms) %>%
+          max()
+      } else {
+        # TO DO
+        print("NOT A WINDOW")
+      }
+    }
+    if (mode == "luqr") {
+      if (window == prewindow.string) {
+        prompt.stop <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(prompt.stop.ms) %>%
+          min()
+      } else if (window == postwindow.string) {
+        response.start <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(response.start.ms) %>%
+          min()
+      } else {
+        # TO DO
+        print("NOT A WINDOW")
+      }
+    }
+    if (mode == "qulr") {
+      if (window == prewindow.string) {
+        prompt.stop <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(prompt.stop.ms) %>%
+          max()
+      } else if (window == postwindow.string) {
+        response.start <- filter(utttbl, start.ms == cont.utt) %>%
+          pull(response.start.ms) %>%
+          max()
+      } else {
+        # TO DO
+        print("NOT A WINDOW")
+      }
+    }  
+  
+    if (window == prewindow.string) {
+      utttbl <- filter(utttbl, start.ms != cont.utt |
+          (start.ms == cont.utt &
+          prompt.stop.ms != prompt.stop))
+    } else if (window == postwindow.string) {
+      utttbl <- filter(utttbl, start.ms != cont.utt |
+          (start.ms == cont.utt &
+          response.start.ms != response.start))
+    }
+    return(utttbl)
+    }
+}
+
+
 # Finds turn transitions between a focus child and other speakers
 # within the annotated clips indicated in the spchtbl
 fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
@@ -255,8 +334,11 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     summarize(n.instances = n()) %>%
     filter (n.instances > 1) %>%
     pull(start.ms)
-  # choose between them using strict etc.
-
+  # choose between them using mode (strict etc.)
+  for (prompt in multi.prompt) {
+    chi.utts.prompts <- choose_prompt(
+      chi.utts.prompts, mode, prewindow.string, prompt)
+  }
   # align potential responses with their focal speaker utterances
   sub.int.responses <- sub.int.utts %>%
     filter(!is.na(focal.utt.start.response)) %>%
@@ -274,45 +356,50 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     summarize(n.instances = n()) %>%
     filter (n.instances > 1) %>%
     pull(start.ms)
-  # choose between them using strict etc.
-  
-  # find pre- and post- increments (currently in create_tttbl)
-  # ... fix formatting
-  # then re-functionalize?
-  
-  # # define pre- and post- utterance windows for all utt_0s
-  # # (window overlap is possible with closely sequenced utts)
-  # # TODO: this is really slow...
-  # chi.utts.ms.tbl <- expand_msec_windows(
-  #   chi.utts, allowed.gap, allowed.overlap)
-  # # OTH-CHI transitions (i.e., utt_-1)
-  # # find candidate utterances to which utt_0 can be a response
-  # prewindow.stops <- filter(chi.utts.ms.tbl,
-  #   focal.utt.idx.prw != "") %>%
-  #   dplyr::select(-focal.utt.idx.psw) %>%
-  #   left_join(select(int.utts, c(speaker, stop.ms, start.ms)),
-  #     by = c("msec" = "stop.ms")) %>%
-  #   rename("other.boundary" = "start.ms") %>%
-  #   filter(!is.na(speaker))
-  # # CHI-OTH transitions (i.e., utt_+1)
-  # # find candidate utterances which can be a response to utt_0
-  # postwindow.starts <- filter(chi.utts.ms.tbl, focal.utt.idx.psw != "") %>%
-  #   dplyr::select(-focal.utt.idx.prw) %>%
-  #   left_join(select(int.utts, c(speaker, start.ms, stop.ms)),
-  #     by = c("msec" = "start.ms")) %>%
-  #   rename("other.boundary" = "stop.ms") %>%
-  #   filter(!is.na(speaker))
-  # contingent.utts <- combine_prwpsw_utts(prewindow.stops, postwindow.starts)
-  # chi.idx.tttbl <- create_tttbl(contingent.utts, mode)
-  if (nrow(chi.idx.tttbl) > 0) {
-    chi.tttbl <- right_join(chi.utts, chi.idx.tttbl, by = "utt.idx") %>%
-      select(-utt.idx) %>%
+  # choose between them using mode (strict etc.)
+  for (response in multi.response) {
+    chi.utts.responses <- choose_prompt(
+      chi.utts.responses, mode, postwindow.string, response)
+  }
+  # combine the contingent utterances
+  if (nrow(chi.utts.prompts) > 0) {
+    chi.utts.prompts.min <- chi.utts.prompts %>%
+      select(start.ms,
+        prompt.spkr, prompt.start.ms, prompt.stop.ms) %>%
+      filter(!is.na(prompt.spkr))
+    chi.tttbl <- left_join(chi.utts, chi.utts.prompts.min,
+      by = "start.ms")
+  } else {
+    chi.tttbl <- chi.utts %>%
       mutate(
-        prompt.start.ms = as.numeric(prompt.start.ms),
-        prompt.stop.ms = as.numeric(prompt.stop.ms),
-        response.start.ms = as.numeric(response.start.ms),
-        response.stop.ms = as.numeric(response.stop.ms),
-        annot.clip = gsub(ann.marker, "", annot.clip))
+        prompt.spkr = NA,
+        prompt.start.ms = NA,
+        prompt.stop.ms = NA
+      )
+  }
+  if (nrow(chi.utts.responses) > 0) {
+    chi.utts.responses.min <- chi.utts.responses %>%
+      select(start.ms,
+        response.spkr, response.start.ms, response.stop.ms) %>%
+      filter(!is.na(response.spkr))
+    chi.tttbl <- left_join(chi.tttbl, chi.utts.responses.min,
+      by = "start.ms")
+  } else {
+    chi.tttbl <- chi.tttbl %>%
+      mutate(
+        response.spkr = NA,
+        response.start.ms = NA,
+        response.stop.ms = NA
+      )
+  }
+  # add multi-TCU information
+  if (nrow(chi.tttbl) > 0) {
+    chi.tttbl <- chi.tttbl %>%
+      select(speaker, start.ms, stop.ms, addressee, annot.clip,
+        prewindow.start, prewindow.stop,
+        postwindow.start, postwindow.stop,
+        prompt.start.ms, prompt.stop.ms, prompt.spkr,
+        response.start.ms, response.stop.ms, response.spkr)
     continuation.utts <- find_tttbl_continuations(chi.tttbl,
       chi.utts, int.utts, allowed.gap)
   } else {
