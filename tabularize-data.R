@@ -99,8 +99,7 @@ its_to_spchtbl <- function(its.file) {
     mutate(
       start.ms = as.numeric(gsub("[A-Z]", "", start.LENA))*1000,
       stop.ms = as.numeric(gsub("[A-Z]", "", stop.LENA))*1000,
-      duration = stop.ms - start.ms,
-      value = NA
+      duration = stop.ms - start.ms
     ) %>%
     select(speaker, start.ms, stop.ms, duration, value)
   min.rec <- min(spchtbl$start.ms)
@@ -109,8 +108,7 @@ its_to_spchtbl <- function(its.file) {
     speaker = paste0(ann.marker, min.rec, "-", "FULL_RECORDING"),
     start.ms = min.rec,
     stop.ms = max.rec,
-    duration = stop.ms - start.ms,
-    value = NA
+    duration = stop.ms - start.ms
   )
   spchtbl <- bind_rows(clip.tbl, spchtbl)
   return(spchtbl)

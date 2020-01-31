@@ -317,6 +317,8 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       sub.int.utts <- bind_rows(sub.int.utts, responses)
     }
   }
+  
+  # PROMPTS
   # align potential prompts with their focal speaker utterances
   sub.int.prompts <- sub.int.utts %>%
     filter(!is.na(focal.utt.start.prompt)) %>%
@@ -326,19 +328,58 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       prompt.stop.ms = stop.ms) %>%
     select(prompt.spkr, prompt.start.ms, prompt.stop.ms,
       focal.utt.start.prompt)
-  chi.utts.prompts <- left_join(chi.utts, sub.int.prompts,
+  chi.utts.prompts <- right_join(chi.utts, sub.int.prompts,
     by = c("start.ms" = "focal.utt.start.prompt"))
-  # choose between options in cases where there is more than one response
-  multi.prompt <- chi.utts.prompts %>%
+  # choose only one prompt per utterance;
+  # each prompt can only be used once...
+  # establish which prompts are re-used
+  prompts.used.multi.times <- chi.utts.prompts %>%
+    group_by(prompt.start.ms) %>%
+    summarize(n = n()) %>%
+    filter(n > 1) %>%
+    pull(prompt.start.ms)
+  # establish which focal utterances are re-used
+  chiutt.assoc.multi.prompts <- chi.utts.prompts %>%
     group_by(start.ms) %>%
     summarize(n.instances = n()) %>%
     filter (n.instances > 1) %>%
     pull(start.ms)
-  # choose between them using mode (strict etc.)
-  for (prompt in multi.prompt) {
-    chi.utts.prompts <- choose_prompt(
-      chi.utts.prompts, mode, prewindow.string, prompt)
+  chi.utts.prompts <- chi.utts.prompts %>%
+    mutate(
+      prompt.used.elsewhere = ifelse(
+        prompt.start.ms %in% prompts.used.multi.times, 1, 0),
+      chiutt.used.elsewhere = ifelse(
+        start.ms %in% chiutt.assoc.multi.prompts, 1, 0))
+  easy.utts.prompts <- filter(chi.utts.prompts,
+    prompt.used.elsewhere + chiutt.used.elsewhere == 0) %>%
+    select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
+  # select the contingencies among the transitions with multiple options
+  hard.utts.prompts <- filter(chi.utts.prompts,
+    prompt.used.elsewhere + chiutt.used.elsewhere > 0) %>%
+    arrange(prompt.start.ms)
+  unique.prompt.chiutts <- unique(hard.utts.prompts$start.ms)
+  for (uttstart in unique.prompt.chiutts) {
+    if (uttstart %in% unique(hard.utts.prompts$start.ms)) {
+      if (mode == "strict" | mode == "qulr") {
+        prompt.stop <- max(filter(
+          hard.utts.prompts, start.ms == uttstart)$prompt.stop.ms)
+      } else if (mode == "stretch" | mode == "luqr") {
+        prompt.stop <- min(filter(
+          hard.utts.prompts, start.ms == uttstart)$prompt.stop.ms)
+      }
+      hard.utts.prompts <- hard.utts.prompts %>%
+        filter(
+          (start.ms == uttstart & prompt.stop.ms == prompt.stop) |
+            start.ms != uttstart & prompt.stop.ms != prompt.stop)
+    }
   }
+  # rejoin all the prompts together
+  hard.utts.prompts <- hard.utts.prompts %>%
+    select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
+  chi.utts.prompts <- bind_rows(easy.utts.prompts, hard.utts.prompts) %>%
+    arrange(start.ms)
+  
+  # RESPONSES
   # align potential responses with their focal speaker utterances
   sub.int.responses <- sub.int.utts %>%
     filter(!is.na(focal.utt.start.response)) %>%
@@ -348,19 +389,57 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       response.stop.ms = stop.ms) %>%
     select(response.spkr, response.start.ms, response.stop.ms,
       focal.utt.start.response)
-  chi.utts.responses <- left_join(chi.utts, sub.int.responses,
+  chi.utts.responses <- right_join(chi.utts, sub.int.responses,
     by = c("start.ms" = "focal.utt.start.response"))
-  # choose between options in cases where there is more than one response
-  multi.response <- chi.utts.responses %>%
+  # choose only one prompt per utterance;
+  # each prompt can only be used once...
+  # establish which prompts are re-used
+  responses.used.multi.times <- chi.utts.responses %>%
+    group_by(response.start.ms) %>%
+    summarize(n = n()) %>%
+    filter(n > 1) %>%
+    pull(response.start.ms)
+  # establish which focal utterances are re-used
+  chiutt.assoc.multi.response <-  chi.utts.responses %>%
     group_by(start.ms) %>%
     summarize(n.instances = n()) %>%
     filter (n.instances > 1) %>%
     pull(start.ms)
-  # choose between them using mode (strict etc.)
-  for (response in multi.response) {
-    chi.utts.responses <- choose_prompt(
-      chi.utts.responses, mode, postwindow.string, response)
+  chi.utts.responses <- chi.utts.responses %>%
+    mutate(
+      response.used.elsewhere = ifelse(
+        response.start.ms %in% responses.used.multi.times, 1, 0),
+      chiutt.used.elsewhere = ifelse(
+        start.ms %in% chiutt.assoc.multi.response, 1, 0))
+  easy.utts.responses <- filter(chi.utts.responses,
+    response.used.elsewhere + chiutt.used.elsewhere == 0) %>%
+    select(-response.used.elsewhere, -chiutt.used.elsewhere)
+  # select the contingencies among the transitions with multiple options
+  hard.utts.responses <- filter(chi.utts.responses,
+    response.used.elsewhere + chiutt.used.elsewhere > 0) %>%
+    arrange(response.start.ms)
+  unique.response.chiutts <- unique(hard.utts.responses$start.ms)
+  for (uttstart in unique.response.chiutts) {
+    if (uttstart %in% unique(hard.utts.responses$start.ms)) {
+      if (mode == "strict" | mode == "qulr") {
+        response.start <- min(filter(
+          hard.utts.responses, start.ms == uttstart)$response.start.ms)
+      } else if (mode == "stretch" | mode == "luqr") {
+        response.start <- max(filter(
+          hard.utts.responses, start.ms == uttstart)$response.start.ms)
+      }
+      hard.utts.responses <- hard.utts.responses %>%
+        filter(
+          (start.ms == uttstart & response.start.ms == response.start) |
+            start.ms != uttstart & response.start.ms != response.start)
+    }
   }
+  # rejoin all the prompts together
+  hard.utts.responses <- hard.utts.responses %>%
+    select(-response.used.elsewhere, -chiutt.used.elsewhere)
+  chi.utts.responses <- bind_rows(easy.utts.responses, hard.utts.responses) %>%
+    arrange(start.ms)
+
   # combine the contingent utterances
   if (nrow(chi.utts.prompts) > 0) {
     chi.utts.prompts.min <- chi.utts.prompts %>%
@@ -395,7 +474,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # add multi-TCU information
   if (nrow(chi.tttbl) > 0) {
     chi.tttbl <- chi.tttbl %>%
-      select(speaker, start.ms, stop.ms, addressee, annot.clip,
+      select(speaker, start.ms, stop.ms, annot.clip,
         prewindow.start, prewindow.stop,
         postwindow.start, postwindow.stop,
         prompt.start.ms, prompt.stop.ms, prompt.spkr,
