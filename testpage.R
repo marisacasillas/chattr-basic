@@ -67,7 +67,11 @@ ai.intseqs.stretch <- fetch_intseqs(tttbl = ai.transitions)
 
 ### LENA ###
 FAN.MAN <- c("FAN", "MAN")
-ln.transitions <- fetch_transitions(spchtbl = yd.data,
+yd.transitions <- fetch_transitions(spchtbl = yd.data,
   allowed.gap = 1000, allowed.overlap = 2000,
   focus.child = "CHN", interactants = FAN.MAN,
   addressee.tags = "none", mode = "strict")
+
+# use the resulting turn transition table to compute
+# interactional sequences
+yd.intseqs.stretch <- fetch_intseqs(tttbl = yd.transitions)
