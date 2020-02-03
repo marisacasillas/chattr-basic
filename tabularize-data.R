@@ -30,8 +30,8 @@ aas_to_spchtbl <- function(tbl, cliptier) {
     ))
   # extract the top-level utterance tiers
   wide.aastbl <- filter(aastbl, tier == speaker)
-  if (nrow(wide.aastbl) < 1) {
-    print("No utterances by the focus speaker: no turn transitions")
+  if (nrow(wide.aastbl) == 0) {
+    print("No utterances detected: no turn transitions")
   } else {
     # add in addressee information for each utterance
     xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%

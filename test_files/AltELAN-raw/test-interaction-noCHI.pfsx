@@ -70,7 +70,7 @@
         <Int>1</Int>
     </pref>
     <pref key="MediaTime">
-        <Long>105000</Long>
+        <Long>5490</Long>
     </pref>
     <pref key="ExportTabDialog.SelectTiersMode">
         <String>Tier</String>
@@ -102,14 +102,14 @@
         <String>clip</String>
     </prefList>
     <pref key="MultiTierViewer.ActiveTierName">
-        <String>clip</String>
+        <String>CHI</String>
     </pref>
     <prefGroup key="CommentViewer.Columns">
-        <pref key="Sender">
-            <Int>0</Int>
-        </pref>
         <pref key="Modification Date">
             <Int>75</Int>
+        </pref>
+        <pref key="Sender">
+            <Int>0</Int>
         </pref>
         <pref key="Tier">
             <Int>75</Int>
@@ -120,20 +120,20 @@
         <pref key="Initials">
             <Int>75</Int>
         </pref>
-        <pref key="Start Time">
+        <pref key="Comment">
             <Int>75</Int>
         </pref>
         <pref key="End Time">
             <Int>75</Int>
         </pref>
-        <pref key="Comment">
-            <Int>75</Int>
-        </pref>
-        <pref key="Thread">
+        <pref key="Start Time">
             <Int>75</Int>
         </pref>
         <pref key="Recipient">
             <Int>0</Int>
+        </pref>
+        <pref key="Thread">
+            <Int>75</Int>
         </pref>
     </prefGroup>
     <pref key="TimeScaleBeginTime">
