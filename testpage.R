@@ -3,6 +3,59 @@ source("transition-detectors.R")
 source("intseq-detectors.R")
 source("chattr-helpers.R")
 
+
+# TESTS
+allowed.gap <- 1000
+allowed.overlap <- 2000
+
+## test 1
+
+### read data into the spchtbl format
+testdata1.filename <- "test_files/AltELAN-tabular/test-interaction-AllCDS.txt"
+testdata1 <- read_spchtbl(filepath = testdata1.filename,
+  tbltype = "aas-elan-txt", cliptier = "clip")
+
+### retrieve transitions
+testdata1.stretch <- fetch_transitions(
+  testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "stretch")
+
+testdata1.strict <- fetch_transitions(
+  testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "strict")
+
+testdata1.qulr <- fetch_transitions(
+  testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "qulr")
+
+testdata1.luqr <- fetch_transitions(
+  testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "luqr")
+
+
+
+
+
+
+testdata2.filename <- "test_files/AltELAN-tabular/test-interaction-XDS.txt"
+testdata3.filename <- "test_files/ITS/e20100727_110707_003581.its"
+
+testdata2 <- read_spchtbl(filepath = testdata2.filename,
+  tbltype = "aas-elan-txt", cliptier = "clip")
+
+testdata3 <- read_spchtbl(filepath = testdata3.filename,
+  tbltype = "lena-its")
+
+
+
+
+
+###
+
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
 ai.elan.txt <- "test_files/AltELAN-tabular/CT_sample1.txt"
 yd.lena.txt <- "test_files/ITS/e20100727_110707_003581.its"
