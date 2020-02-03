@@ -101,7 +101,7 @@ expand_msec_windows <- function(utts, allowed.gap, allowed.overlap) {
   return(utt0.windows.msec)
 }
 
-find_TCU_edge <- function(tttbl, speaker, start, stop,
+find_TCU_edge_focal <- function(tttbl, speaker, start, stop,
   direction, allowed.gap) {
   n.candidates <- 1
   boundaries <- tibble(
@@ -139,6 +139,64 @@ find_TCU_edge <- function(tttbl, speaker, start, stop,
   return(boundaries)
 }
 
+find_TCU_edge_nonfocal <- function(tttbl, foc.speaker,
+  int.utts, speaker, start, stop, direction, allowed.gap) {
+  n.candidates <- 1
+  boundaries <- tibble(
+    start.ms = start, stop.ms = stop)
+  while (n.candidates > 0) {
+    if (direction == "left") {
+      candidates <- int.utts %>%
+        filter(start.ms < start &
+            stop.ms >= start - allowed.gap &
+            speaker == speaker)
+      candidates.with.responses <- tttbl %>%
+        filter(prompt.start.ms %in% candidates$start.ms &
+            prompt.spkr == speaker)
+      if (nrow(candidates.with.responses) > 0) {
+        candidates.with.responses <- candidates.with.responses %>%
+          mutate(has.response == 1) %>%
+          select(prompt.start.ms, has.response) %>%
+          rename(start.ms = prompt.start.ms)
+        candidates <- candidates %>%
+          anti_join(candidates.with.responses, by = "start.ms")
+      }
+      if (nrow(candidates) > 0) {
+        start <- min(candidates$start.ms)
+        stop <- min(candidates$stop.ms)
+        boundaries <- tibble(
+          start.ms = start, stop.ms = stop)
+      }
+      n.candidates <- nrow(candidates)
+    }
+    if (direction == "right") {
+      candidates <- int.utts %>%
+        filter(start.ms <= stop + allowed.gap &
+            stop.ms > stop &
+            speaker == speaker)
+      candidates.with.prompts <- tttbl %>%
+        filter(response.start.ms %in% candidates$start.ms &
+            response.spkr == speaker)
+      if (nrow(candidates.with.prompts) > 0) {
+        candidates.with.prompts <- candidates.with.prompts %>%
+          mutate(has.prompt == 1) %>%
+          select(response.start.ms, has.prompt) %>%
+          rename(start.ms = response.start.ms)
+        candidates <- candidates %>%
+          anti_join(candidates.with.prompts, by = "start.ms")
+      }
+      if (nrow(candidates) > 0) {
+        start <- max(candidates$start.ms)
+        stop <- max(candidates$stop.ms)
+        boundaries <- tibble(
+          start.ms = start, stop.ms = stop)
+      }
+      n.candidates <- nrow(candidates)
+    }
+  }
+  return(boundaries)
+}
+
 find_tttbl_continuations <- function(tttbl, focus.utts,
   int.utts, allowed.gap) {
   addl.boundaries <- tibble(
@@ -162,7 +220,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
           speaker == tttbl$speaker[i] &
           is.na(tttbl$response.spkr))
     if (nrow(focus.utt.prev.increment) > 0) {
-      boundaries <- find_TCU_edge(tttbl, tttbl$speaker[i],
+      boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
         focus.utt.prev.increment$start.ms[1],
         focus.utt.prev.increment$stop.ms[1],
         "left", allowed.gap)
@@ -179,47 +237,45 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
           is.na(tttbl$prompt.spkr))
     if (nrow(focus.utt.post.increment) > 0) {
       max.idx <- nrow(focus.utt.post.increment)
-      boundaries <- find_TCU_edge(tttbl, tttbl$speaker[i],
+      boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
         focus.utt.post.increment$start.ms[max.idx],
         focus.utt.post.increment$stop.ms[max.idx],
         "right", allowed.gap)
       tttbl$spkr.post.increment.start[i] <-
-        boundaries$start.ms[max.idx]
+        boundaries$start.ms
       tttbl$spkr.post.increment.stop[i] <-
-        boundaries$stop.ms[max.idx]
+        boundaries$stop.ms
     }
-    ##
-    ## NEED TO RESHUFFLE INT.UTTS LIKE CHI.TTTBL
-    ##
-    
-    # add pre- and post-increments for prompts
+    # add pre-increments for prompts
     if (!is.na(tttbl$prompt.spkr[i])) {
       prompt.prev.increment <- int.utts %>%
         filter(speaker == tttbl$prompt.spkr[i] &
             stop.ms >= tttbl$prompt.start.ms[i] - allowed.gap &
             start.ms < tttbl$prompt.start.ms[i])
       if (nrow(prompt.prev.increment) > 0) {
-        boundaries <- find_TCU_edge(tttbl, tttbl$prompt.spkr[i],
+        boundaries <- find_TCU_edge_nonfocal(
+          tttbl, tttbl$speaker[i], int.utts, tttbl$prompt.spkr[i],
           prompt.prev.increment$start.ms[1],
           prompt.prev.increment$stop.ms[1],
           "left", allowed.gap)
         tttbl$prompt.prev.increment.start[i] <-
-          boundaries$start.ms[1]
+          boundaries$start.ms
         tttbl$prompt.prev.increment.stop[i] <-
-          boundaries$stop.ms[1]
+          boundaries$stop.ms
       }
     }
-    # add pre- and post-increments for responses
+    # add post-increments for responses
     if (!is.na(tttbl$response.spkr[i])) {
       response.post.increment <- int.utts %>%
         filter(speaker == tttbl$response.spkr[i] &
             start.ms <= tttbl$response.stop.ms[i] + allowed.gap &
             stop.ms > tttbl$response.stop.ms[i])
       if (nrow(response.post.increment) > 0) {
-        boundaries <- find_TCU_edge(tttbl, tttbl$response.spkr[i],
+        boundaries <- find_TCU_edge_nonfocal(
+          tttbl, tttbl$speaker[i], int.utts, tttbl$response.spkr[i],
           response.post.increment$start.ms[1],
           response.post.increment$stop.ms[1],
-          "left", allowed.gap)
+          "right", allowed.gap)
         tttbl$response.post.increment.start[i] <-
           boundaries$start.ms[1]
         tttbl$response.post.increment.stop[i] <-
