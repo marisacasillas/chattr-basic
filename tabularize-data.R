@@ -37,6 +37,9 @@ aas_to_spchtbl <- function(tbl, cliptier) {
     xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
       select(speaker, start.ms, value) %>%
       rename(addressee = value)
+    if (NA %in% unique(xds.aastbl$speaker)) {
+      print("WARNING: You may have a speaker information; make sure the correct Participant is entered in the metadata for each ELAN tier before exporting.")
+    }
     # now add in vocal maturity data (to-do)
     #  vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
     #    spread(tier, value) %>%

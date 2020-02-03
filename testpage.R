@@ -17,6 +17,10 @@ testdata1.filename <- "test_files/AltELAN-tabular/test-interaction-AllCDS.txt"
 testdata1 <- read_spchtbl(filepath = testdata1.filename,
   tbltype = "aas-elan-txt", cliptier = "clip")
 
+## 
+current.answers <- read_csv("testdata1.stretch.csv")
+correct.answers <- read_csv("testdata1.stretch-correct.csv")
+
 ### retrieve transitions
 testdata1.stretch <- fetch_transitions(
   testdata1, allowed.gap, allowed.overlap,

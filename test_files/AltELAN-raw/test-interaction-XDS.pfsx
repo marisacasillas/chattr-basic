@@ -76,12 +76,24 @@
             <Object class="java.awt.Color">0,90,160</Object>
         </pref>
     </prefGroup>
+    <pref key="Search.TierSelectionMode">
+        <String>Type</String>
+    </pref>
     <pref key="MultiTierViewer.ActiveTierName">
         <String>MA2</String>
     </pref>
+    <prefList key="Search.HiddenItems">
+        <String>default-lt</String>
+    </prefList>
     <pref key="LayoutManager.CurrentMode">
         <Int>1</Int>
     </pref>
+    <prefList key="Search.SelectedTiers">
+        <String>xds@CHI</String>
+        <String>xds@MA1</String>
+        <String>xds@FC1</String>
+        <String>xds@MA2</String>
+    </prefList>
     <prefList key="ExportTabDialog.HiddenTiers">
         <String>tt-notes</String>
         <String>intseq-notes</String>
