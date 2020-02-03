@@ -30,30 +30,34 @@ aas_to_spchtbl <- function(tbl, cliptier) {
     ))
   # extract the top-level utterance tiers
   wide.aastbl <- filter(aastbl, tier == speaker)
-  # add in addressee information for each utterance
-  xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
-    select(speaker, start.ms, value) %>%
-    rename(addressee = value)
-  # now add in vocal maturity data (to-do)
-#  vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
-#    spread(tier, value) %>%
-#    rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
-#    select(speaker, start.ms, vcm, lex, mwu)
-  # add all info to wide table
-  wide.aastbl <- left_join(wide.aastbl, xds.aastbl) %>%
-#    left_join(vcm.aastbl) %>%
-    select(speaker, start.ms, stop.ms, addressee)
-  # add in information about the annotated regions
-  # (if no annotation, stop and tell the user)
-  if (cliptier %in% unique(aastbl$tier)) {
-    clip.tbl <- filter(aastbl, tier == cliptier) %>%
-      mutate(speaker = paste0(ann.marker, start.ms, "-", value),
-        addressee = NA) %>%
-      select(speaker, start.ms, stop.ms, addressee)
-    wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
-    return(wide.aastbl)
+  if (nrow(wide.aastbl) < 1) {
+    print("No utterances by the focus speaker: no turn transitions")
   } else {
-    print("Error: no rows from the clip tier found.")
+    # add in addressee information for each utterance
+    xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
+      select(speaker, start.ms, value) %>%
+      rename(addressee = value)
+    # now add in vocal maturity data (to-do)
+    #  vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
+    #    spread(tier, value) %>%
+    #    rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
+    #    select(speaker, start.ms, vcm, lex, mwu)
+    # add all info to wide table
+    wide.aastbl <- left_join(wide.aastbl, xds.aastbl) %>%
+      #    left_join(vcm.aastbl) %>%
+      select(speaker, start.ms, stop.ms, addressee)
+    # add in information about the annotated regions
+    # (if no annotation, stop and tell the user)
+    if (cliptier %in% unique(aastbl$tier)) {
+      clip.tbl <- filter(aastbl, tier == cliptier) %>%
+        mutate(speaker = paste0(ann.marker, start.ms, "-", value),
+          addressee = NA) %>%
+        select(speaker, start.ms, stop.ms, addressee)
+      wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
+      return(wide.aastbl)
+    } else {
+      print("Error: no rows from the clip tier found.")
+    }
   }
 }
 
