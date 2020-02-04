@@ -334,7 +334,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # each prompt can only be used once...
   # establish which prompts are re-used
   prompts.used.multi.times <- chi.utts.prompts %>%
-    group_by(prompt.start.ms) %>%
+    group_by(prompt.start.ms, prompt.spkr) %>%
     summarize(n = n()) %>%
     filter(n > 1) %>%
     pull(prompt.start.ms)
@@ -367,6 +367,26 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
         prompt.stop <- min(filter(
           hard.utts.prompts, start.ms == uttstart)$prompt.stop.ms)
       }
+      # if there are two options, pick the utterance that started earlier,
+      # otherwise pick the alphabetically first speaker
+      if (nrow(filter(hard.utts.prompts,
+        prompt.stop.ms == prompt.stop & start.ms == uttstart)) > 1) {
+        stimultaneous.prompts <- filter(
+          hard.utts.prompts, prompt.stop.ms == prompt.stop) %>%
+          arrange(prompt.start.ms)
+        prompt.start <- min(stimultaneous.prompts$prompt.start.ms)
+        stimultaneous.prompts <- filter(
+          stimultaneous.prompts, prompt.start.ms == prompt.start)
+        if (nrow(stimultaneous.prompts) > 1) {
+          stimultaneous.prompts <- arrange(stimultaneous.prompts, prompt.spkr)
+          stimultaneous.prompts.spkr <- stimultaneous.prompts$prompt.spkr[1]
+        }
+        hard.utts.prompts <- hard.utts.prompts %>%
+          filter(
+            (start.ms == uttstart & prompt.stop.ms == prompt.stop &
+                prompt.spkr == stimultaneous.prompts.spkr) |
+              start.ms != uttstart & prompt.stop.ms != prompt.stop)
+      }
       hard.utts.prompts <- hard.utts.prompts %>%
         filter(
           (start.ms == uttstart & prompt.stop.ms == prompt.stop) |
@@ -395,7 +415,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # each prompt can only be used once...
   # establish which prompts are re-used
   responses.used.multi.times <- chi.utts.responses %>%
-    group_by(response.start.ms) %>%
+    group_by(response.start.ms, response.spkr) %>%
     summarize(n = n()) %>%
     filter(n > 1) %>%
     pull(response.start.ms)
@@ -427,6 +447,26 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       } else if (mode == "stretch" | mode == "luqr") {
         response.start <- max(filter(
           hard.utts.responses, start.ms == uttstart)$response.start.ms)
+      }
+      # if there are two options, pick the utterance that stops later,
+      # otherwise pick the alphabetically first speaker
+      if (nrow(filter(hard.utts.responses,
+        response.start.ms == response.start & start.ms == uttstart)) > 1) {
+        stimultaneous.responses <- filter(
+          hard.utts.responses, response.start.ms == response.start) %>%
+          arrange(response.stop.ms)
+        response.stop <- max(stimultaneous.responses$response.stop.ms)
+        stimultaneous.responses <- filter(
+          stimultaneous.responses, response.stop.ms == response.stop)
+        if (nrow(stimultaneous.responses) > 1) {
+          stimultaneous.responses <- arrange(stimultaneous.responses, response.spkr)
+          stimultaneous.responses.spkr <- stimultaneous.responses$response.spkr[1]
+        }
+        hard.utts.responses <- hard.utts.responses %>%
+          filter(
+            (start.ms == uttstart & response.start.ms == response.start &
+                response.spkr == stimultaneous.responses.spkr) |
+              start.ms != uttstart & response.start.ms != response.start)
       }
       hard.utts.responses <- hard.utts.responses %>%
         filter(

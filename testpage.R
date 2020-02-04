@@ -17,15 +17,17 @@ testdata1.filename <- "test_files/AltELAN-tabular/test-interaction-AllCDS.txt"
 testdata1 <- read_spchtbl(filepath = testdata1.filename,
   tbltype = "aas-elan-txt", cliptier = "clip")
 
-## 
-current.answers <- read_csv("testdata1.stretch.csv")
-correct.answers <- read_csv("testdata1.stretch-correct.csv")
-
 ### retrieve transitions
 testdata1.stretch <- fetch_transitions(
-  testdata1, allowed.gap, allowed.overlap,
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
+
+### check for a match
+testdata1.stretch.answers <- read_csv("testdata1.stretch-correct.csv")
+test1 <- all_equal(testdata1.stretch,
+  testdata1.stretch.answers, convert = TRUE)
+
 
 testdata1.strict <- fetch_transitions(
   testdata1, allowed.gap, allowed.overlap,
