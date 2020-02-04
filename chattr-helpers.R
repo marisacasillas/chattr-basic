@@ -253,15 +253,23 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
             stop.ms >= tttbl$prompt.start.ms[i] - allowed.gap &
             start.ms < tttbl$prompt.start.ms[i])
       if (nrow(prompt.prev.increment) > 0) {
-        boundaries <- find_TCU_edge_nonfocal(
-          tttbl, tttbl$speaker[i], int.utts, tttbl$prompt.spkr[i],
-          prompt.prev.increment$start.ms[1],
-          prompt.prev.increment$stop.ms[1],
-          "left", allowed.gap)
-        tttbl$prompt.prev.increment.start[i] <-
-          boundaries$start.ms
-        tttbl$prompt.prev.increment.stop[i] <-
-          boundaries$stop.ms
+        # check the very last possible candidate for responses
+        response.check <- tttbl %>%
+          filter(prompt.start.ms == prompt.prev.increment$start.ms[nrow(
+            prompt.prev.increment)] &
+              prompt.spkr == tttbl$prompt.spkr[i])
+        # if it doesn't have responses, check for further increments
+        if (nrow(response.check) == 0) {
+          boundaries <- find_TCU_edge_nonfocal(
+            tttbl, tttbl$speaker[i], int.utts, tttbl$prompt.spkr[i],
+            prompt.prev.increment$start.ms[nrow(prompt.prev.increment)],
+            prompt.prev.increment$stop.ms[nrow(prompt.prev.increment)],
+            "left", allowed.gap)
+          tttbl$prompt.prev.increment.start[i] <-
+            boundaries$start.ms
+          tttbl$prompt.prev.increment.stop[i] <-
+            boundaries$stop.ms
+        }
       }
     }
     # add post-increments for responses
@@ -271,15 +279,22 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
             start.ms <= tttbl$response.stop.ms[i] + allowed.gap &
             stop.ms > tttbl$response.stop.ms[i])
       if (nrow(response.post.increment) > 0) {
-        boundaries <- find_TCU_edge_nonfocal(
-          tttbl, tttbl$speaker[i], int.utts, tttbl$response.spkr[i],
-          response.post.increment$start.ms[1],
-          response.post.increment$stop.ms[1],
-          "right", allowed.gap)
-        tttbl$response.post.increment.start[i] <-
-          boundaries$start.ms[1]
-        tttbl$response.post.increment.stop[i] <-
-          boundaries$stop.ms[1]
+        # check the very first possible candidate for prompts
+        prompt.check <- tttbl %>%
+          filter(response.start.ms == response.post.increment$start.ms[1] &
+              response.spkr == tttbl$response.spkr[i])
+        # if it doesn't have prompts, check for further increments
+        if (nrow(prompt.check) == 0) {
+          boundaries <- find_TCU_edge_nonfocal(
+            tttbl, tttbl$speaker[i], int.utts, tttbl$response.spkr[i],
+            response.post.increment$start.ms[1],
+            response.post.increment$stop.ms[1],
+            "right", allowed.gap)
+          tttbl$response.post.increment.start[i] <-
+            boundaries$start.ms
+          tttbl$response.post.increment.stop[i] <-
+            boundaries$stop.ms
+        }
       }
     }
   }
