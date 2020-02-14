@@ -379,13 +379,14 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
           stimultaneous.prompts, prompt.start.ms == prompt.start)
         if (nrow(stimultaneous.prompts) > 1) {
           stimultaneous.prompts <- arrange(stimultaneous.prompts, prompt.spkr)
-          stimultaneous.prompts.spkr <- stimultaneous.prompts$prompt.spkr[1]
         }
+        stimultaneous.prompts.spkr <- stimultaneous.prompts$prompt.spkr[1]
         hard.utts.prompts <- hard.utts.prompts %>%
           filter(
             (start.ms == uttstart & prompt.stop.ms == prompt.stop &
                 prompt.spkr == stimultaneous.prompts.spkr) |
               start.ms != uttstart & prompt.stop.ms != prompt.stop)
+        next
       }
       hard.utts.prompts <- hard.utts.prompts %>%
         filter(
@@ -460,13 +461,14 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
           stimultaneous.responses, response.stop.ms == response.stop)
         if (nrow(stimultaneous.responses) > 1) {
           stimultaneous.responses <- arrange(stimultaneous.responses, response.spkr)
-          stimultaneous.responses.spkr <- stimultaneous.responses$response.spkr[1]
         }
+        stimultaneous.responses.spkr <- stimultaneous.responses$response.spkr[1]
         hard.utts.responses <- hard.utts.responses %>%
           filter(
             (start.ms == uttstart & response.start.ms == response.start &
                 response.spkr == stimultaneous.responses.spkr) |
               start.ms != uttstart & response.start.ms != response.start)
+        next
       }
       hard.utts.responses <- hard.utts.responses %>%
         filter(

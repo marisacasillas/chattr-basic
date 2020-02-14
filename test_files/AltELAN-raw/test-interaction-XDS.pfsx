@@ -14,44 +14,32 @@
         <String>tt-notes</String>
         <String>intseq-notes</String>
     </prefList>
-    <pref key="ExportTabDialog.SelectTiersMode">
-        <String>Tier</String>
-    </pref>
     <pref key="LayoutManager.VisibleMultiTierViewer">
         <String>mpi.eudico.client.annotator.viewer.TimeLineViewer</String>
     </pref>
-    <pref key="MultiTierViewer.TierSortingMode">
-        <Int>1</Int>
+    <prefList key="CommentViewer.Columns.Order">
+        <String>Start Time</String>
+        <String>End Time</String>
+        <String>Tier</String>
+        <String>Initials</String>
+        <String>Comment</String>
+        <String>Thread</String>
+        <String>Sender</String>
+        <String>Recipient</String>
+        <String>Creation Date</String>
+        <String>Modification Date</String>
+    </prefList>
+    <pref key="LayoutManager.SplitPaneDividerLocation">
+        <Int>2</Int>
     </pref>
     <pref key="DetachedEditor.Bounds">
         <Object class="java.awt.Rectangle">570,300,300,300</Object>
     </pref>
-    <prefList key="ExportTabDialog.TierOrder">
-        <String>CHI</String>
-        <String>MA1</String>
-        <String>FC1</String>
-        <String>xds@CHI</String>
-        <String>xds@MA1</String>
-        <String>xds@FC1</String>
-        <String>tt-notes</String>
-        <String>intseq-notes</String>
-        <String>MA2</String>
-        <String>xds@MA2</String>
-        <String>clip</String>
-    </prefList>
-    <prefList key="ExportTabDialog.selectedTiers">
-        <String>CHI</String>
-        <String>MA1</String>
-        <String>FC1</String>
-        <String>xds@CHI</String>
-        <String>xds@MA1</String>
-        <String>xds@FC1</String>
-        <String>MA2</String>
-        <String>xds@MA2</String>
-        <String>clip</String>
-    </prefList>
     <pref key="TimeLineViewer.ZoomLevel">
         <Float>70.0</Float>
+    </pref>
+    <pref key="LayoutManager.SelectedTabIndex">
+        <Int>6</Int>
     </pref>
     <prefGroup key="TierColors">
         <pref key="clip">
@@ -76,11 +64,15 @@
             <Object class="java.awt.Color">0,90,160</Object>
         </pref>
     </prefGroup>
-    <pref key="Search.TierSelectionMode">
-        <String>Type</String>
+    <prefList key="CommentViewer.Columns.Hidden">
+        <String>Sender</String>
+        <String>Recipient</String>
+    </prefList>
+    <pref key="FrameLocation">
+        <Object class="java.awt.Point">0,23</Object>
     </pref>
-    <pref key="MultiTierViewer.ActiveTierName">
-        <String>MA2</String>
+    <pref key="SelectionBeginTime">
+        <Long>0</Long>
     </pref>
     <prefList key="Search.HiddenItems">
         <String>default-lt</String>
@@ -94,8 +86,88 @@
         <String>xds@FC1</String>
         <String>xds@MA2</String>
     </prefList>
+    <pref key="MediaTime">
+        <Long>0</Long>
+    </pref>
+    <pref key="ExportTabDialog.SelectTiersMode">
+        <String>Tier</String>
+    </pref>
+    <pref key="MultiTierViewer.TierSortingMode">
+        <Int>1</Int>
+    </pref>
+    <prefList key="ExportTabDialog.TierOrder">
+        <String>CHI</String>
+        <String>MA1</String>
+        <String>FC1</String>
+        <String>xds@CHI</String>
+        <String>xds@MA1</String>
+        <String>xds@FC1</String>
+        <String>tt-notes</String>
+        <String>intseq-notes</String>
+        <String>MA2</String>
+        <String>xds@MA2</String>
+        <String>clip</String>
+    </prefList>
+    <pref key="FrameSize">
+        <Object class="java.awt.Dimension">1440,873</Object>
+    </pref>
+    <prefList key="ExportTabDialog.selectedTiers">
+        <String>CHI</String>
+        <String>MA1</String>
+        <String>FC1</String>
+        <String>xds@CHI</String>
+        <String>xds@MA1</String>
+        <String>xds@FC1</String>
+        <String>MA2</String>
+        <String>xds@MA2</String>
+        <String>clip</String>
+    </prefList>
+    <pref key="Search.TierSelectionMode">
+        <String>Type</String>
+    </pref>
+    <pref key="MultiTierViewer.ActiveTierName">
+        <String>MA2</String>
+    </pref>
+    <prefGroup key="CommentViewer.Columns">
+        <pref key="Modification Date">
+            <Int>75</Int>
+        </pref>
+        <pref key="Sender">
+            <Int>0</Int>
+        </pref>
+        <pref key="Tier">
+            <Int>75</Int>
+        </pref>
+        <pref key="Creation Date">
+            <Int>75</Int>
+        </pref>
+        <pref key="Initials">
+            <Int>75</Int>
+        </pref>
+        <pref key="Comment">
+            <Int>75</Int>
+        </pref>
+        <pref key="End Time">
+            <Int>75</Int>
+        </pref>
+        <pref key="Start Time">
+            <Int>75</Int>
+        </pref>
+        <pref key="Recipient">
+            <Int>0</Int>
+        </pref>
+        <pref key="Thread">
+            <Int>75</Int>
+        </pref>
+    </prefGroup>
+    <pref key="TimeScaleBeginTime">
+        <Long>228</Long>
+    </pref>
     <prefList key="ExportTabDialog.HiddenTiers">
         <String>tt-notes</String>
         <String>intseq-notes</String>
     </prefList>
+    <pref key="SelectionEndTime">
+        <Long>0</Long>
+    </pref>
 </preferences>

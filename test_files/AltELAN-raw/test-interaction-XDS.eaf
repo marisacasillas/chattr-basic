@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ANNOTATION_DOCUMENT AUTHOR="" DATE="2020-02-03T16:23:52+01:00" FORMAT="3.0" VERSION="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv3.0.xsd">
+<ANNOTATION_DOCUMENT AUTHOR="" DATE="2020-02-14T12:34:20+01:00" FORMAT="3.0" VERSION="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv3.0.xsd">
     <HEADER MEDIA_FILE="" TIME_UNITS="milliseconds">
         <PROPERTY NAME="URN">urn:nl-mpi-tools-elan-eaf:d125a8fb-617c-4f24-99e8-1af3f1dc2d9c</PROPERTY>
         <PROPERTY NAME="lastUsedAnnotationId">176</PROPERTY>
@@ -192,7 +192,7 @@
         <TIME_SLOT TIME_SLOT_ID="ts185" TIME_VALUE="95000"/>
         <TIME_SLOT TIME_SLOT_ID="ts186" TIME_VALUE="105000"/>
     </TIME_ORDER>
-    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="CHI">
+    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="CHI" TIER_ID="CHI">
         <ANNOTATION>
             <ALIGNABLE_ANNOTATION ANNOTATION_ID="a1" TIME_SLOT_REF1="ts8" TIME_SLOT_REF2="ts11">
                 <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
@@ -319,7 +319,7 @@
             </ALIGNABLE_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="MA1">
+    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="MA1" TIER_ID="MA1">
         <ANNOTATION>
             <ALIGNABLE_ANNOTATION ANNOTATION_ID="a4" TIME_SLOT_REF1="ts3" TIME_SLOT_REF2="ts6">
                 <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
@@ -416,7 +416,7 @@
             </ALIGNABLE_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER LINGUISTIC_TYPE_REF="default-lt" TIER_ID="FC1">
+    <TIER LINGUISTIC_TYPE_REF="default-lt" PARTICIPANT="FC1" TIER_ID="FC1">
         <ANNOTATION>
             <ALIGNABLE_ANNOTATION ANNOTATION_ID="a144" TIME_SLOT_REF1="ts4" TIME_SLOT_REF2="ts7">
                 <ANNOTATION_VALUE>0.</ANNOTATION_VALUE>
@@ -488,7 +488,7 @@
             </ALIGNABLE_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="CHI" TIER_ID="xds@CHI">
+    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="CHI" PARTICIPANT="CHI" TIER_ID="xds@CHI">
         <ANNOTATION>
             <REF_ANNOTATION ANNOTATION_ID="a8" ANNOTATION_REF="a1">
                 <ANNOTATION_VALUE>U</ANNOTATION_VALUE>
@@ -615,7 +615,7 @@
             </REF_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="MA1" TIER_ID="xds@MA1">
+    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="MA1" PARTICIPANT="MA1" TIER_ID="xds@MA1">
         <ANNOTATION>
             <REF_ANNOTATION ANNOTATION_ID="a11" ANNOTATION_REF="a4">
                 <ANNOTATION_VALUE>A</ANNOTATION_VALUE>
@@ -712,7 +712,7 @@
             </REF_ANNOTATION>
         </ANNOTATION>
     </TIER>
-    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="FC1" TIER_ID="xds@FC1">
+    <TIER LINGUISTIC_TYPE_REF="addressee" PARENT_REF="FC1" PARTICIPANT="FC1" TIER_ID="xds@FC1">
         <ANNOTATION>
             <REF_ANNOTATION ANNOTATION_ID="a150" ANNOTATION_REF="a144">
                 <ANNOTATION_VALUE>C</ANNOTATION_VALUE>
