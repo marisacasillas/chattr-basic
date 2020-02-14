@@ -31,7 +31,7 @@ aas_to_spchtbl <- function(tbl, cliptier) {
   # extract the top-level utterance tiers
   wide.aastbl <- filter(aastbl, tier == speaker)
   if (nrow(wide.aastbl) == 0) {
-    print("No utterances detected: no turn transitions")
+    print("No utterances detected in file.")
   } else {
     # add in addressee information for each utterance
     xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
@@ -104,11 +104,18 @@ its_to_spchtbl <- function(its.file) {
   # Reformat to a chattr spchtbl format
   spchtbl <- as_tibble(spchtbl) %>%
     mutate(
-      start.ms = as.numeric(gsub("[A-Z]", "", start.LENA))*1000,
-      stop.ms = as.numeric(gsub("[A-Z]", "", stop.LENA))*1000,
+      start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", start.LENA))*1000)),
+      stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", stop.LENA))*1000)),
       duration = stop.ms - start.ms
-    ) %>%
-    select(speaker, start.ms, stop.ms, duration, value)
+    )
+  if ("value" %in% colnames(spchtbl)) {
+    spchtbl <- spchtbl %>%
+      select(speaker, start.ms, stop.ms, duration, value)
+  } else {
+    spchtbl <- spchtbl %>%
+      mutate(value = NA) %>%
+      select(speaker, start.ms, stop.ms, duration, value)
+  }
   min.rec <- min(spchtbl$start.ms)
   max.rec <- max(spchtbl$stop.ms)
   clip.tbl <- tibble(

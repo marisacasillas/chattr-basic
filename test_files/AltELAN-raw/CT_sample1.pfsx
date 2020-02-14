@@ -54,7 +54,7 @@
         <Object class="java.awt.Point">0,23</Object>
     </pref>
     <pref key="SelectionBeginTime">
-        <Long>315193</Long>
+        <Long>317170</Long>
     </pref>
     <prefList key="HiddenPlayers"/>
     <pref key="LayoutManager.CurrentMode">
@@ -66,7 +66,7 @@
         <String>Coded Segment</String>
     </prefList>
     <pref key="MediaTime">
-        <Long>315193</Long>
+        <Long>317170</Long>
     </pref>
     <pref key="ExportTabDialog.SelectTiersMode">
         <String>Tier</String>
@@ -90,6 +90,9 @@
             <String>http://lux17.mpi.nl/aamlr/</String>
         </pref>
     </prefGroup>
+    <pref key="ActiveRecognizerName">
+        <String>AAM-LR Phone level audio segmentation</String>
+    </pref>
     <pref key="MultiTierViewer.ActiveTierName">
         <String>Parent Utterances</String>
     </pref>
@@ -125,18 +128,15 @@
             <Int>75</Int>
         </pref>
     </prefGroup>
-    <pref key="ActiveRecognizerName">
-        <String>AAM-LR Phone level audio segmentation</String>
-    </pref>
     <pref key="SegmentationManager.SelectedTabIndex">
         <Int>0</Int>
     </pref>
     <pref key="TimeScaleBeginTime">
-        <Long>314432</Long>
+        <Long>286593</Long>
     </pref>
-    <prefList key="ExportTabDialog.HiddenTiers"/>
     <prefList key="MultiTierViewer.HiddenTiers"/>
+    <prefList key="ExportTabDialog.HiddenTiers"/>
     <pref key="SelectionEndTime">
-        <Long>660612</Long>
+        <Long>317730</Long>
     </pref>
 </preferences>

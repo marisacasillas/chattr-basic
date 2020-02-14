@@ -157,6 +157,48 @@ test3.qulr <- nrow(testdata3.qulr) == 0
 test3.luqr <- nrow(testdata3.luqr) == 0
 
 
+## test data 4 ----
+### read data into the spchtbl format
+testdata4.filename <- "test_files/ITS/e20100727_110707_003581.its"
+testdata4 <- read_spchtbl(filepath = testdata4.filename,
+  tbltype = "lena-its")
+
+### retrieve transitions
+testdata4.strict <- fetch_transitions(
+  spchtbl = testdata4, allowed.gap, allowed.overlap,
+  focus.child = "CHN", interactants = c("FAN", "MAN"),
+  addressee.tags = "none", mode = "strict")
+testdata4.strict$addressee <- as.character(
+  testdata4.strict$addressee)
+
+### check for a match
+testdata4.strict.answers <- read_csv_answercols(
+  "testdata4.strict-correct.csv")
+test4.strict <- all_equal(testdata4.strict,
+  testdata4.strict.answers, convert = TRUE)
+
+
+## test data 5 ----
+### read data into the spchtbl format
+testdata5.filename <- "test_files/AltELAN-tabular/CT_sample1.txt"
+testdata5 <- read_spchtbl(filepath = testdata5.filename,
+  tbltype = "elan-basic-txt", cliptier = "Coded Segment")
+
+### retrieve transitions
+testdata5.strict <- fetch_transitions(
+  spchtbl = testdata5, allowed.gap, allowed.overlap,
+  focus.child = "Child Utterances", interactants = ".all-speakers",
+  addressee.tags = "none", mode = "strict")
+testdata5.strict$addressee <- as.character(
+  testdata5.strict$addressee)
+
+### check for a match
+testdata5.strict.answers <- read_csv_answercols(
+  "testdata5.strict-correct.csv")
+test5.strict <- all_equal(testdata5.strict,
+  testdata5.strict.answers, convert = TRUE)
+
+
 ### test data 1: focus.child, interactants, addressee.tags ----
 #### change focal speaker
 testdata1.strict.FC1.focus <- fetch_transitions(
@@ -222,8 +264,7 @@ test1.strict.none <- all_equal(testdata1.strict.none,
 
 
 ### tests to write ---- 
-# READ_SPCHTBL & FETCH_INTSEQS
-# ITS, ELAN-AAS, ELAN-ALT, OTHER
+# FETCH_INTSEQS
 
 # OLD sandbox tests ----
 
