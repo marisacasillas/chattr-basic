@@ -9,7 +9,7 @@ source("chattr-helpers.R")
 allowed.gap <- 1000
 allowed.overlap <- 2000
 
-## test 1 ----
+## test data 1 ----
 
 ### read data into the spchtbl format
 testdata1.filename <- "test_files/AltELAN-tabular/test-interaction-AllCDS.txt"
@@ -65,7 +65,7 @@ test1.luqr <- all_equal(testdata1.luqr,
   testdata1.luqr.answers, convert = TRUE)
 
 
-## test 2 ----
+## test data 2 ----
 
 ### read data into the spchtbl format
 testdata2.filename <- "test_files/AltELAN-tabular/test-interaction-XDS.txt"
@@ -121,7 +121,7 @@ test2.luqr <- all_equal(testdata2.luqr,
   testdata2.luqr.answers, convert = TRUE)
 
 
-## test 3 ----
+## test data 3 ----
 
 ### read data into the spchtbl format
 testdata3.filename <- "test_files/AltELAN-tabular/test-interaction-noCHI.txt"
@@ -150,7 +150,6 @@ testdata3.luqr <- fetch_transitions(
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "luqr")
 
-
 ### check for a match
 test3.stretch <- nrow(testdata3.stretch) == 0
 test3.strict <- nrow(testdata3.strict) == 0
@@ -158,13 +157,60 @@ test3.qulr <- nrow(testdata3.qulr) == 0
 test3.luqr <- nrow(testdata3.luqr) == 0
 
 
-# still need tests for
-# FOCUS.CHILD, INTERACTANTS, ADDRESSEE.TAGS
-# ITS, ELAN-AAS, ELAN-ALT, OTHER
+### test data 1: focus.child, interactants, addressee.tags ----
+#### change focal speaker
+testdata1.strict.FC1.focus <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "FC1", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "strict")
+testdata1.strict.FC1.focus$addressee <- as.character(
+  testdata1.strict.FC1.focus$addressee)
+testdata1.strict.FC1.focus.answers <- read_csv_answercols(
+  "testdata1.strict.FC1.focus-correct.csv")
+test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
+  testdata1.FC1.focus.answers, convert = TRUE)
+
+testdata1.strict.FA1.focus <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "FA1", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "strict")
+test1.strict.FA1.focus <- nrow(testdata1.strict.FA1.focus) == 0
+
+
+#### change interactants
+testdata1.strict.intFC1only <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = "FC1",
+  addressee.tags = "CDS", mode = "strict")
+testdata1.strict.intFC1FA1 <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = c("FC1", "FA1"),
+  addressee.tags = "CDS", mode = "strict")
+testdata1.strict.intFA1 <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = "FA1",
+  addressee.tags = "CDS", mode = "strict")
+
+#### change addressee.tags
+testdata1.strict.tcds <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "TCDS", mode = "strict")
+testdata1.strict.none <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "none", mode = "strict")
+testdata1.strict.nonexistent <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "foo", mode = "strict")
+
+
+### tests to write ---- 
 # READ_SPCHTBL & FETCH_INTSEQS
+# ITS, ELAN-AAS, ELAN-ALT, OTHER
 
-
-# OLD sandbox tests ---
+# OLD sandbox tests ----
 
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
 ai.elan.txt <- "test_files/AltELAN-tabular/CT_sample1.txt"

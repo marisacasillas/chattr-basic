@@ -75,7 +75,7 @@
         <String>CHI</String>
     </pref>
     <pref key="SelectionBeginTime">
-        <Long>69490</Long>
+        <Long>70235</Long>
     </pref>
     <prefList key="Search.HiddenItems">
         <String>default-lt</String>
@@ -90,7 +90,7 @@
         <String>xds@MA2</String>
     </prefList>
     <pref key="MediaTime">
-        <Long>69490</Long>
+        <Long>70235</Long>
     </pref>
     <pref key="ExportTabDialog.SelectTiersMode">
         <String>Tier</String>
@@ -164,13 +164,13 @@
         </pref>
     </prefGroup>
     <pref key="TimeScaleBeginTime">
-        <Long>60571</Long>
+        <Long>61293</Long>
     </pref>
     <prefList key="ExportTabDialog.HiddenTiers">
         <String>tt-notes</String>
         <String>intseq-notes</String>
     </prefList>
     <pref key="SelectionEndTime">
-        <Long>70170</Long>
+        <Long>70865</Long>
     </pref>
 </preferences>
