@@ -72,7 +72,7 @@
         <Object class="java.awt.Point">0,23</Object>
     </pref>
     <pref key="SelectionBeginTime">
-        <Long>0</Long>
+        <Long>74370</Long>
     </pref>
     <prefList key="Search.HiddenItems">
         <String>default-lt</String>
@@ -87,7 +87,7 @@
         <String>xds@MA2</String>
     </prefList>
     <pref key="MediaTime">
-        <Long>0</Long>
+        <Long>74370</Long>
     </pref>
     <pref key="ExportTabDialog.SelectTiersMode">
         <String>Tier</String>
@@ -161,13 +161,13 @@
         </pref>
     </prefGroup>
     <pref key="TimeScaleBeginTime">
-        <Long>228</Long>
+        <Long>65600</Long>
     </pref>
     <prefList key="ExportTabDialog.HiddenTiers">
         <String>tt-notes</String>
         <String>intseq-notes</String>
     </prefList>
     <pref key="SelectionEndTime">
-        <Long>0</Long>
+        <Long>75360</Long>
     </pref>
 </preferences>

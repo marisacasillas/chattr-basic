@@ -22,11 +22,80 @@ testdata1.stretch <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
+testdata1.stretch$addressee <- as.character(
+  testdata1.stretch$addressee)
 
 ### check for a match
-testdata1.stretch.answers <- read_csv("testdata1.stretch-correct.csv")
+testdata1.stretch.answers <- read_csv(
+  "testdata1.stretch-correct.csv",
+  col_types = cols(
+    speaker = col_character(),
+    annot.clip = col_character(),
+    start.ms = col_integer(),
+    stop.ms = col_integer(),
+    addressee = col_character(),
+    spkr.prev.increment.start = col_integer(),
+    spkr.prev.increment.stop = col_integer(),
+    spkr.post.increment.start = col_integer(),
+    spkr.post.increment.stop = col_integer(),
+    prompt.spkr = col_character(),
+    prompt.start.ms = col_integer(),
+    prompt.stop.ms = col_integer(),
+    prompt.prev.increment.start = col_integer(),
+    prompt.prev.increment.stop = col_integer(),
+    response.spkr = col_character(),
+    response.start.ms = col_integer(),
+    response.stop.ms = col_integer(),
+    response.post.increment.start = col_integer(),
+    response.post.increment.stop = col_integer()))
 test1 <- all_equal(testdata1.stretch,
   testdata1.stretch.answers, convert = TRUE)
+
+
+## test 2
+
+### read data into the spchtbl format
+testdata2.filename <- "test_files/AltELAN-tabular/test-interaction-XDS.txt"
+testdata2 <- read_spchtbl(filepath = testdata2.filename,
+  tbltype = "aas-elan-txt", cliptier = "clip")
+
+### retrieve transitions
+testdata2.stretch <- fetch_transitions(
+  spchtbl = testdata2, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "stretch")
+testdata2.stretch$addressee <- as.character(
+  testdata2.stretch$addressee)
+
+### check for a match
+testdata2.stretch.answers <- read_csv(
+  "testdata2.stretch-correct.csv",
+  col_types = cols(
+    speaker = col_character(),
+    annot.clip = col_character(),
+    start.ms = col_integer(),
+    stop.ms = col_integer(),
+    addressee = col_character(),
+    spkr.prev.increment.start = col_integer(),
+    spkr.prev.increment.stop = col_integer(),
+    spkr.post.increment.start = col_integer(),
+    spkr.post.increment.stop = col_integer(),
+    prompt.spkr = col_character(),
+    prompt.start.ms = col_integer(),
+    prompt.stop.ms = col_integer(),
+    prompt.prev.increment.start = col_integer(),
+    prompt.prev.increment.stop = col_integer(),
+    response.spkr = col_character(),
+    response.start.ms = col_integer(),
+    response.stop.ms = col_integer(),
+    response.post.increment.start = col_integer(),
+    response.post.increment.stop = col_integer()))
+test2 <- all_equal(testdata2.stretch,
+  testdata2.stretch.answers, convert = TRUE)
+
+
+
+# STRICT, QULR, LUQR??
 
 
 testdata1.strict <- fetch_transitions(
