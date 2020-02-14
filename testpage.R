@@ -209,14 +209,16 @@ testdata1.strict.tcds <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "TCDS", mode = "strict")
+test1.strict.tcds <- nrow(testdata1.strict.tcds) == 0
+
 testdata1.strict.none <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "none", mode = "strict")
-testdata1.strict.nonexistent <- fetch_transitions(
-  spchtbl = testdata1, allowed.gap, allowed.overlap,
-  focus.child = "CHI", interactants = ".all-speakers",
-  addressee.tags = "foo", mode = "strict")
+testdata1.strict.none$addressee <- as.character(
+  testdata1.strict.none$addressee)
+test1.strict.none <- all_equal(testdata1.strict.none,
+  testdata1.strict.answers, convert = TRUE)
 
 
 ### tests to write ---- 

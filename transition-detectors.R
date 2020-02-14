@@ -287,35 +287,89 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # only include those that are addressed appropriately
   if (addressee.tags == "TCDS") {
     int.utts <- filter(int.utts, addressee == "T")
+    if (nrow(int.utts) < 1) {
+      continuation.utts <- tibble(
+        speaker = character(),
+        annot.clip = character(),
+        start.ms = integer(),
+        stop.ms = integer(),
+        addressee = character(),
+        spkr.prev.increment.start = integer(),
+        spkr.prev.increment.stop = integer(),
+        spkr.post.increment.start = integer(),
+        spkr.post.increment.stop = integer(),
+        prompt.spkr = character(),
+        prompt.start.ms = double(),
+        prompt.stop.ms = double(),
+        prompt.prev.increment.start = integer(),
+        prompt.prev.increment.stop = integer(),
+        response.start.ms = double(),
+        response.stop.ms = double(),
+        response.spkr = character(),
+        response.post.increment.start = integer(),
+        response.post.increment.stop = integer()
+      )
+      print("No TCDS utterances with the specified interactant(s).")
+      return(continuation.utts)
+    }
   } else if (addressee.tags == "CDS") {
     int.utts <- filter(int.utts, addressee == "C")
-  } # no need to subset further if there is no addressee coding
+    if (nrow(int.utts) < 1) {
+      continuation.utts <- tibble(
+        speaker = character(),
+        annot.clip = character(),
+        start.ms = integer(),
+        stop.ms = integer(),
+        addressee = character(),
+        spkr.prev.increment.start = integer(),
+        spkr.prev.increment.stop = integer(),
+        spkr.post.increment.start = integer(),
+        spkr.post.increment.stop = integer(),
+        prompt.spkr = character(),
+        prompt.start.ms = double(),
+        prompt.stop.ms = double(),
+        prompt.prev.increment.start = integer(),
+        prompt.prev.increment.stop = integer(),
+        response.start.ms = double(),
+        response.stop.ms = double(),
+        response.spkr = character(),
+        response.post.increment.start = integer(),
+        response.post.increment.stop = integer()
+      )
+      print("No CDS utterances with the specified interactant(s).")
+      return(continuation.utts)
+    }
+  } else {
+    # no need to subset further if there is no addressee coding
     # (i.e., if addressee == "none")
-  if (nrow(int.utts) < 1) {
-    continuation.utts <- tibble(
-      speaker = character(),
-      annot.clip = character(),
-      start.ms = integer(),
-      stop.ms = integer(),
-      addressee = character(),
-      spkr.prev.increment.start = integer(),
-      spkr.prev.increment.stop = integer(),
-      spkr.post.increment.start = integer(),
-      spkr.post.increment.stop = integer(),
-      prompt.spkr = character(),
-      prompt.start.ms = double(),
-      prompt.stop.ms = double(),
-      prompt.prev.increment.start = integer(),
-      prompt.prev.increment.stop = integer(),
-      response.start.ms = double(),
-      response.stop.ms = double(),
-      response.spkr = character(),
-      response.post.increment.start = integer(),
-      response.post.increment.stop = integer()
-    )
-    print("No utterances from the specified interactant(s).")
-    return(continuation.utts)
+    print("WARNING: given addressee.tags not recognized, scanning all utterances of the specified interactant(s).")
+    if (nrow(int.utts) < 1) {
+      continuation.utts <- tibble(
+        speaker = character(),
+        annot.clip = character(),
+        start.ms = integer(),
+        stop.ms = integer(),
+        addressee = character(),
+        spkr.prev.increment.start = integer(),
+        spkr.prev.increment.stop = integer(),
+        spkr.post.increment.start = integer(),
+        spkr.post.increment.stop = integer(),
+        prompt.spkr = character(),
+        prompt.start.ms = double(),
+        prompt.stop.ms = double(),
+        prompt.prev.increment.start = integer(),
+        prompt.prev.increment.stop = integer(),
+        response.start.ms = double(),
+        response.stop.ms = double(),
+        response.spkr = character(),
+        response.post.increment.start = integer(),
+        response.post.increment.stop = integer()
+      )
+      print("No utterances with the specified interactant(s).")
+      return(continuation.utts)
+    }
   }
+
   # extract the focus child utterances (each is considered an 'utt_0')
   # and add transition window information
   chi.utts <- extract_focus_utts(spchtbl.annsubset, focus.child)
