@@ -291,6 +291,31 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     int.utts <- filter(int.utts, addressee == "C")
   } # no need to subset further if there is no addressee coding
     # (i.e., if addressee == "none")
+  if (nrow(int.utts) < 1) {
+    continuation.utts <- tibble(
+      speaker = character(),
+      annot.clip = character(),
+      start.ms = integer(),
+      stop.ms = integer(),
+      addressee = character(),
+      spkr.prev.increment.start = integer(),
+      spkr.prev.increment.stop = integer(),
+      spkr.post.increment.start = integer(),
+      spkr.post.increment.stop = integer(),
+      prompt.spkr = character(),
+      prompt.start.ms = double(),
+      prompt.stop.ms = double(),
+      prompt.prev.increment.start = integer(),
+      prompt.prev.increment.stop = integer(),
+      response.start.ms = double(),
+      response.stop.ms = double(),
+      response.spkr = character(),
+      response.post.increment.start = integer(),
+      response.post.increment.stop = integer()
+    )
+    print("No utterances from the specified interactant(s).")
+    return(continuation.utts)
+  }
   # extract the focus child utterances (each is considered an 'utt_0')
   # and add transition window information
   chi.utts <- extract_focus_utts(spchtbl.annsubset, focus.child)
@@ -316,7 +341,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       response.post.increment.start = integer(),
       response.post.increment.stop = integer()
     )
-    print("No utterances from the focus speaker.")
+    print("No utterances from the specified focus speaker.")
     return(continuation.utts)
   }
   chi.utts <- mutate(

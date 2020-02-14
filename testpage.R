@@ -168,7 +168,7 @@ testdata1.strict.FC1.focus$addressee <- as.character(
 testdata1.strict.FC1.focus.answers <- read_csv_answercols(
   "testdata1.strict.FC1.focus-correct.csv")
 test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
-  testdata1.FC1.focus.answers, convert = TRUE)
+  testdata1.strict.FC1.focus.answers, convert = TRUE)
 
 testdata1.strict.FA1.focus <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
@@ -182,14 +182,27 @@ testdata1.strict.intFC1only <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = "FC1",
   addressee.tags = "CDS", mode = "strict")
+testdata1.strict.intFC1only$addressee <- as.character(
+  testdata1.strict.intFC1only$addressee)
+testdata1.strict.intFC1only.answers <- read_csv_answercols(
+  "testdata1.strict.intFC1only-correct.csv")
+test1.strict.intFC1only <- all_equal(testdata1.strict.intFC1only,
+  testdata1.strict.intFC1only.answers, convert = TRUE)
+
 testdata1.strict.intFC1FA1 <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = c("FC1", "FA1"),
   addressee.tags = "CDS", mode = "strict")
+testdata1.strict.intFC1FA1$addressee <- as.character(
+  testdata1.strict.intFC1FA1$addressee)
+test1.strict.intFC1FA1 <- all_equal(testdata1.strict.intFC1FA1,
+  testdata1.strict.intFC1only.answers, convert = TRUE)
+
 testdata1.strict.intFA1 <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = "FA1",
   addressee.tags = "CDS", mode = "strict")
+test1.strict.intFA1 <- nrow(testdata1.strict.intFA1) == 0
 
 #### change addressee.tags
 testdata1.strict.tcds <- fetch_transitions(
