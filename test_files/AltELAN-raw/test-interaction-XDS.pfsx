@@ -39,7 +39,7 @@
         <Float>70.0</Float>
     </pref>
     <pref key="LayoutManager.SelectedTabIndex">
-        <Int>6</Int>
+        <Int>0</Int>
     </pref>
     <prefGroup key="TierColors">
         <pref key="clip">
@@ -71,8 +71,11 @@
     <pref key="FrameLocation">
         <Object class="java.awt.Point">0,23</Object>
     </pref>
+    <pref key="GridViewer.TierName">
+        <String>CHI</String>
+    </pref>
     <pref key="SelectionBeginTime">
-        <Long>74370</Long>
+        <Long>69490</Long>
     </pref>
     <prefList key="Search.HiddenItems">
         <String>default-lt</String>
@@ -87,7 +90,7 @@
         <String>xds@MA2</String>
     </prefList>
     <pref key="MediaTime">
-        <Long>74370</Long>
+        <Long>69490</Long>
     </pref>
     <pref key="ExportTabDialog.SelectTiersMode">
         <String>Tier</String>
@@ -161,13 +164,13 @@
         </pref>
     </prefGroup>
     <pref key="TimeScaleBeginTime">
-        <Long>65600</Long>
+        <Long>60571</Long>
     </pref>
     <prefList key="ExportTabDialog.HiddenTiers">
         <String>tt-notes</String>
         <String>intseq-notes</String>
     </prefList>
     <pref key="SelectionEndTime">
-        <Long>75360</Long>
+        <Long>70170</Long>
     </pref>
 </preferences>

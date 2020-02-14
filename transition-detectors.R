@@ -469,10 +469,10 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   unique.response.chiutts <- unique(hard.utts.responses$start.ms)
   for (uttstart in unique.response.chiutts) {
     if (uttstart %in% unique(hard.utts.responses$start.ms)) {
-      if (mode == "strict" | mode == "qulr") {
+      if (mode == "strict" | mode == "luqr") {
         response.start <- min(filter(
           hard.utts.responses, start.ms == uttstart)$response.start.ms)
-      } else if (mode == "stretch" | mode == "luqr") {
+      } else if (mode == "stretch" | mode == "qulr") {
         response.start <- max(filter(
           hard.utts.responses, start.ms == uttstart)$response.start.ms)
       }

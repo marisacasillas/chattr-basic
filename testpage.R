@@ -55,10 +55,16 @@ testdata1.strict.answers <- read_csv_answercols(
   "testdata1.strict-correct.csv")
 test1.strict <- all_equal(testdata1.strict,
   testdata1.strict.answers, convert = TRUE)
+testdata1.qulr.answers <- read_csv_answercols(
+  "testdata1.qulr-correct.csv")
+test1.qulr <- all_equal(testdata1.qulr,
+  testdata1.qulr.answers, convert = TRUE)
 
 # all_equal(testdata1.stretch.answers,
-#   testdata1.strict.answers, convert = TRUE)
-
+#   testdata1.qulr, convert = TRUE)
+# 
+# all_equal(testdata1.strict.answers,
+#   testdata1.qulr, convert = TRUE)
 
 
 ## test 2 ----
@@ -107,9 +113,16 @@ testdata2.strict.answers <- read_csv_answercols(
   "testdata2.strict-correct.csv")
 test2.strict <- all_equal(testdata2.strict,
   testdata2.strict.answers, convert = TRUE)
+testdata2.qulr.answers <- read_csv_answercols(
+  "testdata2.qulr-correct.csv")
+test2.qulr <- all_equal(testdata2.qulr,
+  testdata2.qulr.answers, convert = TRUE)
 
 # all_equal(testdata2.stretch.answers,
-#   testdata2.strict.answers, convert = TRUE)
+#   testdata2.qulr, convert = TRUE)
+# 
+# all_equal(testdata2.strict.answers,
+#   testdata2.qulr, convert = TRUE)
 
 
 
