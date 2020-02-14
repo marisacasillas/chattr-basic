@@ -294,6 +294,31 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # extract the focus child utterances (each is considered an 'utt_0')
   # and add transition window information
   chi.utts <- extract_focus_utts(spchtbl.annsubset, focus.child)
+  if (nrow(chi.utts) < 1) {
+    continuation.utts <- tibble(
+      speaker = character(),
+      annot.clip = character(),
+      start.ms = integer(),
+      stop.ms = integer(),
+      addressee = character(),
+      spkr.prev.increment.start = integer(),
+      spkr.prev.increment.stop = integer(),
+      spkr.post.increment.start = integer(),
+      spkr.post.increment.stop = integer(),
+      prompt.spkr = character(),
+      prompt.start.ms = double(),
+      prompt.stop.ms = double(),
+      prompt.prev.increment.start = integer(),
+      prompt.prev.increment.stop = integer(),
+      response.start.ms = double(),
+      response.stop.ms = double(),
+      response.spkr = character(),
+      response.post.increment.start = integer(),
+      response.post.increment.stop = integer()
+    )
+    print("No utterances from the focus speaker.")
+    return(continuation.utts)
+  }
   chi.utts <- mutate(
     chi.utts, utt.idx = c(1:nrow(chi.utts)),
     prewindow.start = start.ms - allowed.gap,

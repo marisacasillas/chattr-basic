@@ -10,7 +10,7 @@ source("chattr-helpers.R")
 allowed.gap <- 1000
 allowed.overlap <- 2000
 
-## test 1
+## test 1 ----
 
 ### read data into the spchtbl format
 testdata1.filename <- "test_files/AltELAN-tabular/test-interaction-AllCDS.txt"
@@ -52,7 +52,7 @@ test1 <- all_equal(testdata1.stretch,
   testdata1.stretch.answers, convert = TRUE)
 
 
-## test 2
+## test 2 ----
 
 ### read data into the spchtbl format
 testdata2.filename <- "test_files/AltELAN-tabular/test-interaction-XDS.txt"
@@ -94,10 +94,25 @@ test2 <- all_equal(testdata2.stretch,
   testdata2.stretch.answers, convert = TRUE)
 
 
+## test 3 ----
+
+### read data into the spchtbl format
+testdata3.filename <- "test_files/AltELAN-tabular/test-interaction-noCHI.txt"
+testdata3 <- read_spchtbl(filepath = testdata3.filename,
+  tbltype = "aas-elan-txt", cliptier = "clip")
+
+### retrieve transitions
+testdata3.stretch <- fetch_transitions(
+  spchtbl = testdata3, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "stretch")
+
+### check for a match
+test3 <- nrow(testdata3.stretch) == 0
+
+
 
 # STRICT, QULR, LUQR??
-
-
 testdata1.strict <- fetch_transitions(
   testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
@@ -112,22 +127,6 @@ testdata1.luqr <- fetch_transitions(
   testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "luqr")
-
-
-
-
-
-
-testdata2.filename <- "test_files/AltELAN-tabular/test-interaction-XDS.txt"
-testdata3.filename <- "test_files/ITS/e20100727_110707_003581.its"
-
-testdata2 <- read_spchtbl(filepath = testdata2.filename,
-  tbltype = "aas-elan-txt", cliptier = "clip")
-
-testdata3 <- read_spchtbl(filepath = testdata3.filename,
-  tbltype = "lena-its")
-
-
 
 
 
