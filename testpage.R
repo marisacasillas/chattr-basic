@@ -6,7 +6,6 @@ source("transition-detectors.R")
 source("intseq-detectors.R")
 source("chattr-helpers.R")
 
-
 allowed.gap <- 1000
 allowed.overlap <- 2000
 
@@ -26,29 +25,9 @@ testdata1.stretch$addressee <- as.character(
   testdata1.stretch$addressee)
 
 ### check for a match
-testdata1.stretch.answers <- read_csv(
-  "testdata1.stretch-correct.csv",
-  col_types = cols(
-    speaker = col_character(),
-    annot.clip = col_character(),
-    start.ms = col_integer(),
-    stop.ms = col_integer(),
-    addressee = col_character(),
-    spkr.prev.increment.start = col_integer(),
-    spkr.prev.increment.stop = col_integer(),
-    spkr.post.increment.start = col_integer(),
-    spkr.post.increment.stop = col_integer(),
-    prompt.spkr = col_character(),
-    prompt.start.ms = col_integer(),
-    prompt.stop.ms = col_integer(),
-    prompt.prev.increment.start = col_integer(),
-    prompt.prev.increment.stop = col_integer(),
-    response.spkr = col_character(),
-    response.start.ms = col_integer(),
-    response.stop.ms = col_integer(),
-    response.post.increment.start = col_integer(),
-    response.post.increment.stop = col_integer()))
-test1 <- all_equal(testdata1.stretch,
+testdata1.stretch.answers <- read_csv_answercols(
+  "testdata1.stretch-correct.csv")
+test1.stretch <- all_equal(testdata1.stretch,
   testdata1.stretch.answers, convert = TRUE)
 
 
@@ -68,29 +47,9 @@ testdata2.stretch$addressee <- as.character(
   testdata2.stretch$addressee)
 
 ### check for a match
-testdata2.stretch.answers <- read_csv(
-  "testdata2.stretch-correct.csv",
-  col_types = cols(
-    speaker = col_character(),
-    annot.clip = col_character(),
-    start.ms = col_integer(),
-    stop.ms = col_integer(),
-    addressee = col_character(),
-    spkr.prev.increment.start = col_integer(),
-    spkr.prev.increment.stop = col_integer(),
-    spkr.post.increment.start = col_integer(),
-    spkr.post.increment.stop = col_integer(),
-    prompt.spkr = col_character(),
-    prompt.start.ms = col_integer(),
-    prompt.stop.ms = col_integer(),
-    prompt.prev.increment.start = col_integer(),
-    prompt.prev.increment.stop = col_integer(),
-    response.spkr = col_character(),
-    response.start.ms = col_integer(),
-    response.stop.ms = col_integer(),
-    response.post.increment.start = col_integer(),
-    response.post.increment.stop = col_integer()))
-test2 <- all_equal(testdata2.stretch,
+testdata2.stretch.answers <- read_csv_answercols(
+  "testdata2.stretch-correct.csv")
+test2.stretch <- all_equal(testdata2.stretch,
   testdata2.stretch.answers, convert = TRUE)
 
 
@@ -108,7 +67,7 @@ testdata3.stretch <- fetch_transitions(
   addressee.tags = "CDS", mode = "stretch")
 
 ### check for a match
-test3 <- nrow(testdata3.stretch) == 0
+test3.stretch <- nrow(testdata3.stretch) == 0
 
 
 

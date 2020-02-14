@@ -313,3 +313,28 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   return(tttbl)
 }
 
+read_csv_answercols <- function(filename) {
+  answers <- read_csv(
+    filename,
+    col_types = cols(
+      speaker = col_character(),
+      annot.clip = col_character(),
+      start.ms = col_integer(),
+      stop.ms = col_integer(),
+      addressee = col_character(),
+      spkr.prev.increment.start = col_integer(),
+      spkr.prev.increment.stop = col_integer(),
+      spkr.post.increment.start = col_integer(),
+      spkr.post.increment.stop = col_integer(),
+      prompt.spkr = col_character(),
+      prompt.start.ms = col_integer(),
+      prompt.stop.ms = col_integer(),
+      prompt.prev.increment.start = col_integer(),
+      prompt.prev.increment.stop = col_integer(),
+      response.spkr = col_character(),
+      response.start.ms = col_integer(),
+      response.stop.ms = col_integer(),
+      response.post.increment.start = col_integer(),
+      response.post.increment.stop = col_integer()))
+  return(answers)
+}
