@@ -59,12 +59,10 @@ testdata1.qulr.answers <- read_csv_answercols(
   "testdata1.qulr-correct.csv")
 test1.qulr <- all_equal(testdata1.qulr,
   testdata1.qulr.answers, convert = TRUE)
-
-# all_equal(testdata1.stretch.answers,
-#   testdata1.qulr, convert = TRUE)
-# 
-# all_equal(testdata1.strict.answers,
-#   testdata1.qulr, convert = TRUE)
+testdata1.luqr.answers <- read_csv_answercols(
+  "testdata1.luqr-correct.csv")
+test1.luqr <- all_equal(testdata1.luqr,
+  testdata1.luqr.answers, convert = TRUE)
 
 
 ## test 2 ----
@@ -117,13 +115,10 @@ testdata2.qulr.answers <- read_csv_answercols(
   "testdata2.qulr-correct.csv")
 test2.qulr <- all_equal(testdata2.qulr,
   testdata2.qulr.answers, convert = TRUE)
-
-# all_equal(testdata2.stretch.answers,
-#   testdata2.qulr, convert = TRUE)
-# 
-# all_equal(testdata2.strict.answers,
-#   testdata2.qulr, convert = TRUE)
-
+testdata2.luqr.answers <- read_csv_answercols(
+  "testdata2.luqr-correct.csv")
+test2.luqr <- all_equal(testdata2.luqr,
+  testdata2.luqr.answers, convert = TRUE)
 
 
 ## test 3 ----
@@ -166,6 +161,8 @@ test3.luqr <- nrow(testdata3.luqr) == 0
 # still need tests for
 # FOCUS.CHILD, INTERACTANTS, ADDRESSEE.TAGS
 # ITS, ELAN-AAS, ELAN-ALT, OTHER
+# READ_SPCHTBL & FETCH_INTSEQS
+
 
 # OLD sandbox tests ---
 
