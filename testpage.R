@@ -267,3 +267,35 @@ test1.strict.none <- all_equal(testdata1.strict.none,
 # FETCH_INTSEQS
 # mc.ADU.tiers <- unique(mc.data$speaker)[grep(
 #   "[MFU]A\\d", unique(mc.data$speaker))]
+
+# REPORT ----
+all.tests <- c(test1.stretch, test1.strict,
+  test1.qulr, test1.luqr, test2.stretch, test2.strict,
+  test2.qulr, test2.luqr, test3.stretch, test3.strict,
+  test3.qulr, test3.luqr, test4.strict, test5.strict,
+  test1.strict.FC1.focus, test1.strict.FA1.focus,
+  test1.strict.intFC1only, test1.strict.intFC1FA1,
+  test1.strict.tcds, test1.strict.none)
+
+print(paste0("#### ", sum(test.list), " of ",
+  length(test.list), " tests passed. ####"))
+print(paste0("Test data 1, stretch passed: ", test1.stretch))
+print(paste0("Test data 1, strict passed: ", test1.strict))
+print(paste0("Test data 1, qulr passed: ", test1.qulr))
+print(paste0("Test data 1, luqr passed: ", test1.luqr))
+print(paste0("Test data 2, stretch passed: ", test2.stretch))
+print(paste0("Test data 2, strict passed: ", test2.strict))
+print(paste0("Test data 2, qulr passed: ", test2.qulr))
+print(paste0("Test data 2, luqr passed: ", test2.luqr))
+print(paste0("Test data 3, stretch passed: ", test3.stretch))
+print(paste0("Test data 3, strict passed: ", test3.strict))
+print(paste0("Test data 3, qulr passed: ", test3.qulr))
+print(paste0("Test data 3, luqr passed: ", test3.luqr))
+print(paste0("Test data 4, strict passed: ", test4.strict))
+print(paste0("Test data 5, strict passed: ", test5.strict))
+print(paste0("Test data 1, strict, FC1 focus passed: ", test1.strict.FC1.focus))
+print(paste0("Test data 1, strict, FA1 focus passed: ", test1.strict.FA1.focus))
+print(paste0("Test data 1, strict, FC1 only int passed: ", test1.strict.intFC1only))
+print(paste0("Test data 1, strict, FC1 and FA1 only ints passed: ", test1.strict.intFC1FA1))
+print(paste0("Test data 1, strict, TCDS tags passed: ", test1.strict.tcds))
+print(paste0("Test data 1, strict, unknown tags passed: ", test1.strict.none))
