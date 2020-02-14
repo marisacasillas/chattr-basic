@@ -17,18 +17,48 @@ testdata1 <- read_spchtbl(filepath = testdata1.filename,
   tbltype = "aas-elan-txt", cliptier = "clip")
 
 ### retrieve transitions
+#### stretch
 testdata1.stretch <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
 testdata1.stretch$addressee <- as.character(
   testdata1.stretch$addressee)
+#### strict
+testdata1.strict <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "strict")
+testdata1.strict$addressee <- as.character(
+  testdata1.strict$addressee)
+#### qulr
+testdata1.qulr <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "qulr")
+testdata1.qulr$addressee <- as.character(
+  testdata1.qulr$addressee)
+#### luqr
+testdata1.luqr <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "luqr")
+testdata1.luqr$addressee <- as.character(
+  testdata1.luqr$addressee)
 
 ### check for a match
 testdata1.stretch.answers <- read_csv_answercols(
   "testdata1.stretch-correct.csv")
 test1.stretch <- all_equal(testdata1.stretch,
   testdata1.stretch.answers, convert = TRUE)
+testdata1.strict.answers <- read_csv_answercols(
+  "testdata1.strict-correct.csv")
+test1.strict <- all_equal(testdata1.strict,
+  testdata1.strict.answers, convert = TRUE)
+
+# all_equal(testdata1.stretch.answers,
+#   testdata1.strict.answers, convert = TRUE)
+
 
 
 ## test 2 ----
@@ -39,18 +69,48 @@ testdata2 <- read_spchtbl(filepath = testdata2.filename,
   tbltype = "aas-elan-txt", cliptier = "clip")
 
 ### retrieve transitions
+#### stretch
 testdata2.stretch <- fetch_transitions(
   spchtbl = testdata2, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
 testdata2.stretch$addressee <- as.character(
   testdata2.stretch$addressee)
+#### strict
+testdata2.strict <- fetch_transitions(
+  spchtbl = testdata2, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "strict")
+testdata2.strict$addressee <- as.character(
+  testdata2.strict$addressee)
+#### qulr
+testdata2.qulr <- fetch_transitions(
+  spchtbl = testdata2, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "qulr")
+testdata2.qulr$addressee <- as.character(
+  testdata2.qulr$addressee)
+#### luqr
+testdata2.luqr <- fetch_transitions(
+  spchtbl = testdata2, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = ".all-speakers",
+  addressee.tags = "CDS", mode = "luqr")
+testdata2.luqr$addressee <- as.character(
+  testdata2.luqr$addressee)
 
 ### check for a match
 testdata2.stretch.answers <- read_csv_answercols(
   "testdata2.stretch-correct.csv")
 test2.stretch <- all_equal(testdata2.stretch,
   testdata2.stretch.answers, convert = TRUE)
+testdata2.strict.answers <- read_csv_answercols(
+  "testdata2.strict-correct.csv")
+test2.strict <- all_equal(testdata2.strict,
+  testdata2.strict.answers, convert = TRUE)
+
+# all_equal(testdata2.stretch.answers,
+#   testdata2.strict.answers, convert = TRUE)
+
 
 
 ## test 3 ----
@@ -61,35 +121,40 @@ testdata3 <- read_spchtbl(filepath = testdata3.filename,
   tbltype = "aas-elan-txt", cliptier = "clip")
 
 ### retrieve transitions
+#### stretch
 testdata3.stretch <- fetch_transitions(
   spchtbl = testdata3, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
-
-### check for a match
-test3.stretch <- nrow(testdata3.stretch) == 0
-
-
-
-# STRICT, QULR, LUQR??
-testdata1.strict <- fetch_transitions(
-  testdata1, allowed.gap, allowed.overlap,
+#### strict
+testdata3.strict <- fetch_transitions(
+  spchtbl = testdata3, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "strict")
-
-testdata1.qulr <- fetch_transitions(
-  testdata1, allowed.gap, allowed.overlap,
+#### qulr
+testdata3.qulr <- fetch_transitions(
+  spchtbl = testdata3, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "qulr")
-
-testdata1.luqr <- fetch_transitions(
-  testdata1, allowed.gap, allowed.overlap,
+#### luqr
+testdata3.luqr <- fetch_transitions(
+  spchtbl = testdata3, allowed.gap, allowed.overlap,
   focus.child = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "luqr")
 
 
+### check for a match
+test3.stretch <- nrow(testdata3.stretch) == 0
+test3.strict <- nrow(testdata3.strict) == 0
+test3.qulr <- nrow(testdata3.qulr) == 0
+test3.luqr <- nrow(testdata3.luqr) == 0
 
-###
+
+# still need tests for
+# FOCUS.CHILD, INTERACTANTS, ADDRESSEE.TAGS
+# ITS, ELAN-AAS, ELAN-ALT, OTHER
+
+# OLD sandbox tests ---
 
 mc.elan.txt <- "test_files/AAS-tabular/VanFJ11-0GS0.txt"
 ai.elan.txt <- "test_files/AltELAN-tabular/CT_sample1.txt"

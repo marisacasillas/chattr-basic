@@ -64,13 +64,13 @@
         <Object class="java.awt.Point">0,23</Object>
     </pref>
     <pref key="SelectionBeginTime">
-        <Long>0</Long>
+        <Long>68245</Long>
     </pref>
     <pref key="LayoutManager.CurrentMode">
         <Int>1</Int>
     </pref>
     <pref key="MediaTime">
-        <Long>0</Long>
+        <Long>68245</Long>
     </pref>
     <pref key="ExportTabDialog.SelectTiersMode">
         <String>Tier</String>
@@ -137,13 +137,13 @@
         </pref>
     </prefGroup>
     <pref key="TimeScaleBeginTime">
-        <Long>-380</Long>
+        <Long>61930</Long>
     </pref>
     <prefList key="ExportTabDialog.HiddenTiers">
         <String>tt-notes</String>
         <String>intseq-notes</String>
     </prefList>
     <pref key="SelectionEndTime">
-        <Long>0</Long>
+        <Long>68585</Long>
     </pref>
 </preferences>

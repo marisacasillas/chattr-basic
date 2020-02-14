@@ -329,14 +329,16 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   for (u in 1:nrow(chi.utts)) {
     prompts <- filter(int.utts,
       stop.ms >= chi.utts$prewindow.start[u] &
-        stop.ms <= chi.utts$prewindow.stop[u])
+        stop.ms <= chi.utts$prewindow.stop[u] &
+        start.ms < chi.utts$start.ms[u])
     if (nrow(prompts) > 0) {
       prompts$focal.utt.start.prompt = chi.utts$start.ms[u]
       sub.int.utts <- bind_rows(sub.int.utts, prompts)
     }
     responses <- filter(int.utts,
       start.ms >= chi.utts$postwindow.start[u] &
-        start.ms <= chi.utts$postwindow.stop[u])
+        start.ms <= chi.utts$postwindow.stop[u] &
+        stop.ms > chi.utts$stop.ms[u])
     if (nrow(responses) > 0) {
       responses$focal.utt.start.response = chi.utts$start.ms[u]
       sub.int.utts <- bind_rows(sub.int.utts, responses)
