@@ -47,19 +47,19 @@ testdata1.luqr$addressee <- as.character(
   testdata1.luqr$addressee)
 
 ### check for a match
-testdata1.stretch.answers <- read_csv_answercols(
+testdata1.stretch.answers <- read_csv_answercols.tt(
   "testdata1.stretch-correct.csv")
 test1.stretch <- all_equal(testdata1.stretch,
   testdata1.stretch.answers, convert = TRUE)
-testdata1.strict.answers <- read_csv_answercols(
+testdata1.strict.answers <- read_csv_answercols.tt(
   "testdata1.strict-correct.csv")
 test1.strict <- all_equal(testdata1.strict,
   testdata1.strict.answers, convert = TRUE)
-testdata1.qulr.answers <- read_csv_answercols(
+testdata1.qulr.answers <- read_csv_answercols.tt(
   "testdata1.qulr-correct.csv")
 test1.qulr <- all_equal(testdata1.qulr,
   testdata1.qulr.answers, convert = TRUE)
-testdata1.luqr.answers <- read_csv_answercols(
+testdata1.luqr.answers <- read_csv_answercols.tt(
   "testdata1.luqr-correct.csv")
 test1.luqr <- all_equal(testdata1.luqr,
   testdata1.luqr.answers, convert = TRUE)
@@ -103,19 +103,19 @@ testdata2.luqr$addressee <- as.character(
   testdata2.luqr$addressee)
 
 ### check for a match
-testdata2.stretch.answers <- read_csv_answercols(
+testdata2.stretch.answers <- read_csv_answercols.tt(
   "testdata2.stretch-correct.csv")
 test2.stretch <- all_equal(testdata2.stretch,
   testdata2.stretch.answers, convert = TRUE)
-testdata2.strict.answers <- read_csv_answercols(
+testdata2.strict.answers <- read_csv_answercols.tt(
   "testdata2.strict-correct.csv")
 test2.strict <- all_equal(testdata2.strict,
   testdata2.strict.answers, convert = TRUE)
-testdata2.qulr.answers <- read_csv_answercols(
+testdata2.qulr.answers <- read_csv_answercols.tt(
   "testdata2.qulr-correct.csv")
 test2.qulr <- all_equal(testdata2.qulr,
   testdata2.qulr.answers, convert = TRUE)
-testdata2.luqr.answers <- read_csv_answercols(
+testdata2.luqr.answers <- read_csv_answercols.tt(
   "testdata2.luqr-correct.csv")
 test2.luqr <- all_equal(testdata2.luqr,
   testdata2.luqr.answers, convert = TRUE)
@@ -172,7 +172,7 @@ testdata4.strict$addressee <- as.character(
   testdata4.strict$addressee)
 
 ### check for a match
-testdata4.strict.answers <- read_csv_answercols(
+testdata4.strict.answers <- read_csv_answercols.tt(
   "testdata4.strict-correct.csv")
 test4.strict <- all_equal(testdata4.strict,
   testdata4.strict.answers, convert = TRUE)
@@ -193,7 +193,7 @@ testdata5.strict$addressee <- as.character(
   testdata5.strict$addressee)
 
 ### check for a match
-testdata5.strict.answers <- read_csv_answercols(
+testdata5.strict.answers <- read_csv_answercols.tt(
   "testdata5.strict-correct.csv")
 test5.strict <- all_equal(testdata5.strict,
   testdata5.strict.answers, convert = TRUE)
@@ -207,7 +207,7 @@ testdata1.strict.FC1.focus <- fetch_transitions(
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict.FC1.focus$addressee <- as.character(
   testdata1.strict.FC1.focus$addressee)
-testdata1.strict.FC1.focus.answers <- read_csv_answercols(
+testdata1.strict.FC1.focus.answers <- read_csv_answercols.tt(
   "testdata1.strict.FC1.focus-correct.csv")
 test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
   testdata1.strict.FC1.focus.answers, convert = TRUE)
@@ -226,9 +226,20 @@ testdata1.strict.intFC1only <- fetch_transitions(
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict.intFC1only$addressee <- as.character(
   testdata1.strict.intFC1only$addressee)
-testdata1.strict.intFC1only.answers <- read_csv_answercols(
+testdata1.strict.intFC1only.answers <- read_csv_answercols.tt(
   "testdata1.strict.intFC1only-correct.csv")
 test1.strict.intFC1only <- all_equal(testdata1.strict.intFC1only,
+  testdata1.strict.intFC1only.answers, convert = TRUE)
+
+testdata1.intpattern <- unique(testdata1$speaker)[grep(
+  "[MFU]C\\d", unique(testdata1$speaker))]
+testdata1.strict.intpattern <- fetch_transitions(
+  spchtbl = testdata1, allowed.gap, allowed.overlap,
+  focus.child = "CHI", interactants = testdata1.intpattern,
+  addressee.tags = "CDS", mode = "strict")
+testdata1.strict.intpattern$addressee <- as.character(
+  testdata1.strict.intpattern$addressee)
+test1.strict.intpattern <- all_equal(testdata1.strict.intpattern,
   testdata1.strict.intFC1only.answers, convert = TRUE)
 
 testdata1.strict.intFC1FA1 <- fetch_transitions(
@@ -245,6 +256,7 @@ testdata1.strict.intFA1 <- fetch_transitions(
   focus.child = "CHI", interactants = "FA1",
   addressee.tags = "CDS", mode = "strict")
 test1.strict.intFA1 <- nrow(testdata1.strict.intFA1) == 0
+
 
 #### change addressee.tags
 testdata1.strict.tcds <- fetch_transitions(
@@ -263,10 +275,15 @@ test1.strict.none <- all_equal(testdata1.strict.none,
   testdata1.strict.answers, convert = TRUE)
 
 
-### tests to write ---- 
-# FETCH_INTSEQS
-# mc.ADU.tiers <- unique(mc.data$speaker)[grep(
-#   "[MFU]A\\d", unique(mc.data$speaker))]
+### test data 1: intseq ----
+testdata1.strict.intseq <- fetch_intseqs(testdata1.strict)
+testdata1.strict.intseq$addressee <- as.character(
+  testdata1.strict.intseq$addressee)
+testdata1.strict.intseq.answers <- read_csv_answercols.is(
+  "testdata1.strict.intseq-answers.csv")
+test1.strict.intseq <- all_equal(testdata1.strict.intseq,
+  testdata1.strict.intseq.answers, convert = TRUE)
+
 
 # REPORT ----
 all.tests <- c(test1.stretch, test1.strict,
@@ -275,10 +292,11 @@ all.tests <- c(test1.stretch, test1.strict,
   test3.qulr, test3.luqr, test4.strict, test5.strict,
   test1.strict.FC1.focus, test1.strict.FA1.focus,
   test1.strict.intFC1only, test1.strict.intFC1FA1,
-  test1.strict.tcds, test1.strict.none)
+  test1.strict.intpattern, test1.strict.tcds,
+  test1.strict.none, test1.strict.intseq)
 
-print(paste0("#### ", sum(test.list), " of ",
-  length(test.list), " tests passed. ####"))
+print(paste0("#### ", sum(all.tests), " of ",
+  length(all.tests), " tests passed. ####"))
 print(paste0("Test data 1, stretch passed: ", test1.stretch))
 print(paste0("Test data 1, strict passed: ", test1.strict))
 print(paste0("Test data 1, qulr passed: ", test1.qulr))
@@ -297,5 +315,7 @@ print(paste0("Test data 1, strict, FC1 focus passed: ", test1.strict.FC1.focus))
 print(paste0("Test data 1, strict, FA1 focus passed: ", test1.strict.FA1.focus))
 print(paste0("Test data 1, strict, FC1 only int passed: ", test1.strict.intFC1only))
 print(paste0("Test data 1, strict, FC1 and FA1 only ints passed: ", test1.strict.intFC1FA1))
+print(paste0("Test data 1, strict, child ints pattern passed: ", test1.strict.intpattern))
 print(paste0("Test data 1, strict, TCDS tags passed: ", test1.strict.tcds))
 print(paste0("Test data 1, strict, unknown tags passed: ", test1.strict.none))
+print(paste0("Test data 1, strict, interactional sequences: ", test1.strict.intseq))

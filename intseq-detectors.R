@@ -1,5 +1,5 @@
-compose_edges <- function(tttbl) {
-  tttbl <- tttbl %>%
+compose_edges <- function(tttbl.seq) {
+  tttbl.seq <- tttbl.seq %>%
     mutate(
       anchor.L.start.ms = NA,
       anchor.L.stop.ms = NA,
@@ -8,51 +8,61 @@ compose_edges <- function(tttbl) {
       anchor.R.stop.ms = NA,
       anchor.R.speaker = NA
     )
-  for (i in 1:nrow(tttbl)) {
+  for (i in 1:nrow(tttbl.seq)) {
     # find the earliest increment
-    prompt.start <- tttbl$prompt.start.ms[i]
+    prompt.start <- tttbl.seq$prompt.start.ms[i]
     # if there's a prompt...
     if (!is.na(prompt.start)) {
-      tttbl$anchor.L.speaker[i] <- tttbl$prompt.spkr[i]
-      prompt.prev.start <- tttbl$prompt.prev.increment.start[i]
+      tttbl.seq$anchor.L.speaker[i] <- tttbl.seq$prompt.spkr[i]
+      prompt.prev.start <- tttbl.seq$prompt.prev.increment.start[i]
       # look for a pre-prompt utterance
       # if it's there, take that as the earliest
       if(!is.na(prompt.prev.start)) {
-        tttbl$anchor.L.start.ms[i] <- prompt.prev.start
-        tttbl$anchor.L.stop.ms[i] <- tttbl$prompt.prev.increment.stop[i]
+        tttbl.seq$anchor.L.start.ms[i] <- prompt.prev.start
+        tttbl.seq$anchor.L.stop.ms[i] <- tttbl.seq$prompt.prev.increment.stop[i]
       } else { # if not, set the prompt start as the earliest
-        tttbl$anchor.L.start.ms[i] <- prompt.start
-        tttbl$anchor.L.stop.ms[i] <- tttbl$prompt.stop.ms[i]
+        tttbl.seq$anchor.L.start.ms[i] <- prompt.start
+        tttbl.seq$anchor.L.stop.ms[i] <- tttbl.seq$prompt.stop.ms[i]
       }
     } else { # if there's no prompt, set the focus spkr
       # start as the earliest
-      tttbl$anchor.L.speaker[i] <- tttbl$speaker[i]
-      tttbl$anchor.L.start.ms[i] <- tttbl$start.ms[i]
-      tttbl$anchor.L.stop.ms[i] <- tttbl$stop.ms[i]
+      tttbl.seq$anchor.L.speaker[i] <- tttbl.seq$speaker[i]
+      if (!is.na(tttbl.seq$spkr.prev.increment.start[i])) {
+        tttbl.seq$anchor.L.start.ms[i] <- tttbl.seq$spkr.prev.increment.start[i]
+        tttbl.seq$anchor.L.stop.ms[i] <- tttbl.seq$spkr.prev.increment.stop[i]
+      } else {
+        tttbl.seq$anchor.L.start.ms[i] <- tttbl.seq$start.ms[i]
+        tttbl.seq$anchor.L.stop.ms[i] <- tttbl.seq$stop.ms[i]
+      }
     }
     # find the latest increment
-    response.stop <- tttbl$response.stop.ms[i]
+    response.stop <- tttbl.seq$response.stop.ms[i]
     # if there's a response...
     if (!is.na(response.stop)) {
-      tttbl$anchor.R.speaker[i] <- tttbl$response.spkr[i]
-      response.post.stop <- tttbl$response.post.increment.stop[i]
+      tttbl.seq$anchor.R.speaker[i] <- tttbl.seq$response.spkr[i]
+      response.post.stop <- tttbl.seq$response.post.increment.stop[i]
       # look for a post-response utterance
       # if it's there, take that as the latest
       if (!is.na(response.post.stop)) {
-        tttbl$anchor.R.start.ms[i] <- tttbl$response.post.increment.start[i]
-        tttbl$anchor.R.stop.ms[i] <- response.post.stop
+        tttbl.seq$anchor.R.start.ms[i] <- tttbl.seq$response.post.increment.start[i]
+        tttbl.seq$anchor.R.stop.ms[i] <- response.post.stop
       } else { # if not, set the response stop as the latest
-        tttbl$anchor.R.start.ms[i] <- tttbl$response.start.ms[i]
-        tttbl$anchor.R.stop.ms[i] <- response.stop
+        tttbl.seq$anchor.R.start.ms[i] <- tttbl.seq$response.start.ms[i]
+        tttbl.seq$anchor.R.stop.ms[i] <- response.stop
       }
     } else { # if there's no response, set the focus spkr
       # stop as the latest
-      tttbl$anchor.R.speaker[i] <- tttbl$speaker[i]
-      tttbl$anchor.R.start.ms[i] <- tttbl$start.ms[i]
-      tttbl$anchor.R.stop.ms[i] <- tttbl$stop.ms[i]
+      tttbl.seq$anchor.R.speaker[i] <- tttbl.seq$speaker[i]
+      if (!is.na(tttbl.seq$spkr.post.increment.start[i])) {
+        tttbl.seq$anchor.R.start.ms[i] <- tttbl.seq$spkr.post.increment.start[i]
+        tttbl.seq$anchor.R.stop.ms[i] <- tttbl.seq$spkr.post.increment.stop[i]
+      } else {
+        tttbl.seq$anchor.R.start.ms[i] <- tttbl.seq$start.ms[i]
+        tttbl.seq$anchor.R.stop.ms[i] <- tttbl.seq$stop.ms[i]
+      }
     }
   }
-  return(tttbl)
+  return(tttbl.seq)
 }
 
 # Finds continuous sequences of interaction featuring the focus child
@@ -68,35 +78,80 @@ fetch_intseqs <- function(tttbl) {
   n.poss.seqs <- tibble(
     seq.num = c(1:nrow(tttbl))
   )
-  tttbl <- left_join(tttbl, seq.stats, by = "speaker") %>%
+  tttbl.seq <- left_join(tttbl, seq.stats, by = "speaker") %>%
     select(-seq.start.ms, -seq.stop.ms)
   seq.stats <- right_join(select(seq.stats, -speaker), n.poss.seqs,
     by = "seq.num")
-  tttbl.edges <- compose_edges(tttbl)
-  tttbl.edges$shifted.R.starts <- c(0, tttbl.edges$anchor.R.start.ms[1:(nrow(tttbl.edges)-1)])
+  # find the edge utterance associated with each focal speaker turn
+  tttbl.edges <- compose_edges(tttbl.seq)
+  # check whether the right edge turn of each focal turn transition
+  # (except the final one) is involved in the next focal turn transition
   tttbl.edges <- tttbl.edges %>%
-    mutate(L.matches.preced.R = ifelse(anchor.L.start.ms == shifted.R.starts, 1, 0))
-  sequence <- 0
-  for (i in 1:nrow(tttbl)) {
-    seq.cont <- tttbl.edges$L.matches.preced.R[i]
-    if(!is.na(seq.cont)) {
-      if (seq.cont > 0) {
-        tttbl.edges$seq.num[i] <- sequence
-      } else {
-        sequence <- sequence + 1
-        tttbl.edges$seq.num[i] <- sequence
-      }
-    }
+    mutate(
+      R.edge = paste0(anchor.R.speaker, anchor.R.start.ms),
+      involved.turns = paste0(
+        paste0(speaker, spkr.prev.increment.start), "-",
+        paste0(speaker, start.ms), "-",
+        paste0(speaker, spkr.post.increment.start), "-",
+        paste0(prompt.spkr, prompt.prev.increment.start), "-",
+        paste0(prompt.spkr, prompt.start.ms), "-",
+        paste0(response.spkr, response.start.ms), "-",
+        paste0(response.spkr, response.post.increment.start)),
+      R.edge.in.next.tt = 0,
+      seq.num = 0
+    )
+  for (i in 1:(nrow(tttbl.edges)-1)) {
+    curr.R.edge <- tttbl.edges$R.edge[i]
+    tttbl.edges$R.edge.in.next.tt[i] <-
+      ifelse(!is.na(curr.R.edge) &
+               grepl(curr.R.edge, tttbl.edges$involved.turns[i+1])|
+               tttbl.edges$anchor.R.stop.ms[i] >=
+               tttbl.edges$anchor.L.start.ms[i+1],
+             1, 0)
   }
+  # group together transitions with matching/overlapping edges;
+  # an utterance with no match/overlap on its right edge begins a new int seq
+  # don't count focal-speaker-only utterance seqs as an int seq
+  sequence <- 0
+  prev.state <- 0
+  for (i in 1:nrow(tttbl.edges)) {
+    curr.state <- tttbl.edges$R.edge.in.next.tt[i]
+    if (prev.state == 1) {
+      tttbl.edges$seq.num[i] <- sequence
+    } else if (prev.state == 0 & curr.state == 1) {
+      sequence <- sequence + 1
+      tttbl.edges$seq.num[i] <- sequence
+    }  else if (prev.state == 0 &
+               (!is.na(tttbl.edges$prompt.spkr[i])|
+                !is.na(tttbl.edges$response.spkr[i]))) {
+      sequence <- sequence + 1
+      tttbl.edges$seq.num[i] <- sequence
+    }
+    prev.state <- tttbl.edges$R.edge.in.next.tt[i]
+  }
+  # find the earliest and latest turn info associated with each int seq
   seq.stats <- tttbl.edges %>%
     group_by(seq.num) %>%
-    # TO DO add speakers on L and R intseq anchors
     summarize(seq.start.ms = min(anchor.L.start.ms),
-      seq.stop.ms = max(anchor.L.start.ms))
-  tttbl.edges <- tttbl.edges %>%
+      seq.stop.ms = max(anchor.R.stop.ms)) %>%
+    left_join(select(tttbl.edges, c(anchor.L.start.ms, anchor.L.speaker)),
+              by = c("seq.start.ms" = "anchor.L.start.ms")) %>%
+    left_join(select(tttbl.edges, c(anchor.R.stop.ms, anchor.R.speaker)),
+              by = c("seq.stop.ms" = "anchor.R.stop.ms")) %>%
+    rename(seq.start.spkr = anchor.L.speaker,
+           seq.stop.spkr = anchor.R.speaker) %>%
+    distinct()
+  # remove onset, offset, and speaker info for focal-speaker-only sequences
+  focal.spch.only <- which(seq.stats$seq.num == 0)
+  seq.stats$seq.start.ms[focal.spch.only] <- NA
+  seq.stats$seq.stop.ms[focal.spch.only] <- NA
+  seq.stats$seq.start.spkr[focal.spch.only] <- NA
+  seq.stats$seq.stop.spkr[focal.spch.only] <- NA
+  intseqtbl <- tttbl.edges %>%
     select(-anchor.L.start.ms, -anchor.L.stop.ms, -anchor.L.speaker,
       -anchor.R.start.ms, -anchor.R.stop.ms, -anchor.R.speaker,
-      -shifted.R.starts, -L.matches.preced.R) %>%
+      -R.edge, -involved.turns, -R.edge.in.next.tt) %>%
     left_join(seq.stats, by = "seq.num")
-  return(tttbl.edges)
+  intseqtbl$seq.num[which(intseqtbl$seq.num == 0)] <- NA
+  return(intseqtbl)
 }
