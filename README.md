@@ -24,14 +24,18 @@ A few real examples are provided below. (**not yet**)
 
 Turn transitions are at the heart of the chattr package. A turn transition occurs when one speaker's turn stops and another speaker's turn begins. Every turn transition has a pre-transition speaker and a post-transition speaker—these must be different speakers. The turn transition begins when the first turn ends and ends when the second turn starts. If the second turn starts before the first turn ends, the transition time is negative; this is referred to as 'overlap' timing. If the second turn starts after the first turn ends, the transition time is positive; referred to as 'gap'. Sometimes speakers produce several chunks of speech before or after the transition. We refer to these as 'increments' by the same speaker (see Fig 1 for examples). Speaker and timing information for every increment involved in a turn transition are given in chattr output.
 
-Example of a few seconds of multi-party interaction:
-![Example of a few seconds of multi-party interaction:](example-5s-interaction.png)
+Example of a few seconds of multi-party interaction with both simple and complex turn transitions:
+![Example of a few seconds of multi-party interaction with both simple and complex turn transitions:](turn-transitions-example.png)
 
 ### What is an interactional sequence?
 
 Interactional sequences, defined in chatter, are unbroken sequences of turn taking between a focal speaker and one or more interlocutors. They are akin to conversational bouts/bursts and may thereby reflect more complex, engaged interactional behaviors than single turn transitions.
 
 As with the transitions, interactional sequences in chattr include same-speaker increments, such that transitions between speakers may be separated by multi-increment turns at talk.
+
+Example of a interactional sequences vs. individual turn transitions:
+![Example of a interactional sequences vs. individual turn transitions:](interactional-sequences-example.png)
+
 
 #### An important caveat
 
@@ -118,17 +122,17 @@ Here are some examples of data being read in:
 
 ```
 # Examples without cliptier specifications
-my.aas.elan.data <- read_spchtbl(filename = "my_aas_elan_spchdata.txt",
+my.aas.elan.data <- read_spchtbl(filepath = "my_aas_elan_spchdata.txt",
                                   type = "aas-elan-txt")
-my.basic.data <- read_spchtbl(filename = "my_basic_spchdata.txt",
+my.basic.data <- read_spchtbl(filepath = "my_basic_spchdata.txt",
                                type = "elan-basic-txt")
-my.lena.data <- read_spchtbl(filename = "my_its_file.its",
+my.lena.data <- read_spchtbl(filepath = "my_its_file.its",
                               type = "lena-its")
 
 # Examples with cliptier specifications
-my.aas.elan.data <- read_spchtbl(filename = "my_aas_elan_spchdata.txt",
+my.aas.elan.data <- read_spchtbl(filepath = "my_aas_elan_spchdata.txt",
                                   type = "aas-elan-txt", cliptier = "clip_num")
-my.basic.data <- read_spchtbl(filename = "my_basic_spchdata.txt",
+my.basic.data <- read_spchtbl(filepath = "my_basic_spchdata.txt",
                                type = "elan-basic-txt", cliptier = "Task")
 
 ```
@@ -280,6 +284,72 @@ If you additionally run `fetch_intseqs()` the following five columns will be add
 
 ### Example output file use cases
 
+This detailed information about the start times, stop times, and speakers involved in both turn transitions and interactional sequences for each focal speaker utterance can be used to develop a large number of analyses. We here provide two examples below:
+
+```
+# Variation in turn transition rate across clips
+my.aas.elan.data.intseqs.summary <- read_spchtbl(
+    filepath = "my_aas_elan_spchdata.txt",
+    tbltype = "aas-elan-txt", cliptier = "clip") %>%
+  fetch_transitions(focus.child = "CHI") %>%
+  fetch_intseqs() %>%
+  mutate(
+    n.transitions = case_when(
+      !is.na(prompt.spkr) & !is.na(response.spkr) ~ 2,
+      !is.na(prompt.spkr) | !is.na(response.spkr) ~ 1,
+      TRUE ~ 0
+    )) %>%
+  group_by(annot.clip) %>%
+  summarize(total.transitions =  sum(n.transitions))  
+```
+
+The code above gives a table like the following for further analysis:
+
+| annot.clip | total.transitions |
+|------------|-------------------|
+| clip1      | 18                |
+| clip2      | 52                |
+| clip3      | 3                 |
+| clip4      | 7                 |
+| clip5      | 38                |
+| ...        | ...               |
+
+
+Another example:
+
+```
+# Descriptive characteristics of interactional sequences
+# with male and female adults in a LENA file
+near.adult.tiers <- c("MAN", "FAN")
+my.lena.data.intseqs.summary <- read_spchtbl(
+  paste0(input.data.path, its.files[1]), "lena-its") %>%
+  fetch_transitions(allowed.gap, allowed.overlap,
+    "CHN", near.adult.tiers, "none", "strict") %>%
+  fetch_intseqs() %>%
+  mutate(
+    seq.start.sec = round(seq.start.ms/1000,2),
+    seq.dur.sec = round((seq.stop.ms - seq.start.ms)/1000,3),
+    chi.initiated = ifelse(seq.start.spkr == "CHN", 1, 0),
+    n.transitions = case_when(
+      !is.na(prompt.spkr) & !is.na(response.spkr) ~ 2,
+      !is.na(prompt.spkr) | !is.na(response.spkr) ~ 1,
+      TRUE ~ 0
+  )) %>%
+  group_by(seq.num, seq.start.sec, seq.dur.sec, chi.initiated) %>%
+  summarize(seq.tot.trnstns = sum(n.transitions))
+```
+
+The code above gives a table something like the following for further analysis:
+
+| seq.num  | seq.start.sec | seq.dur.sec | chi.initiated | seq.tot.trnstns |
+|----------|---------------|-------------|---------------|-----------------|
+| 1        | 0.00          | 2.07        | 1             | 2               |
+| 2        | 121.83        | 3.81        | 1             | 2               |
+| 3        | 177.86        | 1.60        | 1             | 1               |
+| 4        | 460.78        | 9.69        | 0             | 3               |
+| 5        | 535.49        | 3.90        | 1             | 2               |
+| 6        | 571.22        | 3.26        | 0             | 1               |
+| ...      | ...           | ...         | ...           | ...             |
 
 ## Final comments
 
