@@ -217,7 +217,69 @@ my.basic.data.intseqs <- read_spchtbl(
 ```
 
 ## How to understand the results
-**TBA**
+
+Once you run `fetch_transitions()` over your data, you will get a detailed table back describing the detected transition information, with one row for each focal speaker utterance:
+
+### About the focal speaker utterance
+
+`speaker` = the name of the speaker analyzed as the 'focal' speaker.
+
+`annot.clip` = the label for the annotation clip in which the focal speaker utterance was made.
+
+`start.ms` = the start time of the focal speaker utterance in msec from the beginning of the file.
+
+`stop.ms` = the stop time of the focal speaker utterance in msec from the beginning of the file.
+
+`spkr.prev.increment.start` = the start time of the earliest same-speaker increment before the focal speaker utterance, in msec from the beginning of the file. If no same-speaker pre-utterance increments were found, NA.
+
+`spkr.prev.increment.stop` = the stop time of the earliest same-speaker increment before the focal speaker utterance, in msec from the beginning of the file. If no same-speaker pre-utterance increments were found, NA.
+
+`spkr.post.increment.start` = the start time of the latest same-speaker increment after the focal speaker utterance, in msec from the beginning of the file. If no same-speaker post-utterance increments were found, NA.
+
+`spkr.post.increment.stop` = the stop time of the latest same-speaker increment after the focal speaker utterance, in msec from the beginning of the file. If no same-speaker post-utterance increments were found, NA.
+
+`addressee` = the addressee value for the focal speaker utterance. If there is no addressee value, NA.
+
+### About the prompt found, if any
+
+`prompt.spkr` = assuming a "prompt" (i.e., a turn after which there is a transition to the focal speaker), the name of the speaker who provided the prompt. If no prompt was found, NA.
+
+`prompt.start.ms` = assuming a prompt, the start time of the prompt utterance in msec from the beginning of the file. If no prompt was found, NA.
+
+`prompt.stop.ms` = assuming a prompt, the stop time of the prompt utterance in msec from the beginning of the file. If no prompt was found, NA.              
+
+`prompt.prev.increment.start` = assuming a prompt, the start time of the earliest same-speaker increment before the prompt utterance, in msec from the beginning of the file. If no prompt was found or no same-speaker pre-prompt increments were found, NA.
+
+`prompt.prev.increment.stop` = assuming a prompt, the stop time of the earliest same-speaker increment before the prompt utterance, in msec from the beginning of the file. If no prompt was found or no same-speaker pre-prompt increments were found, NA. 
+
+### About the response found, if any
+
+`response.spkr` = assuming a "response" (i.e., a turn that is preceded by a transition from the focal speaker), the name of the speaker who provided the response. If no response was found, NA.
+
+`response.start.ms` = assuming a response, the start time of the response utterance in msec from the beginning of the file. If no response was found, NA.           
+
+`response.stop.ms` = assuming a response, the stop time of the response utterance in msec from the beginning of the file. If no response was found, NA.           
+
+`response.post.increment.start` = assuming a response, the start time of the latest same-speaker increment after the response utterance, in msec from the beginning of the file. If no response was found or no same-speaker post-response increments were found, NA.
+
+`response.post.increment.stop` = assuming a response, the stop time of the latest same-speaker increment after the response utterance, in msec from the beginning of the file. If no response was found or no same-speaker post-response increments were found, NA.
+
+### About the interactional sequences
+
+If you additionally run `fetch_intseqs()` the following five columns will be added to the transition table:
+
+`seq.num` = the interactional sequence number in which the turn can be found. The number increments from 1, starting with the first sequence detected. If the utterance/turn transition is not part of an interactional sequence, NA.
+                      
+`seq.start.ms` = the start time of the interactional sequence in msec from the beginning of the file. If the utterance/turn transition is not part of an interactional sequence, NA.
+
+`seq.stop.ms` = the stop time of the interactional sequence in msec from the beginning of the file. If the utterance/turn transition is not part of an interactional sequence, NA.
+
+`seq.start.spkr` = the speaker who produced the first utterance in the interactional sequence (i.e., beginning at `seq.start.ms`). If the utterance/turn transition is not part of an interactional sequence, NA.
+
+`seq.stop.spkr` = the speaker who produced the last utterance in the interactional sequence (i.e., ending at `seq.stop.ms`). If the utterance/turn transition is not part of an interactional sequence, NA.
+
+### Example output file use cases
+
 
 ## Final comments
 
