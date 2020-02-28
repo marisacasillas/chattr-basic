@@ -18,14 +18,11 @@ Because the turn transition and interactional sequence output tables are informa
 * Ratio of vocalization by the child and others during turn exchanges
 * Differences in turn-taking between the child and different family members
 
-A few real examples are provided below. (**not yet**)
+A few examples are provided below.
 
 ### What is a turn transition?
 
 Turn transitions are at the heart of the chattr package. A turn transition occurs when one speaker's turn stops and another speaker's turn begins. Every turn transition has a pre-transition speaker and a post-transition speaker—these must be different speakers. The turn transition begins when the first turn ends and ends when the second turn starts. If the second turn starts before the first turn ends, the transition time is negative; this is referred to as 'overlap' timing. If the second turn starts after the first turn ends, the transition time is positive; referred to as 'gap'. Sometimes speakers produce several chunks of speech before or after the transition. We refer to these as 'increments' by the same speaker (see Fig 1 for examples). Speaker and timing information for every increment involved in a turn transition are given in chattr output.
-
-Example of a few seconds of multi-party interaction with both simple and complex turn transitions:
-![Example of a few seconds of multi-party interaction with both simple and complex turn transitions:](turn-transitions-example.png)
 
 ### What is an interactional sequence?
 
@@ -33,8 +30,8 @@ Interactional sequences, defined in chatter, are unbroken sequences of turn taki
 
 As with the transitions, interactional sequences in chattr include same-speaker increments, such that transitions between speakers may be separated by multi-increment turns at talk.
 
-Example of a interactional sequences vs. individual turn transitions:
-![Example of a interactional sequences vs. individual turn transitions:](interactional-sequences-example.png)
+Example of a few seconds of dyadic interaction between speakers A (green) and B (orange), with both single- and multi-unit turns. In this example, there are 6 turns at talk (3 from each speaker), 4 turn transitions (two each from B to A and vice versa), and one interactional sequence (the contiguous block of speaker continuation/transition; the other speech has no transitions and so is not an interactional sequence):
+![Example of a few seconds of dyadic talk:](chattr-turn-transitions.png)
 
 
 #### An important caveat
@@ -69,7 +66,7 @@ You must specify what type of input data you have. Input data for chattr can tak
 
 _1. Utterance timing and addressee information_
 
-Data of this type has four columns, with each row representing a single utterance. The columns are `speaker` (who is producing the utterance?), `start.ms` (what is the start time of the utterance in msec?), `stop.ms` (what is the stop time of the utterance in msec?), and `addressee` (who is the speaker talking to?). Input files of this type should be read in with the argument `aas-elan-txt`. This input type is named after the ACLEW Annotation Scheme, an ELAN-based annotation approach for naturalistic speech recordings that features comprehensive self-teaching manuals and a gold-standard test for new annotators (see more at [https://osf.io/b2jep/wiki/home/](); Casillas et al., 2017; ELAN: [URL]()).
+Data of this type has four columns, with each row representing a single utterance. The columns are `speaker` (who is producing the utterance?), `start.ms` (what is the start time of the utterance in msec?), `stop.ms` (what is the stop time of the utterance in msec?), and `addressee` (who is the speaker talking to?). Input files of this type should be read in with the argument `aas-elan-txt`. This input type is named after the ACLEW Annotation Scheme, an ELAN-based annotation approach for naturalistic speech recordings that features comprehensive self-teaching manuals and a gold-standard test for new annotators (see more at [https://osf.io/b2jep/wiki/home/](), Casillas et al., 2017; ELAN: [https://tla.mpi.nl/tools/tla-tools/elan/download/](), Sloetjes & Wittenburg, 2008).
 
 | speaker | start.ms | stop.ms | addressee |
 |---------|----------|---------|-----------|
@@ -95,7 +92,7 @@ Data of this second type is identical to the AAS type above, but lacks addressee
 | MA1     | 5288     | 5909    |
 | FC1     | 3393     | 4971    |
 
-For these first two types, you can either export ELAN annotations to a tab-delimited text file (make sure you use msec; guide [here]()) or, if you don't use ELAN, you can independently pre-process your data so that it follows one of these two formats.
+For these first two types, you can either export ELAN annotations to a tab-delimited text file (make sure you use msec; guide [here](https://docs.google.com/presentation/d/1HepQNaqjWaL0l_L7CN38fGGBoYAuGOS6jPKaLLrRJsw/edit?usp=sharing)) or, if you don't use ELAN, you can independently pre-process your data so that it follows one of these two formats.
 
 _3. LENA .its file_
 
@@ -188,7 +185,7 @@ my.lena.data.tttbl <- fetch_transitions(
 
 ### Step 3: Detect interactional sequences with fetch_intseqs()
 
-The interactional sequence detector only takes one argument: a turn transition table created with `fetch_transitions()`. It groups together the utterances associated with transitions that have at least one turn in common or that overlap in time (Fig 2).
+The interactional sequence detector only takes one argument: a turn transition table created with `fetch_transitions()`. It groups together the utterances associated with transitions that have at least one turn in common or that overlap in time.
 
 Here are some examples of transitions being scanned for interactional sequences:
 
@@ -200,7 +197,7 @@ my.lena.data.intseqs <- fetch_intseqs(my.lena.data.tttbl)
 
 ### Putting it all together
 
-Because chattr cals on the tidyverse package ([URL](); REFERENCE), these calls can be tidily combined as follows:
+Because chattr cals on the tidyverse package ([https://www.tidyverse.org/](); Wickham et al., 2019), these calls can be tidily combined as follows:
 
 ```
 # Example with default settings
@@ -361,12 +358,10 @@ In principle, you can use chattr functions to detect temporal contingencies betw
 * Identifying turn-taking behavior in annotated data from non-human animals
 
 ### If you use chattr, please cite it
-The following reference is the most current one for use in your academic output involving the chattr package:
-**TBA**
+The following reference is the most current one for use in your academic output involving the chattr package: Casillas, M. (in preparation). The chattr package.
 
 ### Find a problem? Have a feature request? Please let us know!
-Please submit your issue with a detailed description and, if you have found a bug, a way to replicate it to our github page: 
-**TBA**
+Please submit your issue with a detailed description and, if you have found a bug, a way to replicate it to our github page: [https://github.com/marisacasillas/chattr-basic]()
 
 
 ## References
