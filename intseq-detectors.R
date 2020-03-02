@@ -150,8 +150,8 @@ fetch_intseqs <- function(tttbl) {
     filter(seq.num > 0) %>%
     summarize(seq.start.ms = min(anchor.L.start.ms),
       seq.stop.ms = max(anchor.R.stop.ms)) %>%
-    left_join(uniq.L.anchors) %>%
-    left_join(uniq.R.anchors) %>%
+    left_join(uniq.L.anchors, by = c("seq.num", "seq.start.ms")) %>%
+    left_join(uniq.R.anchors, by = c("seq.num", "seq.stop.ms")) %>%
     rename(seq.start.spkr = anchor.L.speaker,
            seq.stop.spkr = anchor.R.speaker) %>%
     distinct()
