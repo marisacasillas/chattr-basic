@@ -126,7 +126,7 @@ find_TCU_edge_focal <- function(tttbl, speaker, start, stop,
         focus.utt.prev.increment.ineligible <- candidates %>%
           left_join(prev.intseq.end, by = "spkr.prev.increment.start") %>%
           filter(end.intseq.resp >= stop.ms &
-              tttbl$start.ms[i] >= end.intseq.resp) %>%
+              start >= end.intseq.resp) %>%
           select(start.ms)
         candidates <- anti_join(candidates,
           focus.utt.prev.increment.ineligible, by = "start.ms")
