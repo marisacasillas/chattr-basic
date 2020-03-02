@@ -113,6 +113,24 @@ find_TCU_edge_focal <- function(tttbl, speaker, start, stop,
             stop.ms >= start - allowed.gap &
             speaker == speaker &
             is.na(tttbl$response.spkr))
+      if (!(NA %in% candidates$spkr.prev.increment.start)) {
+        prev.intseq.end <- tttbl %>%
+          filter(!is.na(spkr.prev.increment.start)) %>%
+          group_by(spkr.prev.increment.start) %>%
+          summarize(
+            end.resp = max(response.stop.ms, na.rm = TRUE),
+            end.resp.increment = max(spkr.post.increment.stop, na.rm = TRUE),
+            end.intseq.resp = max(end.resp, end.resp.increment, na.rm = TRUE)) %>%
+          filter(end.intseq.resp > 0) %>%
+          select(spkr.prev.increment.start, end.intseq.resp)
+        focus.utt.prev.increment.ineligible <- candidates %>%
+          left_join(prev.intseq.end, by = "spkr.prev.increment.start") %>%
+          filter(end.intseq.resp >= stop.ms &
+              tttbl$start.ms[i] >= end.intseq.resp) %>%
+          select(start.ms)
+        candidates <- anti_join(candidates,
+          focus.utt.prev.increment.ineligible, by = "start.ms")
+      }
       if (nrow(candidates) > 0) {
         start <- min(candidates$start.ms)
         stop <- min(candidates$stop.ms)
@@ -220,14 +238,46 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
           speaker == tttbl$speaker[i] &
           is.na(tttbl$response.spkr))
     if (nrow(focus.utt.prev.increment) > 0) {
-      boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
-        focus.utt.prev.increment$start.ms[1],
-        focus.utt.prev.increment$stop.ms[1],
-        "left", allowed.gap)
-      tttbl$spkr.prev.increment.start[i] <-
-        boundaries$start.ms[1]
-      tttbl$spkr.prev.increment.stop[i] <-
-        boundaries$stop.ms[1]
+      # check if it's an unattached edge utterance associated with
+      # the end of the previous interactional sequence
+      if (!(NA %in% focus.utt.prev.increment$spkr.prev.increment.start)) {
+        prev.intseq.end <- tttbl %>%
+          filter(!is.na(spkr.prev.increment.start)) %>%
+          group_by(spkr.prev.increment.start) %>%
+          summarize(
+            end.resp = max(response.stop.ms, na.rm = TRUE),
+            end.resp.increment = max(spkr.post.increment.stop, na.rm = TRUE),
+            end.intseq.resp = max(end.resp, end.resp.increment, na.rm = TRUE)) %>%
+          filter(end.intseq.resp > 0) %>%
+          select(spkr.prev.increment.start, end.intseq.resp)
+        focus.utt.prev.increment.ineligible <- focus.utt.prev.increment %>%
+          left_join(prev.intseq.end, by = "spkr.prev.increment.start") %>%
+          filter(end.intseq.resp >= stop.ms &
+              tttbl$start.ms[i] >= end.intseq.resp) %>%
+          select(start.ms)
+        focus.utt.prev.increment <- anti_join(focus.utt.prev.increment,
+          focus.utt.prev.increment.ineligible, by = "start.ms")
+      }
+      if (nrow(focus.utt.prev.increment) > 0) {
+        boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
+          focus.utt.prev.increment$start.ms[1],
+          focus.utt.prev.increment$stop.ms[1],
+          "left", allowed.gap)
+        tttbl$spkr.prev.increment.start[i] <-
+          boundaries$start.ms[1]
+        tttbl$spkr.prev.increment.stop[i] <-
+          boundaries$stop.ms[1]
+      } else if (nrow(focus.utt.prev.increment) > 0 &
+          nrow(focus.utt.prev.increment.ineligible) > 0) {
+        boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
+          focus.utt.prev.increment$start.ms[1],
+          focus.utt.prev.increment$stop.ms[1],
+          "left", allowed.gap)
+        tttbl$spkr.prev.increment.start[i] <-
+          boundaries$start.ms[1]
+        tttbl$spkr.prev.increment.stop[i] <-
+          boundaries$stop.ms[1]
+      }
     }
     # exclude potential post increments that have prompts
     focus.utt.post.increment <- tttbl %>%
