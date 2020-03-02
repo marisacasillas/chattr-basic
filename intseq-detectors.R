@@ -130,14 +130,28 @@ fetch_intseqs <- function(tttbl) {
     prev.state <- tttbl.edges$R.edge.in.next.tt[i]
   }
   # find the earliest and latest turn info associated with each int seq
+  uniq.L.anchors <- tttbl.edges %>%
+    arrange(anchor.L.start.ms) %>%
+    group_by(seq.num) %>%
+    mutate(id = row_number()) %>%
+    filter(seq.num > 0 & id == 1) %>%
+    select(seq.num, anchor.L.start.ms, anchor.L.speaker) %>%
+    rename(seq.start.ms = anchor.L.start.ms)
+  uniq.R.anchors <- tttbl.edges %>%
+    arrange(seq.num, -anchor.R.stop.ms) %>%
+    group_by(seq.num) %>%
+    mutate(id = row_number()) %>%
+    filter(seq.num > 0 & id == 1) %>%
+    arrange(start.ms) %>%
+    select(seq.num, anchor.R.stop.ms, anchor.R.speaker) %>%
+    rename(seq.stop.ms = anchor.R.stop.ms)
   seq.stats <- tttbl.edges %>%
     group_by(seq.num) %>%
+    filter(seq.num > 0) %>%
     summarize(seq.start.ms = min(anchor.L.start.ms),
       seq.stop.ms = max(anchor.R.stop.ms)) %>%
-    left_join(select(tttbl.edges, c(anchor.L.start.ms, anchor.L.speaker)),
-              by = c("seq.start.ms" = "anchor.L.start.ms")) %>%
-    left_join(select(tttbl.edges, c(anchor.R.stop.ms, anchor.R.speaker)),
-              by = c("seq.stop.ms" = "anchor.R.stop.ms")) %>%
+    left_join(uniq.L.anchors) %>%
+    left_join(uniq.R.anchors) %>%
     rename(seq.start.spkr = anchor.L.speaker,
            seq.stop.spkr = anchor.R.speaker) %>%
     distinct()
