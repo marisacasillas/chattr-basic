@@ -33,22 +33,31 @@ aas_to_spchtbl <- function(tbl, cliptier) {
   if (nrow(wide.aastbl) == 0) {
     print("No utterances detected in file.")
   } else {
-    # add in addressee information for each utterance
+    # add in addressee information for each non-CHI utterance
     xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
       select(speaker, start.ms, value) %>%
       rename(addressee = value)
     if (NA %in% unique(xds.aastbl$speaker)) {
       print("WARNING: You may have a speaker information; make sure the correct Participant is entered in the metadata for each ELAN tier before exporting.")
     }
-    # now add in vocal maturity data (to-do)
-    #  vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
-    #    spread(tier, value) %>%
-    #    rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
-    #    select(speaker, start.ms, vcm, lex, mwu)
-    # add all info to wide table
-    wide.aastbl <- left_join(wide.aastbl, xds.aastbl) %>%
-      #    left_join(vcm.aastbl) %>%
-      select(speaker, start.ms, stop.ms, addressee)
+    # now add in vocal maturity data
+     vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
+       spread(tier, value) %>%
+       rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
+       mutate(non.lx = case_when(
+         vcm == "Y" ~ 1,
+         vcm == "L" ~ 1,
+         vcm == NA & lex == 0 ~ 1,
+         vcm == NA & lex == NA & mwu == NA ~ 1,
+         TRUE ~ 0
+       )) %>%
+       # remove non-linguistic vocalizations
+       filter(non.lx == 1) %>%
+       select(speaker, start.ms)
+     # add all info to wide table
+     wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl) %>%
+       left_join(xds.aastbl) %>%
+       select(speaker, start.ms, stop.ms, addressee)
     # add in information about the annotated regions
     # (if no annotation, stop and tell the user)
     if (cliptier %in% unique(aastbl$tier)) {
