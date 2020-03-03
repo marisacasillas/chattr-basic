@@ -53,7 +53,7 @@ aas_to_spchtbl <- function(tbl, cliptier) {
     # (if no annotation, stop and tell the user)
     if (cliptier %in% unique(aastbl$tier)) {
       clip.tbl <- filter(aastbl, tier == cliptier) %>%
-        mutate(speaker = paste0(ann.marker, start.ms, "-", value),
+        mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value),
           addressee = NA) %>%
         select(speaker, start.ms, stop.ms, addressee)
       wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
@@ -80,7 +80,7 @@ elanbasic_to_spchtbl <- function(tbl, cliptier) {
   # (if no annotation, stop and tell the user)
   if (cliptier %in% unique(ebtbl$speaker)) {
     clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
-      mutate(speaker = paste0(ann.marker, start.ms, "-", value))
+      mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
     ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
       select(-value)
     return(ebtbl)
@@ -119,7 +119,7 @@ its_to_spchtbl <- function(its.file) {
   min.rec <- min(spchtbl$start.ms)
   max.rec <- max(spchtbl$stop.ms)
   clip.tbl <- tibble(
-    speaker = paste0(ann.marker, min.rec, "-", "FULL_RECORDING"),
+    speaker = paste0(ann.marker, min.rec, "_", max.rec, "-", "FULL_RECORDING"),
     start.ms = min.rec,
     stop.ms = max.rec,
     duration = stop.ms - start.ms
