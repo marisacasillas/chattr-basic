@@ -3,6 +3,7 @@ library(tidyverse)
 ebtbl.colnames <- c("tier", "speaker", "start.ms", "stop.ms", "duration", "value")
 ann.marker <- "annotated-" ## ALSO USED IN CHATTR HELPERS
 spch.seg.ptrn <- ".*Segment spkr=\"([A-Z]{3}).*startTime=\"([A-Z0-9.]+)\" endTime=\"([A-Z0-9.]+)\".*"
+strt.clock.ptrn <- ".*<Recording num=\"\\d+\".*startTime=\"([A-Z0-9.]+)\" endTime=\"([A-Z0-9.]+)\""
 paraling.ptrn <- "^&=[a-z]+[.!?]$"
 
 # This must be in the rigid spchtbl format specified in the docs
@@ -146,14 +147,34 @@ its_to_spchtbl <- function(its.file, lxonly) {
       mutate(value = NA) %>%
       select(speaker, start.ms, stop.ms, duration, value)
   }
-  min.rec <- min(spchtbl$start.ms)
-  max.rec <- max(spchtbl$stop.ms)
-  clip.tbl <- tibble(
-    speaker = paste0(ann.marker, min.rec, "_", max.rec, "-", "FULL_RECORDING"),
-    start.ms = min.rec,
-    stop.ms = max.rec,
-    duration = stop.ms - start.ms
-  )
-  spchtbl <- bind_rows(clip.tbl, spchtbl)
+  # add in the recorded periods
+  its.data.segments <- its.data[
+    (which(grepl("<!-- [=]+ Flow of the Recordings", its.data)) + 1):
+      (which(grepl("<!-- [=]+ All about the Bars", its.data)) - 1)]
+  rec.start.time.lines <- which(grepl(strt.clock.ptrn, its.data.segments))
+  rec.start.times <- stringr::str_match(
+    its.data.segments[rec.start.time.lines], strt.clock.ptrn)[,2:3]
+  rec.start.tbl <- tibble()
+  recorded.portion <- 1
+  if (length(rec.start.time.lines) == 1) {
+    rec.start.tbl <- tibble(
+      start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[1]))*1000)),
+      stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[2]))*1000)),
+      duration = stop.ms - start.ms,
+      speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion)) %>%
+      select(speaker, start.ms, stop.ms, duration, value)
+  } else {
+    for (i in 1:nrow(rec.start.times)) {
+      new.rec <- tibble(
+        start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[i,1]))*1000)),
+        stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[i,2]))*1000)),
+        duration = stop.ms - start.ms,
+        speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion)) %>%
+        select(speaker, start.ms, stop.ms, duration, value)
+      rec.start.tbl <- bind_rows(rec.start.tbl, new.rec)
+      recorded.portion <- recorded.portion + 1
+    }
+  }
+  spchtbl <- bind_rows(rec.start.tbl, spchtbl)
   return(spchtbl)
 }
