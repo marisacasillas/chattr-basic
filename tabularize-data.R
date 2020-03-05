@@ -96,6 +96,13 @@ elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
     )) %>%
     select(tier, start.ms, stop.ms, value) %>%
     rename(speaker = tier)
+  # subset to linguistic vocalizations if desired
+  if (is.character(lxonly)) {
+    ebtbl <- ebtbl %>%
+      filter(grepl(lxonly, value))
+  } else {
+    print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
+  }
   # add in information about the annotated regions
   # (if no annotation, stop and tell the user)
   if (cliptier %in% unique(ebtbl$speaker)) {
