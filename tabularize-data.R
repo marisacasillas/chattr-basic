@@ -3,22 +3,23 @@ library(tidyverse)
 ebtbl.colnames <- c("tier", "speaker", "start.ms", "stop.ms", "duration", "value")
 ann.marker <- "annotated-" ## ALSO USED IN CHATTR HELPERS
 spch.seg.ptrn <- ".*Segment spkr=\"([A-Z]{3}).*startTime=\"([A-Z0-9.]+)\" endTime=\"([A-Z0-9.]+)\".*"
+paraling.ptrn <- "^&=[a-z]+[.!?]$"
 
 # This must be in the rigid spchtbl format specified in the docs
-read_spchtbl <- function(filepath, tbltype, cliptier) {
+read_spchtbl <- function(filepath, tbltype, cliptier, lxonly) {
   if (tbltype == "aas-elan-txt") {
-    spchtbl <- aas_to_spchtbl(filepath, cliptier)
+    spchtbl <- aas_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "elan-basic-txt") {
-    spchtbl <- elanbasic_to_spchtbl(filepath, cliptier)
+    spchtbl <- elanbasic_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "lena-its") {
-    spchtbl <- its_to_spchtbl(filepath)
+    spchtbl <- its_to_spchtbl(filepath, lxonly)
   } else {
     print("Sorry, that file type isn't available!")
   }
   return(spchtbl)
 }
 
-aas_to_spchtbl <- function(tbl, cliptier) {
+aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
   aastbl <- read_delim(file = tbl, delim = "\t",
     col_names = ebtbl.colnames, col_types = cols(
       tier = col_character(),
@@ -29,7 +30,12 @@ aas_to_spchtbl <- function(tbl, cliptier) {
       value = col_character()
     ))
   # extract the top-level utterance tiers
-  wide.aastbl <- filter(aastbl, tier == speaker)
+  if (lxonly == TRUE) {
+    wide.aastbl <- filter(aastbl, tier == "CHI" |
+        (tier == speaker & !(grepl(paraling.ptrn, value))))
+  } else {
+    wide.aastbl <- filter(aastbl, tier == speaker)
+  }
   if (nrow(wide.aastbl) == 0) {
     print("No utterances detected in file.")
   } else {
@@ -40,24 +46,29 @@ aas_to_spchtbl <- function(tbl, cliptier) {
     if (NA %in% unique(xds.aastbl$speaker)) {
       print("WARNING: You may have a speaker information; make sure the correct Participant is entered in the metadata for each ELAN tier before exporting.")
     }
-    # now add in vocal maturity data
-     vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
-       spread(tier, value) %>%
-       rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
-       mutate(non.lx = case_when(
-         vcm == "Y" ~ 1,
-         vcm == "L" ~ 1,
-         vcm == NA & lex == 0 ~ 1,
-         vcm == NA & lex == NA & mwu == NA ~ 1,
-         TRUE ~ 0
-       )) %>%
-       # remove non-linguistic vocalizations
-       filter(non.lx == 1) %>%
-       select(speaker, start.ms)
-     # add all info to wide table
-     wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl) %>%
-       left_join(xds.aastbl) %>%
-       select(speaker, start.ms, stop.ms, addressee)
+    if (lxonly == TRUE) {
+      # now add in vocal maturity data
+      vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
+        spread(tier, value) %>%
+        rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
+        mutate(non.lx = case_when(
+          vcm == "Y" ~ 1,
+          vcm == "L" ~ 1,
+          vcm == NA & lex == 0 ~ 1,
+          vcm == NA & lex == NA & mwu == NA ~ 1,
+          TRUE ~ 0
+        )) %>%
+        # remove non-linguistic vocalizations
+        filter(non.lx == 1) %>%
+        select(speaker, start.ms)
+      # add all info to wide table
+      wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl) %>%
+        left_join(xds.aastbl) %>%
+        select(speaker, start.ms, stop.ms, addressee)
+    } else {
+      wide.aastbl <- left_join(wide.aastbl, xds.aastbl) %>%
+        select(speaker, start.ms, stop.ms, addressee)
+    }
     # add in information about the annotated regions
     # (if no annotation, stop and tell the user)
     if (cliptier %in% unique(aastbl$tier)) {
@@ -73,7 +84,7 @@ aas_to_spchtbl <- function(tbl, cliptier) {
   }
 }
 
-elanbasic_to_spchtbl <- function(tbl, cliptier) {
+elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
   ebtbl <- read_delim(file = tbl, delim = "\t",
     col_names = ebtbl.colnames, col_types = cols(
       tier = col_character(),
@@ -98,7 +109,7 @@ elanbasic_to_spchtbl <- function(tbl, cliptier) {
   }
 }
 
-its_to_spchtbl <- function(its.file) {
+its_to_spchtbl <- function(its.file, lxonly) {
   
   # Extract the speaker segment lines from the .its file
   its.data <- read_lines(its.file)
