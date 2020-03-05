@@ -117,10 +117,13 @@ elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
 }
 
 its_to_spchtbl <- function(its.file, lxonly) {
-  
   # Extract the speaker segment lines from the .its file
   its.data <- read_lines(its.file)
-  seg.spkr.lines <- which(grepl("Segment spkr=", its.data))
+  if (lxonly == TRUE) {
+    seg.spkr.lines <- which(grepl("Segment spkr=.*conversationInfo", its.data))
+  } else {
+    seg.spkr.lines <- which(grepl("Segment spkr=\"[FMC]", its.data))
+  }
   its.spkr.data <- its.data[seg.spkr.lines]
   
   # Extract only the speaker, start, and stop times for each segment
