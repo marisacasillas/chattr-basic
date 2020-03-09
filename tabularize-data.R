@@ -32,7 +32,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
     ))
   # extract the top-level utterance tiers
   if (lxonly == TRUE) {
-    wide.aastbl <- filter(aastbl, tier == "CHI" |
+    wide.aastbl <- filter(aastbl, tier == "CHI" & speaker == "CHI" |
         (tier == speaker & !(grepl(paraling.ptrn, value))))
   } else {
     wide.aastbl <- filter(aastbl, tier == speaker)
@@ -50,7 +50,17 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
     if (lxonly == TRUE) {
       # now add in vocal maturity data
       vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
-        spread(tier, value) %>%
+        spread(tier, value)
+      if (!("vcm@CHI" %in% names(vcm.aastbl))) {
+        vcm.aastbl$`vcm@CHI` <- NA
+      }
+      if (!("lex@CHI" %in% names(vcm.aastbl))) {
+        vcm.aastbl$`lex@CHI` <- NA
+      }
+      if (!("mwu@CHI" %in% names(vcm.aastbl))) {
+        vcm.aastbl$`mwu@CHI` <- NA
+      }
+      vcm.aastbl <- vcm.aastbl %>%
         rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
         mutate(non.lx = case_when(
           vcm == "Y" ~ 1,
@@ -161,7 +171,8 @@ its_to_spchtbl <- function(its.file, lxonly) {
       start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[1]))*1000)),
       stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[2]))*1000)),
       duration = stop.ms - start.ms,
-      speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion)) %>%
+      speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion),
+      value = NA) %>%
       select(speaker, start.ms, stop.ms, duration, value)
   } else {
     for (i in 1:nrow(rec.start.times)) {
@@ -169,7 +180,8 @@ its_to_spchtbl <- function(its.file, lxonly) {
         start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[i,1]))*1000)),
         stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[i,2]))*1000)),
         duration = stop.ms - start.ms,
-        speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion)) %>%
+        speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion),
+        value = NA) %>%
         select(speaker, start.ms, stop.ms, duration, value)
       rec.start.tbl <- bind_rows(rec.start.tbl, new.rec)
       recorded.portion <- recorded.portion + 1
