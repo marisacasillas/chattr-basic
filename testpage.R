@@ -3,8 +3,10 @@ rm(list = ls())
 
 source("tabularize-data.R")
 source("transition-detectors.R")
-source("intseq-detectors.R")
 source("chattr-helpers.R")
+source("tabularize-data.R")
+source("transition-detectors.R")
+source("intseq-detectors.R")
 
 allowed.gap <- 1000
 allowed.overlap <- 2000
