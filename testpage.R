@@ -6,6 +6,7 @@ source("transition-detectors.R")
 source("chattr-helpers.R")
 source("tabularize-data.R")
 source("transition-detectors.R")
+source("continuation-detectors.R")
 source("intseq-detectors.R")
 
 allowed.gap <- 1000
