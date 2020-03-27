@@ -21,6 +21,13 @@ ttdata.turnsonly <- ttdata.spchtbl %>%
   fetch_transitions(allowed.gap, allowed.overlap,
     "CHN", LENA.interactants, "none", "strict")
 
+## Changes implemented; basic sanity check complete; fine-grained check still to come!
+
+## Other known bugs
+# 1. check that sequences can't overlap
+# 2. ensure that single-speaker spans aren't labeled as sequences
+
+
 spchtbl <- ttdata.spchtbl
 focus.child <- "CHN"
 interactants <- LENA.interactants
