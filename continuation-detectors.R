@@ -1,261 +1,171 @@
-find_TCU_edge_focal <- function(tttbl, speaker, start, stop,
-  direction, allowed.gap) {
-  n.candidates <- 1
-  boundaries <- tibble(
-    start.ms = start, stop.ms = stop)
-  while (n.candidates > 0) {
-    if (direction == "left") {
-      candidates <- tttbl %>%
-        filter(start.ms < start &
-            stop.ms >= start - allowed.gap &
-            speaker == speaker &
-            is.na(tttbl$response.spkr))
-      if (!(NA %in% candidates$spkr.prev.increment.start)) {
-        prev.intseq.end <- tttbl %>%
-          filter(!is.na(spkr.prev.increment.start)) %>%
-          group_by(spkr.prev.increment.start) %>%
-          summarize(
-            end.resp = max(response.stop.ms, na.rm = TRUE),
-            end.resp.increment = max(spkr.post.increment.stop, na.rm = TRUE),
-            end.intseq.resp = max(end.resp, end.resp.increment, na.rm = TRUE)) %>%
-          filter(end.intseq.resp > 0) %>%
-          select(spkr.prev.increment.start, end.intseq.resp)
-        focus.utt.prev.increment.ineligible <- candidates %>%
-          left_join(prev.intseq.end, by = "spkr.prev.increment.start") %>%
-          filter(end.intseq.resp >= stop.ms &
-              start >= end.intseq.resp) %>%
-          select(start.ms)
-        candidates <- anti_join(candidates,
-          focus.utt.prev.increment.ineligible, by = "start.ms")
-      }
-      if (nrow(candidates) > 0) {
-        start <- min(candidates$start.ms)
-        stop <- min(candidates$stop.ms)
-        boundaries <- tibble(
-          start.ms = start, stop.ms = stop)
-      }
-      n.candidates <- nrow(candidates)
-    }
-    if (direction == "right") {
-      candidates <- tttbl %>%
-        filter(start.ms <= stop + allowed.gap &
-            stop.ms > stop &
-            speaker == speaker &
-            is.na(tttbl$prompt.spkr))
-      if (nrow(candidates) > 0) {
-        start <- min(candidates$start.ms)
-        stop <- min(candidates$stop.ms)
-        boundaries <- tibble(
-          start.ms = start, stop.ms = stop)
-      }
-      n.candidates <- nrow(candidates)
-    }
-  }
-  return(boundaries)
-}
-
-find_TCU_edge_nonfocal <- function(tttbl, foc.speaker,
-  int.utts, speaker, start, stop, direction, allowed.gap) {
-  n.candidates <- 1
-  boundaries <- tibble(
-    start.ms = start, stop.ms = stop)
-  while (n.candidates > 0) {
-    if (direction == "left") {
-      candidates <- int.utts %>%
-        filter(start.ms < start &
-            stop.ms >= start - allowed.gap &
-            speaker == speaker)
-      candidates.with.responses <- tttbl %>%
-        filter(prompt.start.ms %in% candidates$start.ms &
-            prompt.spkr == speaker)
-      if (nrow(candidates.with.responses) > 0) {
-        candidates.with.responses <- candidates.with.responses %>%
-          mutate(has.response == 1) %>%
-          select(prompt.start.ms, has.response) %>%
-          rename(start.ms = prompt.start.ms)
-        candidates <- candidates %>%
-          anti_join(candidates.with.responses, by = "start.ms")
-      }
-      if (nrow(candidates) > 0) {
-        start <- min(candidates$start.ms)
-        stop <- min(candidates$stop.ms)
-        boundaries <- tibble(
-          start.ms = start, stop.ms = stop)
-      }
-      n.candidates <- nrow(candidates)
-    }
-    if (direction == "right") {
-      candidates <- int.utts %>%
-        filter(start.ms <= stop + allowed.gap &
-            stop.ms > stop &
-            speaker == speaker)
-      candidates.with.prompts <- tttbl %>%
-        filter(response.start.ms %in% candidates$start.ms &
-            response.spkr == speaker)
-      if (nrow(candidates.with.prompts) > 0) {
-        candidates.with.prompts <- candidates.with.prompts %>%
-          mutate(has.prompt == 1) %>%
-          select(response.start.ms, has.prompt) %>%
-          rename(start.ms = response.start.ms)
-        candidates <- candidates %>%
-          anti_join(candidates.with.prompts, by = "start.ms")
-      }
-      if (nrow(candidates) > 0) {
-        start <- max(candidates$start.ms)
-        stop <- max(candidates$stop.ms)
-        boundaries <- tibble(
-          start.ms = start, stop.ms = stop)
-      }
-      n.candidates <- nrow(candidates)
-    }
-  }
-  return(boundaries)
-}
-
 find_tttbl_continuations <- function(tttbl, focus.utts,
   int.utts, allowed.gap) {
-  addl.boundaries <- tibble(
-    speaker = tttbl$speaker[1],
-    spkr.prev.increment.start = integer(),
-    spkr.prev.increment.stop = integer(),
-    spkr.post.increment.start = integer(),
-    spkr.post.increment.stop = integer(),
-    prompt.prev.increment.start = integer(),
-    prompt.prev.increment.stop = integer(),
-    response.post.increment.start = integer(),
-    response.post.increment.stop = integer()
-  )
-  tttbl <- left_join(tttbl, addl.boundaries, by = "speaker")
-  for (i in 1:nrow(tttbl)) {
-    # add pre- and post-increments for focus utterances
-    # exclude potential pre increments that have responses
-    focus.utt.prev.increment <- tttbl %>%
-      filter(stop.ms >= tttbl$start.ms[i] - allowed.gap &
-          start.ms < tttbl$start.ms[i] &
-          speaker == tttbl$speaker[i] &
-          is.na(tttbl$response.spkr))
-    if (nrow(focus.utt.prev.increment) > 0) {
-      # check if it's an unattached edge utterance associated with
-      # the end of the previous interactional sequence
-      if (!(NA %in% focus.utt.prev.increment$spkr.prev.increment.start)) {
-        prev.intseq.end <- tttbl %>%
-          filter(!is.na(spkr.prev.increment.start)) %>%
-          group_by(spkr.prev.increment.start) %>%
-          summarize(
-            end.resp = max(response.stop.ms, na.rm = TRUE),
-            end.resp.increment = max(spkr.post.increment.stop, na.rm = TRUE),
-            end.intseq.resp = max(end.resp, end.resp.increment, na.rm = TRUE)) %>%
-          filter(end.intseq.resp > 0) %>%
-          select(spkr.prev.increment.start, end.intseq.resp)
-        focus.utt.prev.increment.ineligible <- focus.utt.prev.increment %>%
-          left_join(prev.intseq.end, by = "spkr.prev.increment.start") %>%
-          filter(end.intseq.resp >= stop.ms &
-              tttbl$start.ms[i] >= end.intseq.resp) %>%
-          select(start.ms)
-        focus.utt.prev.increment <- anti_join(focus.utt.prev.increment,
-          focus.utt.prev.increment.ineligible, by = "start.ms")
-      }
-      if (nrow(focus.utt.prev.increment) > 0) {
-        boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
-          focus.utt.prev.increment$start.ms[1],
-          focus.utt.prev.increment$stop.ms[1],
-          "left", allowed.gap)
-        tttbl$spkr.prev.increment.start[i] <-
-          boundaries$start.ms[1]
-        tttbl$spkr.prev.increment.stop[i] <-
-          boundaries$stop.ms[1]
-      } else if (nrow(focus.utt.prev.increment) > 0 &
-          nrow(focus.utt.prev.increment.ineligible) > 0) {
-        boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
-          focus.utt.prev.increment$start.ms[1],
-          focus.utt.prev.increment$stop.ms[1],
-          "left", allowed.gap)
-        tttbl$spkr.prev.increment.start[i] <-
-          boundaries$start.ms[1]
-        tttbl$spkr.prev.increment.stop[i] <-
-          boundaries$stop.ms[1]
-      }
-    }
-    # exclude potential post increments that have prompts
-    focus.utt.post.increment <- tttbl %>%
-      filter(start.ms < tttbl$stop.ms[i] + allowed.gap &
-          stop.ms > tttbl$stop.ms[i] &
-          speaker == tttbl$speaker[i] &
-          is.na(tttbl$prompt.spkr))
-    if (nrow(focus.utt.post.increment) > 0) {
-      max.idx <- nrow(focus.utt.post.increment)
-      boundaries <- find_TCU_edge_focal(tttbl, tttbl$speaker[i],
-        focus.utt.post.increment$start.ms[max.idx],
-        focus.utt.post.increment$stop.ms[max.idx],
-        "right", allowed.gap)
-      tttbl$spkr.post.increment.start[i] <-
-        boundaries$start.ms
-      tttbl$spkr.post.increment.stop[i] <-
-        boundaries$stop.ms
-    }
-    # add pre-increments for prompts
-    if (!is.na(tttbl$prompt.spkr[i])) {
-      prompt.prev.increment <- int.utts %>%
-        filter(speaker == tttbl$prompt.spkr[i] &
-            stop.ms >= tttbl$prompt.start.ms[i] - allowed.gap &
-            start.ms < tttbl$prompt.start.ms[i])
-      if (nrow(prompt.prev.increment) > 0) {
-        # check the very last possible candidate for responses
-        response.check <- tttbl %>%
-          filter(prompt.start.ms == prompt.prev.increment$start.ms[nrow(
-            prompt.prev.increment)] &
-              prompt.spkr == tttbl$prompt.spkr[i])
-        # if it doesn't have responses, check for further increments
-        if (nrow(response.check) == 0) {
-          boundaries <- find_TCU_edge_nonfocal(
-            tttbl, tttbl$speaker[i], int.utts, tttbl$prompt.spkr[i],
-            prompt.prev.increment$start.ms[nrow(prompt.prev.increment)],
-            prompt.prev.increment$stop.ms[nrow(prompt.prev.increment)],
-            "left", allowed.gap)
-          tttbl$prompt.prev.increment.start[i] <-
-            boundaries$start.ms
-          tttbl$prompt.prev.increment.stop[i] <-
-            boundaries$stop.ms
-        }
-      }
-    }
-    # add post-increments for responses
-    if (!is.na(tttbl$response.spkr[i])) {
-      response.post.increment <- int.utts %>%
-        filter(speaker == tttbl$response.spkr[i] &
-            start.ms <= tttbl$response.stop.ms[i] + allowed.gap &
-            stop.ms > tttbl$response.stop.ms[i])
-      if (nrow(response.post.increment) > 0) {
-        # check the very first possible candidate for prompts
-        prompt.check <- tttbl %>%
-          filter(response.start.ms == response.post.increment$start.ms[1] &
-              response.spkr == tttbl$response.spkr[i])
-        # if it doesn't have prompts, check for further increments
-        if (nrow(prompt.check) == 0) {
-          boundaries <- find_TCU_edge_nonfocal(
-            tttbl, tttbl$speaker[i], int.utts, tttbl$response.spkr[i],
-            response.post.increment$start.ms[1],
-            response.post.increment$stop.ms[1],
-            "right", allowed.gap)
-          tttbl$response.post.increment.start[i] <-
-            boundaries$start.ms
-          tttbl$response.post.increment.stop[i] <-
-            boundaries$stop.ms
-        }
-      }
-    }
+  
+  # find sequences of vocalizations by the focal speaker
+  # that are unbroken by turn transitions to another speaker
+  tttbl$stop.prev.ms <- c(
+    0, tttbl$stop.ms[1:nrow(tttbl)-1])
+  tttbl$response.prev.spkr <- c(
+    NA, tttbl$response.spkr[1:nrow(tttbl)-1])
+  tttbl <- tttbl %>%
+    mutate(new.turn = case_when(
+      response.prev.spkr == 1 ~ 1,
+      !is.na(prompt.spkr) == 1 ~ 1,
+      start.ms - stop.prev.ms > allowed.gap ~ 1,
+      TRUE ~ 0))
+  tttbl$speaker.turn.num <- cumsum(tttbl$new.turn == 1)
+  tttbl <- tttbl %>%
+    select(-stop.prev.ms, -response.prev.spkr, -new.turn)
+  tttbl.spkr.turns.multiincrement <- tttbl %>%
+    group_by(speaker.turn.num) %>%
+    summarize(
+      spkr.prev.increment.start = min(start.ms),
+      spkr.post.increment.stop = max(stop.ms),
+      spkr.n.increments = n()) %>%
+    filter(spkr.n.increments > 1) %>%
+    left_join(select(tttbl, c(start.ms, stop.ms)),
+      by = c("spkr.prev.increment.start" = "start.ms")) %>%
+    left_join(select(tttbl, c(start.ms, stop.ms)),
+      by = c("spkr.post.increment.stop" = "stop.ms")) %>%
+    rename("spkr.prev.increment.stop" = "stop.ms",
+      "spkr.post.increment.start" = "start.ms") %>%
+    select(speaker.turn.num, spkr.n.increments,
+      spkr.prev.increment.start, spkr.prev.increment.stop,
+      spkr.post.increment.start, spkr.post.increment.stop)
+  tttbl <- tttbl %>%
+    left_join(tttbl.spkr.turns.multiincrement, by = "speaker.turn.num") %>%
+    mutate(
+      spkr.prev.increment.start = ifelse(
+        spkr.prev.increment.start == start.ms,
+        NA, spkr.prev.increment.start),
+      spkr.prev.increment.stop = ifelse(
+        is.na(spkr.prev.increment.start),
+        NA, spkr.prev.increment.stop),
+      spkr.post.increment.start = ifelse(
+        spkr.post.increment.start == start.ms,
+        NA, spkr.post.increment.start),
+      spkr.post.increment.stop = ifelse(
+        is.na(spkr.post.increment.start),
+        NA, spkr.post.increment.stop)) %>%
+    replace_na(list(spkr.n.increments = 1))
+  
+  # find sequences of vocalizations by the prompt/response speakers
+  # that are unbroken by turn transitions to the focal speaker
+  prompts.basic <- tttbl %>%
+    filter(!is.na(prompt.spkr)) %>%
+    select(prompt.spkr, prompt.start.ms, prompt.stop.ms) %>%
+    distinct() %>%
+    rename(cont.spkr = prompt.spkr, cont.start.ms = prompt.start.ms,
+      cont.stop.ms = prompt.stop.ms) %>%
+    mutate(has.response = 1)
+  responses.basic <- tttbl %>%
+    filter(!is.na(response.spkr)) %>%
+    select(response.spkr, response.start.ms, response.stop.ms) %>%
+    distinct() %>%
+    rename(cont.spkr = response.spkr, cont.start.ms = response.start.ms,
+      cont.stop.ms = response.stop.ms) %>%
+    mutate(has.prompt = 1)
+  contingent.utts.basic <- full_join(prompts.basic, responses.basic,
+    by = c("cont.spkr", "cont.start.ms", "cont.stop.ms"))
+  # for each speaker in contingent utts
+  unique.cont.spkrs <- unique(contingent.utts.basic$cont.spkr)
+  cont.spkrs.continuations <- tibble()
+  for (spkr in unique.cont.spkrs) {
+    spkr.int.utts <- int.utts %>%
+      filter(speaker == spkr) %>%
+      select(speaker, start.ms, stop.ms)
+    cont.spkr.tbl <- contingent.utts.basic %>%
+      filter(cont.spkr == spkr) %>%
+      full_join(spkr.int.utts, by = c(
+        "cont.spkr" = "speaker", "cont.start.ms" = "start.ms",
+        "cont.stop.ms" = "stop.ms")) %>%
+      arrange(cont.start.ms)
+    cont.spkr.tbl$stop.prev.ms <- c(
+      0, cont.spkr.tbl$cont.stop.ms[1:nrow(cont.spkr.tbl)-1])
+    cont.spkr.tbl$response.prev.spkr <- c(
+      NA, cont.spkr.tbl$has.response[1:nrow(cont.spkr.tbl)-1])
+    cont.spkr.tbl <- cont.spkr.tbl %>%
+      mutate(new.turn = case_when(
+        response.prev.spkr == 1 ~ 1,
+        has.prompt == 1 ~ 1,
+        cont.start.ms - stop.prev.ms > allowed.gap ~ 1,
+        TRUE ~ 0))
+    cont.spkr.tbl$cont.spkr.turn.num <- cumsum(cont.spkr.tbl$new.turn == 1)
+    cont.spkr.tbl <- cont.spkr.tbl %>%
+      select(-stop.prev.ms, -response.prev.spkr, -new.turn) %>%
+      ungroup()
+    cont.spkr.tbl.multiincrement <- cont.spkr.tbl %>%
+      group_by(cont.spkr, cont.spkr.turn.num) %>%
+      summarize(
+        cont.spkr.prev.increment.start = min(cont.start.ms),
+        cont.spkr.post.increment.stop = max(cont.stop.ms),
+        cont.spkr.n.increments = n()) %>%
+      filter(cont.spkr.n.increments > 1) %>%
+      left_join(select(int.utts, c(speaker, start.ms, stop.ms)),
+        by = c("cont.spkr" = "speaker",
+          "cont.spkr.prev.increment.start" = "start.ms")) %>%
+      left_join(select(int.utts, c(speaker, start.ms, stop.ms)),
+        by = c("cont.spkr" = "speaker",
+          "cont.spkr.post.increment.stop" = "stop.ms")) %>%
+      rename("cont.spkr.prev.increment.stop" = "stop.ms",
+        "cont.spkr.post.increment.start" = "start.ms") %>%
+      ungroup() %>%
+      select(cont.spkr, cont.spkr.turn.num, cont.spkr.n.increments,
+        cont.spkr.prev.increment.start, cont.spkr.prev.increment.stop,
+        cont.spkr.post.increment.start, cont.spkr.post.increment.stop)
+    spkr.contingent.utts.basic <- contingent.utts.basic %>%
+      filter(cont.spkr == spkr) %>%
+      left_join(select(cont.spkr.tbl, c("cont.start.ms", "cont.spkr.turn.num")),
+        by = "cont.start.ms") %>%
+      left_join(cont.spkr.tbl.multiincrement,
+        by = c("cont.spkr.turn.num", "cont.spkr")) %>%
+      mutate(
+        cont.spkr.prev.increment.start = ifelse(
+          cont.spkr.prev.increment.start == cont.start.ms,
+          NA, cont.spkr.prev.increment.start),
+        cont.spkr.prev.increment.stop = ifelse(
+          is.na(cont.spkr.prev.increment.start),
+          NA, cont.spkr.prev.increment.stop),
+        cont.spkr.post.increment.start = ifelse(
+          cont.spkr.post.increment.start == cont.start.ms,
+          NA, cont.spkr.post.increment.start),
+        cont.spkr.post.increment.stop = ifelse(
+          is.na(cont.spkr.post.increment.start),
+          NA, cont.spkr.post.increment.stop)
+      ) %>%
+      replace_na(list(cont.spkr.n.increments = 1))
+    cont.spkrs.continuations <- bind_rows(cont.spkrs.continuations,
+      spkr.contingent.utts.basic)
   }
+  # add these continuation utterance start/stop times into the main tibble
+  tttbl <- tttbl %>%
+    left_join(select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
+      "cont.spkr.prev.increment.start", "cont.spkr.prev.increment.stop",
+      "cont.spkr.n.increments")),
+      by = c("prompt.spkr" = "cont.spkr", "prompt.start.ms" = "cont.start.ms")) %>%
+    rename("prompt.prev.increment.start" = "cont.spkr.prev.increment.start",
+      "prompt.prev.increment.stop" = "cont.spkr.prev.increment.stop",
+      "prompt.n.increments" = "cont.spkr.n.increments") %>%
+    left_join(select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
+      "cont.spkr.post.increment.start", "cont.spkr.post.increment.stop",
+      "cont.spkr.n.increments")),
+      by = c("response.spkr" = "cont.spkr", "response.start.ms" = "cont.start.ms")) %>%
+    rename("response.post.increment.start" = "cont.spkr.post.increment.start",
+      "response.post.increment.stop" = "cont.spkr.post.increment.stop",
+      "response.n.increments" = "cont.spkr.n.increments")
+
+  # clean up for return
   if (!("addressee" %in% names(tttbl))) {
     tttbl <- tttbl %>%
       mutate(addressee = NA)
   }
   tttbl <- tttbl %>%
-    select(speaker, annot.clip, start.ms, stop.ms, addressee,
+    select(speaker, annot.clip, start.ms, stop.ms, addressee, spkr.n.increments,
       spkr.prev.increment.start, spkr.prev.increment.stop,
       spkr.post.increment.start, spkr.post.increment.stop,
-      prompt.spkr, prompt.start.ms, prompt.stop.ms,
+      prompt.spkr, prompt.start.ms, prompt.stop.ms, prompt.n.increments,
       prompt.prev.increment.start, prompt.prev.increment.stop,
-      response.spkr, response.start.ms, response.stop.ms,
+      response.spkr, response.start.ms, response.stop.ms, response.n.increments,
       response.post.increment.start, response.post.increment.stop)
   return(tttbl)
 }

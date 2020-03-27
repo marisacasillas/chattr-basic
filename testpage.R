@@ -9,8 +9,43 @@ source("transition-detectors.R")
 source("continuation-detectors.R")
 source("intseq-detectors.R")
 
-allowed.gap <- 1000
-allowed.overlap <- 2000
+
+allowed.gap <- 2000
+allowed.overlap <- 1000
+LENA.interactants <- c("FAN", "MAN")
+
+ttdata.spchtbl <- read_spchtbl("test_files/ITS/e20191024_000253_008232.its",
+  "lena-its", lxonly = TRUE)
+
+ttdata.turnsonly <- ttdata.spchtbl %>%
+  fetch_transitions(allowed.gap, allowed.overlap,
+    "CHN", LENA.interactants, "none", "strict")
+
+spchtbl <- ttdata.spchtbl
+focus.child <- "CHN"
+interactants <- LENA.interactants
+addressee.tags <- "none"
+mode <- "strict"
+
+spchtbl <- NULL
+focus.child <- NULL
+interactants <- NULL
+addressee.tags <- NULL
+mode <- NULL
+
+
+tttbl <- chi.tttbl
+focus.utts <- chi.utts
+
+tttbl <- NULL
+focus.utts <- NULL
+
+ttdata <- ttdata.turnsonly %>%
+  fetch_intseqs()
+
+
+# allowed.gap <- 1000
+# allowed.overlap <- 2000
 
 ## test data 1 ----
 
