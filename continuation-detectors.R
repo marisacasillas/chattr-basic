@@ -8,9 +8,15 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   tttbl$response.prev.spkr <- c(
     NA, tttbl$response.spkr[1:nrow(tttbl)-1])
   tttbl <- tttbl %>%
+    # mark a focal speaker vocalization as initiating
+    # a new turn at talk when:
     mutate(new.turn = case_when(
-      response.prev.spkr == 1 ~ 1,
-      !is.na(prompt.spkr) == 1 ~ 1,
+      # the prior focal speaker vocalization had a response
+      !is.na(response.prev.spkr) ~ 1,
+      # the current focal speaker vocalization has a prompt
+      !is.na(prompt.spkr) ~ 1,
+      # the current focal speaker vocalization is separated from
+      # its preceding vocalization by more than the allowed gap
       start.ms - stop.prev.ms > allowed.gap ~ 1,
       TRUE ~ 0))
   tttbl$speaker.turn.num <- cumsum(tttbl$new.turn == 1)
