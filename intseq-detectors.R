@@ -88,7 +88,8 @@ fetch_intseqs <- function(tttbl) {
   # (except the final one) is involved in the next focal speaker vocalization
   tttbl.edges <- tttbl.edges %>%
     mutate(
-      R.edge = paste0(anchor.R.speaker, anchor.R.start.ms),
+      R.edge.start = paste0(anchor.R.speaker, anchor.R.start.ms),
+      L.edge.start = paste0(anchor.L.speaker, anchor.L.start.ms),
       involved.turns = paste0(
         paste0(speaker, spkr.prev.increment.start), "-",
         paste0(speaker, start.ms), "-",
@@ -101,7 +102,7 @@ fetch_intseqs <- function(tttbl) {
       seq.num = 0
     )
   for (i in 1:(nrow(tttbl.edges)-1)) {
-    curr.R.edge <- tttbl.edges$R.edge[i]
+    curr.R.edge <- tttbl.edges$R.edge.start[i]
     tttbl.edges$R.edge.in.next.tt[i] <-
       ifelse(!is.na(curr.R.edge) &
           # check if right edge is actually involved in the next vocalization
@@ -112,9 +113,27 @@ fetch_intseqs <- function(tttbl) {
           tttbl.edges$anchor.L.start.ms[i+1],
         1, 0)
   }
+  # detect touching edge vocalizations separated by orphan focal
+  # speaker vocalizations or periods less than the allowed gap duration
+  #
+  # GO HERE SECOND -- we aren't catching sequences bounded by different
+  # non-focal speaker utterances, e.g., CHN-FAN | MAN-CHN-FAN but we should
+  #
+  for (i in 1:(nrow(tttbl.edges)-1)) {
+    curr.R.edge <- tttbl.edges$R.edge.start[i]
+    common.L.edge <- which(tttbl.edges$L.edge.start == curr.R.edge)
+    # ensure that these related downstream vocalizations are grouped with
+    # the prior vocalization sequence and are not falsely marked as a new start
+    if (length(common.L.edge) > 0) {
+      # get rid of self-matches for focal-speaker only chunks (dealt with later)
+      common.L.edge <- common.L.edge[!(i %in% common.L.edge)]
+      if (length(common.L.edge) > 0) {
+        tttbl.edges$R.edge.in.next.tt[i:(max(common.L.edge)-1)] <- 1
+      }
+    }
+  }
   # group together transitions with matching/overlapping edges;
   # an utterance with no match/overlap on its right edge begins a new int seq
-  # don't count focal-speaker-only utterance seqs as an int seq
   sequence <- 0
   prev.state <- 0
   for (i in 1:nrow(tttbl.edges)) {
@@ -124,9 +143,17 @@ fetch_intseqs <- function(tttbl) {
     } else if (prev.state == 0 & curr.state == 1) {
       sequence <- sequence + 1
       tttbl.edges$seq.num[i] <- sequence
-    }  else if (prev.state == 0 &
-               (!is.na(tttbl.edges$prompt.spkr[i])|
-                !is.na(tttbl.edges$response.spkr[i]))) {
+    } else if (prev.state == 0 &
+        (!is.na(tttbl.edges$prompt.spkr[i])|
+            !is.na(tttbl.edges$response.spkr[i])) &
+        #
+        # START HERE -- this is only eliminating single-increment
+        # focal speaker utterances!
+        #
+        # don't count focal-speaker-only utterance seqs
+        # findable here as the same L and R anchor start times
+        tttbl.edges$anchor.L.start.ms[i] !=
+        tttbl.edges$anchor.R.start.ms[i]) {
       sequence <- sequence + 1
       tttbl.edges$seq.num[i] <- sequence
     }
@@ -167,7 +194,7 @@ fetch_intseqs <- function(tttbl) {
   intseqtbl <- tttbl.edges %>%
     select(-anchor.L.start.ms, -anchor.L.stop.ms, -anchor.L.speaker,
       -anchor.R.start.ms, -anchor.R.stop.ms, -anchor.R.speaker,
-      -R.edge, -involved.turns, -R.edge.in.next.tt) %>%
+      -R.edge.start, -L.edge.start, -involved.turns, -R.edge.in.next.tt) %>%
     left_join(seq.stats, by = "seq.num")
   intseqtbl$seq.num[which(intseqtbl$seq.num == 0)] <- NA
   return(intseqtbl)
