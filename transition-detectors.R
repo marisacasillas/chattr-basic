@@ -339,6 +339,8 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       print("No CDS utterances with the specified interactant(s).")
       return(continuation.utts)
     }
+  } else if (addressee.tags == "none") {
+    print("No addressee tags: scanning ALL utterances from the specified interactant(s).")
   } else {
     # no need to subset further if there is no addressee coding
     # (i.e., if addressee == "none")
