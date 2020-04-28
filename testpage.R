@@ -21,6 +21,46 @@ ttdata.turnsonly <- ttdata.spchtbl %>%
   fetch_transitions(allowed.gap, allowed.overlap,
     "CHN", LENA.interactants, "none", "strict")
 
+ttdata.intseqs <- ttdata.spchtbl %>%
+  fetch_transitions(allowed.gap, allowed.overlap,
+    "CHN", LENA.interactants, "none", "strict") %>%
+  fetch_intseqs()
+
+tttbl <- ttdata.turnsonly
+
+
+interactional.bursts <- ttdata.intseqs %>%
+  filter(!is.na(seq.num)) %>%
+  mutate(
+    seq.dur.ms = seq.stop.ms - seq.start.ms,
+    seq.dur.min = seq.dur.ms/60000,
+    seq.start.hr = seq.start.ms/3600000) %>%
+  group_by(
+    seq.num, seq.start.ms, seq.stop.ms, seq.dur.ms, seq.dur.min, seq.start.hr,
+    seq.start.spkr, seq.stop.spkr) %>%
+  summarize(
+    n.seq.prompts = sum(!is.na(prompt.start.ms)),
+    n.seq.responses = sum(!is.na(response.start.ms)),
+    n.seq.tts = n.seq.prompts + n.seq.responses
+  ) %>% filter(
+    n.seq.tts > 0 # BUG!! -- CHN-only sequences (fix in intseq detector)
+  )
+
+interactional.bursts.lena <- interactional.bursts %>%
+  arrange(seq.num)
+between.seq.times <- tibble()
+seq.data <- interactional.bursts.lena
+seq.data$prev.seq.stop <- c(0, seq.data$seq.stop.ms[1:(nrow(seq.data)-1)])
+seq.data$time.since.prev.seq.ms <- seq.data$seq.start.ms - seq.data$prev.seq.stop
+seq.data$time.since.prev.seq.min <- seq.data$time.since.prev.seq.ms/60000
+# BUG
+# between.seq.times.nozero <- filter(between.seq.times,
+#   time.since.prev.seq.min > 0.03333333)
+between.seq.times.zero <- filter(seq.data,
+  time.since.prev.seq.min <= 0.03333333)
+  
+  
+  
 ## Changes implemented; basic sanity check complete; fine-grained check still to come!
 
 ## Other known bugs
