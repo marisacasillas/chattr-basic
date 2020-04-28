@@ -82,10 +82,10 @@ fetch_intseqs <- function(tttbl) {
     select(-seq.start.ms, -seq.stop.ms)
   seq.stats <- right_join(select(seq.stats, -speaker), n.poss.seqs,
     by = "seq.num")
-  # find the edge utterance associated with each focal speaker turn
+  # find the edge utterance associated with each focal speaker vocalization
   tttbl.edges <- compose_edges(tttbl.seq)
-  # check whether the right edge turn of each focal turn transition
-  # (except the final one) is involved in the next focal turn transition
+  # check whether the right edge turn of each focal speaker vocalization
+  # (except the final one) is involved in the next focal speaker vocalization
   tttbl.edges <- tttbl.edges %>%
     mutate(
       R.edge = paste0(anchor.R.speaker, anchor.R.start.ms),
@@ -104,10 +104,13 @@ fetch_intseqs <- function(tttbl) {
     curr.R.edge <- tttbl.edges$R.edge[i]
     tttbl.edges$R.edge.in.next.tt[i] <-
       ifelse(!is.na(curr.R.edge) &
-               grepl(curr.R.edge, tttbl.edges$involved.turns[i+1])|
-               tttbl.edges$anchor.R.stop.ms[i] >=
-               tttbl.edges$anchor.L.start.ms[i+1],
-             1, 0)
+          # check if right edge is actually involved in the next vocalization
+          grepl(curr.R.edge, tttbl.edges$involved.turns[i+1])|
+          # treat right-hanging vocalizations that overlap with the left
+          # edge of the next vocalization as having edge overlap
+          tttbl.edges$anchor.R.stop.ms[i] >=
+          tttbl.edges$anchor.L.start.ms[i+1],
+        1, 0)
   }
   # group together transitions with matching/overlapping edges;
   # an utterance with no match/overlap on its right edge begins a new int seq
