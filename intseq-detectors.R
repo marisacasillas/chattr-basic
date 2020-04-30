@@ -85,11 +85,11 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
   # find the edge utterance associated with each focal speaker vocalization
   tttbl.edges <- compose_edges(tttbl.seq)
   # group utterances into sequences by touching/overlapping/near edges
-  tttbl.edges$prior.R.edge.start <- c(0,
-    tttbl.edges$anchor.R.start.ms[1:(nrow(tttbl.edges)-1)])
+  tttbl.edges$prior.R.edge.stop <- c(0,
+    tttbl.edges$anchor.R.stop.ms[1:(nrow(tttbl.edges)-1)])
   tttbl.edges <- tttbl.edges %>%
     mutate(
-      ms.lapsed.prior.edge = anchor.L.start.ms - prior.R.edge.start,
+      ms.lapsed.prior.edge = anchor.L.start.ms - prior.R.edge.stop,
       # "close" here includes any edges closer than the allowed gap,
       # including overlapping ones
       close.to.prev.edge = ifelse(ms.lapsed.prior.edge <= allowed.gap, 1, 0),
@@ -185,7 +185,7 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     select(
       -anchor.L.start.ms, -anchor.L.stop.ms, -anchor.L.speaker,
       -anchor.R.start.ms, -anchor.R.stop.ms, -anchor.R.speaker,
-      -prior.R.edge.start, -ms.lapsed.prior.edge, -close.to.prev.edge,
+      -prior.R.edge.stop, -ms.lapsed.prior.edge, -close.to.prev.edge,
       -new.seq, -focal.seq) %>%
     left_join(seq.stats.intseq, by = "intseq.num") %>%
     left_join(seq.stats.foconlyseq, by = "focalonlyseq.num")

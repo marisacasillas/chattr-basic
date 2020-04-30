@@ -54,38 +54,11 @@ intseq.data$time.since.prev.intseq.min <- intseq.data$time.since.prev.intseq.ms/
 # add test: between int.seq times should always be >= allowed.gap
 between.intseq.times.zero <- filter(intseq.data,
   time.since.prev.intseq.ms <= allowed.gap)
-  
-  
-  
-## Changes implemented; basic sanity check complete; fine-grained check still to come!
 
-## Other known bugs
-# 1. check that sequences can't overlap
-# 2. ensure that single-speaker spans aren't labeled as sequences
+tttbl <- ttdata.turnsonly
 
-
-spchtbl <- ttdata.spchtbl
-focus.child <- "CHN"
-interactants <- LENA.interactants
-addressee.tags <- "none"
-mode <- "strict"
-
-spchtbl <- NULL
-focus.child <- NULL
-interactants <- NULL
-addressee.tags <- NULL
-mode <- NULL
-
-
-tttbl <- chi.tttbl
-focus.utts <- chi.utts
-
-tttbl <- NULL
-focus.utts <- NULL
-
-ttdata <- ttdata.turnsonly %>%
-  fetch_intseqs()
-
+## Changes in progress; basic sanity check as noted above (see BUT);
+# fine-grained check still to come!
 
 # allowed.gap <- 1000
 # allowed.overlap <- 2000
