@@ -26,38 +26,34 @@ ttdata.intseqs <- ttdata.spchtbl %>%
     "CHN", LENA.interactants, "none", "strict") %>%
   fetch_intseqs(allowed.gap)
 
-test <- fetch_intseqs(ttdata.turnsonly, allowed.gap)
-
-
 interactional.bursts <- ttdata.intseqs %>%
-  filter(!is.na(seq.num)) %>%
+  filter(!is.na(intseq.num)) %>%
   mutate(
-    seq.dur.ms = seq.stop.ms - seq.start.ms,
-    seq.dur.min = seq.dur.ms/60000,
-    seq.start.hr = seq.start.ms/3600000) %>%
+    intseq.dur.ms = intseq.stop.ms - intseq.start.ms,
+    intseq.dur.min = intseq.dur.ms/60000,
+    intseq.start.hr = intseq.start.ms/3600000) %>%
   group_by(
-    seq.num, seq.start.ms, seq.stop.ms, seq.dur.ms, seq.dur.min, seq.start.hr,
-    seq.start.spkr, seq.stop.spkr) %>%
+    intseq.num, intseq.start.ms, intseq.stop.ms,
+    intseq.dur.ms, intseq.dur.min, intseq.start.hr,
+    intseq.start.spkr, intseq.stop.spkr) %>%
   summarize(
-    n.seq.prompts = sum(!is.na(prompt.start.ms)),
-    n.seq.responses = sum(!is.na(response.start.ms)),
-    n.seq.tts = n.seq.prompts + n.seq.responses
-  ) %>% filter(
-    n.seq.tts > 0 # BUG!! -- CHN-only sequences (fix in intseq detector)
-  )
+    n.intseq.prompts = sum(!is.na(prompt.start.ms)),
+    n.intseq.responses = sum(!is.na(response.start.ms)),
+    n.intseq.tts = n.intseq.prompts + n.intseq.responses
+  ) # n.intseq.tts should be > 0 in all cases if no bugs
 
 interactional.bursts.lena <- interactional.bursts %>%
-  arrange(seq.num)
-between.seq.times <- tibble()
-seq.data <- interactional.bursts.lena
-seq.data$prev.seq.stop <- c(0, seq.data$seq.stop.ms[1:(nrow(seq.data)-1)])
-seq.data$time.since.prev.seq.ms <- seq.data$seq.start.ms - seq.data$prev.seq.stop
-seq.data$time.since.prev.seq.min <- seq.data$time.since.prev.seq.ms/60000
+  arrange(intseq.num)
+between.intseq.times <- tibble()
+intseq.data <- interactional.bursts.lena
+intseq.data$prev.intseq.stop <- c(0, intseq.data$intseq.stop.ms[1:(nrow(intseq.data)-1)])
+intseq.data$time.since.prev.intseq.ms <- intseq.data$intseq.start.ms - intseq.data$prev.intseq.stop
+intseq.data$time.since.prev.intseq.min <- intseq.data$time.since.prev.intseq.ms/60000
 # BUG
 # between.seq.times.nozero <- filter(between.seq.times,
 #   time.since.prev.seq.min > 0.03333333)
-between.seq.times.zero <- filter(seq.data,
-  time.since.prev.seq.min <= 0.03333333)
+between.intseq.times.zero <- filter(intseq.data,
+  time.since.prev.intseq.ms < allowed.gap)
   
   
   
