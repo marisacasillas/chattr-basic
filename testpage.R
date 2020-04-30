@@ -54,6 +54,7 @@ intseq.data$time.since.prev.intseq.min <- intseq.data$time.since.prev.intseq.ms/
 # add test: between int.seq times should always be >= allowed.gap
 between.intseq.times.zero <- filter(intseq.data,
   time.since.prev.intseq.ms <= allowed.gap)
+# still one 
 
 tttbl <- ttdata.turnsonly
 
