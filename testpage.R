@@ -40,7 +40,7 @@ interactional.bursts <- ttdata.intseqs %>%
     n.intseq.prompts = sum(!is.na(prompt.start.ms)),
     n.intseq.responses = sum(!is.na(response.start.ms)),
     n.intseq.tts = n.intseq.prompts + n.intseq.responses
-  ) # n.intseq.tts should be > 0 in all cases if no bugs
+  ) # add test: n.intseq.tts should be > 0 in all cases if no bugs
 
 interactional.bursts.lena <- interactional.bursts %>%
   arrange(intseq.num)
@@ -49,11 +49,11 @@ intseq.data <- interactional.bursts.lena
 intseq.data$prev.intseq.stop <- c(0, intseq.data$intseq.stop.ms[1:(nrow(intseq.data)-1)])
 intseq.data$time.since.prev.intseq.ms <- intseq.data$intseq.start.ms - intseq.data$prev.intseq.stop
 intseq.data$time.since.prev.intseq.min <- intseq.data$time.since.prev.intseq.ms/60000
-# BUG
-# between.seq.times.nozero <- filter(between.seq.times,
-#   time.since.prev.seq.min > 0.03333333)
+# BUG when there is a L-R edge meet-up from two different non-focal speakers
+# they should be joined into a single interactional sequence
+# add test: between int.seq times should always be >= allowed.gap
 between.intseq.times.zero <- filter(intseq.data,
-  time.since.prev.intseq.ms < allowed.gap)
+  time.since.prev.intseq.ms <= allowed.gap)
   
   
   
