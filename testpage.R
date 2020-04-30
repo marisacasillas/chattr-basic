@@ -24,9 +24,9 @@ ttdata.turnsonly <- ttdata.spchtbl %>%
 ttdata.intseqs <- ttdata.spchtbl %>%
   fetch_transitions(allowed.gap, allowed.overlap,
     "CHN", LENA.interactants, "none", "strict") %>%
-  fetch_intseqs()
+  fetch_intseqs(allowed.gap)
 
-tttbl <- ttdata.turnsonly
+test <- fetch_intseqs(ttdata.turnsonly, allowed.gap)
 
 
 interactional.bursts <- ttdata.intseqs %>%
