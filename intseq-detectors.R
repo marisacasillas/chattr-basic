@@ -107,6 +107,27 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
         tttbl.edges$focal.seq[i-1] > 800 ~ 888,
       TRUE ~ 0)
   }
+  # check for continuations separated by focal-speaker-only
+  # sequences
+  tttbl.edges$ms.lapsed.prior.edge.prev <- c(0,
+    tttbl.edges$ms.lapsed.prior.edge[1:(nrow(tttbl.edges)-1)])
+  check.continuation.idx <- which(
+    tttbl.edges$close.to.prev.edge == 0 &
+      tttbl.edges$new.seq == 1 &
+      tttbl.edges$focal.seq == 1 &
+      tttbl.edges$ms.lapsed.prior.edge.prev <= 0)
+  for (i in check.continuation.idx) {
+    if (i > 1) {
+      prev.zero <- max(which(tttbl.edges$close.to.prev.edge[1:(i-1)] == 0))
+      verified.new <- ifelse(
+        tttbl.edges$anchor.L.start.ms[i] -
+          tttbl.edges$anchor.R.stop.ms[prev.zero] <= allowed.gap,
+        0, tttbl.edges$new.seq[i])
+      tttbl.edges$new.seq[i] <- verified.new
+      tttbl.edges$focal.seq[i] <- verified.new
+    }
+  }
+  # reassign values for sequence starts/continuations
   tttbl.edges$focal.seq[which(tttbl.edges$focal.seq < 888)] <- NA
   tttbl.edges$focal.seq[which(tttbl.edges$focal.seq == 888)] <- 0
   tttbl.edges$focal.seq[which(tttbl.edges$focal.seq == 999)] <- 1

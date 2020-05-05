@@ -49,12 +49,8 @@ intseq.data <- interactional.bursts.lena
 intseq.data$prev.intseq.stop <- c(0, intseq.data$intseq.stop.ms[1:(nrow(intseq.data)-1)])
 intseq.data$time.since.prev.intseq.ms <- intseq.data$intseq.start.ms - intseq.data$prev.intseq.stop
 intseq.data$time.since.prev.intseq.min <- intseq.data$time.since.prev.intseq.ms/60000
-# BUG when there is a L-R edge meet-up from two different non-focal speakers
-# they should be joined into a single interactional sequence
-# add test: between int.seq times should always be >= allowed.gap
 between.intseq.times.zero <- filter(intseq.data,
   time.since.prev.intseq.ms <= allowed.gap)
-# still one 
 
 tttbl <- ttdata.turnsonly
 
