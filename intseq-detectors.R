@@ -118,13 +118,16 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       tttbl.edges$ms.lapsed.prior.edge.prev <= 0)
   for (i in check.continuation.idx) {
     if (i > 1) {
-      prev.zero <- max(which(tttbl.edges$close.to.prev.edge[1:(i-1)] == 0))
-      verified.new <- ifelse(
-        tttbl.edges$anchor.L.start.ms[i] -
-          tttbl.edges$anchor.R.stop.ms[prev.zero] <= allowed.gap,
-        0, tttbl.edges$new.seq[i])
-      tttbl.edges$new.seq[i] <- verified.new
-      tttbl.edges$focal.seq[i] <- verified.new
+      prev.zero <- which(tttbl.edges$close.to.prev.edge[1:(i-1)] == 0)
+      if (length(prev.zero) > 0) {
+        prev.zero <- max(prev.zero)
+        verified.new <- ifelse(
+          tttbl.edges$anchor.L.start.ms[i] -
+            tttbl.edges$anchor.R.stop.ms[prev.zero] <= allowed.gap,
+          0, tttbl.edges$new.seq[i])
+        tttbl.edges$new.seq[i] <- verified.new
+        tttbl.edges$focal.seq[i] <- verified.new
+      }
     }
   }
   # reassign values for sequence starts/continuations
