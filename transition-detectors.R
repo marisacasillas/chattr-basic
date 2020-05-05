@@ -272,6 +272,10 @@ choose_prompt <- function(utttbl, mode, window, cont.utt) {
 fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   min.utt.dur, focus.child, interactants, addressee.tags, mode) {
   # exclude utterances deemed too short to "count"
+  if (!("duration" %in% names(spchtbl))) {
+    spchtbl <- mutate(spchtbl,
+      duration = stop.ms - start.ms)
+  }
   spchtbl <- filter(spchtbl, duration > min.utt.dur)
   # only include utterances occurring within annotated clips
   # (clips over-hanging utterances)
