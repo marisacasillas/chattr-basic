@@ -270,7 +270,9 @@ choose_prompt <- function(utttbl, mode, window, cont.utt) {
 # Finds turn transitions between a focus child and other speakers
 # within the annotated clips indicated in the spchtbl
 fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
-  focus.child, interactants, addressee.tags, mode) {
+  min.utt.dur, focus.child, interactants, addressee.tags, mode) {
+  # exclude utterances deemed too short to "count"
+  spchtbl <- filter(spchtbl, duration > min.utt.dur)
   # only include utterances occurring within annotated clips
   # (clips over-hanging utterances)
   spchtbl.cropped <- crop_to_annots(spchtbl)
