@@ -73,11 +73,13 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
         filter(non.lx == 1) %>%
         select(speaker, start.ms)
       # add all info to wide table
-      wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl) %>%
-        left_join(xds.aastbl) %>%
+      wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl,
+        by = c("speaker", "start.ms")) %>%
+        left_join(xds.aastbl, by = c("speaker", "start.ms")) %>%
         select(speaker, start.ms, stop.ms, addressee)
     } else {
-      wide.aastbl <- left_join(wide.aastbl, xds.aastbl) %>%
+      wide.aastbl <- left_join(wide.aastbl, xds.aastbl,
+        by = c("speaker", "start.ms")) %>%
         select(speaker, start.ms, stop.ms, addressee)
     }
     # add in information about the annotated regions
