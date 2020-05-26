@@ -104,7 +104,6 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
         close.to.prev.edge == 0 & is.na(prompt.spkr) & is.na(response.spkr) ~ 999,
         TRUE ~ 0),
       focal.seq = new.seq)
-  
   # separate interactive sequences from focal-speaker-only sequences
   for (i in 2:nrow(tttbl.edges)) {
     tttbl.edges$focal.seq[i] <- case_when(
@@ -155,16 +154,18 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       n.prompt = length(which(!is.na(prompt.spkr))),
       n.tts = n.resp + n.prompt) %>%
     filter(n.tts > 0 & !is.na(vocseq.num))
-  for (i in 1:nrow(int.as.voc.seqs)) {
-    switch.idx <- which(tttbl.edges$vocseq.num == int.as.voc.seqs$vocseq.num[i])
-    tttbl.edges$new.seq[switch.idx] <- c(1, rep(0, (length(switch.idx)-1)))
-    tttbl.edges$focal.seq[switch.idx] <- rep(NA, (length(switch.idx)))
-  }  
-  # RE-number the now-corrected sequences
-  tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
-    0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
-  tttbl.edges$vocseq.num <- cumsum(ifelse(is.na(tttbl.edges$focal.seq),
-    0, tttbl.edges$focal.seq)) + tttbl.edges$focal.seq*0
+  if (nrow(int.as.voc.seqs) > 0) {
+    for (i in 1:nrow(int.as.voc.seqs)) {
+      switch.idx <- which(tttbl.edges$vocseq.num == int.as.voc.seqs$vocseq.num[i])
+      tttbl.edges$new.seq[switch.idx] <- c(1, rep(0, (length(switch.idx)-1)))
+      tttbl.edges$focal.seq[switch.idx] <- rep(NA, (length(switch.idx)))
+    }  
+    # RE-number the now-corrected sequences
+    tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
+      0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
+    tttbl.edges$vocseq.num <- cumsum(ifelse(is.na(tttbl.edges$focal.seq),
+      0, tttbl.edges$focal.seq)) + tttbl.edges$focal.seq*0
+  }
   # find the earliest and latest turn info (start/stop/speaker)
   # associated with each intseq and focal-only seq
   # intseqs
