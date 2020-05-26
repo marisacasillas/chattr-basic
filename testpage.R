@@ -10,6 +10,58 @@ source("continuation-detectors.R")
 source("intseq-detectors.R")
 
 
+
+##########
+allowed.gap <- 2000
+allowed.overlap <- 1000
+min.utt.dur <- 300
+LENA.interactants <- c("FAN", "MAN")
+
+ttdata.spchtbl <- read_spchtbl("../chattr-paper/annotated-data/raw/123420-0052.its",
+  "lena-its", lxonly = TRUE)
+
+ttdata.turnsonly <- ttdata.spchtbl %>%
+  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
+    "CHN", LENA.interactants, "none", "strict")
+
+ttdata.intseqs <- ttdata.spchtbl %>%
+  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
+    "CHN", LENA.interactants, "none", "strict") %>%
+  fetch_intseqs(allowed.gap)
+
+# check that each intseq has at least one prompt or response
+check.tts.in.intseqs <- ttdata.intseqs %>%
+  group_by(intseq.num) %>%
+  summarize(
+    n.prompts = length(which(!is.na(prompt.spkr))),
+    n.responses = length(which(!is.na(response.spkr)))
+  ) %>%
+  mutate(
+    n.tts = n.prompts + n.responses
+  ) %>%
+  filter(
+    n.tts == 0 & !is.na(intseq.num)
+  ) %>%
+  nrow() == 0
+
+# check that each vocseq has exactly 0 prompts and 0 responses
+check.NO.tts.in.vocseqs <- ttdata.intseqs %>%
+  group_by(vocseq.num) %>%
+  summarize(
+    n.prompts = length(which(!is.na(prompt.spkr))),
+    n.responses = length(which(!is.na(response.spkr)))
+  ) %>%
+  mutate(
+    n.tts = n.prompts + n.responses
+  ) %>%
+  filter(
+    n.tts > 0 & !is.na(vocseq.num)
+  ) %>%
+  nrow() == 0
+
+# ^^ these tests need to be integrated
+##########
+
 allowed.gap <- 2000
 allowed.overlap <- 1000
 LENA.interactants <- c("FAN", "MAN")
