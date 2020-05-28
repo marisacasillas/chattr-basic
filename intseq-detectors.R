@@ -161,6 +161,13 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       tttbl.edges$focal.seq[switch.idx] <- rep(NA, (length(switch.idx)))
     }  
   }
+  # RE-number the now-corrected sequences
+  if (nrow(int.as.voc.seqs) > 0) {
+    tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
+      0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
+    tttbl.edges$vocseq.num <- cumsum(ifelse(is.na(tttbl.edges$focal.seq),
+      0, tttbl.edges$focal.seq)) + tttbl.edges$focal.seq*0
+  }
   # collapse adjacent intseqs counted as separate because of orphaned vocs
   tooclose.intseqs <- tttbl.edges %>%
     filter(!is.na(intseq.num)) %>%
@@ -177,12 +184,10 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     tttbl.edges$new.seq[which(
       tttbl.edges$intseq.num %in% tooclose.intseqs)] <- 0
   }
-  # RE-number the now-corrected sequences
-  if (nrow(int.as.voc.seqs) > 0 | length(tooclose.intseqs) > 0) {
+  # RE-number the now-again-corrected sequences
+  if (length(tooclose.intseqs) > 0) {
     tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
       0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
-    tttbl.edges$vocseq.num <- cumsum(ifelse(is.na(tttbl.edges$focal.seq),
-      0, tttbl.edges$focal.seq)) + tttbl.edges$focal.seq*0
   }
   # find the earliest and latest turn info (start/stop/speaker)
   # associated with each intseq and focal-only seq
