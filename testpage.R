@@ -17,7 +17,7 @@ allowed.overlap <- 1000
 min.utt.dur <- 300
 LENA.interactants <- c("FAN", "MAN")
 
-ttdata.spchtbl <- read_spchtbl("../chattr-paper/annotated-data/raw/123420-0052.its",
+ttdata.spchtbl <- read_spchtbl("../chattr-paper/annotated-data/raw/123522-1904.its",
   "lena-its", lxonly = TRUE)
 
 ttdata.turnsonly <- ttdata.spchtbl %>%
