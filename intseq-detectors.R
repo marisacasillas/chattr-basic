@@ -160,7 +160,25 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       tttbl.edges$new.seq[switch.idx] <- c(1, rep(0, (length(switch.idx)-1)))
       tttbl.edges$focal.seq[switch.idx] <- rep(NA, (length(switch.idx)))
     }  
-    # RE-number the now-corrected sequences
+  }
+  # collapse adjacent intseqs counted as separate because of orphaned vocs
+  tooclose.intseqs <- tttbl.edges %>%
+    filter(!is.na(intseq.num)) %>%
+    group_by(intseq.num) %>%
+    summarize(seq.start.ms = min(anchor.L.start.ms),
+      seq.stop.ms = max(anchor.R.stop.ms))
+  tooclose.intseqs$prev.seq.end <- c(
+    NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
+  tooclose.intseqs <- tooclose.intseqs %>%
+    mutate(ms.since.prev.intseq = seq.start.ms - prev.seq.end) %>%
+    filter(ms.since.prev.intseq <= allowed.gap) %>%
+    pull(intseq.num)
+  if (length(tooclose.intseqs) > 0) {
+    tttbl.edges$new.seq[which(
+      tttbl.edges$intseq.num %in% tooclose.intseqs)] <- 0
+  }
+  # RE-number the now-corrected sequences
+  if (nrow(int.as.voc.seqs) > 0 | length(tooclose.intseqs) > 0) {
     tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
       0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
     tttbl.edges$vocseq.num <- cumsum(ifelse(is.na(tttbl.edges$focal.seq),
