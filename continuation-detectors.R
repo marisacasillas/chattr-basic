@@ -25,6 +25,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   tttbl.spkr.turns.multiincrement <- tttbl %>%
     group_by(speaker.turn.num) %>%
     summarize(
+      `.groups` = "drop",
       spkr.prev.increment.start = min(start.ms),
       spkr.post.increment.stop = max(stop.ms),
       spkr.n.increments = n()) %>%
@@ -103,6 +104,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
     cont.spkr.tbl.multiincrement <- cont.spkr.tbl %>%
       group_by(cont.spkr, cont.spkr.turn.num) %>%
       summarize(
+        `.groups` = "drop",
         cont.spkr.prev.increment.start = min(cont.start.ms),
         cont.spkr.post.increment.stop = max(cont.stop.ms),
         cont.spkr.n.increments = n()) %>%

@@ -449,13 +449,17 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # establish which prompts are re-used
   prompts.used.multi.times <- chi.utts.prompts %>%
     group_by(prompt.start.ms, prompt.spkr) %>%
-    summarize(n = n()) %>%
+    summarize(
+      `.groups` = "drop",
+      n = n()) %>%
     filter(n > 1) %>%
     pull(prompt.start.ms)
   # establish which focal utterances are re-used
   chiutt.assoc.multi.prompts <- chi.utts.prompts %>%
     group_by(start.ms) %>%
-    summarize(n.instances = n()) %>%
+    summarize(
+      `.groups` = "drop",
+      n.instances = n()) %>%
     filter (n.instances > 1) %>%
     pull(start.ms)
   chi.utts.prompts <- chi.utts.prompts %>%
@@ -531,13 +535,17 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # establish which prompts are re-used
   responses.used.multi.times <- chi.utts.responses %>%
     group_by(response.start.ms, response.spkr) %>%
-    summarize(n = n()) %>%
+    summarize(
+      `.groups` = "drop",
+      n = n()) %>%
     filter(n > 1) %>%
     pull(response.start.ms)
   # establish which focal utterances are re-used
   chiutt.assoc.multi.response <-  chi.utts.responses %>%
     group_by(start.ms) %>%
-    summarize(n.instances = n()) %>%
+    summarize(
+      `.groups` = "drop",
+      n.instances = n()) %>%
     filter (n.instances > 1) %>%
     pull(start.ms)
   chi.utts.responses <- chi.utts.responses %>%

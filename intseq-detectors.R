@@ -150,6 +150,7 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
   int.as.voc.seqs <- tttbl.edges %>%
     group_by(vocseq.num) %>%
     summarize(
+      `.groups` = "drop",
       n.resp = length(which(!is.na(response.spkr))),
       n.prompt = length(which(!is.na(prompt.spkr))),
       n.tts = n.resp + n.prompt) %>%
@@ -172,7 +173,9 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
   tooclose.intseqs <- tttbl.edges %>%
     filter(!is.na(intseq.num)) %>%
     group_by(intseq.num) %>%
-    summarize(seq.start.ms = min(anchor.L.start.ms),
+    summarize(
+      `.groups` = "drop",
+      seq.start.ms = min(anchor.L.start.ms),
       seq.stop.ms = max(anchor.R.stop.ms))
   tooclose.intseqs$prev.seq.end <- c(
     NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
@@ -210,7 +213,9 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
   seq.stats.intseq <- tttbl.edges %>%
     group_by(intseq.num) %>%
     filter(intseq.num > 0) %>%
-    summarize(seq.start.ms = min(anchor.L.start.ms),
+    summarize(
+      `.groups` = "drop",
+      seq.start.ms = min(anchor.L.start.ms),
       seq.stop.ms = max(anchor.R.stop.ms)) %>%
     left_join(uniq.L.anchors.intseq, by = c("intseq.num", "seq.start.ms")) %>%
     left_join(uniq.R.anchors.intseq, by = c("intseq.num", "seq.stop.ms")) %>%
@@ -241,7 +246,9 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
   seq.stats.vocseq <- tttbl.edges %>%
     group_by(vocseq.num) %>%
     filter(vocseq.num > 0) %>%
-    summarize(seq.start.ms = min(anchor.L.start.ms),
+    summarize(
+      `.groups` = "drop",
+      seq.start.ms = min(anchor.L.start.ms),
       seq.stop.ms = max(anchor.R.stop.ms)) %>%
     left_join(uniq.L.anchors.vocseq, by = c("vocseq.num", "seq.start.ms")) %>%
     left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
