@@ -21,7 +21,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
       TRUE ~ 0))
   tttbl$speaker.turn.num <- cumsum(tttbl$new.turn == 1)
   tttbl <- tttbl %>%
-    select(-stop.prev.ms, -response.prev.spkr, -new.turn)
+    dplyr::select(-stop.prev.ms, -response.prev.spkr, -new.turn)
   tttbl.spkr.turns.multiincrement <- tttbl %>%
     group_by(speaker.turn.num) %>%
     summarize(
@@ -29,13 +29,13 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
       spkr.post.increment.stop = max(stop.ms),
       spkr.n.increments = n()) %>%
     filter(spkr.n.increments > 1) %>%
-    left_join(select(tttbl, c(start.ms, stop.ms)),
+    left_join(dplyr::select(tttbl, c(start.ms, stop.ms)),
       by = c("spkr.prev.increment.start" = "start.ms")) %>%
-    left_join(select(tttbl, c(start.ms, stop.ms)),
+    left_join(dplyr::select(tttbl, c(start.ms, stop.ms)),
       by = c("spkr.post.increment.stop" = "stop.ms")) %>%
-    rename("spkr.prev.increment.stop" = "stop.ms",
+    dplyr::rename("spkr.prev.increment.stop" = "stop.ms",
       "spkr.post.increment.start" = "start.ms") %>%
-    select(speaker.turn.num, spkr.n.increments,
+    dplyr::select(speaker.turn.num, spkr.n.increments,
       spkr.prev.increment.start, spkr.prev.increment.stop,
       spkr.post.increment.start, spkr.post.increment.stop)
   tttbl <- tttbl %>%
@@ -59,16 +59,16 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   # that are unbroken by turn transitions to the focal speaker
   prompts.basic <- tttbl %>%
     filter(!is.na(prompt.spkr)) %>%
-    select(prompt.spkr, prompt.start.ms, prompt.stop.ms) %>%
+    dplyr::select(prompt.spkr, prompt.start.ms, prompt.stop.ms) %>%
     distinct() %>%
-    rename(cont.spkr = prompt.spkr, cont.start.ms = prompt.start.ms,
+    dplyr::rename(cont.spkr = prompt.spkr, cont.start.ms = prompt.start.ms,
       cont.stop.ms = prompt.stop.ms) %>%
     mutate(has.response = 1)
   responses.basic <- tttbl %>%
     filter(!is.na(response.spkr)) %>%
-    select(response.spkr, response.start.ms, response.stop.ms) %>%
+    dplyr::select(response.spkr, response.start.ms, response.stop.ms) %>%
     distinct() %>%
-    rename(cont.spkr = response.spkr, cont.start.ms = response.start.ms,
+    dplyr::rename(cont.spkr = response.spkr, cont.start.ms = response.start.ms,
       cont.stop.ms = response.stop.ms) %>%
     mutate(has.prompt = 1)
   contingent.utts.basic <- full_join(prompts.basic, responses.basic,
@@ -79,7 +79,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   for (spkr in unique.cont.spkrs) {
     spkr.int.utts <- int.utts %>%
       filter(speaker == spkr) %>%
-      select(speaker, start.ms, stop.ms)
+      dplyr::select(speaker, start.ms, stop.ms)
     cont.spkr.tbl <- contingent.utts.basic %>%
       filter(cont.spkr == spkr) %>%
       full_join(spkr.int.utts, by = c(
@@ -98,7 +98,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
         TRUE ~ 0))
     cont.spkr.tbl$cont.spkr.turn.num <- cumsum(cont.spkr.tbl$new.turn == 1)
     cont.spkr.tbl <- cont.spkr.tbl %>%
-      select(-stop.prev.ms, -response.prev.spkr, -new.turn) %>%
+      dplyr::select(-stop.prev.ms, -response.prev.spkr, -new.turn) %>%
       ungroup()
     cont.spkr.tbl.multiincrement <- cont.spkr.tbl %>%
       group_by(cont.spkr, cont.spkr.turn.num) %>%
@@ -107,21 +107,21 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
         cont.spkr.post.increment.stop = max(cont.stop.ms),
         cont.spkr.n.increments = n()) %>%
       filter(cont.spkr.n.increments > 1) %>%
-      left_join(select(int.utts, c(speaker, start.ms, stop.ms)),
+      left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
         by = c("cont.spkr" = "speaker",
           "cont.spkr.prev.increment.start" = "start.ms")) %>%
-      left_join(select(int.utts, c(speaker, start.ms, stop.ms)),
+      left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
         by = c("cont.spkr" = "speaker",
           "cont.spkr.post.increment.stop" = "stop.ms")) %>%
-      rename("cont.spkr.prev.increment.stop" = "stop.ms",
+      dplyr::rename("cont.spkr.prev.increment.stop" = "stop.ms",
         "cont.spkr.post.increment.start" = "start.ms") %>%
       ungroup() %>%
-      select(cont.spkr, cont.spkr.turn.num, cont.spkr.n.increments,
+      dplyr::select(cont.spkr, cont.spkr.turn.num, cont.spkr.n.increments,
         cont.spkr.prev.increment.start, cont.spkr.prev.increment.stop,
         cont.spkr.post.increment.start, cont.spkr.post.increment.stop)
     spkr.contingent.utts.basic <- contingent.utts.basic %>%
       filter(cont.spkr == spkr) %>%
-      left_join(select(cont.spkr.tbl, c("cont.start.ms", "cont.spkr.turn.num")),
+      left_join(dplyr::select(cont.spkr.tbl, c("cont.start.ms", "cont.spkr.turn.num")),
         by = "cont.start.ms") %>%
       left_join(cont.spkr.tbl.multiincrement,
         by = c("cont.spkr.turn.num", "cont.spkr")) %>%
@@ -145,18 +145,18 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   }
   # add these continuation utterance start/stop times into the main tibble
   tttbl <- tttbl %>%
-    left_join(select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
+    left_join(dplyr::select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
       "cont.spkr.prev.increment.start", "cont.spkr.prev.increment.stop",
       "cont.spkr.n.increments")),
       by = c("prompt.spkr" = "cont.spkr", "prompt.start.ms" = "cont.start.ms")) %>%
-    rename("prompt.prev.increment.start" = "cont.spkr.prev.increment.start",
+    dplyr::rename("prompt.prev.increment.start" = "cont.spkr.prev.increment.start",
       "prompt.prev.increment.stop" = "cont.spkr.prev.increment.stop",
       "prompt.n.increments" = "cont.spkr.n.increments") %>%
-    left_join(select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
+    left_join(dplyr::select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
       "cont.spkr.post.increment.start", "cont.spkr.post.increment.stop",
       "cont.spkr.n.increments")),
       by = c("response.spkr" = "cont.spkr", "response.start.ms" = "cont.start.ms")) %>%
-    rename("response.post.increment.start" = "cont.spkr.post.increment.start",
+    dplyr::rename("response.post.increment.start" = "cont.spkr.post.increment.start",
       "response.post.increment.stop" = "cont.spkr.post.increment.stop",
       "response.n.increments" = "cont.spkr.n.increments")
 
@@ -166,7 +166,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
       mutate(addressee = NA)
   }
   tttbl <- tttbl %>%
-    select(speaker, annot.clip, start.ms, stop.ms, addressee, spkr.n.increments,
+    dplyr::select(speaker, annot.clip, start.ms, stop.ms, addressee, spkr.n.increments,
       spkr.prev.increment.start, spkr.prev.increment.stop,
       spkr.post.increment.start, spkr.post.increment.stop,
       prompt.spkr, prompt.start.ms, prompt.stop.ms, prompt.n.increments,

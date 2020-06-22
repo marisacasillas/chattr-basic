@@ -79,8 +79,8 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     intseq.num = c(1:nrow(tttbl))
   )
   tttbl.seq <- left_join(tttbl, seq.stats, by = "speaker") %>%
-    select(-seq.start.ms, -seq.stop.ms)
-  seq.stats <- right_join(select(seq.stats, -speaker), n.poss.seqs,
+    dplyr::select(-seq.start.ms, -seq.stop.ms)
+  seq.stats <- right_join(dplyr::select(seq.stats, -speaker), n.poss.seqs,
     by = "intseq.num")
   # find the edge utterance associated with each focal speaker vocalization
   tttbl.edges <- compose_edges(tttbl.seq)
@@ -197,16 +197,16 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     group_by(intseq.num) %>%
     mutate(id = row_number()) %>%
     filter(intseq.num > 0 & id == 1) %>%
-    select(intseq.num, anchor.L.start.ms, anchor.L.speaker) %>%
-    rename(seq.start.ms = anchor.L.start.ms)
+    dplyr::select(intseq.num, anchor.L.start.ms, anchor.L.speaker) %>%
+    dplyr::rename(seq.start.ms = anchor.L.start.ms)
   uniq.R.anchors.intseq <- tttbl.edges %>%
     arrange(intseq.num, -anchor.R.stop.ms) %>%
     group_by(intseq.num) %>%
     mutate(id = row_number()) %>%
     filter(intseq.num > 0 & id == 1) %>%
     arrange(start.ms) %>%
-    select(intseq.num, anchor.R.stop.ms, anchor.R.speaker) %>%
-    rename(seq.stop.ms = anchor.R.stop.ms)
+    dplyr::select(intseq.num, anchor.R.stop.ms, anchor.R.speaker) %>%
+    dplyr::rename(seq.stop.ms = anchor.R.stop.ms)
   seq.stats.intseq <- tttbl.edges %>%
     group_by(intseq.num) %>%
     filter(intseq.num > 0) %>%
@@ -214,13 +214,13 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       seq.stop.ms = max(anchor.R.stop.ms)) %>%
     left_join(uniq.L.anchors.intseq, by = c("intseq.num", "seq.start.ms")) %>%
     left_join(uniq.R.anchors.intseq, by = c("intseq.num", "seq.stop.ms")) %>%
-    rename(
+    dplyr::rename(
       intseq.start.ms = seq.start.ms,
       intseq.stop.ms = seq.stop.ms,
       intseq.start.spkr = anchor.L.speaker,
       intseq.stop.spkr = anchor.R.speaker) %>%
     distinct() %>%
-    select(intseq.num, intseq.start.spkr, intseq.start.ms,
+    dplyr::select(intseq.num, intseq.start.spkr, intseq.start.ms,
       intseq.stop.spkr, intseq.stop.ms)
   # focal-only vocalization seqs
   uniq.L.anchors.vocseq <- tttbl.edges %>%
@@ -228,16 +228,16 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     group_by(vocseq.num) %>%
     mutate(id = row_number()) %>%
     filter(vocseq.num > 0 & id == 1) %>%
-    select(vocseq.num, anchor.L.start.ms, anchor.L.speaker) %>%
-    rename(seq.start.ms = anchor.L.start.ms)
+    dplyr::select(vocseq.num, anchor.L.start.ms, anchor.L.speaker) %>%
+    dplyr::rename(seq.start.ms = anchor.L.start.ms)
   uniq.R.anchors.vocseq <- tttbl.edges %>%
     arrange(vocseq.num, -anchor.R.stop.ms) %>%
     group_by(vocseq.num) %>%
     mutate(id = row_number()) %>%
     filter(vocseq.num > 0 & id == 1) %>%
     arrange(start.ms) %>%
-    select(vocseq.num, anchor.R.stop.ms, anchor.R.speaker) %>%
-    rename(seq.stop.ms = anchor.R.stop.ms)
+    dplyr::select(vocseq.num, anchor.R.stop.ms, anchor.R.speaker) %>%
+    dplyr::rename(seq.stop.ms = anchor.R.stop.ms)
   seq.stats.vocseq <- tttbl.edges %>%
     group_by(vocseq.num) %>%
     filter(vocseq.num > 0) %>%
@@ -245,17 +245,17 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       seq.stop.ms = max(anchor.R.stop.ms)) %>%
     left_join(uniq.L.anchors.vocseq, by = c("vocseq.num", "seq.start.ms")) %>%
     left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
-    rename(
+    dplyr::rename(
       vocseq.start.ms = seq.start.ms,
       vocseq.stop.ms = seq.stop.ms,
       vocseq.start.spkr = anchor.L.speaker,
       vocseq.stop.spkr = anchor.R.speaker) %>%
     distinct() %>%
-    select(vocseq.num, vocseq.start.spkr, vocseq.start.ms,
+    dplyr::select(vocseq.num, vocseq.start.spkr, vocseq.start.ms,
       vocseq.stop.spkr, vocseq.stop.ms)
   # only keep info needed for further processing
   intseqtbl <- tttbl.edges %>%
-    select(
+    dplyr::select(
       -anchor.L.start.ms, -anchor.L.stop.ms, -anchor.L.speaker,
       -anchor.R.start.ms, -anchor.R.stop.ms, -anchor.R.speaker,
       -prior.R.edge.stop, -ms.lapsed.prior.edge, -close.to.prev.edge,
@@ -263,7 +263,7 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     left_join(seq.stats.intseq, by = "intseq.num") %>%
     left_join(seq.stats.vocseq, by = "vocseq.num") %>%
     # re-order columns as desired
-    select(
+    dplyr::select(
       speaker, annot.clip, start.ms, stop.ms,
       addressee, spkr.n.increments,
       spkr.prev.increment.start, spkr.prev.increment.stop,

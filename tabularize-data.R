@@ -42,8 +42,8 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
   } else {
     # add in addressee information for each non-CHI utterance
     xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
-      select(speaker, start.ms, value) %>%
-      rename(addressee = value)
+      dplyr::select(speaker, start.ms, value) %>%
+      dplyr::rename(addressee = value)
     if (NA %in% unique(xds.aastbl$speaker)) {
       print("WARNING: You may have a speaker information; make sure the correct Participant is entered in the metadata for each ELAN tier before exporting.")
     }
@@ -61,7 +61,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
         vcm.aastbl$`mwu@CHI` <- NA
       }
       vcm.aastbl <- vcm.aastbl %>%
-        rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
+        dplyr::rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
         mutate(non.lx = case_when(
           vcm == "Y" ~ 1,
           vcm == "L" ~ 1,
@@ -71,16 +71,16 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
         )) %>%
         # remove non-linguistic vocalizations
         filter(non.lx == 1) %>%
-        select(speaker, start.ms)
+        dplyr::select(speaker, start.ms)
       # add all info to wide table
       wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl,
         by = c("speaker", "start.ms")) %>%
         left_join(xds.aastbl, by = c("speaker", "start.ms")) %>%
-        select(speaker, start.ms, stop.ms, addressee)
+        dplyr::select(speaker, start.ms, stop.ms, addressee)
     } else {
       wide.aastbl <- left_join(wide.aastbl, xds.aastbl,
         by = c("speaker", "start.ms")) %>%
-        select(speaker, start.ms, stop.ms, addressee)
+        dplyr::select(speaker, start.ms, stop.ms, addressee)
     }
     # add in information about the annotated regions
     # (if no annotation, stop and tell the user)
@@ -88,7 +88,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
       clip.tbl <- filter(aastbl, tier == cliptier) %>%
         mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value),
           addressee = NA) %>%
-        select(speaker, start.ms, stop.ms, addressee)
+        dplyr::select(speaker, start.ms, stop.ms, addressee)
       wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
       return(wide.aastbl)
     } else {
@@ -107,8 +107,8 @@ elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
       duration = col_integer(),
       value = col_character()
     )) %>%
-    select(tier, start.ms, stop.ms, value) %>%
-    rename(speaker = tier)
+    dplyr::select(tier, start.ms, stop.ms, value) %>%
+    dplyr::rename(speaker = tier)
   # subset to linguistic vocalizations if desired
   if (is.character(lxonly)) {
     ebtbl <- ebtbl %>%
@@ -122,7 +122,7 @@ elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
     clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
       mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
     ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
-      select(-value)
+      dplyr::select(-value)
     return(ebtbl)
   } else {
     print("Error: no rows from the clip tier found.")
@@ -153,11 +153,11 @@ its_to_spchtbl <- function(its.file, lxonly) {
     )
   if ("value" %in% colnames(spchtbl)) {
     spchtbl <- spchtbl %>%
-      select(speaker, start.ms, stop.ms, duration, value)
+      dplyr::select(speaker, start.ms, stop.ms, duration, value)
   } else {
     spchtbl <- spchtbl %>%
       mutate(value = NA) %>%
-      select(speaker, start.ms, stop.ms, duration, value)
+      dplyr::select(speaker, start.ms, stop.ms, duration, value)
   }
   # add in the recorded periods
   its.data.segments <- its.data[
@@ -175,7 +175,7 @@ its_to_spchtbl <- function(its.file, lxonly) {
       duration = stop.ms - start.ms,
       speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion),
       value = NA) %>%
-      select(speaker, start.ms, stop.ms, duration, value)
+      dplyr::select(speaker, start.ms, stop.ms, duration, value)
   } else {
     for (i in 1:nrow(rec.start.times)) {
       new.rec <- tibble(
@@ -184,7 +184,7 @@ its_to_spchtbl <- function(its.file, lxonly) {
         duration = stop.ms - start.ms,
         speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion),
         value = NA) %>%
-        select(speaker, start.ms, stop.ms, duration, value)
+        dplyr::select(speaker, start.ms, stop.ms, duration, value)
       rec.start.tbl <- bind_rows(rec.start.tbl, new.rec)
       recorded.portion <- recorded.portion + 1
     }

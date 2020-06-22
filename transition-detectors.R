@@ -159,21 +159,21 @@ create_tttbl <- function(conttbl, mode) {
       }
       prompts <- prompts %>%
         filter(!is.na(cont.utt.boundary)) %>%
-        rename(
+        dplyr::rename(
           prompt.start.ms = cont.utt.boundary.opp,
           prompt.stop.ms = cont.utt.boundary,
           prompt.spkr = cont.utt.speaker) %>%
-        select(-cont.type)
+        dplyr::select(-cont.type)
       responses <- responses %>%
         filter(!is.na(cont.utt.boundary)) %>%
-        rename(
+        dplyr::rename(
           response.start.ms = cont.utt.boundary,
           response.stop.ms = cont.utt.boundary.opp,
           response.spkr = cont.utt.speaker) %>%
-        select(-cont.type)
+        dplyr::select(-cont.type)
       tttbl <- full_join(prompts, responses, by = "utt.idx") %>%
         arrange(utt.idx) %>%
-        select(utt.idx, prompt.start.ms, prompt.stop.ms, prompt.spkr,
+        dplyr::select(utt.idx, prompt.start.ms, prompt.stop.ms, prompt.spkr,
           response.start.ms, response.stop.ms, response.spkr)
     }
   } else {
@@ -440,7 +440,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       prompt.spkr = speaker,
       prompt.start.ms = start.ms,
       prompt.stop.ms = stop.ms) %>%
-    select(prompt.spkr, prompt.start.ms, prompt.stop.ms,
+    dplyr::select(prompt.spkr, prompt.start.ms, prompt.stop.ms,
       focal.utt.start.prompt)
   chi.utts.prompts <- right_join(chi.utts, sub.int.prompts,
     by = c("start.ms" = "focal.utt.start.prompt"))
@@ -466,7 +466,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
         start.ms %in% chiutt.assoc.multi.prompts, 1, 0))
   easy.utts.prompts <- filter(chi.utts.prompts,
     prompt.used.elsewhere + chiutt.used.elsewhere == 0) %>%
-    select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
+    dplyr::select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
   # select the contingencies among the transitions with multiple options
   hard.utts.prompts <- filter(chi.utts.prompts,
     prompt.used.elsewhere + chiutt.used.elsewhere > 0) %>%
@@ -510,7 +510,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   }
   # rejoin all the prompts together
   hard.utts.prompts <- hard.utts.prompts %>%
-    select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
+    dplyr::select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
   chi.utts.prompts <- bind_rows(easy.utts.prompts, hard.utts.prompts) %>%
     arrange(start.ms)
   
@@ -522,7 +522,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
       response.spkr = speaker,
       response.start.ms = start.ms,
       response.stop.ms = stop.ms) %>%
-    select(response.spkr, response.start.ms, response.stop.ms,
+    dplyr::select(response.spkr, response.start.ms, response.stop.ms,
       focal.utt.start.response)
   chi.utts.responses <- right_join(chi.utts, sub.int.responses,
     by = c("start.ms" = "focal.utt.start.response"))
@@ -548,7 +548,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
         start.ms %in% chiutt.assoc.multi.response, 1, 0))
   easy.utts.responses <- filter(chi.utts.responses,
     response.used.elsewhere + chiutt.used.elsewhere == 0) %>%
-    select(-response.used.elsewhere, -chiutt.used.elsewhere)
+    dplyr::select(-response.used.elsewhere, -chiutt.used.elsewhere)
   # select the contingencies among the transitions with multiple options
   hard.utts.responses <- filter(chi.utts.responses,
     response.used.elsewhere + chiutt.used.elsewhere > 0) %>%
@@ -592,14 +592,14 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   }
   # rejoin all the prompts together
   hard.utts.responses <- hard.utts.responses %>%
-    select(-response.used.elsewhere, -chiutt.used.elsewhere)
+    dplyr::select(-response.used.elsewhere, -chiutt.used.elsewhere)
   chi.utts.responses <- bind_rows(easy.utts.responses, hard.utts.responses) %>%
     arrange(start.ms)
 
   # combine the contingent utterances
   if (nrow(chi.utts.prompts) > 0) {
     chi.utts.prompts.min <- chi.utts.prompts %>%
-      select(start.ms,
+      dplyr::select(start.ms,
         prompt.spkr, prompt.start.ms, prompt.stop.ms) %>%
       filter(!is.na(prompt.spkr))
     chi.tttbl <- left_join(chi.utts, chi.utts.prompts.min,
@@ -614,7 +614,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   }
   if (nrow(chi.utts.responses) > 0) {
     chi.utts.responses.min <- chi.utts.responses %>%
-      select(start.ms,
+      dplyr::select(start.ms,
         response.spkr, response.start.ms, response.stop.ms) %>%
       filter(!is.na(response.spkr))
     chi.tttbl <- left_join(chi.tttbl, chi.utts.responses.min,
@@ -630,7 +630,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   # add multi-TCU information
   if (nrow(chi.tttbl) > 0) {
     chi.tttbl <- chi.tttbl %>%
-      select(speaker, start.ms, stop.ms, annot.clip,
+      dplyr::select(speaker, start.ms, stop.ms, annot.clip,
         prewindow.start, prewindow.stop,
         postwindow.start, postwindow.stop,
         prompt.start.ms, prompt.stop.ms, prompt.spkr,
