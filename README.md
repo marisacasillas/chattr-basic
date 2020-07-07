@@ -5,9 +5,9 @@ Researchers who are interested in studying turn-taking behaviors in their natura
 
 ### What does chattr do?
 
-chattr is a package for identifying turn transitions (i.e., when one speaker stops and another starts) in annotated speech data. It can take annotations from .its files exported from LENA or .txt files exported from ELAN or other sources (see Step 1 below). To detect turn transitions, chattr scans a temporal window around each target child utterance (t<sub>0</sub>) for potential prompts (t<sub>-1</sub>) and responses (t<sub>+1</sub>) to that utterance. The user can either use the default temporal window (see Fig 1) or specify their own timing constraints for the allowed amount of overlap and gap at speaker transitions. If the annotated data contains information about addressee, users can also limit their search to just those utterances with the right 'addressee' value.
+chattr is a package for identifying turn transitions (i.e., when one speaker stops and another starts) in annotated speech data. It can take annotations from .its files exported from LENA, .txt files (e.g., exported from ELAN or other sources), or .rttm files (still under development; see Step 1 below). To detect turn transitions, chattr scans a temporal window around each target child utterance (t<sub>0</sub>) for potential prompts (t<sub>-1</sub>) and responses (t<sub>+1</sub>) to that utterance. The user can either employ the default temporal window (see Fig 1) or specify their own timing constraints for the allowed amount of overlap and gap at speaker transitions. For better cross-study comparability, we highly recommend using the default window (see the section on timing defaults below). If the annotated data contains information about addressee (i.e., to whom a vocalization is directed), users can also limit their search to just those utterances with the right 'addressee' value (e.g., child-directed speech).
 
-Once chattr has scanned a file, it produces a table of all target child utterances, including the onset, offset, and speaker information for any detected prompts and responses; it also reports timing information each increment of a multi-increment utterance (see Step 2 below). The table of detected turn transitions can also be given back to chattr, which will compute the number of interactional sequences present in the file, based on the transition data (Step 3).
+Once chattr has scanned a file, it produces a table of all target child utterances, including the onset, offset, and speaker information for any detected prompts and responses; it also reports timing information for each increment of a multi-increment utterance (see Step 2 below). The table of detected turn transitions from Step 2 can also be given back to chattr in order to compute the number of interactional sequences present in the file (see Step 3 below).
 
 Because the turn transition and interactional sequence output tables are informative about the temporal and speaker-specific characteristics of the turn-taking behaviors, chattr data can be used to compute any number of interactional measures. Here are a few ideas:
 
@@ -18,25 +18,31 @@ Because the turn transition and interactional sequence output tables are informa
 * Ratio of vocalization by the child and others during turn exchanges
 * Differences in turn-taking between the child and different family members
 
-A few examples are provided below.
+A few examples are provided in the subsection below called "How to use chatter".
 
 ### What is a turn transition?
 
-Turn transitions are at the heart of the chattr package. A turn transition occurs when one speaker's turn stops and another speaker's turn begins. Every turn transition has a pre-transition speaker and a post-transition speaker—these must be different speakers. The turn transition begins when the first turn ends and ends when the second turn starts. If the second turn starts before the first turn ends, the transition time is negative; this is referred to as 'overlap' timing. If the second turn starts after the first turn ends, the transition time is positive; referred to as 'gap'. Sometimes speakers produce several chunks of speech before or after the transition. We refer to these as 'increments' by the same speaker (see Fig 1 for examples). Speaker and timing information for every increment involved in a turn transition are given in chattr output.
+Turn transitions are at the heart of the chattr package. A turn transition occurs when one speaker's turn stops and another speaker's turn begins. Every turn transition has a pre-transition speaker and a post-transition speaker—these must be different speakers.
+
+* The turn transition _begins_ when the first turn ends.
+* The turn transition _ends_ when the second turn starts.
+
+If the second turn starts before the first turn ends, the transition time is negative; this is referred to as an instance of 'transitional overlap'. If the second turn starts after the first turn ends, the transition time is positive; referred to as an instance of 'transitional gap'. Sometimes speakers produce several chunks of speech before or after the transition (e.g., a sequence of related utterances forming one larger turn at talk). We refer to these sequences by the same speaker as 'multi-unit' turns. (see Fig 1 for examples). Speaker and timing information for every turn unit involved in a turn transition are given in the chattr output.
 
 ### What is an interactional sequence?
 
-Interactional sequences, defined in chatter, are unbroken sequences of turn taking between a focal speaker and one or more interlocutors. They are akin to conversational bouts/bursts and may thereby reflect more complex, engaged interactional behaviors than single turn transitions.
+Interactional sequences, as defined in chatter, are unbroken sequences of turn taking between the target child and one or more interlocutors. They are akin to conversational bouts and may thereby reflect more structurally complex, engaged interactional behaviors than single turn transitions do.
 
-As with the transitions, interactional sequences in chattr include same-speaker increments, such that transitions between speakers may be separated by multi-increment turns at talk.
+As with turn transitions, interactional sequences in chattr can include multi-unit turns; transitions between speakers in an interactional sequence may be separated by multiple turn units from each speaker.
 
-Example of a few seconds of dyadic interaction between speakers A (green) and B (orange), with both single- and multi-unit turns. In this example, there are 6 turns at talk (3 from each speaker), 4 turn transitions (two each from B to A and vice versa), and one interactional sequence (the contiguous block of speaker continuation/transition; the other speech has no transitions and so is not an interactional sequence):
+Below we show an example of a few seconds of dyadic interaction between two speakers: A (green) and B (orange). In this example, the speakers use both single- and multi-unit turns. There are 6 turns at talk (3 from each speaker), 4 turn transitions (two each from B to A and vice versa), and one interactional sequence (the contiguous block of speaker continuation/transition; the other speech has no transitions and so is not an interactional sequence):
+
 ![Example of a few seconds of dyadic talk:](chattr-turn-transitions.png)
 
 
 #### An important caveat
 
-Typically, any analyst looking carefully at the data would ensure sure that the speakers appear to be engaged in a mutual project and that, therefore, their turns at transition are designed with respect to some joint goal. Unfortunately, this rich criterion for _semantic_ contingency between turns—not just _temporal_ contingency—is beyond what chattr can do. Consider, for example, a case where four co-present speakers engage in two simultaneous conversations. Because chattr only looks for temporal contingencies, it may detect transitions across conversations, and at the expense of catching within-conversation transitions. 
+Any analyst looking manually at interactional data would always first check that the speakers are indeed mutually engaged before labeling and/or measuring an observed interactional phenomenon for further analysis (e.g., child-to-other turn transition). Unfortunately, this rich criterion for _semantic_ contingency between turns—not just _temporal_ contingency—is beyond what chattr can do. Consider, for example, a case where four co-present speakers engage in two simultaneous conversations. Because chattr only looks for temporal contingencies, it may detect transitions across conversations, and at the expense of catching within-conversation transitions. 
 
 It is important to remember chattr only detects temporal patterns that look like turn-taking behavior. You as the analyst are responsible for checking how reliably the detected turn-taking behavior signals true conversational interaction. To overcome this limitation, consider adding addressee coding when your data features simultaneous interactions and/or highly variable interactional contexts.
 
