@@ -6,6 +6,9 @@ spch.seg.ptrn <- ".*Segment spkr=\"([A-Z]{3}).*startTime=\"([A-Z0-9.]+)\" endTim
 strt.clock.ptrn <- ".*<Recording num=\"\\d+\".*startTime=\"([A-Z0-9.]+)\" endTime=\"([A-Z0-9.]+)\""
 paraling.ptrn <- "^&=[a-z]+[.!?]$"
 
+
+# TO DO: ADD RTTM
+
 # This must be in the rigid spchtbl format specified in the docs
 read_spchtbl <- function(filepath, tbltype, cliptier, lxonly) {
   if (tbltype == "aas-elan-txt") {
