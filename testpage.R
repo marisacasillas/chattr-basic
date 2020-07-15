@@ -9,6 +9,9 @@ source("transition-detectors.R")
 source("continuation-detectors.R")
 source("intseq-detectors.R")
 
+ttdata.spchtbl <- read_spchtbl(
+  "test_files/rttm/TEST.rttm",
+  "rttm", lxonly = TRUE)
 
 
 ##########
@@ -17,7 +20,8 @@ allowed.overlap <- 1000
 min.utt.dur <- 300
 LENA.interactants <- c("FAN", "MAN")
 
-ttdata.spchtbl <- read_spchtbl("../chattr-paper/annotated-data/raw/123522-1904.its",
+ttdata.spchtbl <- read_spchtbl(
+  "../chattr-paper/annotated-data/raw/123522-1904.its",
   "lena-its", lxonly = TRUE)
 
 ttdata.turnsonly <- ttdata.spchtbl %>%
