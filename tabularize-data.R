@@ -9,12 +9,13 @@ spch.seg.ptrn <- ".*Segment spkr=\"([A-Z]{3}).*startTime=\"([A-Z0-9.]+)\" endTim
 strt.clock.ptrn <- ".*<Recording num=\"\\d+\".*startTime=\"([A-Z0-9.]+)\" endTime=\"([A-Z0-9.]+)\""
 paraling.ptrn <- "^&=[a-z]+[.!?]$"
 
+
 # This must be in the rigid spchtbl format specified in the docs
 read_spchtbl <- function(filepath, tbltype, cliptier, lxonly) {
   if (tbltype == "aas-elan-txt") {
     spchtbl <- aas_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "rttm") {
-    spchtbl <- rttm_to_spchtbl(filepath, cliptier, lxonly)
+    spchtbl <- suppressWarnings(rttm_to_spchtbl(filepath))
   } else if (tbltype == "elan-basic-txt") {
     spchtbl <- elanbasic_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "lena-its") {
@@ -103,12 +104,12 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
 }
 
 
-rttm_to_spchtbl <- function(tbl, cliptier, lxonly) {
+rttm_to_spchtbl <- function(tbl) {
   # Check if the table is space (traditional) or tab (ACLEW) separated
   rttm.delim <- case_when(
     str_count(readLines(tbl, n = 1), " ") == 9 ~ " ",
-    str_count(readLines(tbl, n = 1), "\t") == 8 |
-      str_count(readLines(tbl, n = 1), "\t") == 9 ~ "\t",
+    str_count(readLines(tbl, n = 1), "\t") > 6 |
+      str_count(readLines(tbl, n = 1), "\t") < 10 ~ "\t",
     TRUE ~ "PROBLEM"
   )
   if (rttm.delim == "PROBLEM") {
@@ -136,22 +137,9 @@ rttm_to_spchtbl <- function(tbl, cliptier, lxonly) {
         )  %>%
         dplyr::select(tier, speaker, start.ms, stop.ms, duration, value)
       
+      # Notes
       # no lxonly option for rttm yet
-      if (is.character(lxonly)) {
-        print("Sorry, there is no 'linguistic only' option for rttm files yet.")
-      }
-      # # subset to linguistic vocalizations if desired
-      # if (is.character(lxonly)) {
-      #   rttmtbl <- rttmtbl %>%
-      #     filter(grepl(lxonly, value))
-      # } else {
-      #   print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
-      # }
-      
       # clip tier option is not relevant for rttm files
-      if (is.character(cliptier)) {
-        print("Sorry, there is no 'clip tier' option for rttm files.")
-      }
   }
 }
 

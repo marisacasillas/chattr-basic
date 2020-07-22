@@ -10,8 +10,7 @@ source("continuation-detectors.R")
 source("intseq-detectors.R")
 
 ttdata.spchtbl <- read_spchtbl(
-  "test_files/rttm/TEST.rttm",
-  "rttm", lxonly = TRUE)
+  "test_files/rttm/TEST.rttm", "rttm")
 
 
 ##########
