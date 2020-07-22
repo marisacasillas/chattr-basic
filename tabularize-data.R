@@ -13,17 +13,18 @@ paraling.ptrn <- "^&=[a-z]+[.!?]$"
 # This must be in the rigid spchtbl format specified in the docs
 read_spchtbl <- function(filepath, tbltype,
                          cliptier = ".alloneclip",
-                         lxonly = FALSE) {
+                         lxonly = FALSE,
+                         nearonly = FALSE) {
   if (tbltype == "aas-elan-txt") {
     spchtbl <- aas_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "elan-basic-txt") {
     spchtbl <- elanbasic_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "lena-its") {
-    spchtbl <- its_to_spchtbl(filepath, lxonly)
+    spchtbl <- its_to_spchtbl(filepath, lxonly, nearonly)
   } else if (tbltype == "rttm") {
-    spchtbl <- suppressWarnings(rttm_to_spchtbl(filepath))
+    spchtbl <- suppressWarnings(rttm_to_spchtbl(filepath, lxonly))
   } else {
-    print("Sorry, that file type isn't available!")
+    print(paste0("The specified file type, ", tbltype, " ,isn't available!"))
   }
   return(spchtbl)
 }
@@ -40,8 +41,11 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
     ))
   # extract the top-level utterance tiers
   if (lxonly == TRUE) {
-    wide.aastbl <- filter(aastbl, tier == "CHI" & speaker == "CHI" |
-        (tier == speaker & !(grepl(paraling.ptrn, value))))
+    wide.aastbl <- filter(aastbl,
+                          (tier == "CHI" & speaker == "CHI"  &
+                            !(grepl(paraling.ptrn, value)) |
+                             (tier == speaker &
+                                !(grepl(paraling.ptrn, value)))))
   } else {
     wide.aastbl <- filter(aastbl, tier == speaker)
   }
@@ -164,12 +168,15 @@ elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
 }
 
 
-its_to_spchtbl <- function(its.file, lxonly) {
+its_to_spchtbl <- function(its.file, lxonly, nearonly) {
   # Extract the speaker segment lines from the .its file
   its.data <- read_lines(its.file)
   if (lxonly == TRUE) {
+    # conversationInfo is only present on human vocalization segments labeled as
+    # speech-related vocalizations, including the target child
     seg.spkr.lines <- which(grepl("Segment spkr=.*conversationInfo", its.data))
   } else {
+    # this grabs all human vocalization segments (i.e., no TVN, no SIL, etc.)
     seg.spkr.lines <- which(grepl("Segment spkr=\"[FMC]", its.data))
   }
   its.spkr.data <- its.data[seg.spkr.lines]
@@ -194,6 +201,12 @@ its_to_spchtbl <- function(its.file, lxonly) {
       mutate(value = NA) %>%
       dplyr::select(speaker, start.ms, stop.ms, duration, value)
   }
+  # Simplify speaker tiers (collapse near/far or remove far as desired)
+  if (nearonly == TRUE) {
+    spchtbl <- filter(spchtbl, grepl("N$", speaker))
+  }
+  spchtbl$speaker <- substr(spchtbl$speaker, 1, 2)
+    
   # add in the recorded periods
   its.data.segments <- its.data[
     (which(grepl("<!-- [=]+ Flow of the Recordings", its.data)) + 1):
@@ -229,7 +242,7 @@ its_to_spchtbl <- function(its.file, lxonly) {
 }
 
 
-rttm_to_spchtbl <- function(tbl) {
+rttm_to_spchtbl <- function(tbl, lxonly) {
   # Check if the table is space (traditional) or tab (ACLEW) separated
   rttm.delim <- case_when(
     str_count(readLines(tbl, n = 1), " ") == 9 ~ " ",
@@ -253,18 +266,34 @@ rttm_to_spchtbl <- function(tbl) {
                             conf.score = col_double(),
                             signal.lookahead = col_double())) %>%
       mutate(
-        tier = speaker.tier,
         speaker = speaker.tier,
         start.ms = start.sc * 1000,
         duration = duration.sc * 1000,
         stop.ms = start.ms + duration,
         value = speaker.type
       )  %>%
-      dplyr::select(tier, speaker, start.ms, stop.ms, duration, value)
-    
-    # Notes
-    # no lxonly option for rttm yet
-    # clip tier option is not relevant for rttm files
+      dplyr::select(speaker, start.ms, stop.ms, value)
+    # subset to linguistic vocalizations if desired
+    if (lxonly != FALSE) {
+      if (is.character(lxonly)) {
+        rttmtbl <- rttmtbl %>%
+          filter(grepl(lxonly, value))
+      } else {
+        print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the sixth column of your rttm; see documentation for an example.")
+      }
+    }
+    # add clip information for whole file
+    start.first.ann <- min(rttmtbl$start.ms)
+    stop.last.ann <- max(rttmtbl$stop.ms)
+    clip.tbl <- tibble(
+      speaker = paste0(ann.marker, start.first.ann, "_",
+                       stop.last.ann, "-", 1),
+      start.ms = start.first.ann,
+      stop.ms = stop.last.ann,
+      value = NA
+    )
+    rttmtbl <- bind_rows(clip.tbl, rttmtbl)
+    return(rttmtbl)
   }
 }
 
