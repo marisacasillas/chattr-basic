@@ -11,15 +11,17 @@ paraling.ptrn <- "^&=[a-z]+[.!?]$"
 
 
 # This must be in the rigid spchtbl format specified in the docs
-read_spchtbl <- function(filepath, tbltype, cliptier, lxonly) {
+read_spchtbl <- function(filepath, tbltype,
+                         cliptier = ".alloneclip",
+                         lxonly = FALSE) {
   if (tbltype == "aas-elan-txt") {
     spchtbl <- aas_to_spchtbl(filepath, cliptier, lxonly)
-  } else if (tbltype == "rttm") {
-    spchtbl <- suppressWarnings(rttm_to_spchtbl(filepath))
   } else if (tbltype == "elan-basic-txt") {
     spchtbl <- elanbasic_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "lena-its") {
     spchtbl <- its_to_spchtbl(filepath, lxonly)
+  } else if (tbltype == "rttm") {
+    spchtbl <- suppressWarnings(rttm_to_spchtbl(filepath))
   } else {
     print("Sorry, that file type isn't available!")
   }
@@ -97,49 +99,21 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
         dplyr::select(speaker, start.ms, stop.ms, addressee)
       wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
       return(wide.aastbl)
-    } else {
+    } else if (cliptier == ".alloneclip") {
+      start.first.ann <- min(wide.aastbl$start.ms)
+      stop.last.ann <- max(wide.aastbl$stop.ms)
+      clip.tbl <- tibble(
+        speaker = paste0(ann.marker, start.first.ann, "_",
+                         stop.last.ann, "-", 1),
+        start.ms = start.first.ann,
+        stop.ms = stop.last.ann,
+        addressee = NA
+      )
+      wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
+      return(wide.aastbl)
+    }  else {
       print("Error: no rows from the clip tier found.")
     }
-  }
-}
-
-
-rttm_to_spchtbl <- function(tbl) {
-  # Check if the table is space (traditional) or tab (ACLEW) separated
-  rttm.delim <- case_when(
-    str_count(readLines(tbl, n = 1), " ") == 9 ~ " ",
-    str_count(readLines(tbl, n = 1), "\t") > 6 |
-      str_count(readLines(tbl, n = 1), "\t") < 10 ~ "\t",
-    TRUE ~ "PROBLEM"
-  )
-  if (rttm.delim == "PROBLEM") {
-    print("Error: rttm files must be either (a) 10 tab-delimited fields or (b) 8--10 space-delimited fields.")
-  } else {
-      rttmtbl <- read_delim(file = tbl, delim = rttm.delim,
-                            col_names = rttmtbl.colnames, col_types = cols(
-                              segment.type = col_character(),
-                              filename = col_character(),
-                              channel = col_double(),
-                              start.sc = col_double(),
-                              duration.sc = col_double(),
-                              orthography = col_character(),
-                              speaker.type = col_character(), # XDS/VCM annots in ACLEW
-                              speaker.tier = col_character(),
-                              conf.score = col_double(),
-                              signal.lookahead = col_double())) %>%
-        mutate(
-          tier = speaker.tier,
-          speaker = speaker.tier,
-          start.ms = start.sc * 1000,
-          duration = duration.sc * 1000,
-          stop.ms = start.ms + duration,
-          value = speaker.type
-        )  %>%
-        dplyr::select(tier, speaker, start.ms, stop.ms, duration, value)
-      
-      # Notes
-      # no lxonly option for rttm yet
-      # clip tier option is not relevant for rttm files
   }
 }
 
@@ -157,24 +131,38 @@ elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
     dplyr::select(tier, start.ms, stop.ms, value) %>%
     dplyr::rename(speaker = tier)
   # subset to linguistic vocalizations if desired
-  if (is.character(lxonly)) {
-    ebtbl <- ebtbl %>%
-      filter(grepl(lxonly, value))
-  } else {
-    print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
+  if (lxonly != FALSE) {
+    if (is.character(lxonly)) {
+      ebtbl <- ebtbl %>%
+        filter(grepl(lxonly, value) | speaker == cliptier)
+    } else {
+      print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
+    }
   }
   # add in information about the annotated regions
   # (if no annotation, stop and tell the user)
   if (cliptier %in% unique(ebtbl$speaker)) {
     clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
       mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
-    ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
-      dplyr::select(-value)
+    ebtbl <- bind_rows(clip.tbl, ebtbl)
+    return(ebtbl)
+  } else if (cliptier == ".alloneclip") {
+    start.first.ann <- min(ebtbl$start.ms)
+    stop.last.ann <- max(ebtbl$stop.ms)
+    clip.tbl <- tibble(
+      speaker = paste0(ann.marker, start.first.ann, "_",
+                       stop.last.ann, "-", 1),
+      start.ms = start.first.ann,
+      stop.ms = stop.last.ann,
+      value = NA
+    )
+    ebtbl <- bind_rows(clip.tbl, ebtbl)
     return(ebtbl)
   } else {
     print("Error: no rows from the clip tier found.")
   }
 }
+
 
 its_to_spchtbl <- function(its.file, lxonly) {
   # Extract the speaker segment lines from the .its file
@@ -239,3 +227,45 @@ its_to_spchtbl <- function(its.file, lxonly) {
   spchtbl <- bind_rows(rec.start.tbl, spchtbl)
   return(spchtbl)
 }
+
+
+rttm_to_spchtbl <- function(tbl) {
+  # Check if the table is space (traditional) or tab (ACLEW) separated
+  rttm.delim <- case_when(
+    str_count(readLines(tbl, n = 1), " ") == 9 ~ " ",
+    str_count(readLines(tbl, n = 1), "\t") > 6 |
+      str_count(readLines(tbl, n = 1), "\t") < 10 ~ "\t",
+    TRUE ~ "PROBLEM"
+  )
+  if (rttm.delim == "PROBLEM") {
+    print("Error: rttm files must be either (a) 10 tab-delimited fields or (b) 8--10 space-delimited fields.")
+  } else {
+    rttmtbl <- read_delim(file = tbl, delim = rttm.delim,
+                          col_names = rttmtbl.colnames, col_types = cols(
+                            segment.type = col_character(),
+                            filename = col_character(),
+                            channel = col_double(),
+                            start.sc = col_double(),
+                            duration.sc = col_double(),
+                            orthography = col_character(),
+                            speaker.type = col_character(), # XDS/VCM annots in ACLEW
+                            speaker.tier = col_character(),
+                            conf.score = col_double(),
+                            signal.lookahead = col_double())) %>%
+      mutate(
+        tier = speaker.tier,
+        speaker = speaker.tier,
+        start.ms = start.sc * 1000,
+        duration = duration.sc * 1000,
+        stop.ms = start.ms + duration,
+        value = speaker.type
+      )  %>%
+      dplyr::select(tier, speaker, start.ms, stop.ms, duration, value)
+    
+    # Notes
+    # no lxonly option for rttm yet
+    # clip tier option is not relevant for rttm files
+  }
+}
+
+
