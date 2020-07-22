@@ -1,0 +1,2 @@
+SPEAKER	RECORDING_CLIP1	1	61.19	0.76	Dad you!	{xds@ A}	MC1	<NA>	<NA>
+SPEAKER	RECORDING_CLIP1	1	61.49	0.58	you got homework?	{xds@ C}	MA1	<NA>	<NA>
