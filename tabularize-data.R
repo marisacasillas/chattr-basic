@@ -149,6 +149,9 @@ rttm_to_spchtbl <- function(tbl, cliptier, lxonly) {
       # }
       
       # clip tier option is not relevant for rttm files
+      if (is.character(cliptier)) {
+        print("Sorry, there is no 'clip tier' option for rttm files.")
+      }
   }
 }
 
