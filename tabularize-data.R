@@ -136,25 +136,19 @@ rttm_to_spchtbl <- function(tbl, cliptier, lxonly) {
         )  %>%
         dplyr::select(tier, speaker, start.ms, stop.ms, duration, value)
       
-      # subset to linguistic vocalizations if desired
+      # no lxonly option for rttm yet
       if (is.character(lxonly)) {
-        rttmtbl <- rttmtbl %>%
-          filter(grepl(lxonly, value))
-      } else {
-        print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
+        print("Sorry, there is no 'linguistic only' option for rttm files yet.")
       }
+      # # subset to linguistic vocalizations if desired
+      # if (is.character(lxonly)) {
+      #   rttmtbl <- rttmtbl %>%
+      #     filter(grepl(lxonly, value))
+      # } else {
+      #   print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
+      # }
       
-      # add in information about the annotated regions
-      # (if no annotation, stop and tell the user)
-      if (cliptier %in% unique(rttmtbl$speaker)) {
-        clip.tbl <- filter(rttmtbl, speaker == cliptier) %>%
-          mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
-        rttmtbl <- bind_rows(clip.tbl, rttmtbl) %>%
-          dplyr::select(-value)
-        return(rttmtbl)
-      } else {
-        print("Error: no rows from the clip tier found.")
-      }
+      # clip tier option is not relevant for rttm files
   }
 }
 
