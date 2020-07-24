@@ -4,6 +4,12 @@ modes <- c("strict", "stretch", "luqr", "qulr")
 prewindow.string <- "pre"
 postwindow.string <- "post"
 
+randomize_intervals <- function(num_intervals, period) {
+  intervals <- sort(sample(1:period, num_intervals, replace = TRUE))
+  d_intervals <- diff(intervals)
+  return(c(d_intervals, period - sum(d_intervals)))
+}
+
 shuffle_vocs <- function(tbl) {
   unique.spkrs <- unique(tbl$speaker)[which((!grepl(
     ann.marker, unique(tbl$speaker))))]
@@ -21,19 +27,8 @@ shuffle_vocs <- function(tbl) {
         filter(speaker == spkr &
                  start.ms >= clip.on & stop.ms <= clip.off)
       if (nrow(spkr.vocs) > 0) {
-        # split n (total non-spch time) into k (# utts + 1) parts of random size
-        # (NOTE: must be in ms, uses integers)
-        # very slow :(
-        non.spch.dur <- clip.dur - sum(spkr.vocs$duration)
-        num.between.utt.intervals <- nrow(spkr.vocs) + 1
-        between.utt.durs <- as.vector(table(sample(
-          1:num.between.utt.intervals, non.spch.dur, replace = TRUE)))
-        # If there are fewer than the max number of between.utt.intervals, set
-        # these to zero and re-randomize
-        if (length(between.utt.durs) < num.between.utt.intervals) {
-          missing.durs <- num.between.utt.intervals - length(between.utt.durs)
-          between.utt.durs <- sample(c(between.utt.durs, rep(0, missing.durs)))
-        }
+        between.utt.durs <- randomize_intervals(nrow(spkr.vocs) + 1,
+                            clip.dur - sum(spkr.vocs$duration))
         # Create shuffled speaker onsets
         ## randomize utterance order
         spkr.vocs <- slice(spkr.vocs, sample(1:n()))
