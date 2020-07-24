@@ -8,9 +8,27 @@ source("tabularize-data.R")
 source("transition-detectors.R")
 source("continuation-detectors.R")
 source("intseq-detectors.R")
+source("estimate-baseline.R")
 
-ttdata.spchtbl <- read_spchtbl(
-  "test_files/rttm/TEST.rttm", "rttm")
+ttdata.spchtbl.rttm <- read_spchtbl(
+  "test_files/rttm/TEST.rttm",
+  "rttm")
+
+ttdata.spchtbl.its <- read_spchtbl(
+  "../chattr-paper/annotated-data/raw/123522-1904.its",
+  "lena-its", lxonly = TRUE)
+
+%>%
+  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
+                    "CH", LENA.interactants, "none", "strict")
+
+ttdata.spchtbl.aas <- read_spchtbl(
+  "test_files/AAS-tabular/test-interaction-XDS-lxonly.txt",
+  "aas-elan-txt", lxonly = TRUE, cliptier = "clip")
+
+ttdata.spchtbl.ebt <- read_spchtbl(
+  "test_files/AltELAN-tabular/CT_sample1-lxvocs.txt",
+  "elan-basic-txt", lxonly = "l", cliptier = "Coded Segment")
 
 
 ##########
