@@ -51,6 +51,7 @@ shuffle_vocs <- function(tbl) {
       }
     }
   }
+  return(shuffled.tbl)
 }
 
 # option for just shuffling focal or just shuffling interactants?
