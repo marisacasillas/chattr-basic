@@ -64,6 +64,8 @@ fetch_baseline <- function(tbl, n.runs = 100,
     real.intseqtbl <- fetch_transitions(tbl, allowed.gap, allowed.overlap,
                                     min.utt.dur, focus.child, interactants,
                                     addressee.tags, mode) %>%
+      # THIS PART IS BROKEN -- CHECK WHY
+      # FIGURE OUT HOW THIS MERGES IN WITH FETCH_TRANSITIONS and FETCH_INTSEQ
       fetch_intseqs()
     # extract turn-transition tables with shuffled vocalizations
     random.intseqtbls <- tibble(random.run.num = sort(rep(seq(1:n.runs),
