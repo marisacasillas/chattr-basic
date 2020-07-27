@@ -18,6 +18,11 @@ ttdata.spchtbl.its <- read_spchtbl(
   "../chattr-paper/annotated-data/raw/123522-1904.its",
   "lena-its", lxonly = TRUE)
 
+its.tttbl <- ttdata.spchtbl.its %>%
+  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
+                    "CH", LENA.interactants, "none", "strict") %>%
+  fetch_intseqs(allowed.gap)
+
 tbl <- ttdata.spchtbl.its
 n.runs <- 3
 allowed.gap <- 2000

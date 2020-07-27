@@ -26,7 +26,7 @@ fetch_chattr_tttbl <- function(
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
-  # TO DO: do cliptier and lxonly checks if needed
+  # TO DO: modify input spchtbl to be in line with cliptier and lxonly args if needed
 
   # get tttbl and/or intseq data as desired
   if (output == "intseq" | output == "tttbl") {
