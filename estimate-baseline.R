@@ -49,14 +49,49 @@ shuffle_vocs <- function(tbl) {
   return(shuffled.tbl)
 }
 
-# option for just shuffling focal or just shuffling interactants?
-fetch_baseline <- function(tbl, n.runs = 100,
-                           allowed.gap, allowed.overlap,
-                           min.utt.dur, focus.child, interactants,
-                           addressee.tags, mode, output) {
+
+
+spchtbl = tttbl, n.runs = n.runs,
+allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
+min.utt.dur = min.utt.dur, focus.child = focus.child,
+interactants = interactants, addressee.tags = addressee.tags,
+mode = mode, output = output, input.tttbl = real.tttbl,
+return.real = FALSE
+
+fetch_randomruns <- function(
+  spchtbl, n.runs = default.n.runs,
+  allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
+  min.utt.dur = default.min.utt.dur,
+  focus.child, interactants = default.interactants, 
+  addressee.tags = default.addressee.tags,
+  mode = default.mode, output = default.output,
+  input.tttbl = NULL, return.real = TRUE) {
+  # TO DO:
+  # check if spchtbl is specified and formatted as expected
+  # check if focus.child is specified
+  # version of this that checks for an input table and, if so, tests
+  # what kind it is before proceeding
+  if (!is.null(input.tttbl)) {
+    tbltype <- case_when(
+      is.tttbl(input.tttbl) == TRUE ~ "tttbl",
+      is.intseqtbl(input.tttbl) == TRUE ~ "intseqtbl",
+      TRUE ~ "invalid tbltype"
+    )
+  }
+  # if the input table is a tttbl
+  # ... output is tt or intseq?
+  # if the input table is a intseqtbl
+  # ... output is tt or intseq?
+  # if the input table is an invalid type
+  # ... but the spchtbl is okay
+  # ... ... use the spchtbl and notify of a potential error
+  # ... and the spchtbl is an issue
+  # ... ... notify of an error
+  
+  
   if (output == "intseq" | output == "tttbl") {
     # extract the true turn-transition table
-    real.tttbl <- fetch_transitions(tbl, allowed.gap, allowed.overlap,
+    real.tttbl <- fetch_transitions(spchtbl, allowed.gap, allowed.overlap,
                                     min.utt.dur, focus.child, interactants,
                                     addressee.tags, mode)
     # extract turn-transition tables with shuffled vocalizations
@@ -70,7 +105,7 @@ fetch_baseline <- function(tbl, n.runs = 100,
       print(paste0("Random run tttbl: ", i))
       run.idx <- which(random.tttbls$random.run.num == i)
       random.tttbls[run.idx, 1:(length(random.tttbls)-1)] <- fetch_transitions(
-        shuffle_vocs(tbl), allowed.gap, allowed.overlap,
+        shuffle_vocs(spchtbl), allowed.gap, allowed.overlap,
         min.utt.dur, focus.child, interactants,
         addressee.tags, mode)
     }

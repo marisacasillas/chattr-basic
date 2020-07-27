@@ -27,18 +27,18 @@ focus.child <- "FA"
 interactants <- c("FA", "MA")
 addressee.tags <- "none"
 mode <- "strict"
-behavior <- "tttbl" # intseq tttbl
+output <- "tttbl" # intseq tttbl
 
 checkme.tttbl.baseline <- fetch_baseline(tbl, n.runs,
                                          allowed.gap, allowed.overlap,
                                          min.utt.dur, focus.child, interactants,
-                                         addressee.tags, mode, behavior)
+                                         addressee.tags, mode, output)
 
-behavior <- "intseq" # intseq tttbl
+output <- "intseq" # intseq tttbl
 checkme.intseqtbl.baseline <- fetch_baseline(tbl, n.runs,
                                          allowed.gap, allowed.overlap,
                                          min.utt.dur, focus.child, interactants,
-                                         addressee.tags, mode, behavior)
+                                         addressee.tags, mode, output)
 
 # %>%
 #   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
