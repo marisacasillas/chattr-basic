@@ -18,9 +18,25 @@ ttdata.spchtbl.its <- read_spchtbl(
   "../chattr-paper/annotated-data/raw/123522-1904.its",
   "lena-its", lxonly = TRUE)
 
-%>%
-  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-                    "CH", LENA.interactants, "none", "strict")
+tbl <- ttdata.spchtbl.its
+n.runs <- 3
+allowed.gap <- 2000
+allowed.overlap <- 1000
+min.utt.dur <- 300
+focus.child <- "FA"
+interactants <- c("FA", "MA")
+addressee.tags <- "none"
+mode <- "strict"
+behavior <- "tttbl" # intseq tttbl
+
+checkme.tttbl.baseline <- fetch_baseline(tbl, n.runs,
+                                         allowed.gap, allowed.overlap,
+                                         min.utt.dur, focus.child, interactants,
+                                         addressee.tags, mode, behavior)
+
+# %>%
+#   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
+#                     "CH", LENA.interactants, "none", "strict")
 
 ttdata.spchtbl.aas <- read_spchtbl(
   "test_files/AAS-tabular/test-interaction-XDS-lxonly.txt",

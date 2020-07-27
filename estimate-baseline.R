@@ -51,47 +51,52 @@ shuffle_vocs <- function(tbl) {
 
 # option for just shuffling focal or just shuffling interactants?
 fetch_baseline <- function(tbl, n.runs = 100,
-                           spchtbl, allowed.gap, allowed.overlap,
+                           allowed.gap, allowed.overlap,
                            min.utt.dur, focus.child, interactants,
                            addressee.tags, mode, behavior) {
-  if (behavior == "intseq") {
-    # extract the true turn-transition table
-    real.intseqtbl <- fetch_transitions(tbl, allowed.gap, allowed.overlap,
-                                    min.utt.dur, focus.child, interactants,
-                                    addressee.tags, mode) %>%
-      # THIS PART IS BROKEN -- CHECK WHY
-      # FIGURE OUT HOW THIS MERGES IN WITH FETCH_TRANSITIONS and FETCH_INTSEQ
-      fetch_intseqs()
-    # extract turn-transition tables with shuffled vocalizations
-    random.intseqtbls <- tibble(random.run.num = sort(rep(seq(1:n.runs),
-                                                      nrow(real.intseqtbl))))
-    random.intseqtbls[, names(real.intseqtbl)] <- NA
-    for (i in 1:n.runs) {
-      run.idx <- which(random.tttbls$random.run.num == i)
-      random.intseqtbls[run.idx, -1] <- fetch_transitions(
-        shuffle_vocs(tbl), allowed.gap, allowed.overlap,
-        min.utt.dur, focus.child, interactants,
-        addressee.tags, mode) %>%
-        fetch_intseqs()
-    }
-    return(random.intseqtbls)
-  } else if (behavior == "tttbl") {
+  if (behavior == "intseq" | behavior == "tttbl") {
     # extract the true turn-transition table
     real.tttbl <- fetch_transitions(tbl, allowed.gap, allowed.overlap,
-                                        min.utt.dur, focus.child, interactants,
-                                        addressee.tags, mode)
+                                    min.utt.dur, focus.child, interactants,
+                                    addressee.tags, mode)
     # extract turn-transition tables with shuffled vocalizations
-    random.tttbls <- tibble(random.run.num = sort(rep(seq(1:n.runs),
-                                                          nrow(real.tttbl))))
-    random.tttbls[, names(real.tttbl)] <- NA
+    random.tttbls <- real.tttbl[1,] %>%
+      mutate(random.run.num = 0) %>%
+      full_join(tibble(random.run.num = sort(rep(
+        seq(1:n.runs), nrow(real.tttbl))))) %>%
+      filter(random.run.num > 0)
     for (i in 1:n.runs) {
+      # what about a progress bar?
+      print(paste0("Random run tttbl: ", i))
       run.idx <- which(random.tttbls$random.run.num == i)
-      random.tttbls[run.idx, -1] <- fetch_transitions(
+      random.tttbls[run.idx, 1:(length(random.tttbls)-1)] <- fetch_transitions(
         shuffle_vocs(tbl), allowed.gap, allowed.overlap,
         min.utt.dur, focus.child, interactants,
         addressee.tags, mode)
     }
-    return(random.tttbls)
+    if (behavior == "intseq") {
+      # extract interaction sequence tables with shuffled vocalizations
+      real.intseqtbl <- fetch_intseqs(real.tttbl, allowed.gap)
+      random.intseqtbls <- real.intseqtbl[1,] %>%
+        mutate(random.run.num = 0) %>%
+        full_join(tibble(random.run.num = sort(rep(
+          seq(1:n.runs), nrow(real.intseqtbl))))) %>%
+        filter(random.run.num > 0)
+      for (i in 1:n.runs) {
+        print(paste0("Random run intseq: ", i))
+        run.idx <- which(random.intseqtbls$random.run.num == i)
+        current.tttbl <- filter(random.tttbls, random.run.num == i) %>%
+          dplyr::select(-random.run.num)
+        random.intseqtbls[run.idx,
+                          1:(length(random.intseqtbls)-1)] <- fetch_intseqs(
+                            current.tttbl, allowed.gap)
+      }
+      # need to also return real info!
+      return(random.intseqtbls)
+    } else {
+      # need to also return real info!
+      return(random.tttbls)  
+    }
   } else {
     print("Invalid value for behavior of interest.")
   }
