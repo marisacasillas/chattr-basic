@@ -20,7 +20,8 @@ ttdata.spchtbl.its <- read_spchtbl(
 
 its.tttbl <- ttdata.spchtbl.its %>%
   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-                    "CH", LENA.interactants, "none", "strict") %>%
+                    "CH", c("FA", "MA"), "none", "strict")
+its.intseqtbl <- its.tttbl %>%
   fetch_intseqs(allowed.gap)
 
 tbl <- ttdata.spchtbl.its
