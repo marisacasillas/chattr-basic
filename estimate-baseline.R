@@ -63,7 +63,7 @@ fetch_baseline <- function(tbl, n.runs = 100,
     random.tttbls <- real.tttbl[1,] %>%
       mutate(random.run.num = 0) %>%
       full_join(tibble(random.run.num = sort(rep(
-        seq(1:n.runs), nrow(real.tttbl))))) %>%
+        seq(1:n.runs), nrow(real.tttbl)))), by = "random.run.num") %>%
       filter(random.run.num > 0)
     for (i in 1:n.runs) {
       # what about a progress bar?
@@ -80,7 +80,7 @@ fetch_baseline <- function(tbl, n.runs = 100,
       random.intseqtbls <- real.intseqtbl[1,] %>%
         mutate(random.run.num = 0) %>%
         full_join(tibble(random.run.num = sort(rep(
-          seq(1:n.runs), nrow(real.intseqtbl))))) %>%
+          seq(1:n.runs), nrow(real.intseqtbl)))), by = "random.run.num") %>%
         filter(random.run.num > 0)
       for (i in 1:n.runs) {
         print(paste0("Random run intseq: ", i))
