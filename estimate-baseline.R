@@ -53,8 +53,8 @@ shuffle_vocs <- function(tbl) {
 fetch_baseline <- function(tbl, n.runs = 100,
                            allowed.gap, allowed.overlap,
                            min.utt.dur, focus.child, interactants,
-                           addressee.tags, mode, behavior) {
-  if (behavior == "intseq" | behavior == "tttbl") {
+                           addressee.tags, mode, output) {
+  if (output == "intseq" | output == "tttbl") {
     # extract the true turn-transition table
     real.tttbl <- fetch_transitions(tbl, allowed.gap, allowed.overlap,
                                     min.utt.dur, focus.child, interactants,
@@ -74,7 +74,7 @@ fetch_baseline <- function(tbl, n.runs = 100,
         min.utt.dur, focus.child, interactants,
         addressee.tags, mode)
     }
-    if (behavior == "intseq") {
+    if (output == "intseq") {
       # extract interaction sequence tables with shuffled vocalizations
       real.intseqtbl <- fetch_intseqs(real.tttbl, allowed.gap)
       random.intseqtbls <- real.intseqtbl[1,] %>%
@@ -98,7 +98,7 @@ fetch_baseline <- function(tbl, n.runs = 100,
       return(random.tttbls)  
     }
   } else {
-    print("Invalid value for behavior of interest.")
+    print("Invalid value for output of interest.")
   }
   
 }
