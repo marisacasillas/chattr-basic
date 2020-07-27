@@ -34,6 +34,12 @@ checkme.tttbl.baseline <- fetch_baseline(tbl, n.runs,
                                          min.utt.dur, focus.child, interactants,
                                          addressee.tags, mode, behavior)
 
+behavior <- "intseq" # intseq tttbl
+checkme.intseqtbl.baseline <- fetch_baseline(tbl, n.runs,
+                                         allowed.gap, allowed.overlap,
+                                         min.utt.dur, focus.child, interactants,
+                                         addressee.tags, mode, behavior)
+
 # %>%
 #   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
 #                     "CH", LENA.interactants, "none", "strict")
