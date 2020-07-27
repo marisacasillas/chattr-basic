@@ -44,7 +44,7 @@ fetch_chattr_tttbl <- function(
           allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
           min.utt.dur = min.utt.dur, focus.child = focus.child,
           interactants = interactants, addressee.tags = addressee.tags,
-          mode = mode, output = output, input.tttbl = real.intseqtbl,
+          mode = mode, output = output, input.tttbl = real.tttbl,
           return.real = FALSE)
       }
     } else {
@@ -102,21 +102,21 @@ fetch_chatter_LENA <- function(
 
 
 
-tbl <- "../chattr-paper/annotated-data/raw/123522-1904.its"
-
-# user optional
-lxonly <- FALSE
-nearonly <- FALSE
-allowed.gap <- 2000
-allowed.overlap <- 1000
-min.utt.dur <- 300
-focus.child <- "CX"
-interactants <- c("FA", "MA")
-addressee.tags <- "none"
-mode <- "stretch"
-output <- "tttbl"
-n.runs <- 2
-
-# other optional
-tbltype <- "lena-its"
-cliptier <- ".alloneclip"
+# tbl <- "../chattr-paper/annotated-data/raw/123522-1904.its"
+# 
+# # user optional
+# lxonly <- FALSE
+# nearonly <- FALSE
+# allowed.gap <- 2000
+# allowed.overlap <- 1000
+# min.utt.dur <- 300
+# focus.child <- "CX"
+# interactants <- c("FA", "MA")
+# addressee.tags <- "none"
+# mode <- "stretch"
+# output <- "tttbl"
+# n.runs <- 2
+# 
+# # other optional
+# tbltype <- "lena-its"
+# cliptier <- ".alloneclip"
