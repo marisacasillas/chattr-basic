@@ -46,6 +46,8 @@ shuffle_vocs <- function(tbl) {
       }
     }
   }
+  shuffled.tbl <- shuffled.tbl %>%
+    arrange(start.ms)
   return(shuffled.tbl)
 }
 
@@ -57,41 +59,42 @@ fetch_randomruns <- function(
   focus.child, interactants = default.interactants, 
   addressee.tags = default.addressee.tags,
   mode = default.mode, output = default.output,
-  input.tttbl = NULL, return.real = TRUE) {
-  # get the tttbl and intseq table with on which the random runs will be based
+  input.tbl = NULL, return.real = TRUE) {
+  # get the tttbl and intseqtbl with on which the random runs will be based
   # (typically to be passed to function, but also designed to handle a spchtbl
   # input table from a direct call of this function by a user)
-  if (!is.null(input.tttbl)) {
-    tbltype <- case_when(
-      is.tttbl(input.tttbl) == TRUE ~ "tttbl",
-      is.intseqtbl(input.tttbl) == TRUE ~ "intseqtbl",
-      is.spchtbl(input.tttbl) == TRUE ~ "spchtbl",
-      TRUE ~ "invalid tbltype"
-    )
+  if (!is.null(input.tbl)) {
+    tbltype <- "intseqtbl"
+    # tbltype <- case_when(
+    #   is.tttbl(input.tbl) == TRUE ~ "tttbl",
+    #   is.intseqtbl(input.tbl) == TRUE ~ "intseqtbl",
+    #   is.spchtbl(input.tbl) == TRUE ~ "spchtbl",
+    #   TRUE ~ "invalid tbltype"
+    # )
   }
   if (tbltype == "tttbl") {
-    real.tttbl <- input.tttbl
+    real.tttbl <- input.tbl
     } else if (tbltype == "intseqtbl") {
-    real.tttbl <- input.tttbl %>%
-      dplyr::select(contains("seq")) # removes intseq and vocseq cols
+    real.tttbl <- input.tbl %>%
+      dplyr::select(-contains("seq")) # removes intseq and vocseq cols
     } else if (tbltype == "spchtbl" | is.spchtbl(spchtbl)) {
-    # direct spchtbl input takes priority over input.tttbl
-    spchtbl <- ifelse(is.spchtbl(spchtbl), spchtbl, input.tttbl)
+    # direct spchtbl input takes priority over input.tbl
+    spchtbl <- ifelse(is.spchtbl(spchtbl), spchtbl, input.tbl)
     real.tttbl <- fetch_transitions(spchtbl, allowed.gap, allowed.overlap,
                                       min.utt.dur, focus.child, interactants,
                                       addressee.tags, mode)
     } else {
       print("Invalid input table or spchtbl to fetch_randomruns().")
-      }
+    }
   
   # conduct random runs
   if (n.runs > 0) {
-    if (output == "intseq" | output == "tttbl") {
+    if (output == "intseqtbl" | output == "tttbl") {
       # extract turn-transition tables with shuffled vocalizations
       random.tttbls <- real.tttbl[1,] %>%
         mutate(random.run.num = 0) %>%
         full_join(tibble(random.run.num = sort(rep(
-          seq(1:n.runs), nrow(real.tttbl)))), by = "random.run.num") %>%
+          seq.int(1, n.runs), nrow(real.tttbl)))), by = "random.run.num") %>%
         filter(random.run.num > 0)
       for (i in 1:n.runs) {
         print(paste0("Random run of turn transition detection: ",
@@ -103,41 +106,46 @@ fetch_randomruns <- function(
                         min.utt.dur, focus.child, interactants,
                         addressee.tags, mode)
       }
-      if (output == "intseq") {
+      if (output == "intseqtbl") {
         # extract interaction sequence tables with new tttbls of shuffled vocs
         print(paste0("Random run of intseq detection: 1 of ", n.runs))
-        run.idx <- which(random.intseqtbls$random.run.num == 1)
         current.tttbl <- filter(random.tttbls, random.run.num == 1) %>%
           dplyr::select(-random.run.num)
         random.intseqtbls <- fetch_intseqs(current.tttbl, allowed.gap) %>%
-          mutate(random.run.num = 1) %>%
-          full_join(tibble(random.run.num = sort(rep(
-            seq(2:n.runs), nrow(real.intseqtbl)))), by = "random.run.num")
-        for (i in 2:n.runs) {
-          print(paste0("Random run of intseq detection: ", i, " of ", n.runs))
-          run.idx <- which(random.intseqtbls$random.run.num == i)
-          current.tttbl <- filter(random.tttbls, random.run.num == i) %>%
-            dplyr::select(-random.run.num)
-          random.intseqtbls[run.idx,
-                            1:(length(random.intseqtbls)-1)] <- fetch_intseqs(
-                              current.tttbl, allowed.gap)
+          mutate(random.run.num = 1)
+        if (n.runs > 1) {
+          random.intseqtbls <- random.intseqtbls %>%
+            full_join(tibble(random.run.num = sort(rep(
+              seq.int(2, n.runs), nrow(real.intseqtbl)))), by = "random.run.num")
+          for (i in 2:n.runs) {
+            print(paste0("Random run of intseq detection: ", i, " of ", n.runs))
+            run.idx <- which(random.intseqtbls$random.run.num == i)
+            current.tttbl <- filter(random.tttbls, random.run.num == i) %>%
+              dplyr::select(-random.run.num)
+            random.intseqtbls[run.idx,
+                              1:(length(random.intseqtbls)-1)] <- fetch_intseqs(
+                                current.tttbl, allowed.gap)
+          }
         }
         random.tttbls <- NULL
       }
-      if (return.real == TRUE) {
-        all.tbls <- list(
-          real.tt.vals = real.tttbl,
-          random.tt.vals = ifelse(!is.null(random.tttbls),
-                                  random.tttbls, random.intseqtbls))
-      } else if (return.real == FALSE) {
+      if (is.null(random.tttbls)) {
         all.tbls <- list(
           real.tt.vals = NA,
-          random.tt.vals = ifelse(!is.null(random.tttbls),
-                                  random.tttbls, random.intseqtbls))
+          random.tt.vals = random.intseqtbls)
+      } else {
+        all.tbls <- list(
+          real.tt.vals = NA,
+          random.tt.vals = random.tttbls)
+      }
+      if (return.real == TRUE) {
+        all.tbls$real.tt.vals <- real.tttbl
+      } else if (return.real != FALSE) {
+        print("Invalid return.real.value for fetch_randomruns(); returning random run data only.")
       }
       return (all.tbls)
     } else {
-      print("Invalid output type for fetch_randomruns().")
+      print("Invalid output argument to fetch_randomruns().")
     }
   }
 }

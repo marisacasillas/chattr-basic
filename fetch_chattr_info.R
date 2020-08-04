@@ -1,14 +1,14 @@
 # Default argument values
-default.max.gap <- 2000
-default.max.overlap <- 1000
-default.min.utt.dur <- 0
-default.mode <- "strict"
-default.interactants <- FALSE # (all speaker tiers as interactants)
-default.addressee.tags <- FALSE
-default.lxonly <- FALSE
-default.cliptier <- ".alloneclip"
-default.output <- "intseq"
-default.n.runs <- 0
+default.max.gap <- 2000 # allows up to this number of milliseconds of gap at transitions
+default.max.overlap <- 1000 # allows up to this number of milliseconds of overlap at transitions
+default.min.utt.dur <- 0 # assesses all utterances, regardless of duration
+default.mode <- "strict" # uses strict mode when choosing between multiple transition types
+default.interactants <- FALSE # all speaker tiers as interactants
+default.addressee.tags <- FALSE # all utterances assessed, regardless of addressee
+default.lxonly <- FALSE # all utterances assessed, regardless of linguistic content
+default.cliptier <- ".alloneclip" # all utterances in the file are considered
+default.output <- "intseq" # returns intseq data in addition to basic turn taking data
+default.n.runs <- 0 # returns no random runs by default (b/c they are time consuming)
 # NOTE:
 # If something isn't set to a default below, it means the argument value is
 # specific to that instance of the function call, e.g., file path, or
@@ -17,54 +17,48 @@ default.n.runs <- 0
 
 
 fetch_chattr_tttbl <- function(
-  # independent tttbl processing
-  tttbl, cliptier = default.cliptier, lxonly = default.lxonly,
-  # fetch_transitions() and fetch_intseqs() arguments
+  # requires user input:
+  spchtbl, focus.child,
+  # in case of independent tttbl processing with this function:
+  cliptier = default.cliptier, lxonly = default.lxonly,
+  # used by fetch_transitions() and fetch_intseqs() below:
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
-  min.utt.dur = default.min.utt.dur,
-  focus.child, interactants = default.interactants,
+  min.utt.dur = default.min.utt.dur, interactants = default.interactants,
   addressee.tags = default.addressee.tags, mode = default.mode,
-  # estimate_baseline() arguments
+  # fetch_randomruns() arguments used below:
   output = default.output, n.runs = default.n.runs) {
+  
   # TO DO: modify input spchtbl to be in line with cliptier and lxonly args if needed
 
   # get tttbl and/or intseq data as desired
-  if (output == "intseq" | output == "tttbl") {
+  if (output == "intseqtbl" | output == "tttbl") {
     print("Estimating turn transitions...")
-    real.tttbl <- fetch_transitions(tttbl, allowed.gap, allowed.overlap,
+    real.tbl <- fetch_transitions(spchtbl, allowed.gap, allowed.overlap,
                                     min.utt.dur, focus.child, interactants,
                                     addressee.tags, mode)
-    if (output == "intseq") {
+    if (output == "intseqtbl") {
       print("Estimating interactional sequences...")
-      real.intseqtbl <- fetch_intseqs(real.tttbl, allowed.gap)
-      if (n.runs > 0) {
-        print("Estimating interactional sequences for randomized simulations...")
-        random.tbls <- fetch_randomruns(
-          spchtbl = tttbl, n.runs = n.runs,
-          allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
-          min.utt.dur = min.utt.dur, focus.child = focus.child,
-          interactants = interactants, addressee.tags = addressee.tags,
-          mode = mode, output = output, input.tttbl = real.tttbl,
-          return.real = FALSE)
-      }
+      real.tbl <- fetch_intseqs(real.tttbl, allowed.gap)
+    }
+    if (n.runs > 0) {
+      print("Estimating interactional sequences for randomized simulations...")
+      all.tbls <- fetch_randomruns(
+        spchtbl = spchtbl, n.runs = n.runs,
+        allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
+        min.utt.dur = min.utt.dur, focus.child = focus.child,
+        interactants = interactants, addressee.tags = addressee.tags,
+        mode = mode, output = output, input.tbl = real.tbl,
+        return.real = FALSE)
     } else {
-      if (n.runs > 0) {
-        print("Estimating interactional sequences for randomized simulations...")
-        random.tbls <- fetch_randomruns(
-          spchtbl = tttbl, n.runs = n.runs,
-          allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
-          min.utt.dur = min.utt.dur, focus.child = focus.child,
-          interactants = interactants, addressee.tags = addressee.tags,
-          mode = mode, output = output, input.tttbl = real.tttbl,
-          return.real = FALSE)
-      }
+      all.tbls <- list(
+        real.tt.vals = real.tbl,
+        random.tt.vals = NA)
     }
     # return the results as a list of the real and random tables
-    return("... AHEM. TO DO")
+    return(all.tbls)
   } else {
     print("Invalid type of output specified: the options are 'intseq' (default) or 'tttbl'.")
   }
-  
 }
 
 
