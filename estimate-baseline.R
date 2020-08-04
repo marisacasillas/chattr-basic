@@ -116,7 +116,7 @@ fetch_randomruns <- function(
         if (n.runs > 1) {
           random.intseqtbls <- random.intseqtbls %>%
             full_join(tibble(random.run.num = sort(rep(
-              seq.int(2, n.runs), nrow(real.intseqtbl)))), by = "random.run.num")
+              seq.int(2, n.runs), nrow(real.tttbl)))), by = "random.run.num")
           for (i in 2:n.runs) {
             print(paste0("Random run of intseq detection: ", i, " of ", n.runs))
             run.idx <- which(random.intseqtbls$random.run.num == i)

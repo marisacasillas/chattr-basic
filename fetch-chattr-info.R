@@ -7,7 +7,7 @@ default.interactants <- FALSE # all speaker tiers as interactants
 default.addressee.tags <- FALSE # all utterances assessed, regardless of addressee
 default.lxonly <- FALSE # all utterances assessed, regardless of linguistic content
 default.cliptier <- ".alloneclip" # all utterances in the file are considered
-default.output <- "intseq" # returns intseq data in addition to basic turn taking data
+default.output <- "intseqtbl" # returns intseq data in addition to basic turn taking data
 default.n.runs <- 0 # returns no random runs by default (b/c they are time consuming)
 # NOTE:
 # If something isn't set to a default below, it means the argument value is
@@ -38,7 +38,7 @@ fetch_chattr_tttbl <- function(
                                     addressee.tags, mode)
     if (output == "intseqtbl") {
       print("Estimating interactional sequences...")
-      real.tbl <- fetch_intseqs(real.tttbl, allowed.gap)
+      real.tbl <- fetch_intseqs(real.tbl, allowed.gap)
     }
     if (n.runs > 0) {
       print("Estimating interactional sequences for randomized simulations...")
@@ -57,7 +57,7 @@ fetch_chattr_tttbl <- function(
     # return the results as a list of the real and random tables
     return(all.tbls)
   } else {
-    print("Invalid type of output specified: the options are 'intseq' (default) or 'tttbl'.")
+    print("Invalid type of output specified: the options are 'intseqtbl' (default) or 'tttbl'.")
   }
 }
 
@@ -80,37 +80,17 @@ fetch_chatter_LENA <- function(
 
   # step 2. run the speech annotations through the tt behavior detection pipeline
   ttinfotbls <- fetch_chattr_tttbl(
-      tttbl = spchtbl, cliptier = cliptier, lxonly = lxonly,
+      spchtbl = spchtbl, focus.child = focus.child,
+      cliptier = cliptier, lxonly = lxonly,
       allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
-      min.utt.dur = min.utt.dur,
-      focus.child = focus.child, interactants = interactants,
+      min.utt.dur = min.utt.dur, interactants = interactants,
       addressee.tags = addressee.tags,
-      mode = mode, output == output, n.runs = n.runs)
+      mode = mode, output = output, n.runs = n.runs)
 
   # step 3. create a summary of the tt behavior by clip and overall, incl. the random baseline
   # TO DO
+  ttinfotbls$tt.summary <- "TO DO!"
   
-  #... return... TO DO
-  return("... AHEM. TO DO")
+  return(ttinfotbls)
 }
 
-
-
-# tbl <- "../chattr-paper/annotated-data/raw/123522-1904.its"
-# 
-# # user optional
-# lxonly <- FALSE
-# nearonly <- FALSE
-# allowed.gap <- 2000
-# allowed.overlap <- 1000
-# min.utt.dur <- 300
-# focus.child <- "CX"
-# interactants <- c("FA", "MA")
-# addressee.tags <- "none"
-# mode <- "stretch"
-# output <- "tttbl"
-# n.runs <- 2
-# 
-# # other optional
-# tbltype <- "lena-its"
-# cliptier <- ".alloneclip"

@@ -9,6 +9,11 @@ source("transition-detectors.R")
 source("continuation-detectors.R")
 source("intseq-detectors.R")
 source("estimate-baseline.R")
+source("fetch-chattr-info.R")
+
+its.all.tbl2 <- fetch_chatter_LENA("../chattr-paper/annotated-data/raw/123522-1904.its", n.runs = 2)
+
+its.all.tbl <- fetch_chatter_LENA("../chattr-paper/annotated-data/raw/123522-1904.its")
 
 ttdata.spchtbl.rttm <- read_spchtbl(
   "test_files/rttm/TEST.rttm",
@@ -17,6 +22,10 @@ ttdata.spchtbl.rttm <- read_spchtbl(
 ttdata.spchtbl.its <- read_spchtbl(
   "../chattr-paper/annotated-data/raw/123522-1904.its",
   "lena-its", lxonly = TRUE)
+
+its.tttbl <- ttdata.spchtbl.its %>%
+  fetch_chatter_tttbl("CH")
+
 
 its.tttbl <- ttdata.spchtbl.its %>%
   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
