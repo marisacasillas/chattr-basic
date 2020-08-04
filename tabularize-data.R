@@ -24,7 +24,7 @@ read_spchtbl <- function(filepath, tbltype,
   } else if (tbltype == "rttm") {
     spchtbl <- suppressWarnings(rttm_to_spchtbl(filepath, lxonly))
   } else {
-    print(paste0("The specified file type, ", tbltype, " ,isn't available!"))
+    print(paste0("The specified file type, ", tbltype, ",isn't available!"))
   }
   return(spchtbl)
 }
