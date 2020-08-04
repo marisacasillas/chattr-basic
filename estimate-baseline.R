@@ -124,17 +124,20 @@ fetch_randomruns <- function(
         }
         random.tttbls <- NULL
       }
-      # TO DO: return.real means return both; return a list regardless
-      return (ifelse(!is.null(random.tttbls), random.tttbls, random.intseqtbls))
+      if (return.real == TRUE) {
+        all.tbls <- list(
+          real.tt.vals = real.tttbl,
+          random.tt.vals = ifelse(!is.null(random.tttbls),
+                                  random.tttbls, random.intseqtbls))
+      } else if (return.real == FALSE) {
+        all.tbls <- list(
+          real.tt.vals = NA,
+          random.tt.vals = ifelse(!is.null(random.tttbls),
+                                  random.tttbls, random.intseqtbls))
+      }
+      return (all.tbls)
     } else {
       print("Invalid output type for fetch_randomruns().")
     }
   }
 }
-
-
-
-
-
-
-
