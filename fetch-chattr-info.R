@@ -62,6 +62,34 @@ fetch_chattr_tttbl <- function(
 }
 
 
+run_fetch_pipeline <- function(
+  tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+  lxonly = default.lxonly,
+  allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
+  min.utt.dur = default.min.utt.dur, interactants = default.interactants,
+  mode = default.mode, output = default.output, n.runs = default.n.runs) {
+  
+  # step 1. read in the file
+  spchtbl <- read_spchtbl(filepath = tbl, tbltype = tbltype,
+                          lxonly = lxonly, nearonly = nearonly)
+  
+  # step 2. run the speech annotations through the tt behavior detection pipeline
+  ttinfotbls <- fetch_chattr_tttbl(
+    spchtbl = spchtbl, focus.child = focus.child,
+    cliptier = cliptier, lxonly = lxonly,
+    allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
+    min.utt.dur = min.utt.dur, interactants = interactants,
+    addressee.tags = addressee.tags,
+    mode = mode, output = output, n.runs = n.runs)
+  
+  # step 3. create a summary of the tt behavior by clip and overall, incl. the random baseline
+  # TO DO
+  ttinfotbls$tt.summary <- "TO DO!"
+  
+  return(ttinfotbls)
+}
+
+
 fetch_chatter_LENA <- function(
   # read_spchtbl() arguments
   tbl, tbltype = "lena-its",
@@ -73,24 +101,62 @@ fetch_chatter_LENA <- function(
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
+  ttinfotbls <- run_fetch_pipeline(
+    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
+    mode, output, n.runs)
+  return(ttinfotbls)
+}
 
-  # step 1. read in the file
-  spchtbl <- read_spchtbl(filepath = tbl, tbltype = tbltype,
-                          lxonly = lxonly, nearonly = nearonly)
+fetch_chatter_AAS <- function(
+  # read_spchtbl() arguments
+  tbl, tbltype = "aas-elan-txt",
+  cliptier = "code", lxonly = default.lxonly, nearonly = FALSE,
+  # fetch_transitions() and fetch_intseqs() arguments
+  allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
+  min.utt.dur = default.min.utt.dur,
+  focus.child = "CHI", interactants = default.interactants,
+  addressee.tags = "[CT]", mode = default.mode,
+  # estimate_baseline() arguments
+  output = default.output, n.runs = default.n.runs) {
+  ttinfotbls <- run_fetch_pipeline(
+    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
+    mode, output, n.runs)
+  return(ttinfotbls)
+}
 
-  # step 2. run the speech annotations through the tt behavior detection pipeline
-  ttinfotbls <- fetch_chattr_tttbl(
-      spchtbl = spchtbl, focus.child = focus.child,
-      cliptier = cliptier, lxonly = lxonly,
-      allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
-      min.utt.dur = min.utt.dur, interactants = interactants,
-      addressee.tags = addressee.tags,
-      mode = mode, output = output, n.runs = n.runs)
+fetch_chatter_BST <- function(
+  # read_spchtbl() arguments
+  tbl, focus.child, tbltype = "basic-speech-tbl",
+  cliptier = default.cliptier, lxonly = default.lxonly, nearonly = FALSE,
+  # fetch_transitions() and fetch_intseqs() arguments
+  allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
+  min.utt.dur = default.min.utt.dur, interactants = default.interactants,
+  addressee.tags = default.addressee.tags, mode = default.mode,
+  # estimate_baseline() arguments
+  output = default.output, n.runs = default.n.runs) {
+  ttinfotbls <- run_fetch_pipeline(
+    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
+    mode, output, n.runs)
+  return(ttinfotbls)
+}
 
-  # step 3. create a summary of the tt behavior by clip and overall, incl. the random baseline
-  # TO DO
-  ttinfotbls$tt.summary <- "TO DO!"
-  
+fetch_chatter_RTTMT <- function(
+  # read_spchtbl() arguments
+  tbl, focus.child, tbltype = "rttm",
+  cliptier = default.cliptier, lxonly = default.lxonly, nearonly = FALSE,
+  # fetch_transitions() and fetch_intseqs() arguments
+  allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
+  min.utt.dur = default.min.utt.dur, interactants = default.interactants,
+  addressee.tags = default.addressee.tags, mode = default.mode,
+  # estimate_baseline() arguments
+  output = default.output, n.runs = default.n.runs) {
+  ttinfotbls <- run_fetch_pipeline(
+    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
+    mode, output, n.runs)
   return(ttinfotbls)
 }
 

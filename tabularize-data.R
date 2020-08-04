@@ -17,8 +17,8 @@ read_spchtbl <- function(filepath, tbltype,
                          nearonly = FALSE) {
   if (tbltype == "aas-elan-txt") {
     spchtbl <- aas_to_spchtbl(filepath, cliptier, lxonly)
-  } else if (tbltype == "elan-basic-txt") {
-    spchtbl <- elanbasic_to_spchtbl(filepath, cliptier, lxonly)
+  } else if (tbltype == "basic-speech-tbl") {
+    spchtbl <- basictbl_to_spchtbl(filepath, cliptier, lxonly)
   } else if (tbltype == "lena-its") {
     spchtbl <- its_to_spchtbl(filepath, lxonly, nearonly)
   } else if (tbltype == "rttm") {
@@ -122,7 +122,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
 }
 
 
-elanbasic_to_spchtbl <- function(tbl, cliptier, lxonly) {
+basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
   ebtbl <- read_delim(file = tbl, delim = "\t",
     col_names = ebtbl.colnames, col_types = cols(
       tier = col_character(),

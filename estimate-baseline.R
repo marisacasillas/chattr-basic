@@ -15,6 +15,9 @@ shuffle_vocs <- function(tbl) {
     ann.marker, unique(tbl$speaker))))]
   unique.clips <- unique(tbl$speaker)[which((grepl(
     ann.marker, unique(tbl$speaker))))]
+  if (!("duration" %in% names(tbl))) {
+    tbl$duration <- tbl$stop.ms - tbl$start.ms
+  }
   shuffled.tbl <- tbl %>%
     filter(grepl(ann.marker, speaker))
   for (spkr in unique.spkrs) {

@@ -308,7 +308,33 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
         prompt.start.ms, prompt.stop.ms, prompt.spkr,
         response.start.ms, response.stop.ms, response.spkr)
     continuation.utts <- find_tttbl_continuations(chi.tttbl,
-      chi.utts, int.utts, allowed.gap)
+      chi.utts, int.utts, allowed.gap) %>%
+      mutate(
+        speaker = as.character(speaker),
+        annot.clip = as.character(annot.clip),
+        start.ms = as.integer(start.ms),
+        stop.ms = as.integer(stop.ms),
+        addressee = as.character(addressee),
+        spkr.n.increments = as.integer(spkr.n.increments),
+        spkr.n.increments = as.integer(spkr.n.increments),
+        spkr.n.increments = as.integer(spkr.n.increments),
+        spkr.prev.increment.start = as.integer(spkr.prev.increment.start),
+        spkr.prev.increment.stop = as.integer(spkr.prev.increment.stop),
+        spkr.post.increment.start = as.integer(spkr.post.increment.start),
+        spkr.post.increment.stop = as.integer(spkr.post.increment.stop),
+        prompt.spkr = as.character(prompt.spkr),
+        prompt.start.ms = as.integer(prompt.start.ms),
+        prompt.stop.ms = as.integer(prompt.stop.ms),
+        prompt.n.increments = as.integer(prompt.n.increments),
+        prompt.prev.increment.start = as.integer(prompt.prev.increment.start),
+        prompt.prev.increment.stop = as.integer(prompt.prev.increment.stop),
+        response.spkr = as.character(response.spkr),
+        response.start.ms = as.integer(response.start.ms),
+        response.stop.ms = as.integer(response.stop.ms),
+        response.n.increments = as.integer(response.n.increments),
+        response.post.increment.start = as.integer(response.post.increment.start),
+        response.post.increment.stop = as.integer(response.post.increment.stop)
+      )
     return(continuation.utts)
   } else {
     return(empty.continuation.utts)
