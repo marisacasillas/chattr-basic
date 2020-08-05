@@ -101,7 +101,8 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
         mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value),
           addressee = NA) %>%
         dplyr::select(speaker, start.ms, stop.ms, addressee)
-      wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
+      wide.aastbl <- bind_rows(clip.tbl, wide.aastbl) %>%
+        filter(speaker != cliptier)
       return(wide.aastbl)
     } else if (cliptier == ".alloneclip") {
       start.first.ann <- min(wide.aastbl$start.ms)
@@ -148,7 +149,8 @@ basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
   if (cliptier %in% unique(ebtbl$speaker)) {
     clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
       mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
-    ebtbl <- bind_rows(clip.tbl, ebtbl)
+    ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
+      filter(speaker != cliptier)
     return(ebtbl)
   } else if (cliptier == ".alloneclip") {
     start.first.ann <- min(ebtbl$start.ms)
@@ -163,7 +165,7 @@ basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
     ebtbl <- bind_rows(clip.tbl, ebtbl)
     return(ebtbl)
   } else {
-    print("Error: no rows from the clip tier found.")
+    print("Error: Specified clip tier not found.")
   }
 }
 
