@@ -13,12 +13,12 @@ default.n.runs <- 0 # returns no random runs by default (b/c they are time consu
 # If something isn't set to a default below, it means the argument value is
 # specific to that instance of the function call, e.g., file path, or
 # specific to that fetch_chatter call, e.g., the nearonly val for LENA .its
-# files and the specific focus.child settings for LENA and AAS files)
+# files and the specific target.ptcp settings for LENA and AAS files)
 
 
 fetch_chattr_tttbl <- function(
   # requires user input:
-  spchtbl, focus.child,
+  spchtbl, target.ptcp,
   # in case of independent tttbl processing with this function:
   cliptier = default.cliptier, lxonly = default.lxonly,
   # used by fetch_transitions() and fetch_intseqs() below:
@@ -34,7 +34,7 @@ fetch_chattr_tttbl <- function(
   if (output == "intseqtbl" | output == "tttbl") {
     print("Estimating turn transitions...")
     real.tbl <- fetch_transitions(spchtbl, allowed.gap, allowed.overlap,
-                                    min.utt.dur, focus.child, interactants,
+                                    min.utt.dur, target.ptcp, interactants,
                                     addressee.tags, mode)
     if (output == "intseqtbl") {
       print("Estimating interactional sequences...")
@@ -45,10 +45,10 @@ fetch_chattr_tttbl <- function(
       all.tbls <- fetch_randomruns(
         spchtbl = spchtbl, n.runs = n.runs,
         allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
-        min.utt.dur = min.utt.dur, focus.child = focus.child,
+        min.utt.dur = min.utt.dur, target.ptcp = target.ptcp,
         interactants = interactants, addressee.tags = addressee.tags,
         mode = mode, output = output, input.tbl = real.tbl,
-        return.real = FALSE)
+        return.real = TRUE)
     } else {
       all.tbls <- list(
         real.tt.vals = real.tbl,
@@ -63,7 +63,7 @@ fetch_chattr_tttbl <- function(
 
 
 run_chatter_pipeline <- function(
-  tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+  tbl, tbltype, target.ptcp, addressee.tags, cliptier, nearonly,
   lxonly = default.lxonly,
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
   min.utt.dur = default.min.utt.dur, interactants = default.interactants,
@@ -75,7 +75,7 @@ run_chatter_pipeline <- function(
   
   # step 2. run the speech annotations through the tt behavior detection pipeline
   ttinfotbls <- fetch_chattr_tttbl(
-    spchtbl = spchtbl, focus.child = focus.child,
+    spchtbl = spchtbl, target.ptcp = target.ptcp,
     cliptier = cliptier, lxonly = lxonly,
     allowed.gap = allowed.gap, allowed.overlap = allowed.overlap,
     min.utt.dur = min.utt.dur, interactants = interactants,
@@ -97,12 +97,12 @@ fetch_chatter_LENA <- function(
   # fetch_transitions() and fetch_intseqs() arguments
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
   min.utt.dur = default.min.utt.dur,
-  focus.child = "CH", interactants = default.interactants,
+  target.ptcp = "CH", interactants = default.interactants,
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
   ttinfotbls <- run_chatter_pipeline(
-    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    tbl, tbltype, target.ptcp, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
   return(ttinfotbls)
@@ -115,12 +115,12 @@ fetch_chatter_AAS <- function(
   # fetch_transitions() and fetch_intseqs() arguments
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
   min.utt.dur = default.min.utt.dur,
-  focus.child = "CHI", interactants = default.interactants,
+  target.ptcp = "CHI", interactants = default.interactants,
   addressee.tags = "[CT]", mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
   ttinfotbls <- run_chatter_pipeline(
-    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    tbl, tbltype, target.ptcp, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
   return(ttinfotbls)
@@ -128,7 +128,7 @@ fetch_chatter_AAS <- function(
 
 fetch_chatter_BST <- function(
   # read_spchtbl() arguments
-  tbl, focus.child, tbltype = "basic-speech-tbl",
+  tbl, target.ptcp, tbltype = "basic-speech-tbl",
   cliptier = default.cliptier, lxonly = default.lxonly, nearonly = FALSE,
   # fetch_transitions() and fetch_intseqs() arguments
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
@@ -137,7 +137,7 @@ fetch_chatter_BST <- function(
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
   ttinfotbls <- run_chatter_pipeline(
-    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    tbl, tbltype, target.ptcp, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
   return(ttinfotbls)
@@ -145,7 +145,7 @@ fetch_chatter_BST <- function(
 
 fetch_chatter_RTTM <- function(
   # read_spchtbl() arguments
-  tbl, focus.child, tbltype = "rttm",
+  tbl, target.ptcp, tbltype = "rttm",
   cliptier = default.cliptier, lxonly = default.lxonly, nearonly = FALSE,
   # fetch_transitions() and fetch_intseqs() arguments
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
@@ -154,7 +154,7 @@ fetch_chatter_RTTM <- function(
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
   ttinfotbls <- run_chatter_pipeline(
-    tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
+    tbl, tbltype, target.ptcp, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
   return(ttinfotbls)

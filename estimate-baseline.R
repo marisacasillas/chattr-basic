@@ -60,7 +60,7 @@ fetch_randomruns <- function(
   spchtbl, n.runs = default.n.runs,
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
   min.utt.dur = default.min.utt.dur,
-  focus.child, interactants = default.interactants, 
+  target.ptcp, interactants = default.interactants, 
   addressee.tags = default.addressee.tags,
   mode = default.mode, output = default.output,
   input.tbl = NULL, return.real = TRUE) {
@@ -85,7 +85,7 @@ fetch_randomruns <- function(
     # direct spchtbl input takes priority over input.tbl
     spchtbl <- ifelse(is.spchtbl(spchtbl), spchtbl, input.tbl)
     real.tttbl <- fetch_transitions(spchtbl, allowed.gap, allowed.overlap,
-                                      min.utt.dur, focus.child, interactants,
+                                      min.utt.dur, target.ptcp, interactants,
                                       addressee.tags, mode)
     } else {
       print("Invalid input table or spchtbl to fetch_randomruns().")
@@ -107,7 +107,7 @@ fetch_randomruns <- function(
         random.tttbls[run.idx,
                       1:(length(random.tttbls)-1)] <- fetch_transitions(
                         shuffle_vocs(spchtbl), allowed.gap, allowed.overlap,
-                        min.utt.dur, focus.child, interactants,
+                        min.utt.dur, target.ptcp, interactants,
                         addressee.tags, mode)
       }
       if (output == "intseqtbl") {

@@ -16,9 +16,9 @@ its.all.tbl2 <- fetch_chatter_LENA("../chattr-paper/annotated-data/raw/123522-19
 aas.all.tbl2 <- fetch_chatter_AAS("test_files/AAS-tabular/test-interaction-XDS-lxonly.txt", n.runs = 2)
 
 bst.all.tbl2 <- fetch_chatter_BST("test_files/AltELAN-tabular/CT_sample1-lxvocs.txt",
-                                   cliptier = "Coded Segment", focus.child = "Child Utterances", n.runs = 2)
+                                   cliptier = "Coded Segment", target.ptcp = "Child Utterances", n.runs = 2)
 
-rttm.all.tbl2 <- fetch_chatter_RTTM("test_files/rttm/TEST.rttm", focus.child = "KCHI", n.runs = 2)
+rttm.all.tbl2 <- fetch_chatter_RTTM("test_files/rttm/TEST.rttm", target.ptcp = "KCHI", n.runs = 2)
 
 ##
 
@@ -47,7 +47,7 @@ n.runs <- 3
 allowed.gap <- 2000
 allowed.overlap <- 1000
 min.utt.dur <- 300
-focus.child <- "FA"
+target.ptcp <- "FA"
 interactants <- c("FA", "MA")
 addressee.tags <- "none"
 mode <- "strict"
@@ -55,13 +55,13 @@ output <- "tttbl" # intseq tttbl
 
 checkme.tttbl.baseline <- fetch_baseline(tbl, n.runs,
                                          allowed.gap, allowed.overlap,
-                                         min.utt.dur, focus.child, interactants,
+                                         min.utt.dur, target.ptcp, interactants,
                                          addressee.tags, mode, output)
 
 output <- "intseq" # intseq tttbl
 checkme.intseqtbl.baseline <- fetch_baseline(tbl, n.runs,
                                          allowed.gap, allowed.overlap,
-                                         min.utt.dur, focus.child, interactants,
+                                         min.utt.dur, target.ptcp, interactants,
                                          addressee.tags, mode, output)
 
 # %>%
@@ -191,28 +191,28 @@ testdata1 <- read_spchtbl(filepath = testdata1.filename,
 #### stretch
 testdata1.stretch <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
 testdata1.stretch$addressee <- as.character(
   testdata1.stretch$addressee)
 #### strict
 testdata1.strict <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict$addressee <- as.character(
   testdata1.strict$addressee)
 #### qulr
 testdata1.qulr <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "qulr")
 testdata1.qulr$addressee <- as.character(
   testdata1.qulr$addressee)
 #### luqr
 testdata1.luqr <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "luqr")
 testdata1.luqr$addressee <- as.character(
   testdata1.luqr$addressee)
@@ -247,28 +247,28 @@ testdata2 <- read_spchtbl(filepath = testdata2.filename,
 #### stretch
 testdata2.stretch <- fetch_transitions(
   spchtbl = testdata2, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
 testdata2.stretch$addressee <- as.character(
   testdata2.stretch$addressee)
 #### strict
 testdata2.strict <- fetch_transitions(
   spchtbl = testdata2, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "strict")
 testdata2.strict$addressee <- as.character(
   testdata2.strict$addressee)
 #### qulr
 testdata2.qulr <- fetch_transitions(
   spchtbl = testdata2, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "qulr")
 testdata2.qulr$addressee <- as.character(
   testdata2.qulr$addressee)
 #### luqr
 testdata2.luqr <- fetch_transitions(
   spchtbl = testdata2, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "luqr")
 testdata2.luqr$addressee <- as.character(
   testdata2.luqr$addressee)
@@ -303,22 +303,22 @@ testdata3 <- read_spchtbl(filepath = testdata3.filename,
 #### stretch
 testdata3.stretch <- fetch_transitions(
   spchtbl = testdata3, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "stretch")
 #### strict
 testdata3.strict <- fetch_transitions(
   spchtbl = testdata3, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "strict")
 #### qulr
 testdata3.qulr <- fetch_transitions(
   spchtbl = testdata3, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "qulr")
 #### luqr
 testdata3.luqr <- fetch_transitions(
   spchtbl = testdata3, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "luqr")
 
 ### check for a match
@@ -337,7 +337,7 @@ testdata4 <- read_spchtbl(filepath = testdata4.filename,
 ### retrieve transitions
 testdata4.strict <- fetch_transitions(
   spchtbl = testdata4, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHN", interactants = c("FAN", "MAN"),
+  target.ptcp = "CHN", interactants = c("FAN", "MAN"),
   addressee.tags = "none", mode = "strict")
 testdata4.strict$addressee <- as.character(
   testdata4.strict$addressee)
@@ -358,7 +358,7 @@ testdata5 <- read_spchtbl(filepath = testdata5.filename,
 ### retrieve transitions
 testdata5.strict <- fetch_transitions(
   spchtbl = testdata5, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "Child Utterances", interactants = ".all-speakers",
+  target.ptcp = "Child Utterances", interactants = ".all-speakers",
   addressee.tags = "none", mode = "strict")
 testdata5.strict$addressee <- as.character(
   testdata5.strict$addressee)
@@ -370,11 +370,11 @@ test5.strict <- all_equal(testdata5.strict,
   testdata5.strict.answers, convert = TRUE)
 
 
-### test data 1: focus.child, interactants, addressee.tags ----
+### test data 1: target.ptcp, interactants, addressee.tags ----
 #### change focal speaker
 testdata1.strict.FC1.focus <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "FC1", interactants = ".all-speakers",
+  target.ptcp = "FC1", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict.FC1.focus$addressee <- as.character(
   testdata1.strict.FC1.focus$addressee)
@@ -385,7 +385,7 @@ test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
 
 testdata1.strict.FA1.focus <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "FA1", interactants = ".all-speakers",
+  target.ptcp = "FA1", interactants = ".all-speakers",
   addressee.tags = "CDS", mode = "strict")
 test1.strict.FA1.focus <- nrow(testdata1.strict.FA1.focus) == 0
 
@@ -393,7 +393,7 @@ test1.strict.FA1.focus <- nrow(testdata1.strict.FA1.focus) == 0
 #### change interactants
 testdata1.strict.intFC1only <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = "FC1",
+  target.ptcp = "CHI", interactants = "FC1",
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict.intFC1only$addressee <- as.character(
   testdata1.strict.intFC1only$addressee)
@@ -406,7 +406,7 @@ testdata1.intpattern <- unique(testdata1$speaker)[grep(
   "[MFU]C\\d", unique(testdata1$speaker))]
 testdata1.strict.intpattern <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = testdata1.intpattern,
+  target.ptcp = "CHI", interactants = testdata1.intpattern,
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict.intpattern$addressee <- as.character(
   testdata1.strict.intpattern$addressee)
@@ -415,7 +415,7 @@ test1.strict.intpattern <- all_equal(testdata1.strict.intpattern,
 
 testdata1.strict.intFC1FA1 <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = c("FC1", "FA1"),
+  target.ptcp = "CHI", interactants = c("FC1", "FA1"),
   addressee.tags = "CDS", mode = "strict")
 testdata1.strict.intFC1FA1$addressee <- as.character(
   testdata1.strict.intFC1FA1$addressee)
@@ -424,7 +424,7 @@ test1.strict.intFC1FA1 <- all_equal(testdata1.strict.intFC1FA1,
 
 testdata1.strict.intFA1 <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = "FA1",
+  target.ptcp = "CHI", interactants = "FA1",
   addressee.tags = "CDS", mode = "strict")
 test1.strict.intFA1 <- nrow(testdata1.strict.intFA1) == 0
 
@@ -432,13 +432,13 @@ test1.strict.intFA1 <- nrow(testdata1.strict.intFA1) == 0
 #### change addressee.tags
 testdata1.strict.tcds <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "TCDS", mode = "strict")
 test1.strict.tcds <- nrow(testdata1.strict.tcds) == 0
 
 testdata1.strict.none <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  focus.child = "CHI", interactants = ".all-speakers",
+  target.ptcp = "CHI", interactants = ".all-speakers",
   addressee.tags = "none", mode = "strict")
 testdata1.strict.none$addressee <- as.character(
   testdata1.strict.none$addressee)

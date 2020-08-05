@@ -27,7 +27,7 @@ empty.continuation.utts <- tibble(
 # Finds turn transitions between a focus child and other speakers
 # within the annotated clips indicated in the spchtbl
 fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
-  min.utt.dur, focus.child, interactants, addressee.tags, mode) {
+  min.utt.dur, target.ptcp, interactants, addressee.tags, mode) {
   # exclude utterances deemed too short to "count"
   if (!("duration" %in% names(spchtbl))) {
     spchtbl <- mutate(spchtbl,
@@ -41,10 +41,10 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     annot.clip != "none assigned")
   # extract the interactant utterances
   if (interactants == FALSE) {
-    int.utts <- filter(spchtbl.annsubset, speaker != focus.child &
+    int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
                          !grepl(start.ann, speaker))
   } else {
-    int.utts <- filter(spchtbl.annsubset, speaker != focus.child &
+    int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
                          grepl(interactants, speaker) & 
                          !grepl(start.ann, speaker))
   }
@@ -65,7 +65,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
 
   # extract the focus child utterances (each is considered an 'utt_0')
   # and add transition window information
-  chi.utts <- extract_focus_utts(spchtbl.annsubset, focus.child)
+  chi.utts <- extract_focus_utts(spchtbl.annsubset, target.ptcp)
   if (nrow(chi.utts) < 1) {
     print("No utterances from the specified focus speaker.")
     return(empty.continuation.utts)
