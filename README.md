@@ -1,15 +1,33 @@
 # chattr
-chattr extracts turn-taking measures from tabular conversation data.
+*chattr is an R package for extracting turn-taking measures from tabular utterance data.*
 
-Researchers who are interested in studying turn-taking behaviors in their naturalistic data have traditionally been limited to either manually reviewing their data or, for LENA system users, using Conversational Turn Count and Conversational Block output. The former approach results in highly variable analyses across studies and the latter approach uses an unsatisfactory basis for interactional timing (e.g., allowing up to 5s of silence between turns, limited temporal reporting for closer analysis, proprietary software).
+### A new tool for measuring turn-taking
+
+Researchers who are interested in studying naturalistic turn-taking behavior have traditionally been limited to manual analysis of their data. More recently, [the LENA Foundation](https://www.lena.org/) has provided an alternative approach: an integrated and automated recording-to-annotations system that includes two relevant measures for turn-taking behavior (Conversational Turn Count and Conversational Block). The traditional, manual-annotation approach results in highly variable methods and analyses across studies, while the LENA approach is both proprietary and uses a theoretically unusual basis for measuring these interactional behaviors (e.g., allowing up to 5s of silence between turns). The chattr package aims to bridge this gap, providing a set of simple functions in R that are flexible to individual researchers' needs, yet are unified in their core methods for detecting and measuring basic turn-taking behaviors.
+
+To skip to an introduction of the core functions, click [here](#how-to-use-chattr).
 
 ### What does chattr do?
 
-chattr is a package for identifying turn transitions (i.e., when one speaker stops and another starts) in annotated speech data. It can take annotations from .its files exported from LENA, .txt files (e.g., exported from ELAN or other sources), or .rttm files (still under development; see Step 1 below). To detect turn transitions, chattr scans a temporal window around each target child utterance (t<sub>0</sub>) for potential prompts (t<sub>-1</sub>) and responses (t<sub>+1</sub>) to that utterance. The user can either employ the default temporal window (see Fig 1) or specify their own timing constraints for the allowed amount of overlap and gap at speaker transitions. For better cross-study comparability, we highly recommend using the default window (see the section on timing defaults below). If the annotated data contains information about addressee (i.e., to whom a vocalization is directed), users can also limit their search to just those utterances with the right 'addressee' value (e.g., child-directed speech).
+The chattr package identifies turn transitions (i.e., when one speaker stops and another starts) in annotated interactional data and, on the basis of those transitions, computes a number of summary measures about turn taking behaviors. It can take input annotations from:
 
-Once chattr has scanned a file, it produces a table of all target child utterances, including the onset, offset, and speaker information for any detected prompts and responses; it also reports timing information for each increment of a multi-increment utterance (see Step 2 below). The table of detected turn transitions from Step 2 can also be given back to chattr in order to compute the number of interactional sequences present in the file (see Step 3 below).
+* .its files exported from LENA,
+* .txt files (e.g., exported from [ELAN](https://archive.mpi.nl/tla/elan) or other sources), or
+* .rttm files (NIST Rich Transcription Time Marked files).
 
-Because the turn transition and interactional sequence output tables are informative about the temporal and speaker-specific characteristics of the turn-taking behaviors, chattr data can be used to compute any number of interactional measures. Here are a few ideas:
+To detect turn transitions, chattr scans a temporal window around each utterance  produced by a target interactant, e.g., the focal child, signer, etc. For each utterance (t<sub>0</sub>), it scans for potential prompts (t<sub>-1</sub>) and responses (t<sub>+1</sub>) to that utterance (Figure 1). If the annotated data contains information about addressee (i.e., to whom an utterance is directed), users can also limit their search to just those utterances with the right 'addressee' value.
+
+Once chattr has scanned a file, it produces a table with one row for each target utterance, including the onset, offset, and speaker information for any detected prompts and responses. If the target utterance, its prompt, or its response is part of a chain of adjacent utterances by the same speaker (e.g., if the response has multiple sub-increments; Figure 1), the onset and offset information for each chain is also provided in the table. By default, chattr also checks which turn transitions link together into larger interactional sequences (e.g., child-parent-child-parent-child).
+
+In many circumstances, it it also helpful to know what the baseline rate of turn taking would be, given the utterances (i.e., how often do turn transitions occur by chance?). The chattr package makes it easy to run random simulations of the utterance data to estimate the baseline chance rate of the measured turn-taking behaviors.
+
+The resulting output has three parts:
+
+1. A summary overview of the turn-taking stats for that file
+2. A table with turn-relevant information for each target utterance
+3. A table similar to 2. above, but derived from randomly shuffled utterances for as many runs as is specified by the user (0 runs by default)
+
+The temporal detail given by chattr can be used to compute any number of interactional measures. Here are a few ideas:
 
 * Rate of turn-taking (i.e., rate of child--other and other--child transitions)
 * Frequency and duration of interactional sequences
@@ -18,7 +36,7 @@ Because the turn transition and interactional sequence output tables are informa
 * Ratio of vocalization by the child and others during turn exchanges
 * Differences in turn-taking between the child and different family members
 
-A few examples are provided in the subsection below called "How to use chatter".
+A few code examples are provided [**How to use chatter**](#how-to-use-chattr) below.
 
 ### What is a turn transition?
 
