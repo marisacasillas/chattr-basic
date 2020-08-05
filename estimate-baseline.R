@@ -40,7 +40,8 @@ shuffle_vocs <- function(tbl) {
           1:length(between.utt.durs) - 1]
         spkr.vocs$dur.cum <- cumsum(spkr.vocs$duration)
         spkr.vocs$interval.cum <- cumsum(spkr.vocs$onset.interval)
-        spkr.vocs$stop.ms <- spkr.vocs$interval.cum + spkr.vocs$dur.cum
+        spkr.vocs$stop.ms <- spkr.vocs$interval.cum + spkr.vocs$dur.cum +
+          clip.on
         spkr.vocs$start.ms <- spkr.vocs$stop.ms - spkr.vocs$duration
         spkr.vocs <- spkr.vocs %>%
           dplyr::select(-onset.interval, -dur.cum, - interval.cum)
