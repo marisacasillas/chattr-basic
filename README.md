@@ -5,7 +5,7 @@
 
 Researchers who are interested in studying naturalistic turn-taking behavior have traditionally been limited to manual analysis of their data. More recently, [the LENA Foundation](https://www.lena.org/) has provided an alternative approach: an integrated and automated recording-to-annotations system that includes two relevant measures for turn-taking behavior (Conversational Turn Count and Conversational Block). The traditional, manual-annotation approach results in highly variable methods and analyses across studies, while the LENA approach is both proprietary and uses a theoretically unusual basis for measuring these interactional behaviors (e.g., allowing up to 5s of silence between turns). The chattr package aims to bridge this gap, providing a set of simple functions in R that are flexible to individual researchers' needs, yet are unified in their core methods for detecting and measuring basic turn-taking behaviors.
 
-To skip to an introduction of the core functions, click [here](#how-to-use-chattr).
+To skip to an introduction of the core functions, click [here](#quick-start-guide).
 
 ### What does chattr do?
 
@@ -36,7 +36,7 @@ The temporal detail given by chattr can be used to compute any number of interac
 * Ratio of vocalization by the child and others during turn exchanges
 * Differences in turn-taking between the child and different family members
 
-A few code examples are provided [**How to use chatter**](#how-to-use-chattr) below.
+A few code examples are provided in the [**Quick start guide**](#quick-start-guide) section below.
 
 ### What is a turn transition?
 
@@ -61,184 +61,133 @@ As with turn transitions, interactional sequences in chattr can include multi-un
 
 Any analyst looking manually at interactional data would always first check that the speakers are indeed mutually engaged before labeling and/or measuring an observed interactional phenomenon for further analysis (e.g., child-to-other turn transition). Unfortunately, this rich criterion for _semantic_ contingency between turns—not just _temporal_ contingency—is beyond what chattr can do. Consider, for example, a case where four co-present speakers engage in two simultaneous conversations. Because chattr only looks for temporal contingencies, it may detect transitions across conversations, and at the expense of catching within-conversation transitions. 
 
-It is important to remember that chattr only detects temporal patterns that *look like* turn-taking behavior. You as the analyst are responsible for checking how reliably the detected turn-taking behavior signals true conversational interaction. To overcome this limitation, consider adding addressee coding when your data features simultaneous interactions and/or highly variable interactional contexts.
+It is important to remember that chattr only detects temporal patterns that *look like* turn-taking behavior. You as the analyst are responsible for checking how reliably the detected turn-taking behavior alighns with true conversational interaction behavior. To overcome this limitation, consider adding addressee coding when your data features simultaneous interactions and/or highly variable interactional contexts.
 
 
-## How to use chattr
-chattr is designed to be straightforward to use, even for those who are just starting out with R. It has three core functions, which feed into each other as 1 >> 2 >> 3:
+## Quick start guide
+The chattr package is designed to be straightforward to use, even for those who are just starting out with R. It has one core function for each type of input (.its, .txt, .rttm), which users can customize as needed. It also has many smaller functions that run specific tasks relating to turn-taking data. These will be comprehensively summarized elsewhere. <!--TO DO!!-->
 
-1. `read_spchtbl()` converts your annotated speech file into a format chattr can process (speech table; _spchtbl_)
-2. `fetch_transitions()` scans your _spchtbl_ for turn transitions between a focal speaker and their interactant(s) and gives you back a turn transition table (_tttbl_)
-3. `fetch_intseqs()` scans your _tttbl_ for interactional sequences and gives you back the transition table, only now including information about interactional sequences in the data.
+For all core functions, the default settings are as follows (see [Customizations](#customizations) for changes to these defaults):
 
-To do all this, chattr needs to know what type of file you would like it to read, who your focal speaker is, who their interactants are, and what kinds of timing restrictions to use when looking for contingent turns.
+* The analysis window is to allow up to 2000 ms of transitional gap and up to 1000 ms of transitional overlap.
+* Turn transitions can occur with utterances of any duration, of any type, and between any potential interactional partner and the target interactant.
+* When there are multiple potential prompts/responses, chattr picks the one closest to the target utterance (i.e., 'strict' mode)
+* The output returns a summary and table of turn-taking and interactional sequence data for each target utterance in the input, but by default does _not_ conduct any random baseline runs.
 
-**NOTE:** The `fetch_transitions()` function features multiple default settings to encourage cross-study comparability. These settings can be easily changed when needed (see Step 2 below).
 
-### Step 1: Read in your data with read_spchtbl()
+### LENA user?
 
-When reading in your data, you will need to specify which file you want to read and what type it is. You can also specify where to get information about regions of the audio that are annotated. For `read_spchtbl()`, you can provide the following arguments:
+The core function for LENA .its files is `fetch_chatter_LENA()`.
 
-`type` = the type of input file you want to read in.
+This function requires one argument: a path to an ..its file, such as `fetch_chatter_LENA("myfile.its")`
 
-`cliptier` = the name of the tier on which information about annotated regions can be found. This information should be listed as if the clip tier is another speaker (see below). By default chattr assumes that you don't have a clip tier and will therefore scan the whole file when you search for turn transitions and interactional sequences.
+By default, the target interactant is "CH" (the key child) and turn transitions can take place with any other hearable human utterance (i.e., "FA", "MA", and "OC").
 
-#### File type
-
-You must specify what type of input data you have. Input data for chattr can take one of three forms:
-
-_1. Utterance timing and addressee information_
-
-Data of this type has four columns, with each row representing a single utterance. The columns are `speaker` (who is producing the utterance?), `start.ms` (what is the start time of the utterance in msec?), `stop.ms` (what is the stop time of the utterance in msec?), and `addressee` (who is the speaker talking to?). Input files of this type should be read in with the argument `aas-elan-txt`. This input type is named after the ACLEW Annotation Scheme, an ELAN-based annotation approach for naturalistic speech recordings that features comprehensive self-teaching manuals and a gold-standard test for new annotators (see more at [https://osf.io/b2jep/wiki/home/](), Casillas et al., 2017; ELAN: [https://tla.mpi.nl/tools/tla-tools/elan/download/](), Sloetjes & Wittenburg, 2008).
-
-| speaker | start.ms | stop.ms | addressee |
-|---------|----------|---------|-----------|
-| CHI     | 450      | 1080    | MA1       |
-| CHI     | 2274     | 3500    | MA1       |
-| CHI     | 5251     | 5789    | FC1       |
-| MA1     | 210      | 1260    | FC1       |
-| MA1     | 4910     | 5256    | CHI       |
-| MA1     | 5288     | 5909    | FC1       |
-| FC1     | 3393     | 4971    | CHI       |
-
-_2. Utterance timing information only_
-
-Data of this second type is identical to the AAS type above, but lacks addressee annotations. Input files of this type should be read in with the argument `elan-basic-txt`.
-
-| speaker | start.ms | stop.ms |
-|---------|----------|---------|
-| CHI     | 450      | 1080    |
-| CHI     | 2274     | 3500    |
-| CHI     | 5251     | 5789    |
-| MA1     | 210      | 1260    |
-| MA1     | 4910     | 5256    |
-| MA1     | 5288     | 5909    |
-| FC1     | 3393     | 4971    |
-
-For these first two types, you can either export ELAN annotations to a tab-delimited text file (make sure you use msec; guide [here](https://docs.google.com/presentation/d/1HepQNaqjWaL0l_L7CN38fGGBoYAuGOS6jPKaLLrRJsw/edit?usp=sharing)) or, if you don't use ELAN, you can independently pre-process your data so that it follows one of these two formats.
-
-_3. LENA .its file_
-
-The third and final input data type is a LENA .its file. These files are the output of the LENA system software and can be read in directly by chattr.
-
-#### Cliptier (optional argument)
-The user can also specify a `cliptier` used in the annotation data. Many recordings, particularly long-format ones, are only partially annotated. If the data includes onset and offset times for the annotated regions of the recording, this information can be used to more efficiently process the data and to enable the analyst to compute by-region statistics after using chattr. By default, read_spchtbl() assumes no clip tier and will scan the entire file.
-
-| speaker  | start.ms | stop.ms | addressee |
-|----------|----------|---------|-----------|
-| CHI      | 450      | 1080    | MA1       |
-| CHI      | 2274     | 3500    | MA1       |
-| CHI      | 5251     | 5789    | FC1       |
-| MA1      | 210      | 1260    | FC1       |
-| MA1      | 4910     | 5256    | CHI       |
-| MA1      | 5288     | 5909    | FC1       |
-| FC1      | 3393     | 4971    | CHI       |
-| clip_num | 0        | 10000   | clip1     |
-| clip_num | 20000    | 30000   | clip2     |
-
-Clip tiers should be formatted as another type of speaker, indicating the start, stop, and name of each annotated region in the `start.ms`, `stop.ms`, and `addressee` tiers as shown above. In this example, any speech between seconds 10 and 20 in the file will be ignored when searching for transitions and interactional sequences later on, and any turn transitions found will be labeled with respect to the annotated region in which they were found.
-
-Here are some examples of data being read in:
+**QUICK TIPS:** You can exclusively scan speech-like CH vocalizations (`lxonly = TRUE`) and/or "nearby" speech (`nearonly = TRUE`). For example, the following command will approximate the Conversational Turn measure calculated by LENA:
 
 ```
-# Examples without cliptier specifications
-my.aas.elan.data <- read_spchtbl(filepath = "my_aas_elan_spchdata.txt",
-                                  type = "aas-elan-txt")
-my.basic.data <- read_spchtbl(filepath = "my_basic_spchdata.txt",
-                               type = "elan-basic-txt")
-my.lena.data <- read_spchtbl(filepath = "my_its_file.its",
-                              type = "lena-its")
-
-# Examples with cliptier specifications
-my.aas.elan.data <- read_spchtbl(filepath = "my_aas_elan_spchdata.txt",
-                                  type = "aas-elan-txt", cliptier = "clip_num")
-my.basic.data <- read_spchtbl(filepath = "my_basic_spchdata.txt",
-                               type = "elan-basic-txt", cliptier = "Task")
-
+fetch_chatter_LENA("myfile.its", lxonly = TRUE, nearonly = TRUE)`
 ```
 
-### Step 2: Detect transitions with fetch_transitions()
+### ELAN or other basic speech table user?
 
-The turn transition detector is the most complex call in chattr. To scan for potential turn transitions, chattr needs to know a few things about your data and how you want it to be analyzed, including who your focal speaker is (e.g., the target child), which interactant(s) you want it to consider, whether you have addressee tags, and how it should decide between multiple possible transition points.
+The core function for utterances that are stored in a tabular format is `fetch_chatter_BST()`
 
-When you call `fetch_transitions()`, you can provide the following arguments:
+This function requires two arguments: a path to a .txt in the expected format (see below) and the label used for the target interactant, such as `fetch_chatter_BST("myfile.txt", target.ptcp = "Gail")`.
 
-`spchtbl` = a speech table you created by reading a file in with read_spchtbl().
-
-`allowed.gap` = the maximum amount of time, in milliseconds, that is allowed to pass during a speaker transition. Set to **XXXX** by default.
-
-`allowed.overlap` = the maximum amount of time, in milliseconds, during which overlap is allowed allowed to occur at the turn transition. Set to **XXXX** by default.
-
-`focus.child` = the name of your focal speaker (should be a value from the `speaker` column of your speech table.
-
-`interactants` = the name of all speakers who can be considered as interactants with the focal speaker. This can be a single string (e.g., "Adult1") or a list of strings (e.g., "c("Adult1", "Adult2", "Child2")"). Set to **".all-speakers"** by default, which can be used to search for transitions between the focal speaker and all other speakers present in the speech table.
-
-`addressee.tags` = the type of addressee tag system present in the data. Current options are "CDS" or "TCDS", both based on the ACLEW Annotation Scheme ([https://osf.io/b2jep/wiki/home/]()). Set to **"none"** by default.
-
-`mode` = the strategy to use when deciding between multiple candidate prompts or responses to a given focal speaker utterance. Current options are "strict", "stretch", "qulr" (quick-uptake, late-response), and "luqr" (late-uptake, quick-response). Strict picks candidates that minimize the duration of the turn transition. Stretch picks candidates that maximize it. The other two modes mix these options: qulr picks prompts that minimize transition duration but responses that maximize it, and luqr vice versa. Set to **"strict"** by default.
- 
-**SORRY THESE DEFAULTS ARE NOT ACTUALLY SET UP YET!!**
-
-The only two arguments that _need_ to be provided (i.e., that do not have default settings) are `spchtbl` (what data do you want to analyze?) and `focus.child` (who is the focal speaker?); the rest can be changed at the analyst's discretion.
-
-Here are some examples of data being scanned for turn transitions:
+**QUICK TIPS:** If you want to limit the search for turn transitions to certain interactant types or utterance content, you can use a regular expression pattern to specify your constraints. For example, given the example Table 2 below, the following command will only search for turn transitions between the target child "CHI" and any adult speaker, where utterances from all speakers must contain some transcribed linguistic content and the adult utterance must be marked with a "CHI" as addressee:
 
 ```
-# Example call on with all defaults
-my.aas.elan.data.tttbl <- fetch_transitions(
-  spchtbl = my.aas.elan.data,
-  focus.child = "CHI")
-
-# Example call changing the defaults
-my.basic.data.tttbl <- fetch_transitions(
-  spchtbl = my.basic.data,
-  allowed.gap = 5000, allowed.overlap = 5000,
-  focus.child = "Sammy", interactants = c("Father", "Grandmother"),
-  addressee.tags = "TCDS", mode = "stretch")
-
-# Example LENA call, with some changed defaults
-near.adult.tiers <- unique(my.lena.data$speaker)[grep(
-  "[MF]AN", unique(my.lena.data$speaker))]
-my.lena.data.tttbl <- fetch_transitions(
-  spchtbl = my.lena.data,
-  focus.child = "CHN", interactants = near.adult.tiers)
-# Note that each full-day LENA file can take 5–20 seconds to process
-
+fetch_chatter_BST("myfile.txt", target.ptcp = "CHI",
+                  interactants = "^[MFU]A\\d$", addressee.tags = "CHI", lxonly = "^&=[a-z]+[.!?]")
 ```
 
-### Step 3: Detect interactional sequences with fetch_intseqs()
-
-The interactional sequence detector only takes one argument: a turn transition table created with `fetch_transitions()`. It groups together the utterances associated with transitions that have at least one turn in common or that overlap in time.
-
-Here are some examples of transitions being scanned for interactional sequences:
+If you have coded specific sub-sections of your media file, make sure those sections are included in your file, with the start and stop time of all coded sections, and with the "speaker" name of your choice (see "coded.clip" in the example below). 
 
 ```
-my.aas.elan.data.intseqs <- fetch_intseqs(my.aas.elan.data.tttbl)
-my.basic.data.intseqs <- fetch_intseqs(my.basic.data.tttbl)
-my.lena.data.intseqs <- fetch_intseqs(my.lena.data.tttbl)
+fetch_chatter_BST("myfile.txt", target.ptcp = "CHI",
+                  interactants = "^[MFU]A\\d$", addressee.tags = "CHI", lxonly = "^&=[a-z]+[.!?]",
+                  cliptier = "coded.clip")
 ```
 
-### Putting it all together
-
-Because chattr cals on the tidyverse package ([https://www.tidyverse.org/](); Wickham et al., 2019), these calls can be tidily combined as follows:
+If you have followed the [ACLEW Annotation Scheme standards](https://osf.io/b2jep/wiki/home/), there is a shortcut function already assembled that assumes the target interactant is "CHI", that the addressee tags can be "C" or "T", and that the cliptier is called "code":
 
 ```
-# Example with default settings
-my.aas.elan.data.intseqs <- read_spchtbl(
-    filepath = "my_aas_elan_spchdata.txt",
-    tbltype = "aas-elan-txt", cliptier = "clip") %>%
-  fetch_transitions(focus.child = "CHI") %>%
-  fetch_intseqs()
-
-# Example with non-default settings
-my.basic.data.intseqs <- read_spchtbl(
-    filepath = "my_basic_spchdata.txt",
-    tbltype = "elan-basic-txt", cliptier = "Task") %>%
-  fetch_transitions(allowed.gap = 5000, allowed.overlap = 5000,
-  focus.child = "Sammy", interactants = c("Father", "Grandmother"),
-  addressee.tags = "TCDS", mode = "stretch") %>%
-  fetch_intseqs()
+fetch_chatter_AAS("myAASfile.txt", target.ptcp = "CHI", interactants = "^[MFU]A\\d$")
 ```
+
+#### .txt format requirements
+
+The input .txt should be a plain-text, tab-separated file on which each utterance of the interaction is demarcated on its own row, with a header row that contains the column names. The three columns must be `speaker` (who is producing the utterance?), `start.ms` (what is the start time of the utterance in whole milliseconds?), `stop.ms` (what is the stop time of the utterance in whole milliseconds?). You may _optionally_ include two more tiers: `addressee` (information about who the speech is addressed to, as a character string of your choice) and `value` (information about the content of the utterance, as a character string of your choice). Some examples are shown below.
+
+*Table 1. The bare minimum for a .txt file is speaker, start, and stop information for each utterance.*
+
+| speaker    | start.ms | stop.ms |
+|------------|----------|---------|
+| coded.clip | 0        | 10000   |
+| coded.clip | 50000    | 60000   |
+| CHI        | 450      | 1080    |
+| CHI        | 2274     | 3500    |
+| CHI        | 5251     | 5789    |
+| MA1        | 210      | 1260    |
+| MA1        | 4910     | 5256    |
+| MA1        | 5288     | 5909    |
+| FC1        | 3393     | 4971    |
+
+*Table 2. This version of table 1 has two additional optional columns added.*
+
+| speaker    | start.ms | stop.ms | addressee | val           |
+|------------|----------|---------|-----------|---------------|
+| coded.clip | 0        | 10000   | <NA>      | clip1         |
+| coded.clip | 50000    | 60000   | <NA>      | clip2         |
+| CHI        | 450      | 1080    | MA1       | &=laughs.     |
+| CHI        | 2274     | 3500    | MA1       | no.           |
+| CHI        | 5251     | 5789    | FC1       | no.           |
+| MA1        | 210      | 1260    | FC1       | &=laughs.     |
+| MA1        | 4910     | 5256    | CHI       | oh you!       |
+| MA1        | 5288     | 5909    | FC1       | hey &=laughs. |
+| FC1        | 3393     | 4971    | CHI       | now this one. |
+
+
+### RTTM user?
+
+The core function for utterances that are stored in a tabular format is `fetch_chatter_RTTM()`
+
+This function requires two arguments: a path to a file in the expected .rttm format (see below) and the label used for the target interactant, such as `fetch_chatter_RTTM("myfile.rttm", target.ptcp = "Gail")`.
+
+These files are plain-text, space-delimited files containing up to ten fields. The chattr package also accepts tab-delimited .rttm files to accommodate orthographic transcriptions in the sixth field ([reference](https://github.com/nryant/dscore/blob/master/README.md)). Note that there should be _no_ header row in your file:
+
+| Type   | FileID        | Channel | Onset (s) | Dur (s) | Orth | SpkrType | SpkrID | ConfScore | Lookahead |
+|--------|----------------|---------|-----------|---------|------|----------|----------|-----------|-----------|
+|SPEAKER | mediabasename | 1       | 0.4       | 0.5     | <NA> | FA       | <NA>   | <NA>      | <NA>      |
+|SPEAKER | mediabasename | 1       | 1.1       | 0.4     | <NA> | KCHI     | <NA>   | <NA>      | <NA>      |
+|SPEAKER | mediabasename | 1       | 1.8       | 1.0     | <NA> | MA       | <NA>   | <NA>      | <NA>      |
+|SPEAKER | mediabasename | 1       | 2.8       | 0.6     | <NA> | KCHI     | <NA>   | <NA>      | <NA>      |
+
+
+### Customizations
+
+You can customize these function calls by changing any of the default argument settings:
+
+`allowed.gap` = the maximum amount of time, in milliseconds, that is allowed to pass during a speaker transition. Set to 2000 by default.
+
+`allowed.overlap` = the maximum amount of time, in milliseconds, during which overlap is allowed allowed to occur at the turn transition. Set to 1000 by default.
+
+`min.utt.dur` = the minimum duration of an utterance allowed, in milliseconds. Utterances shorter than this threshold are not included in the search for turn transitions. Set to 0 by default (i.e., include all utterances).
+
+`interactants` = the interactants who can be considered to be potential turn-takers with the focal interactant. By default, this argument is set to `FALSE`, which means it searches all possible interactant tiers for turn transitions with the focus interactant (the exception is LENA .its files, where it searches all near and far human interactant voices). Pass a regular expression pattern 
+
+`addressee.tags` = the type of addressee tag(s) that indicates an utterance is relevant to taking turns with the target interactant. Set to `FALSE` by default (i.e., all utterances are considered relevant for turn taking).
+
+`lx.only` = the type of utterance content that indicates an utterance has linguistic content. Set to `FALSE` by default (i.e., all utterances are considered relevant for turn taking). Note that this variable subsets utterances by any match in content, e.g., it could be used to restrict utterances to those containing the word "red" or having a "?" at the end, etc.
+
+`mode` = the strategy to use when deciding between multiple candidate prompts or responses to a given focal speaker utterance. Current options are "strict", "stretch", "qulr" (quick-uptake, late-response), and "luqr" (late-uptake, quick-response). Strict picks candidates that minimize the duration of the turn transition. Stretch picks candidates that maximize it. The other two modes mix these options: qulr picks prompts that minimize transition duration but responses that maximize it, and luqr vice versa. Set to `strict` by default.
+
+`output` = the type of turn-taking data to provide in the output table. Current options are "intseqtbl" and "tttbl"; the latter option restricts the analysis to just turn transition data and does not attempt to identify interactional sequences. The default setting is ``intseqtbl`, which returns both turn transition and interactional sequence outcomes.
+
+`cliptier` = the annotation tier indicating which periods of the original media file have been annotated with utterances. Set to `.alloneclip` by default, which assumes that the entire media file is annotated, and uses the start of the first utterance and the end of the last utterance to estimate the total annotated time.
+
+`n.runs` = the number of random simulations to run; that is, the number of times to randomly shuffle the placement of each utterance for each speaker within each annotated clip and then compute the same turn-taking analysis as run with the real data. This output can be used to estimate the baseline rate of turn taking behaviors that would be expected on the basis of the vocalization rates alone. Set to 0 by default (i.e., do not conduct any random runs) to minimize processing time for those who do not use this function.
 
 ## How to understand the results
 
