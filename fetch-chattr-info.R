@@ -62,7 +62,7 @@ fetch_chattr_tttbl <- function(
 }
 
 
-run_fetch_pipeline <- function(
+run_chatter_pipeline <- function(
   tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
   lxonly = default.lxonly,
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
@@ -101,7 +101,7 @@ fetch_chatter_LENA <- function(
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
-  ttinfotbls <- run_fetch_pipeline(
+  ttinfotbls <- run_chatter_pipeline(
     tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
@@ -119,7 +119,7 @@ fetch_chatter_AAS <- function(
   addressee.tags = "[CT]", mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
-  ttinfotbls <- run_fetch_pipeline(
+  ttinfotbls <- run_chatter_pipeline(
     tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
@@ -136,14 +136,14 @@ fetch_chatter_BST <- function(
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
-  ttinfotbls <- run_fetch_pipeline(
+  ttinfotbls <- run_chatter_pipeline(
     tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
   return(ttinfotbls)
 }
 
-fetch_chatter_RTTMT <- function(
+fetch_chatter_RTTM <- function(
   # read_spchtbl() arguments
   tbl, focus.child, tbltype = "rttm",
   cliptier = default.cliptier, lxonly = default.lxonly, nearonly = FALSE,
@@ -153,7 +153,7 @@ fetch_chatter_RTTMT <- function(
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
   output = default.output, n.runs = default.n.runs) {
-  ttinfotbls <- run_fetch_pipeline(
+  ttinfotbls <- run_chatter_pipeline(
     tbl, tbltype, focus.child, addressee.tags, cliptier, nearonly,
     lxonly, allowed.gap, allowed.overlap, min.utt.dur, interactants,
     mode, output, n.runs)
