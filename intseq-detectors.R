@@ -175,8 +175,8 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     group_by(intseq.num) %>%
     summarize(
       `.groups` = "drop",
-      seq.start.ms = min(anchor.L.start.ms),
-      seq.stop.ms = max(anchor.R.stop.ms))
+      seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
+      seq.stop.ms = ifelse(is.infinite(anchor.R.stop.ms), NA, max(anchor.R.stop.ms)))
   tooclose.intseqs$prev.seq.end <- c(
     NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
   tooclose.intseqs <- tooclose.intseqs %>%
@@ -215,8 +215,8 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     filter(intseq.num > 0) %>%
     summarize(
       `.groups` = "drop",
-      seq.start.ms = min(anchor.L.start.ms),
-      seq.stop.ms = max(anchor.R.stop.ms)) %>%
+      seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
+      seq.stop.ms = ifelse(is.infinite(anchor.R.stop.ms), NA, max(anchor.R.stop.ms))) %>%
     left_join(uniq.L.anchors.intseq, by = c("intseq.num", "seq.start.ms")) %>%
     left_join(uniq.R.anchors.intseq, by = c("intseq.num", "seq.stop.ms")) %>%
     dplyr::rename(
@@ -248,8 +248,8 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     filter(vocseq.num > 0) %>%
     summarize(
       `.groups` = "drop",
-      seq.start.ms = min(anchor.L.start.ms),
-      seq.stop.ms = max(anchor.R.stop.ms)) %>%
+      seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
+      seq.stop.ms = ifelse(is.infinite(anchor.L.start.ms), NA, max(anchor.R.stop.ms))) %>%
     left_join(uniq.L.anchors.vocseq, by = c("vocseq.num", "seq.start.ms")) %>%
     left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
     dplyr::rename(
