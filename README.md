@@ -193,11 +193,12 @@ You can customize these function calls by changing any of the default argument s
 
 If you run one of the core functions over your data, you will get a list object back that has three parts:
 
-* **yourlist$summary**: this table is a descriptive overview of the detailed turn taking data in the second part.
+* **yourlist$summary**: this table is a descriptive overview of the detailed turn taking data in the second part. _Note that this part is still under development and will this always appear empty in your output._
 * **yourlist$real.tt.data**: this table contains the detailed turn taking data detected by chattr, including both turn transitions and interactional sequences by default (to change, see above)
 * **yourlist$random.tt.data**: this table contains the detailed turn taking data detected by chattr on any random simulations you ran, similar to the second part but with an additional column called "random.run.num". By default this will be empty, but if you do run random simulations, summary data will be included in the first part
 
 ### Output column types (alphabetical)
+<!--TO DO: Add whatever cols end up in the summary table-->
 
 `addressee` = the addressee value for the target utterance. If there is no addressee value, this is NA.
 
