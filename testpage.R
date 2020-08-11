@@ -11,95 +11,42 @@ source("intseq-detectors.R")
 source("estimate-baseline.R")
 source("fetch-chattr-info.R")
 
+
+##########
 its.all.tbl2 <- fetch_chatter_LENA("../chattr-paper/annotated-data/raw/123522-1904.its", n.runs = 2)
 
 aas.all.tbl2 <- fetch_chatter_AAS("test_files/AAS-tabular/test-interaction-XDS-lxonly.txt", n.runs = 2)
 
 bst.all.tbl2 <- fetch_chatter_BST("test_files/AltELAN-tabular/CT_sample1-lxvocs.txt",
-                                   cliptier = "Coded Segment", target.ptcp = "Child Utterances", n.runs = 2)
+                                  cliptier = "Coded Segment", target.ptcp = "Child Utterances", n.runs = 2)
 
 rttm.all.tbl2 <- fetch_chatter_RTTM("test_files/rttm/TEST.rttm", target.ptcp = "KCHI", n.runs = 2)
 
-##
-
-its.all.tbl <- fetch_chatter_LENA("../chattr-paper/annotated-data/raw/123522-1904.its")
-
-ttdata.spchtbl.rttm <- read_spchtbl(
-  "test_files/rttm/TEST.rttm",
-  "rttm")
-
-ttdata.spchtbl.its <- read_spchtbl(
-  "../chattr-paper/annotated-data/raw/123522-1904.its",
-  "lena-its", lxonly = TRUE)
-
-its.tttbl <- ttdata.spchtbl.its %>%
-  fetch_chatter_tttbl("CH")
-
-
-its.tttbl <- ttdata.spchtbl.its %>%
-  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-                    "CH", c("FA", "MA"), "none", "strict")
-its.intseqtbl <- its.tttbl %>%
-  fetch_intseqs(allowed.gap)
-
-tbl <- ttdata.spchtbl.its
-n.runs <- 3
-allowed.gap <- 2000
-allowed.overlap <- 1000
-min.utt.dur <- 300
-target.ptcp <- "FA"
-interactants <- c("FA", "MA")
-addressee.tags <- "none"
-mode <- "strict"
-output <- "tttbl" # intseq tttbl
-
-checkme.tttbl.baseline <- fetch_baseline(tbl, n.runs,
-                                         allowed.gap, allowed.overlap,
-                                         min.utt.dur, target.ptcp, interactants,
-                                         addressee.tags, mode, output)
-
-output <- "intseq" # intseq tttbl
-checkme.intseqtbl.baseline <- fetch_baseline(tbl, n.runs,
-                                         allowed.gap, allowed.overlap,
-                                         min.utt.dur, target.ptcp, interactants,
-                                         addressee.tags, mode, output)
-
-# %>%
-#   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-#                     "CH", LENA.interactants, "none", "strict")
-
-ttdata.spchtbl.aas <- read_spchtbl(
-  "test_files/AAS-tabular/test-interaction-XDS-lxonly.txt",
-  "aas-elan-txt", lxonly = TRUE, cliptier = "clip")
-
-ttdata.spchtbl.ebt <- read_spchtbl(
-  "test_files/AltELAN-tabular/CT_sample1-lxvocs.txt",
-  "elan-basic-txt", lxonly = "l", cliptier = "Coded Segment")
-
-
+# ^^ these tests need to be integrated
 ##########
+
 allowed.gap <- 2000
 allowed.overlap <- 1000
-min.utt.dur <- 300
-LENA.interactants <- c("FAN", "MAN")
+LENA.interactants <- "[FM]A"
+min.utt.dur <- 0
 
-ttdata.spchtbl <- read_spchtbl(
-  "../chattr-paper/annotated-data/raw/123522-1904.its",
-  "lena-its", lxonly = TRUE)
+ttdata.spchtbl <- read_spchtbl("test_files/ITS/e20191024_000253_008232.its",
+  "lena-its", lxonly = TRUE, nearonly = FALSE)
 
 ttdata.turnsonly <- ttdata.spchtbl %>%
   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-    "CHN", LENA.interactants, "none", "strict")
+    "CH", LENA.interactants, FALSE, "strict")
 
 ttdata.intseqs <- ttdata.spchtbl %>%
   fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-    "CHN", LENA.interactants, "none", "strict") %>%
+    "CH", LENA.interactants, FALSE, "strict") %>%
   fetch_intseqs(allowed.gap)
 
 # check that each intseq has at least one prompt or response
 check.tts.in.intseqs <- ttdata.intseqs %>%
   group_by(intseq.num) %>%
   summarize(
+    .groups = "drop",
     n.prompts = length(which(!is.na(prompt.spkr))),
     n.responses = length(which(!is.na(response.spkr)))
   ) %>%
@@ -115,6 +62,7 @@ check.tts.in.intseqs <- ttdata.intseqs %>%
 check.NO.tts.in.vocseqs <- ttdata.intseqs %>%
   group_by(vocseq.num) %>%
   summarize(
+    .groups = "drop",
     n.prompts = length(which(!is.na(prompt.spkr))),
     n.responses = length(which(!is.na(response.spkr)))
   ) %>%
@@ -126,26 +74,7 @@ check.NO.tts.in.vocseqs <- ttdata.intseqs %>%
   ) %>%
   nrow() == 0
 
-# ^^ these tests need to be integrated
-##########
-
-allowed.gap <- 2000
-allowed.overlap <- 1000
-LENA.interactants <- c("FAN", "MAN")
-min.utt.dur <- 0
-
-ttdata.spchtbl <- read_spchtbl("test_files/ITS/e20191024_000253_008232.its",
-  "lena-its", lxonly = TRUE)
-
-ttdata.turnsonly <- ttdata.spchtbl %>%
-  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-    "CHN", LENA.interactants, "none", "strict")
-
-ttdata.intseqs <- ttdata.spchtbl %>%
-  fetch_transitions(allowed.gap, allowed.overlap, min.utt.dur,
-    "CHN", LENA.interactants, "none", "strict") %>%
-  fetch_intseqs(allowed.gap)
-
+# check intseq properties via their burst behavior
 interactional.bursts <- ttdata.intseqs %>%
   filter(!is.na(intseq.num)) %>%
   mutate(
@@ -157,84 +86,101 @@ interactional.bursts <- ttdata.intseqs %>%
     intseq.dur.ms, intseq.dur.min, intseq.start.hr,
     intseq.start.spkr, intseq.stop.spkr) %>%
   summarize(
+    .groups = "drop",
     n.intseq.prompts = sum(!is.na(prompt.start.ms)),
     n.intseq.responses = sum(!is.na(response.start.ms)),
     n.intseq.tts = n.intseq.prompts + n.intseq.responses
   ) # add test: n.intseq.tts should be > 0 in all cases if no bugs
 
-interactional.bursts.lena <- interactional.bursts %>%
-  arrange(intseq.num)
+# check that bursts aren't closer together than the allowed gap
 between.intseq.times <- tibble()
-intseq.data <- interactional.bursts.lena
-intseq.data$prev.intseq.stop <- c(0, intseq.data$intseq.stop.ms[1:(nrow(intseq.data)-1)])
-intseq.data$time.since.prev.intseq.ms <- intseq.data$intseq.start.ms - intseq.data$prev.intseq.stop
-intseq.data$time.since.prev.intseq.min <- intseq.data$time.since.prev.intseq.ms/60000
-between.intseq.times.zero <- filter(intseq.data,
-  time.since.prev.intseq.ms <= allowed.gap)
-
-tttbl <- ttdata.turnsonly
-
-## Changes in progress; basic sanity check as noted above (see BUT);
-# fine-grained check still to come!
-
-# allowed.gap <- 1000
-# allowed.overlap <- 2000
+interactional.bursts <- interactional.bursts %>%
+  arrange(intseq.num)
+interactional.bursts$prev.intseq.stop <- c(
+  0, interactional.bursts$intseq.stop.ms[1:(nrow(interactional.bursts)-1)])
+interactional.bursts$time.since.prev.intseq.ms <- 
+  interactional.bursts$intseq.start.ms - interactional.bursts$prev.intseq.stop
+interactional.bursts$time.since.prev.intseq.min <- 
+  interactional.bursts$time.since.prev.intseq.ms/60000
+between.intseq.times.zero <- nrow(filter(interactional.bursts,
+  time.since.prev.intseq.ms <= allowed.gap)) == 0
 
 ## test data 1 ----
+allowed.gap <- 1000
+allowed.overlap <- 2000
 
 ### read data into the spchtbl format
 testdata1.filename <- "test_files/AAS-tabular/test-interaction-AllCDS.txt"
 testdata1 <- read_spchtbl(filepath = testdata1.filename,
-  tbltype = "aas-elan-txt", cliptier = "clip")
+  tbltype = "aas-elan-txt", cliptier = "clip", lxonly = FALSE, nearonly = FALSE)
 
 ### retrieve transitions
 #### stretch
 testdata1.stretch <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  target.ptcp = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "stretch")
+  target.ptcp = "CHI", interactants = FALSE,
+  addressee.tags = "[CT]", mode = "stretch")
 testdata1.stretch$addressee <- as.character(
   testdata1.stretch$addressee)
 #### strict
 testdata1.strict <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  target.ptcp = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "strict")
+  target.ptcp = "CHI", interactants = FALSE,
+  addressee.tags = "[CT]", mode = "strict")
 testdata1.strict$addressee <- as.character(
   testdata1.strict$addressee)
 #### qulr
 testdata1.qulr <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  target.ptcp = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "qulr")
+  target.ptcp = "CHI", interactants = FALSE,
+  addressee.tags = "[CT]", mode = "qulr")
 testdata1.qulr$addressee <- as.character(
   testdata1.qulr$addressee)
 #### luqr
 testdata1.luqr <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
-  target.ptcp = "CHI", interactants = ".all-speakers",
-  addressee.tags = "CDS", mode = "luqr")
+  target.ptcp = "CHI", interactants = FALSE,
+  addressee.tags = "[CT]", mode = "luqr")
 testdata1.luqr$addressee <- as.character(
   testdata1.luqr$addressee)
 
 ### check for a match
 testdata1.stretch.answers <- read_csv_answercols.tt(
   "testdata1.stretch-correct.csv")
-test1.stretch <- all_equal(testdata1.stretch,
-  testdata1.stretch.answers, convert = TRUE)
+# test1.stretch <- all_equal(testdata1.stretch,
+#   testdata1.stretch.answers, convert = TRUE)
+test1.stretch <- all_equal(select(testdata1.stretch, c(
+  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
+  select(testdata1.stretch.answers, -annot.clip), convert = TRUE)
 testdata1.strict.answers <- read_csv_answercols.tt(
   "testdata1.strict-correct.csv")
-test1.strict <- all_equal(testdata1.strict,
-  testdata1.strict.answers, convert = TRUE)
+# test1.strict <- all_equal(testdata1.strict,
+#   testdata1.strict.answers, convert = TRUE)
+test1.strict <- all_equal(select(testdata1.strict, c(
+  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
+  select(testdata1.strict.answers, -annot.clip), convert = TRUE)
 testdata1.qulr.answers <- read_csv_answercols.tt(
   "testdata1.qulr-correct.csv")
-test1.qulr <- all_equal(testdata1.qulr,
-  testdata1.qulr.answers, convert = TRUE)
+# test1.qulr <- all_equal(testdata1.qulr,
+#   testdata1.qulr.answers, convert = TRUE)
+test1.qulr <- all_equal(select(testdata1.qulr, c(
+  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
+  select(testdata1.qulr.answers, -annot.clip), convert = TRUE)
 testdata1.luqr.answers <- read_csv_answercols.tt(
   "testdata1.luqr-correct.csv")
-test1.luqr <- all_equal(testdata1.luqr,
-  testdata1.luqr.answers, convert = TRUE)
+# test1.luqr <- all_equal(testdata1.luqr,
+#   testdata1.luqr.answers, convert = TRUE)
+test1.luqr <- all_equal(select(testdata1.luqr, c(
+  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
+  select(testdata1.luqr.answers, -annot.clip), convert = TRUE)
 
+# double-check:
+# spkr.n.increments, prompt.n.increments, response.n.increments
+# add to answer csvs
+# once okay'd, the n.increments cols
+# once okay'd, the annot.clip changes
+# definite error:
+# new version is getting spkr.post.increment start and stops wrong; one increment too early at 46.235 instead of 47.235
 
 ## test data 2 ----
 
@@ -457,7 +403,10 @@ test1.strict.intseq <- all_equal(testdata1.strict.intseq,
 
 
 # REPORT ----
-all.tests <- c(test1.stretch, test1.strict,
+all.tests <- c(
+  check.tts.in.intseqs,
+  check.NO.tts.in.vocseqs, between.intseq.times.zero,
+  test1.stretch, test1.strict,
   test1.qulr, test1.luqr, test2.stretch, test2.strict,
   test2.qulr, test2.luqr, test3.stretch, test3.strict,
   test3.qulr, test3.luqr, test4.strict, test5.strict,
@@ -468,6 +417,9 @@ all.tests <- c(test1.stretch, test1.strict,
 
 print(paste0("#### ", sum(all.tests), " of ",
   length(all.tests), " tests passed. ####"))
+print(paste0("Test data 0, intseqs contain tts: ", check.tts.in.intseqs))
+print(paste0("Test data 0, vocseqs contain NO tts: ", check.NO.tts.in.vocseqs))
+print(paste0("Test data 0, intseqs are allowed.gap+ apart: ", between.intseq.times.zero))
 print(paste0("Test data 1, stretch passed: ", test1.stretch))
 print(paste0("Test data 1, strict passed: ", test1.strict))
 print(paste0("Test data 1, qulr passed: ", test1.qulr))
