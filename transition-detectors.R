@@ -40,10 +40,14 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   spchtbl.annsubset <- filter(spchtbl.cropped,
     annot.clip != "none assigned")
   # extract the interactant utterances
-  if (interactants == FALSE) {
+  if (ifelse(is.logical(interactants), interactants == FALSE, FALSE)) {
     int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
                          !grepl(start.ann, speaker))
   } else {
+    if (length(interactants) > 1 | !is.character(interactants)) {
+      print("Interactant value is not a regular expression.")
+      return(empty.continuation.utts)
+    }
     int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
                          grepl(interactants, speaker) & 
                          !grepl(start.ann, speaker))
