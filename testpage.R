@@ -119,28 +119,28 @@ testdata1 <- read_spchtbl(filepath = testdata1.filename,
 testdata1.stretch <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
   target.ptcp = "CHI", interactants = FALSE,
-  addressee.tags = "[CT]", mode = "stretch")
+  addressee.tags = "C", mode = "stretch")
 testdata1.stretch$addressee <- as.character(
   testdata1.stretch$addressee)
 #### strict
 testdata1.strict <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
   target.ptcp = "CHI", interactants = FALSE,
-  addressee.tags = "[CT]", mode = "strict")
+  addressee.tags = "C", mode = "strict")
 testdata1.strict$addressee <- as.character(
   testdata1.strict$addressee)
 #### qulr
 testdata1.qulr <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
   target.ptcp = "CHI", interactants = FALSE,
-  addressee.tags = "[CT]", mode = "qulr")
+  addressee.tags = "C", mode = "qulr")
 testdata1.qulr$addressee <- as.character(
   testdata1.qulr$addressee)
 #### luqr
 testdata1.luqr <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
   target.ptcp = "CHI", interactants = FALSE,
-  addressee.tags = "[CT]", mode = "luqr")
+  addressee.tags = "C", mode = "luqr")
 testdata1.luqr$addressee <- as.character(
   testdata1.luqr$addressee)
 
