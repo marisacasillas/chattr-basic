@@ -1,0 +1,7 @@
+speaker,start.ms,stop.ms,addressee,spkr.prev.increment.start,spkr.prev.increment.stop,spkr.post.increment.start,spkr.post.increment.stop,prompt.spkr,prompt.start.ms,prompt.stop.ms,prompt.prev.increment.start,prompt.prev.increment.stop,response.spkr,response.start.ms,response.stop.ms,response.post.increment.start,response.post.increment.stop
+CHI,41900,42530,NA,NA,NA,46235,47215,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CHI,42825,43485,NA,41900,42530,46235,47215,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CHI,43745,44375,NA,41900,42530,46235,47215,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CHI,44620,45280,NA,41900,42530,46235,47215,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CHI,45380,46130,NA,41900,42530,46235,47215,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CHI,46235,47215,NA,41900,42530,NA,NA,NA,NA,NA,NA,NA,MA1,48090,49010,49770,50590
