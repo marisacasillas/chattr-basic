@@ -124,17 +124,31 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
 
 
 basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
-  ebtbl <- read_delim(file = tbl, delim = "\t",
-    col_names = ebtbl.colnames, col_types = cols(
-      tier = col_character(),
-      speaker = col_character(),
-      start.ms = col_integer(),
-      stop.ms = col_integer(),
-      duration = col_integer(),
-      value = col_character()
-    )) %>%
-    dplyr::select(tier, start.ms, stop.ms, value) %>%
-    dplyr::rename(speaker = tier)
+  ebtbl <- read_delim(file = tbl, delim = "\t")
+  if (ncol(ebtbl) == 3) {
+    names(ebtbl) <- c("speaker", "start.ms", "stop.ms")
+    ebtbl <- ebtbl %>%
+      mutate(
+        speaker = as.character(speaker),
+        start.ms = as.integer(start.ms),
+        stop.ms = as.integer(stop.ms)
+      )
+  } else if (ncol(ebtbl) == 6) {
+    names(ebtbl) <- ebtbl.colnames
+    ebtbl <- ebtbl %>%
+      mutate(
+        tier = as.character(tier),
+        speaker = as.character(speaker),
+        start.ms = as.integer(start.ms),
+        stop.ms = as.integer(stop.ms),
+        duration = as.integer(duration),
+        value = as.character(value)
+      ) %>%
+      dplyr::select(tier, start.ms, stop.ms, value) %>%
+      dplyr::rename(speaker = tier)
+  } else {
+    print("Invalid number of columns ({speaker,start.ms,stop.ms} or {tier,speaker,start.ms,stop.ms,duration,value})")
+  }
   # subset to linguistic vocalizations if desired
   if (lxonly != FALSE) {
     if (is.character(lxonly)) {
