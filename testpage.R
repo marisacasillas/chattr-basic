@@ -13,14 +13,24 @@ source("fetch-chattr-info.R")
 
 
 ##########
-its.all.tbl2 <- fetch_chatter_LENA("../chattr-paper/annotated-data/raw/123522-1904.its", n.runs = 2)
+its.all.tbl2 <- fetch_chatter_LENA(
+  "../chattr-paper/annotated-data/raw/123522-1904.its",
+  n.runs = 2)
 
-aas.all.tbl2 <- fetch_chatter_AAS("test_files/AAS-tabular/test-interaction-XDS-lxonly.txt", n.runs = 2)
+aas.all.tbl2 <- fetch_chatter_AAS(
+  "test_files/AAS-tabular/test-interaction-XDS-lxonly.txt",
+  n.runs = 2)
 
-bst.all.tbl2 <- fetch_chatter_BST("test_files/AltELAN-tabular/CT_sample1-lxvocs.txt",
-                                  cliptier = "Coded Segment", target.ptcp = "Child Utterances", n.runs = 2)
+bst.all.tbl2 <- fetch_chatter_BST(
+  "test_files/AltELAN-tabular/CT_sample1-lxvocs.txt",
+  cliptier = "Coded Segment",
+  target.ptcp = "Child Utterances",
+  n.runs = 2)
 
-rttm.all.tbl2 <- fetch_chatter_RTTM("test_files/rttm/TEST.rttm", target.ptcp = "KCHI", n.runs = 2)
+rttm.all.tbl2 <- fetch_chatter_RTTM(
+  "test_files/rttm/TEST.rttm",
+  target.ptcp = "KCHI",
+  n.runs = 2)
 
 # ^^ these tests need to be integrated
 ##########

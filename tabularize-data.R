@@ -124,17 +124,20 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
 
 
 basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
-  ebtbl <- read_delim(file = tbl, delim = "\t")
-  if (ncol(ebtbl) == 3) {
-    names(ebtbl) <- c("speaker", "start.ms", "stop.ms")
+  ebtbl.ncol <- read_delim(file = tbl, delim = "\t", col_types = cols(),
+    col_names = FALSE) %>% ncol()
+  if (ebtbl.ncol == 3) {
+    ebtbl <- read_delim(file = tbl, delim = "\t", col_types = cols(),
+      col_names = c("speaker", "start.ms", "stop.ms"))
     ebtbl <- ebtbl %>%
       mutate(
         speaker = as.character(speaker),
         start.ms = as.integer(start.ms),
         stop.ms = as.integer(stop.ms)
       )
-  } else if (ncol(ebtbl) == 6) {
-    names(ebtbl) <- ebtbl.colnames
+  } else if (ebtbl.ncol == 6) {
+    ebtbl <- read_delim(file = tbl, delim = "\t", col_types = cols(),
+      col_names = ebtbl.colnames)
     ebtbl <- ebtbl %>%
       mutate(
         tier = as.character(tier),
