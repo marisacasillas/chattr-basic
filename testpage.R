@@ -167,11 +167,8 @@ test1.stretch <- all_equal(select(testdata1.stretch, c(
   select(testdata1.stretch.answers, -annot.clip), convert = TRUE)
 testdata1.strict.answers <- read_csv_answercols.tt(
   "testdata1.strict-correct.csv")
-# test1.strict <- all_equal(testdata1.strict,
-#   testdata1.strict.answers, convert = TRUE)
-test1.strict <- all_equal(select(testdata1.strict, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.strict.answers, -annot.clip), convert = TRUE)
+test1.strict <- all_equal(testdata1.strict,
+  testdata1.strict.answers, convert = TRUE)
 testdata1.qulr.answers <- read_csv_answercols.tt(
   "testdata1.qulr-correct.csv")
 # test1.qulr <- all_equal(testdata1.qulr,
