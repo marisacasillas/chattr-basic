@@ -159,9 +159,7 @@ read_csv_answercols.is <- function(filename) {
       intseq.stop.spkr = col_character(),
       intseq.stop.ms = col_integer(),
       vocseq.num = col_integer(),
-      vocseq.start.spkr = col_character(),
       vocseq.start.ms = col_integer(),
-      vocseq.stop.spkr = col_character(),
       vocseq.stop.ms = col_integer()))
   return(answers)
 }

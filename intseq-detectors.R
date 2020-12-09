@@ -248,7 +248,7 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     group_by(vocseq.num) %>%
     mutate(id = row_number()) %>%
     filter(vocseq.num > 0 & id == 1) %>%
-    dplyr::select(vocseq.num, anchor.L.start.ms, anchor.L.speaker) %>%
+    dplyr::select(vocseq.num, anchor.L.start.ms) %>%
     dplyr::rename(seq.start.ms = anchor.L.start.ms)
   uniq.R.anchors.vocseq <- tttbl.edges %>%
     arrange(vocseq.num, -anchor.R.stop.ms) %>%
@@ -256,7 +256,7 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     mutate(id = row_number()) %>%
     filter(vocseq.num > 0 & id == 1) %>%
     arrange(start.ms) %>%
-    dplyr::select(vocseq.num, anchor.R.stop.ms, anchor.R.speaker) %>%
+    dplyr::select(vocseq.num, anchor.R.stop.ms) %>%
     dplyr::rename(seq.stop.ms = anchor.R.stop.ms)
   seq.stats.vocseq <- tttbl.edges %>%
     group_by(vocseq.num) %>%
@@ -271,18 +271,13 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
       dplyr::rename(
         vocseq.start.ms = seq.start.ms,
-        vocseq.stop.ms = seq.stop.ms,
-        vocseq.start.spkr = anchor.L.speaker,
-        vocseq.stop.spkr = anchor.R.speaker) %>%
+        vocseq.stop.ms = seq.stop.ms) %>%
       distinct() %>%
-      dplyr::select(vocseq.num, vocseq.start.spkr, vocseq.start.ms,
-        vocseq.stop.spkr, vocseq.stop.ms)
+      dplyr::select(vocseq.num, vocseq.start.ms, vocseq.stop.ms)
   } else {
     seq.stats.vocseq <- tibble(
       vocseq.num = double(),
-      vocseq.start.spkr = character(),
       vocseq.start.ms = integer(),
-      vocseq.stop.spkr = character(),
       vocseq.stop.ms = integer()) %>%
       add_row()
   }
@@ -307,8 +302,7 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       response.post.increment.start, response.post.increment.stop,
       intseq.num,	intseq.start.spkr, intseq.start.ms,
       intseq.stop.spkr, intseq.stop.ms,
-      vocseq.num, vocseq.start.spkr, vocseq.start.ms,
-      vocseq.stop.spkr, vocseq.stop.ms
+      vocseq.num, vocseq.start.ms, vocseq.stop.ms
     )
   return(intseqtbl)
 }
