@@ -269,8 +269,6 @@ test3.strict <- nrow(testdata3.strict) == 0
 test3.qulr <- nrow(testdata3.qulr) == 0
 test3.luqr <- nrow(testdata3.luqr) == 0
 
-# double-check:
-# Nothing! Looks good.
 
 
 ## test data 4 ----
@@ -290,18 +288,9 @@ testdata4.strict$addressee <- as.character(
 ### check for a match
 testdata4.strict.answers <- read_csv_answercols.tt(
   "testdata4.strict-correct.csv")
-# test4.strict <- all_equal(testdata4.strict,
-#   testdata4.strict.answers, convert = TRUE)
-test4.strict <- all_equal(select(testdata4.strict, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata4.strict.answers, -annot.clip), convert = TRUE)
+test4.strict <- all_equal(testdata4.strict,
+  testdata4.strict.answers, convert = TRUE)
 
-# double-check:
-# "Different number of rows"
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
 
 
 ## test data 5 ----
