@@ -326,17 +326,10 @@ testdata1.strict.FC1.focus$addressee <- as.character(
   testdata1.strict.FC1.focus$addressee)
 testdata1.strict.FC1.focus.answers <- read_csv_answercols.tt(
   "testdata1.strict.FC1.focus-correct.csv")
-# test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
-#   testdata1.strict.FC1.focus.answers, convert = TRUE)
-test1.strict.FC1.focus <- all_equal(select(testdata1.strict.FC1.focus, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.strict.FC1.focus.answers, -annot.clip), convert = TRUE)
+test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
+  testdata1.strict.FC1.focus.answers, convert = TRUE)
 
-# double-check:
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
+
 
 testdata1.strict.FA1.focus <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
@@ -344,8 +337,7 @@ testdata1.strict.FA1.focus <- fetch_transitions(
   addressee.tags = "[CT]", mode = "strict")
 test1.strict.FA1.focus <- nrow(testdata1.strict.FA1.focus) == 0
 
-# double-check:
-# Nothing! Looks good.
+
 
 #### change interactants
 testdata1.strict.intFC1only <- fetch_transitions(
@@ -356,17 +348,10 @@ testdata1.strict.intFC1only$addressee <- as.character(
   testdata1.strict.intFC1only$addressee)
 testdata1.strict.intFC1only.answers <- read_csv_answercols.tt(
   "testdata1.strict.intFC1only-correct.csv")
-# test1.strict.intFC1only <- all_equal(testdata1.strict.intFC1only,
-#   testdata1.strict.intFC1only.answers, convert = TRUE)
-test1.strict.intFC1only <- all_equal(select(testdata1.strict.intFC1only, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.strict.intFC1only.answers, -annot.clip), convert = TRUE)
+test1.strict.intFC1only <- all_equal(testdata1.strict.intFC1only,
+  testdata1.strict.intFC1only.answers, convert = TRUE)
 
-# double-check:
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
+
 
 testdata1.intpattern <- "[MFU]C\\d"
 testdata1.strict.intpattern <- fetch_transitions(
@@ -375,17 +360,10 @@ testdata1.strict.intpattern <- fetch_transitions(
   addressee.tags = FALSE, mode = "strict")
 testdata1.strict.intpattern$addressee <- as.character(
   testdata1.strict.intpattern$addressee)
-# test1.strict.intpattern <- all_equal(testdata1.strict.intpattern,
-#   testdata1.strict.intFC1only.answers, convert = TRUE)
-test1.strict.intpattern <- all_equal(select(testdata1.strict.intpattern, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.strict.intFC1only.answers, -annot.clip), convert = TRUE)
+test1.strict.intpattern <- all_equal(testdata1.strict.intpattern,
+  testdata1.strict.intFC1only.answers, convert = TRUE)
 
-# double-check:
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
+
 
 testdata1.strict.intFC1FA1 <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
@@ -393,17 +371,10 @@ testdata1.strict.intFC1FA1 <- fetch_transitions(
   addressee.tags = "[CT]", mode = "strict")
 testdata1.strict.intFC1FA1$addressee <- as.character(
   testdata1.strict.intFC1FA1$addressee)
-# test1.strict.intFC1FA1 <- all_equal(testdata1.strict.intFC1FA1,
-#   testdata1.strict.intFC1only.answers, convert = TRUE)
-test1.strict.intFC1FA1 <- all_equal(select(testdata1.strict.intFC1FA1, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.strict.intFC1only.answers, -annot.clip), convert = TRUE)
+test1.strict.intFC1FA1 <- all_equal(testdata1.strict.intFC1FA1,
+  testdata1.strict.intFC1only.answers, convert = TRUE)
 
-# double-check:
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
+
 
 testdata1.strict.intFA1 <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
@@ -411,8 +382,6 @@ testdata1.strict.intFA1 <- fetch_transitions(
   addressee.tags = "[CT]", mode = "strict")
 test1.strict.intFA1 <- nrow(testdata1.strict.intFA1) == 0
 
-# double-check:
-# Nothing! Looks good.
 
 
 #### change addressee.tags
@@ -422,8 +391,7 @@ testdata1.strict.tcds <- fetch_transitions(
   addressee.tags = "T", mode = "strict")
 test1.strict.tcds <- nrow(testdata1.strict.tcds) == 0
 
-# double-check:
-# Nothing! Looks good.
+
 
 testdata1.strict.none <- fetch_transitions(
   spchtbl = testdata1, allowed.gap, allowed.overlap, min.utt.dur,
@@ -431,18 +399,9 @@ testdata1.strict.none <- fetch_transitions(
   addressee.tags = FALSE, mode = "strict")
 testdata1.strict.none$addressee <- as.character(
   testdata1.strict.none$addressee)
-# test1.strict.none <- all_equal(testdata1.strict.none,
-#   testdata1.strict.answers, convert = TRUE)
-test1.strict.none <- all_equal(select(testdata1.strict.none, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.strict.answers, -annot.clip), convert = TRUE)
+test1.strict.none <- all_equal(testdata1.strict.none,
+  testdata1.strict.answers, convert = TRUE)
 
-# double-check:
-# uh oh... output differences?? are they real?
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
 
 
 ### test data 1: intseq ----

@@ -1,8 +1,8 @@
-speaker,annot.clip,start.ms,stop.ms,addressee,spkr.prev.increment.start,spkr.prev.increment.stop,spkr.post.increment.start,spkr.post.increment.stop,prompt.spkr,prompt.start.ms,prompt.stop.ms,prompt.prev.increment.start,prompt.prev.increment.stop,response.spkr,response.start.ms,response.stop.ms,response.post.increment.start,response.post.increment.stop
-FC1,annotated-0-clip1,27550,28385,NA,NA,NA,29090,29635,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-FC1,annotated-0-clip1,29090,29635,NA,27550,28385,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-FC1,annotated-35000-clip2,36285,37020,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,MA1,36870,37460,37925,38535
-FC1,annotated-35000-clip2,38265,39045,NA,NA,NA,NA,NA,MA1,37925,38535,36870,37460,NA,NA,NA,NA,NA
-FC1,annotated-55000-clip3,68480,69350,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,MA1,69080,70170,NA,NA
-FC1,annotated-55000-clip3,69490,70170,NA,NA,NA,NA,NA,MA1,69080,70170,NA,NA,NA,NA,NA,NA,NA
-FC1,annotated-55000-clip3,74370,75360,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+speaker,annot.clip,start.ms,stop.ms,addressee,spkr.n.increments,spkr.prev.increment.start,spkr.prev.increment.stop,spkr.post.increment.start,spkr.post.increment.stop,prompt.spkr,prompt.start.ms,prompt.stop.ms,prompt.n.increments,prompt.prev.increment.start,prompt.prev.increment.stop,response.spkr,response.start.ms,response.stop.ms,response.n.increments,response.post.increment.start,response.post.increment.stop
+FC1,annotated-0_30000-clip1,27550,28385,NA,2,NA,NA,29090,29635,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+FC1,annotated-0_30000-clip1,29090,29635,NA,2,27550,28385,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+FC1,annotated-35000_52000-clip2,36285,37020,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,MA1,36870,37460,2,37925,38535
+FC1,annotated-35000_52000-clip2,38265,39045,NA,1,NA,NA,NA,NA,MA1,37925,38535,2,36870,37460,NA,NA,NA,NA,NA,NA
+FC1,annotated-55000_90000-clip3,68480,69350,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,MA1,69080,70170,1,NA,NA
+FC1,annotated-55000_90000-clip3,69490,70170,NA,1,NA,NA,NA,NA,MA1,69080,70170,1,NA,NA,NA,NA,NA,NA,NA,NA
+FC1,annotated-55000_90000-clip3,74370,75360,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
