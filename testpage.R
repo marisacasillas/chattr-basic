@@ -160,37 +160,22 @@ testdata1.luqr$addressee <- as.character(
 ### check for a match
 testdata1.stretch.answers <- read_csv_answercols.tt(
   "testdata1.stretch-correct.csv")
-# test1.stretch <- all_equal(testdata1.stretch,
-#   testdata1.stretch.answers, convert = TRUE)
-test1.stretch <- all_equal(select(testdata1.stretch, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.stretch.answers, -annot.clip), convert = TRUE)
+test1.stretch <- all_equal(testdata1.stretch,
+  testdata1.stretch.answers, convert = TRUE)
 testdata1.strict.answers <- read_csv_answercols.tt(
   "testdata1.strict-correct.csv")
 test1.strict <- all_equal(testdata1.strict,
   testdata1.strict.answers, convert = TRUE)
 testdata1.qulr.answers <- read_csv_answercols.tt(
   "testdata1.qulr-correct.csv")
-# test1.qulr <- all_equal(testdata1.qulr,
-#   testdata1.qulr.answers, convert = TRUE)
-test1.qulr <- all_equal(select(testdata1.qulr, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.qulr.answers, -annot.clip), convert = TRUE)
+test1.qulr <- all_equal(testdata1.qulr,
+  testdata1.qulr.answers, convert = TRUE)
 testdata1.luqr.answers <- read_csv_answercols.tt(
   "testdata1.luqr-correct.csv")
-# test1.luqr <- all_equal(testdata1.luqr,
-#   testdata1.luqr.answers, convert = TRUE)
-test1.luqr <- all_equal(select(testdata1.luqr, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata1.luqr.answers, -annot.clip), convert = TRUE)
+test1.luqr <- all_equal(testdata1.luqr,
+  testdata1.luqr.answers, convert = TRUE)
 
-# double-check:
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
-# definite error:
-# new version is getting spkr.post.increment start and stops wrong; one increment too early at 46.235 instead of 47.235
+
 
 ## test data 2 ----
 
@@ -232,38 +217,21 @@ testdata2.luqr$addressee <- as.character(
 ### check for a match
 testdata2.stretch.answers <- read_csv_answercols.tt(
   "testdata2.stretch-correct.csv")
-# test2.stretch <- all_equal(testdata2.stretch,
-#   testdata2.stretch.answers, convert = TRUE)
-test2.stretch <- all_equal(select(testdata2.stretch, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata2.stretch.answers, -annot.clip), convert = TRUE)
+test2.stretch <- all_equal(testdata2.stretch,
+  testdata2.stretch.answers, convert = TRUE)
 testdata2.strict.answers <- read_csv_answercols.tt(
   "testdata2.strict-correct.csv")
-# test2.strict <- all_equal(testdata2.strict,
-#   testdata2.strict.answers, convert = TRUE)
-test2.strict <- all_equal(select(testdata2.strict, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata2.strict.answers, -annot.clip), convert = TRUE)
+test2.strict <- all_equal(testdata2.strict,
+  testdata2.strict.answers, convert = TRUE)
 testdata2.qulr.answers <- read_csv_answercols.tt(
   "testdata2.qulr-correct.csv")
-# test2.qulr <- all_equal(testdata2.qulr,
-#   testdata2.qulr.answers, convert = TRUE)
-test2.qulr <- all_equal(select(testdata2.qulr, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata2.qulr.answers, -annot.clip), convert = TRUE)
+test2.qulr <- all_equal(testdata2.qulr,
+  testdata2.qulr.answers, convert = TRUE)
 testdata2.luqr.answers <- read_csv_answercols.tt(
   "testdata2.luqr-correct.csv")
-# test2.luqr <- all_equal(testdata2.luqr,
-#   testdata2.luqr.answers, convert = TRUE)
-test2.luqr <- all_equal(select(testdata2.luqr, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata2.luqr.answers, -annot.clip), convert = TRUE)
+test2.luqr <- all_equal(testdata2.luqr,
+  testdata2.luqr.answers, convert = TRUE)
 
-# double-check:
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
 
 
 ## test data 3 ----
