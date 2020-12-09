@@ -310,18 +310,9 @@ testdata5.strict$addressee <- as.character(
 ### check for a match
 testdata5.strict.answers <- read_csv_answercols.tt(
   "testdata5.strict-correct.csv")
-# test5.strict <- all_equal(testdata5.strict,
-#   testdata5.strict.answers, convert = TRUE)
-test5.strict <- all_equal(select(testdata5.strict, c(
-  -spkr.n.increments, -prompt.n.increments, -response.n.increments, -annot.clip)),
-  select(testdata5.strict.answers, -annot.clip), convert = TRUE)
+test5.strict <- all_equal(testdata5.strict,
+  testdata5.strict.answers, convert = TRUE)
 
-# double-check:
-# uh oh... output differences?? are they real?
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
 
 
 ### test data 1 detailed tests: target.ptcp, interactants, addressee.tags ----

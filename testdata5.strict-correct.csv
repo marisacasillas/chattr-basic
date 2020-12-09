@@ -1,73 +1,73 @@
-speaker,annot.clip,start.ms,stop.ms,addressee,spkr.prev.increment.start,spkr.prev.increment.stop,spkr.post.increment.start,spkr.post.increment.stop,prompt.spkr,prompt.start.ms,prompt.stop.ms,prompt.prev.increment.start,prompt.prev.increment.stop,response.spkr,response.start.ms,response.stop.ms,response.post.increment.start,response.post.increment.stop
-Child Utterances,annotated-315193-NA,317170,317730,NA,NA,NA,NA,NA,Parent Utterances,315570,317130,NA,NA,Parent Utterances,317190,318110,315193,660612
-Child Utterances,annotated-315193-NA,321310,321930,NA,NA,NA,NA,NA,Parent Utterances,320290,320780,NA,NA,Parent Utterances,321960,322760,NA,NA
-Child Utterances,annotated-315193-NA,322940,323840,NA,NA,NA,NA,NA,Parent Utterances,321960,322760,NA,NA,Parent Utterances,323830,325240,NA,NA
-Child Utterances,annotated-315193-NA,331040,331510,NA,NA,NA,NA,NA,Parent Utterances,329880,330450,315193,660612,Parent Utterances,331880,333710,315193,660612
-Child Utterances,annotated-315193-NA,335950,336460,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,336690,338180,NA,NA
-Child Utterances,annotated-315193-NA,338610,338980,NA,NA,NA,NA,NA,Parent Utterances,336690,338180,NA,NA,Parent Utterances,339170,339760,315193,660612
-Child Utterances,annotated-315193-NA,342130,342430,NA,NA,NA,NA,NA,Parent Utterances,340250,341900,315193,338180,Parent Utterances,343220,343950,NA,NA
-Child Utterances,annotated-315193-NA,344400,344600,NA,NA,NA,NA,NA,Parent Utterances,343220,343950,NA,NA,Parent Utterances,344840,345440,NA,NA
-Child Utterances,annotated-315193-NA,345630,345930,NA,NA,NA,NA,NA,Parent Utterances,344840,345440,NA,NA,Parent Utterances,346040,346360,NA,NA
-Child Utterances,annotated-315193-NA,350280,351580,NA,NA,NA,NA,NA,Parent Utterances,347950,350300,NA,NA,Parent Utterances,351240,351800,NA,NA
-Child Utterances,annotated-315193-NA,356060,356530,NA,NA,NA,NA,NA,Parent Utterances,352880,355500,NA,NA,Parent Utterances,356140,357140,NA,NA
-Child Utterances,annotated-315193-NA,357330,357700,NA,NA,NA,NA,NA,Parent Utterances,356140,357140,NA,NA,Parent Utterances,357750,358410,NA,NA
-Child Utterances,annotated-315193-NA,358580,358950,NA,NA,NA,NA,NA,Parent Utterances,357750,358410,NA,NA,Parent Utterances,358840,359470,362450,660612
-Child Utterances,annotated-315193-NA,363670,364370,NA,NA,NA,NA,NA,Parent Utterances,362450,363030,315193,359470,Parent Utterances,364390,365800,315193,660612
-Child Utterances,annotated-315193-NA,389900,390720,NA,NA,NA,NA,NA,Parent Utterances,389170,389550,315193,660612,Parent Utterances,391150,393420,395090,660612
-Child Utterances,annotated-315193-NA,396440,397090,NA,NA,NA,NA,NA,Parent Utterances,395090,395910,315193,393420,Parent Utterances,397810,399420,401150,660612
-Child Utterances,annotated-315193-NA,403610,404220,NA,NA,NA,NA,NA,Parent Utterances,402580,403280,315193,400760,Parent Utterances,404940,405670,315193,660612
-Child Utterances,annotated-315193-NA,420500,420700,NA,NA,NA,NA,NA,Parent Utterances,418835,420260,315193,660612,Parent Utterances,420800,421400,NA,NA
-Child Utterances,annotated-315193-NA,421740,422060,NA,NA,NA,NA,NA,Parent Utterances,420800,421400,NA,NA,Parent Utterances,422340,422910,NA,NA
-Child Utterances,annotated-315193-NA,423060,423720,NA,NA,NA,NA,NA,Parent Utterances,422340,422910,NA,NA,Parent Utterances,423790,424600,427010,660612
-Child Utterances,annotated-315193-NA,430920,431880,NA,NA,NA,NA,NA,Parent Utterances,429540,430870,NA,NA,Parent Utterances,432030,433180,434120,660612
-Child Utterances,annotated-315193-NA,437030,437640,NA,NA,NA,NA,NA,Parent Utterances,436260,436800,NA,NA,Parent Utterances,437980,438780,NA,NA
-Child Utterances,annotated-315193-NA,438030,439920,NA,NA,NA,NA,NA,Parent Utterances,437980,438780,NA,NA,Parent Utterances,440200,441020,315193,660612
-Child Utterances,annotated-315193-NA,448900,449240,NA,NA,NA,NA,NA,Parent Utterances,447490,448330,NA,NA,Parent Utterances,449340,449620,451290,660612
-Child Utterances,annotated-315193-NA,452740,454320,NA,NA,NA,NA,NA,Parent Utterances,451290,452280,315193,449620,Parent Utterances,454370,455710,457780,660612
-Child Utterances,annotated-315193-NA,457600,457970,NA,NA,NA,NA,NA,Parent Utterances,455960,457550,315193,660612,Parent Utterances,457780,458460,315193,660612
-Child Utterances,annotated-315193-NA,471150,473270,NA,NA,NA,NA,NA,Parent Utterances,470730,471160,315193,468460,Parent Utterances,473810,474480,NA,NA
-Child Utterances,annotated-315193-NA,475430,476300,NA,NA,NA,NA,NA,Parent Utterances,473810,474480,NA,NA,Parent Utterances,476360,477070,315193,660612
-Child Utterances,annotated-315193-NA,478300,479680,NA,NA,NA,NA,NA,Parent Utterances,477730,478980,315193,660612,Parent Utterances,480150,481410,NA,NA
-Child Utterances,annotated-315193-NA,480780,481340,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,481570,482340,NA,NA
-Child Utterances,annotated-315193-NA,481660,481960,NA,NA,NA,NA,NA,Parent Utterances,480150,481410,NA,NA,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,484880,491600,NA,NA,NA,NA,NA,Parent Utterances,484510,485660,315193,660612,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,497590,498280,NA,NA,NA,NA,NA,Parent Utterances,495720,496860,315193,660612,Parent Utterances,498480,499990,NA,NA
-Child Utterances,annotated-315193-NA,500520,500760,NA,NA,NA,NA,NA,Parent Utterances,498480,499990,NA,NA,Parent Utterances,500790,502310,NA,NA
-Child Utterances,annotated-315193-NA,502430,503180,NA,NA,NA,NA,NA,Parent Utterances,500790,502310,NA,NA,Parent Utterances,503720,504220,315193,660612
-Child Utterances,annotated-315193-NA,505320,505720,NA,NA,NA,NA,NA,Parent Utterances,504560,505130,315193,660612,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,506990,508660,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,509300,510340,315193,660612
-Child Utterances,annotated-315193-NA,514500,514810,NA,NA,NA,NA,NA,Parent Utterances,511260,514100,315193,660612,Parent Utterances,515540,516000,517700,660612
-Child Utterances,annotated-315193-NA,518710,519000,NA,NA,NA,NA,NA,Parent Utterances,517700,518460,315193,516000,Parent Utterances,519130,521930,NA,NA
-Child Utterances,annotated-315193-NA,522050,522370,NA,NA,NA,NA,NA,Parent Utterances,519130,521930,NA,NA,Parent Utterances,522880,523380,315193,660612
-Child Utterances,annotated-315193-NA,523410,525220,NA,NA,NA,NA,NA,Parent Utterances,522880,523380,NA,NA,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,525670,527280,NA,523410,525220,NA,NA,Parent Utterances,524160,525020,NA,NA,Parent Utterances,527240,527780,NA,NA
-Child Utterances,annotated-315193-NA,529810,530110,NA,NA,NA,NA,NA,Parent Utterances,528880,529740,NA,NA,Parent Utterances,530180,531020,NA,NA
-Child Utterances,annotated-315193-NA,531240,531460,NA,NA,NA,NA,NA,Parent Utterances,530180,531020,NA,NA,Parent Utterances,531540,532700,NA,NA
-Child Utterances,annotated-315193-NA,532300,534600,NA,NA,NA,NA,NA,Parent Utterances,531540,532700,NA,NA,Parent Utterances,535100,535770,539480,660612
-Child Utterances,annotated-315193-NA,543810,544240,NA,NA,NA,NA,NA,Parent Utterances,541570,543050,315193,540540,Parent Utterances,544600,545180,NA,NA
-Child Utterances,annotated-315193-NA,546190,546730,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,546280,547670,NA,NA
-Child Utterances,annotated-315193-NA,547230,549200,NA,NA,NA,NA,NA,Parent Utterances,546280,547670,NA,NA,Parent Utterances,549660,551210,NA,NA
-Child Utterances,annotated-315193-NA,558810,559550,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,559170,560340,NA,NA
-Child Utterances,annotated-315193-NA,561470,561880,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,562730,564150,NA,NA
-Child Utterances,annotated-315193-NA,564820,565170,NA,NA,NA,NA,NA,Parent Utterances,562730,564150,NA,NA,Parent Utterances,565810,566270,NA,NA
-Child Utterances,annotated-315193-NA,584050,584530,NA,NA,NA,NA,NA,Parent Utterances,581340,583380,NA,NA,Parent Utterances,585000,585690,NA,NA
-Child Utterances,annotated-315193-NA,585790,586010,NA,NA,NA,NA,NA,Parent Utterances,585000,585690,NA,NA,Parent Utterances,586150,586570,NA,NA
-Child Utterances,annotated-315193-NA,588980,589490,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,598410,598830,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,598990,599970,NA,NA
-Child Utterances,annotated-315193-NA,600070,600310,NA,NA,NA,NA,NA,Parent Utterances,598990,599970,NA,NA,Parent Utterances,600430,601100,315193,660612
-Child Utterances,annotated-315193-NA,601260,603380,NA,NA,NA,NA,NA,Parent Utterances,601240,601720,315193,599970,Parent Utterances,602850,604490,NA,NA
-Child Utterances,annotated-315193-NA,604670,605060,NA,NA,NA,NA,NA,Parent Utterances,602850,604490,NA,NA,Parent Utterances,605930,607240,NA,NA
-Child Utterances,annotated-315193-NA,607870,608190,NA,NA,NA,608460,609940,Parent Utterances,605930,607240,NA,NA,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,608460,609940,NA,607870,608190,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,609720,610680,NA,NA
-Child Utterances,annotated-315193-NA,614560,615120,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,615920,616400,NA,NA
-Child Utterances,annotated-315193-NA,616020,616940,NA,NA,NA,NA,NA,Parent Utterances,615920,616400,315193,660612,Parent Utterances,617760,618560,NA,NA
-Child Utterances,annotated-315193-NA,619020,619350,NA,NA,NA,NA,NA,Parent Utterances,617760,618560,NA,NA,Parent Utterances,620010,620830,NA,NA
-Child Utterances,annotated-315193-NA,621010,621300,NA,NA,NA,NA,NA,Parent Utterances,620010,620830,NA,NA,Parent Utterances,621610,622520,624290,660612
-Child Utterances,annotated-315193-NA,623740,624330,NA,NA,NA,NA,NA,Parent Utterances,622800,623420,315193,620830,Parent Utterances,624290,624680,315193,660612
-Child Utterances,annotated-315193-NA,626910,629500,NA,NA,NA,NA,NA,Parent Utterances,624870,627220,315193,623420,Parent Utterances,629610,631590,NA,NA
-Child Utterances,annotated-315193-NA,630800,631180,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,631940,632510,NA,630800,631180,NA,NA,Parent Utterances,629610,631590,NA,NA,Parent Utterances,633040,634670,NA,NA
-Child Utterances,annotated-315193-NA,635480,635880,NA,NA,NA,NA,NA,Parent Utterances,633040,634670,NA,NA,Parent Utterances,636120,636730,315193,660612
-Child Utterances,annotated-315193-NA,638910,640020,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,640120,640510,315193,660612
-Child Utterances,annotated-315193-NA,645250,647480,NA,NA,NA,NA,NA,Parent Utterances,640570,644740,315193,660612,NA,NA,NA,NA,NA
-Child Utterances,annotated-315193-NA,651080,651440,NA,NA,NA,NA,NA,Parent Utterances,648990,650690,NA,NA,Parent Utterances,651720,652810,655100,660612
+speaker,annot.clip,start.ms,stop.ms,addressee,spkr.n.increments,spkr.prev.increment.start,spkr.prev.increment.stop,spkr.post.increment.start,spkr.post.increment.stop,prompt.spkr,prompt.start.ms,prompt.stop.ms,prompt.n.increments,prompt.prev.increment.start,prompt.prev.increment.stop,response.spkr,response.start.ms,response.stop.ms,response.n.increments,response.post.increment.start,response.post.increment.stop
+Child Utterances,annotated-315193_660612-NA,317170,317730,NA,1,NA,NA,NA,NA,Parent Utterances,315570,317130,1,NA,NA,Parent Utterances,317190,318110,2,318310,319260
+Child Utterances,annotated-315193_660612-NA,321310,321930,NA,1,NA,NA,NA,NA,Parent Utterances,320290,320780,1,NA,NA,Parent Utterances,321960,322760,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,322940,323840,NA,1,NA,NA,NA,NA,Parent Utterances,321960,322760,1,NA,NA,Parent Utterances,323830,325240,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,331040,331510,NA,1,NA,NA,NA,NA,Parent Utterances,329880,330450,2,326620,329410,Parent Utterances,331880,333710,2,334100,334770
+Child Utterances,annotated-315193_660612-NA,335950,336460,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,336690,338180,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,338610,338980,NA,1,NA,NA,NA,NA,Parent Utterances,336690,338180,1,NA,NA,Parent Utterances,339170,339760,2,340250,341900
+Child Utterances,annotated-315193_660612-NA,342130,342430,NA,1,NA,NA,NA,NA,Parent Utterances,340250,341900,2,339170,339760,Parent Utterances,343220,343950,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,344400,344600,NA,1,NA,NA,NA,NA,Parent Utterances,343220,343950,1,NA,NA,Parent Utterances,344840,345440,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,345630,345930,NA,1,NA,NA,NA,NA,Parent Utterances,344840,345440,1,NA,NA,Parent Utterances,346040,346360,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,350280,351580,NA,1,NA,NA,NA,NA,Parent Utterances,347950,350300,1,NA,NA,Parent Utterances,351240,351800,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,356060,356530,NA,1,NA,NA,NA,NA,Parent Utterances,352880,355500,1,NA,NA,Parent Utterances,356140,357140,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,357330,357700,NA,1,NA,NA,NA,NA,Parent Utterances,356140,357140,1,NA,NA,Parent Utterances,357750,358410,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,358580,358950,NA,1,NA,NA,NA,NA,Parent Utterances,357750,358410,1,NA,NA,Parent Utterances,358840,359470,3,362450,363030
+Child Utterances,annotated-315193_660612-NA,363670,364370,NA,1,NA,NA,NA,NA,Parent Utterances,362450,363030,3,358840,359470,Parent Utterances,364390,365800,2,366690,368920
+Child Utterances,annotated-315193_660612-NA,389900,390720,NA,1,NA,NA,NA,NA,Parent Utterances,389170,389550,2,387310,388990,Parent Utterances,391150,393420,3,395090,395910
+Child Utterances,annotated-315193_660612-NA,396440,397090,NA,1,NA,NA,NA,NA,Parent Utterances,395090,395910,3,391150,393420,Parent Utterances,397810,399420,4,402580,403280
+Child Utterances,annotated-315193_660612-NA,403610,404220,NA,1,NA,NA,NA,NA,Parent Utterances,402580,403280,4,397810,399420,Parent Utterances,404940,405670,2,406410,409300
+Child Utterances,annotated-315193_660612-NA,420500,420700,NA,1,NA,NA,NA,NA,Parent Utterances,418835,420260,2,417810,418360,Parent Utterances,420800,421400,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,421740,422060,NA,1,NA,NA,NA,NA,Parent Utterances,420800,421400,1,NA,NA,Parent Utterances,422340,422910,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,423060,423720,NA,1,NA,NA,NA,NA,Parent Utterances,422340,422910,1,NA,NA,Parent Utterances,423790,424600,4,427880,428400
+Child Utterances,annotated-315193_660612-NA,430920,431880,NA,1,NA,NA,NA,NA,Parent Utterances,429540,430870,1,NA,NA,Parent Utterances,432030,433180,3,434120,435020
+Child Utterances,annotated-315193_660612-NA,437030,437640,NA,1,NA,NA,NA,NA,Parent Utterances,436260,436800,1,NA,NA,Parent Utterances,437980,438780,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,438030,439920,NA,1,NA,NA,NA,NA,Parent Utterances,437980,438780,1,NA,NA,Parent Utterances,440200,441020,2,441600,442080
+Child Utterances,annotated-315193_660612-NA,448900,449240,NA,1,NA,NA,NA,NA,Parent Utterances,447490,448330,1,NA,NA,Parent Utterances,449340,449620,3,451290,452280
+Child Utterances,annotated-315193_660612-NA,452740,454320,NA,1,NA,NA,NA,NA,Parent Utterances,451290,452280,3,449340,449620,Parent Utterances,454370,455710,2,455960,457550
+Child Utterances,annotated-315193_660612-NA,457600,457970,NA,1,NA,NA,NA,NA,Parent Utterances,455960,457550,2,454370,455710,Parent Utterances,457780,458460,2,459080,459670
+Child Utterances,annotated-315193_660612-NA,471150,473270,NA,1,NA,NA,NA,NA,Parent Utterances,470730,471160,3,468030,468460,Parent Utterances,473810,474480,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,475430,476300,NA,1,NA,NA,NA,NA,Parent Utterances,473810,474480,1,NA,NA,Parent Utterances,476360,477070,2,477730,478980
+Child Utterances,annotated-315193_660612-NA,478300,479680,NA,1,NA,NA,NA,NA,Parent Utterances,477730,478980,2,476360,477070,Parent Utterances,480150,481410,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,480780,481340,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,481570,482340,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,481660,481960,NA,1,NA,NA,NA,NA,Parent Utterances,480150,481410,1,NA,NA,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,484880,491600,NA,1,NA,NA,NA,NA,Parent Utterances,484510,485660,2,483580,484070,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,497590,498280,NA,1,NA,NA,NA,NA,Parent Utterances,495720,496860,2,494040,494900,Parent Utterances,498480,499990,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,500520,500760,NA,1,NA,NA,NA,NA,Parent Utterances,498480,499990,1,NA,NA,Parent Utterances,500790,502310,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,502430,503180,NA,1,NA,NA,NA,NA,Parent Utterances,500790,502310,1,NA,NA,Parent Utterances,503720,504220,2,504560,505130
+Child Utterances,annotated-315193_660612-NA,505320,505720,NA,1,NA,NA,NA,NA,Parent Utterances,504560,505130,2,503720,504220,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,506990,508660,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,509300,510340,2,511260,514100
+Child Utterances,annotated-315193_660612-NA,514500,514810,NA,1,NA,NA,NA,NA,Parent Utterances,511260,514100,2,509300,510340,Parent Utterances,515540,516000,3,517700,518460
+Child Utterances,annotated-315193_660612-NA,518710,519000,NA,1,NA,NA,NA,NA,Parent Utterances,517700,518460,3,515540,516000,Parent Utterances,519130,521930,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,522050,522370,NA,1,NA,NA,NA,NA,Parent Utterances,519130,521930,1,NA,NA,Parent Utterances,522880,523380,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,523410,525220,NA,1,NA,NA,NA,NA,Parent Utterances,522880,523380,1,NA,NA,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,525670,527280,NA,1,NA,NA,NA,NA,Parent Utterances,524160,525020,1,NA,NA,Parent Utterances,527240,527780,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,529810,530110,NA,1,NA,NA,NA,NA,Parent Utterances,528880,529740,1,NA,NA,Parent Utterances,530180,531020,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,531240,531460,NA,1,NA,NA,NA,NA,Parent Utterances,530180,531020,1,NA,NA,Parent Utterances,531540,532700,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,532300,534600,NA,1,NA,NA,NA,NA,Parent Utterances,531540,532700,1,NA,NA,Parent Utterances,535100,535770,5,541570,543050
+Child Utterances,annotated-315193_660612-NA,543810,544240,NA,1,NA,NA,NA,NA,Parent Utterances,541570,543050,5,535100,535770,Parent Utterances,544600,545180,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,546190,546730,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,546280,547670,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,547230,549200,NA,1,NA,NA,NA,NA,Parent Utterances,546280,547670,1,NA,NA,Parent Utterances,549660,551210,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,558810,559550,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,559170,560340,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,561470,561880,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,562730,564150,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,564820,565170,NA,1,NA,NA,NA,NA,Parent Utterances,562730,564150,1,NA,NA,Parent Utterances,565810,566270,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,584050,584530,NA,1,NA,NA,NA,NA,Parent Utterances,581340,583380,1,NA,NA,Parent Utterances,585000,585690,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,585790,586010,NA,1,NA,NA,NA,NA,Parent Utterances,585000,585690,1,NA,NA,Parent Utterances,586150,586570,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,588980,589490,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,598410,598830,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,598990,599970,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,600070,600310,NA,1,NA,NA,NA,NA,Parent Utterances,598990,599970,1,NA,NA,Parent Utterances,600430,601100,2,601240,601720
+Child Utterances,annotated-315193_660612-NA,601260,603380,NA,1,NA,NA,NA,NA,Parent Utterances,601240,601720,2,600430,601100,Parent Utterances,602850,604490,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,604670,605060,NA,1,NA,NA,NA,NA,Parent Utterances,602850,604490,1,NA,NA,Parent Utterances,605930,607240,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,607870,608190,NA,2,NA,NA,608460,609940,Parent Utterances,605930,607240,1,NA,NA,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,608460,609940,NA,2,607870,608190,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,609720,610680,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,614560,615120,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,615920,616400,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,616020,616940,NA,1,NA,NA,NA,NA,Parent Utterances,615920,616400,1,NA,NA,Parent Utterances,617760,618560,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,619020,619350,NA,1,NA,NA,NA,NA,Parent Utterances,617760,618560,1,NA,NA,Parent Utterances,620010,620830,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,621010,621300,NA,1,NA,NA,NA,NA,Parent Utterances,620010,620830,1,NA,NA,Parent Utterances,621610,622520,2,622800,623420
+Child Utterances,annotated-315193_660612-NA,623740,624330,NA,1,NA,NA,NA,NA,Parent Utterances,622800,623420,2,621610,622520,Parent Utterances,624290,624680,2,624870,627220
+Child Utterances,annotated-315193_660612-NA,626910,629500,NA,1,NA,NA,NA,NA,Parent Utterances,624870,627220,2,624290,624680,Parent Utterances,629610,631590,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,630800,631180,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,631940,632510,NA,1,NA,NA,NA,NA,Parent Utterances,629610,631590,1,NA,NA,Parent Utterances,633040,634670,1,NA,NA
+Child Utterances,annotated-315193_660612-NA,635480,635880,NA,1,NA,NA,NA,NA,Parent Utterances,633040,634670,1,NA,NA,Parent Utterances,636120,636730,2,636940,637840
+Child Utterances,annotated-315193_660612-NA,638910,640020,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Parent Utterances,640120,640510,2,640570,644740
+Child Utterances,annotated-315193_660612-NA,645250,647480,NA,1,NA,NA,NA,NA,Parent Utterances,640570,644740,2,640120,640510,NA,NA,NA,NA,NA,NA
+Child Utterances,annotated-315193_660612-NA,651080,651440,NA,1,NA,NA,NA,NA,Parent Utterances,648990,650690,1,NA,NA,Parent Utterances,651720,652810,3,655100,655710
