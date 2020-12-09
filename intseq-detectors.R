@@ -265,8 +265,8 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     seq.stats.vocseq <- seq.stats.vocseq %>%
       summarize(
         `.groups` = "drop",
-        seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
-        seq.stop.ms = ifelse(is.infinite(anchor.L.start.ms), NA, max(anchor.R.stop.ms))) %>%
+        seq.start.ms = min(anchor.L.start.ms),
+        seq.stop.ms = max(anchor.R.stop.ms)) %>%
       left_join(uniq.L.anchors.vocseq, by = c("vocseq.num", "seq.start.ms")) %>%
       left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
       dplyr::rename(
