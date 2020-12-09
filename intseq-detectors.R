@@ -122,6 +122,9 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
       tttbl.edges$new.seq == 1 &
       tttbl.edges$focal.seq == 1 &
       tttbl.edges$ms.lapsed.prior.edge.prev <= 0)
+  # ... if something was originally marked as a new sequence, but is found
+  # to be close enough to the nearest focal speaker continuation, mark it
+  # as not new
   for (i in check.continuation.idx) {
     if (i > 1) {
       prev.zero <- which(tttbl.edges$close.to.prev.edge[1:(i-1)] == 0)
@@ -171,26 +174,27 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
   }
   # collapse adjacent intseqs counted as separate because of orphaned vocs
   tooclose.intseqs <- tttbl.edges %>%
-    filter(!is.na(intseq.num)) %>%
-    group_by(intseq.num) %>%
-    summarize(
-      `.groups` = "drop",
-      seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
-      seq.stop.ms = ifelse(is.infinite(anchor.R.stop.ms), NA, max(anchor.R.stop.ms)))
-  tooclose.intseqs$prev.seq.end <- c(
-    NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
-  tooclose.intseqs <- tooclose.intseqs %>%
-    mutate(ms.since.prev.intseq = seq.start.ms - prev.seq.end) %>%
-    filter(ms.since.prev.intseq <= allowed.gap) %>%
-    pull(intseq.num)
-  if (length(tooclose.intseqs) > 0) {
-    tttbl.edges$new.seq[which(
-      tttbl.edges$intseq.num %in% tooclose.intseqs)] <- 0
-  }
-  # RE-number the now-again-corrected sequences
-  if (length(tooclose.intseqs) > 0) {
-    tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
-      0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
+    filter(!is.na(intseq.num))
+  if (nrow(tooclose.intseqs) > 0) {
+    tooclose.intseqs <- tooclose.intseqs %>%
+      group_by(intseq.num) %>%
+      summarize(
+        `.groups` = "drop",
+        seq.start.ms = min(anchor.L.start.ms),
+        seq.stop.ms = max(anchor.R.stop.ms))
+    tooclose.intseqs$prev.seq.end <- c(
+      NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
+    tooclose.intseqs <- tooclose.intseqs %>%
+      mutate(ms.since.prev.intseq = seq.start.ms - prev.seq.end) %>%
+      filter(ms.since.prev.intseq <= allowed.gap) %>%
+      pull(intseq.num)
+    if (length(tooclose.intseqs) > 0) {
+      tttbl.edges$new.seq[which(
+        tttbl.edges$intseq.num %in% tooclose.intseqs)] <- 0
+      # RE-number the now-again-corrected sequences
+      tttbl.edges$intseq.num <- cumsum(ifelse(is.na(tttbl.edges$new.seq),
+        0, tttbl.edges$new.seq)) + tttbl.edges$new.seq*0
+    }
   }
   # find the earliest and latest turn info (start/stop/speaker)
   # associated with each intseq and focal-only seq
@@ -212,21 +216,32 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     dplyr::rename(seq.stop.ms = anchor.R.stop.ms)
   seq.stats.intseq <- tttbl.edges %>%
     group_by(intseq.num) %>%
-    filter(intseq.num > 0) %>%
-    summarize(
-      `.groups` = "drop",
-      seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
-      seq.stop.ms = ifelse(is.infinite(anchor.R.stop.ms), NA, max(anchor.R.stop.ms))) %>%
-    left_join(uniq.L.anchors.intseq, by = c("intseq.num", "seq.start.ms")) %>%
-    left_join(uniq.R.anchors.intseq, by = c("intseq.num", "seq.stop.ms")) %>%
-    dplyr::rename(
-      intseq.start.ms = seq.start.ms,
-      intseq.stop.ms = seq.stop.ms,
-      intseq.start.spkr = anchor.L.speaker,
-      intseq.stop.spkr = anchor.R.speaker) %>%
-    distinct() %>%
-    dplyr::select(intseq.num, intseq.start.spkr, intseq.start.ms,
-      intseq.stop.spkr, intseq.stop.ms)
+    filter(intseq.num > 0)
+  if (nrow(seq.stats.intseq) > 0) {
+    seq.stats.intseq <- seq.stats.intseq %>%
+      summarize(
+        `.groups` = "drop",
+        seq.start.ms = min(anchor.L.start.ms),
+        seq.stop.ms = max(anchor.R.stop.ms)) %>%
+      left_join(uniq.L.anchors.intseq, by = c("intseq.num", "seq.start.ms")) %>%
+      left_join(uniq.R.anchors.intseq, by = c("intseq.num", "seq.stop.ms")) %>%
+      dplyr::rename(
+        intseq.start.ms = seq.start.ms,
+        intseq.stop.ms = seq.stop.ms,
+        intseq.start.spkr = anchor.L.speaker,
+        intseq.stop.spkr = anchor.R.speaker) %>%
+      distinct() %>%
+      dplyr::select(intseq.num, intseq.start.spkr, intseq.start.ms,
+        intseq.stop.spkr, intseq.stop.ms)
+  } else {
+    seq.stats.intseq <- tibble(
+      intseq.num = double(),
+      intseq.start.spkr = character(),
+      intseq.start.ms = integer(),
+      intseq.stop.spkr = character(),
+      intseq.stop.ms = integer()) %>%
+      add_row()
+  }
   # focal-only vocalization seqs
   uniq.L.anchors.vocseq <- tttbl.edges %>%
     arrange(anchor.L.start.ms) %>%
@@ -245,21 +260,32 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
     dplyr::rename(seq.stop.ms = anchor.R.stop.ms)
   seq.stats.vocseq <- tttbl.edges %>%
     group_by(vocseq.num) %>%
-    filter(vocseq.num > 0) %>%
-    summarize(
-      `.groups` = "drop",
-      seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
-      seq.stop.ms = ifelse(is.infinite(anchor.L.start.ms), NA, max(anchor.R.stop.ms))) %>%
-    left_join(uniq.L.anchors.vocseq, by = c("vocseq.num", "seq.start.ms")) %>%
-    left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
-    dplyr::rename(
-      vocseq.start.ms = seq.start.ms,
-      vocseq.stop.ms = seq.stop.ms,
-      vocseq.start.spkr = anchor.L.speaker,
-      vocseq.stop.spkr = anchor.R.speaker) %>%
-    distinct() %>%
-    dplyr::select(vocseq.num, vocseq.start.spkr, vocseq.start.ms,
-      vocseq.stop.spkr, vocseq.stop.ms)
+    filter(vocseq.num > 0)
+  if (nrow(seq.stats.vocseq) > 0) {
+    seq.stats.vocseq <- seq.stats.vocseq %>%
+      summarize(
+        `.groups` = "drop",
+        seq.start.ms = ifelse(is.infinite(anchor.L.start.ms), NA, min(anchor.L.start.ms)),
+        seq.stop.ms = ifelse(is.infinite(anchor.L.start.ms), NA, max(anchor.R.stop.ms))) %>%
+      left_join(uniq.L.anchors.vocseq, by = c("vocseq.num", "seq.start.ms")) %>%
+      left_join(uniq.R.anchors.vocseq, by = c("vocseq.num", "seq.stop.ms")) %>%
+      dplyr::rename(
+        vocseq.start.ms = seq.start.ms,
+        vocseq.stop.ms = seq.stop.ms,
+        vocseq.start.spkr = anchor.L.speaker,
+        vocseq.stop.spkr = anchor.R.speaker) %>%
+      distinct() %>%
+      dplyr::select(vocseq.num, vocseq.start.spkr, vocseq.start.ms,
+        vocseq.stop.spkr, vocseq.stop.ms)
+  } else {
+    seq.stats.vocseq <- tibble(
+      vocseq.num = double(),
+      vocseq.start.spkr = character(),
+      vocseq.start.ms = integer(),
+      vocseq.stop.spkr = character(),
+      vocseq.stop.ms = integer()) %>%
+      add_row()
+  }
   # only keep info needed for further processing
   intseqtbl <- tttbl.edges %>%
     dplyr::select(

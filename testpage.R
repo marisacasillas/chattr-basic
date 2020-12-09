@@ -413,14 +413,7 @@ testdata1.strict.intseq.answers <- read_csv_answercols.is(
 test1.strict.intseq <- all_equal(testdata1.strict.intseq,
   testdata1.strict.intseq.answers, convert = TRUE)
 
-# double-check:
-# wrong number of columns, including the ones from fetch_trqnsitions, as in the above
-# spkr.n.increments, prompt.n.increments, response.n.increments
-# add to answer csvs as follows:
-# ... once okay'd, add the n.increments cols
-# ... once okay'd, add the annot.clip changes
-# AND THEN also still 5 more columns relating specifically to fetch_intseqs
-# once fixed, a new all_equal run may reveal qualitative differences in the answer vs given data
+
 
 # REPORT ----
 all.tests <- c(
