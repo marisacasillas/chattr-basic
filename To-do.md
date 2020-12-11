@@ -1,9 +1,9 @@
 # chattr to-do list
 *Man oh man...*
 
-1. Integrate new top-level functions into tests
-2. Carefully check gold standard test output again
-3. Create summary functions
+1. Add replicable random-run tests
+2. Create summary functions
+3. Add tests for summary function output
 4. Add summary function explanation to README
 5. Fill in checker functions
 6. Check README again for consistency
