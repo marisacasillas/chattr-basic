@@ -143,7 +143,7 @@ fetch_randomruns <- function(
           random.tt.vals = random.tttbls)
       }
       if (return.real == TRUE) {
-        all.tbls$real.tt.vals <- real.tttbl
+        all.tbls$real.tt.vals <- input.tbl
       } else if (return.real != FALSE) {
         print("Invalid return.real.value for fetch_randomruns(); returning random run data only.")
       }
