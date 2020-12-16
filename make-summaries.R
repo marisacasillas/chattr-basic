@@ -1,3 +1,81 @@
+summarize_chattr <- function(tttbl.list) {
+  # Real data summary
+  if (nrow(tttbl.list$real.tt.vals) > 0) {
+    tttbl.real<- summarize_tttbl(tttbl.list$real.tt.vals, "real data")    
+  } else {
+    tttbl.real <- tibble()
+  }
+  # Random data summary
+  if (nrow(tttbl.list$random.tt.vals) > 0) {
+    tttbl.rand<- summarize_tttbl(tttbl.list$random.tt.vals, "random data")    
+  } else {
+    tttbl.rand <- tibble()
+  }
+  chattr.summary <- bind_rows(tttbl.real, tttbl.rand)
+  return(chattr.summary)
+}
+
+summarize_tttbl <- function(tttbl, data.type) {
+  tttbl <- tttbl %>%
+    mutate(
+      clip.start.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[2]),
+      clip.end.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[3]),
+      clip.duration.msec = clip.end.msec - clip.start.msec,
+      clip.duration.min = clip.duration.msec/60000,
+      pmt = ifelse(is.na(prompt.spkr), 0, 1),
+      pmt.timing = start.ms - prompt.stop.ms,
+      rsp = ifelse(is.na(response.spkr), 0, 1),
+      rsp.timing = response.start.ms - stop.ms
+    )
+  tt.timings <- c(tttbl$pmt.timing, tttbl$rsp.timing)
+  tttbl.summary <- tttbl %>%
+    group_by(annot.clip, clip.start.msec, clip.end.msec,
+      clip.duration.msec, clip.duration.min) %>%
+    summarize(
+      `.groups` = "drop",
+      num.prompts = sum(pmt),
+      num.responses = sum(rsp),
+      num.transitions = num.prompts + num.responses,
+      prompt.latency.msec.mean = mean(pmt.timing, na.rm = TRUE),
+      prompt.latency.msec.median = median(pmt.timing, na.rm = TRUE),
+      prompt.latency.msec.min = min(pmt.timing, na.rm = TRUE),
+      prompt.latency.msec.max = max(pmt.timing, na.rm = TRUE),
+      prompt.latency.msec.sd = sd(pmt.timing, na.rm = TRUE),
+      response.latency.msec.mean = mean(rsp.timing, na.rm = TRUE),
+      response.latency.msec.median = median(rsp.timing, na.rm = TRUE),
+      response.latency.msec.min = min(rsp.timing, na.rm = TRUE),
+      response.latency.msec.max = max(rsp.timing, na.rm = TRUE),
+      response.latency.msec.sd = sd(rsp.timing, na.rm = TRUE)) %>%
+    mutate(
+      prompts.per.min = num.prompts/clip.duration.min,
+      responses.per.min = num.responses/clip.duration.min,
+      transitions.per.min = num.transitions/clip.duration.min,
+      transition.latency.msec.mean = mean(tt.timings, na.rm = TRUE),
+      transition.latency.msec.median = median(tt.timings, na.rm = TRUE),
+      transition.latency.msec.min = min(tt.timings, na.rm = TRUE),
+      transition.latency.msec.max = max(tt.timings, na.rm = TRUE),
+      transition.latency.msec.sd = sd(tt.timings, na.rm = TRUE),
+      data.type = data.type) %>%
+    select(
+      data.type, annot.clip, clip.start.msec, clip.duration.msec,
+      num.prompts, prompts.per.min,
+      prompt.latency.msec.mean, prompt.latency.msec.median,
+      prompt.latency.msec.min, prompt.latency.msec.max,
+      prompt.latency.msec.sd,
+      num.responses, responses.per.min,
+      response.latency.msec.mean, response.latency.msec.median,
+      response.latency.msec.min, response.latency.msec.max,
+      response.latency.msec.sd,
+      num.transitions, transitions.per.min,
+      transition.latency.msec.mean, transition.latency.msec.median,
+      transition.latency.msec.min, transition.latency.msec.max,
+      transition.latency.msec.sd)
+  # check for intseqs before summarizing them
+  # TO DO
+  return(tttbl.summary)
+}
+
+
 # ## OLD: create summaries
 # turn.transitions.overview.o_c <- turn.transitions %>%
 #   filter(!(is.na(tm1.val))) %>%

@@ -84,7 +84,7 @@ run_chatter_pipeline <- function(
   
   # step 3. create a summary of the tt behavior by clip and overall, incl. the random baseline
   # TO DO
-  ttinfotbls$tt.summary <- "TO DO!"
+  ttinfotbls$tt.summary <- summarize_chattr(ttinfotbls)
   
   return(ttinfotbls)
 }
