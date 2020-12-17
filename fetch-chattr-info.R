@@ -83,7 +83,6 @@ run_chatter_pipeline <- function(
     mode = mode, output = output, n.runs = n.runs)
   
   # step 3. create a summary of the tt behavior by clip and overall, incl. the random baseline
-  # TO DO
   ttinfotbls$tt.summary <- summarize_chattr(ttinfotbls)
   
   return(ttinfotbls)

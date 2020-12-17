@@ -10,6 +10,7 @@ source("continuation-detectors.R")
 source("intseq-detectors.R")
 source("estimate-baseline.R")
 source("fetch-chattr-info.R")
+source("make-summaries.R")
 
 
 allowed.gap <- 1000
