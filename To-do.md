@@ -2,7 +2,7 @@
 *Man oh man...*
 
 1. Add replicable random-run tests
-2. Create summary functions
+2. _Create summary functions_
 3. Add tests for summary function output
 4. Add summary function explanation to README
 5. Fill in checker functions
