@@ -1,3 +1,4 @@
 *.pfsx
 *.eaf.001
 *.its
+.DS_Store
