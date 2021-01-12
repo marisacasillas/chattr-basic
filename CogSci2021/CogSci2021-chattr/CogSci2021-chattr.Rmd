@@ -1,12 +1,11 @@
 ---
-title: "How to Make a Proceedings Paper Submission"
+title: "Analyzing contingent interactions in R with chattr"
 bibliography: library.bib
 csl: apa6.csl
 document-params: "10pt, letterpaper"
 
 author-information: > 
-    \author{{\large \bf Morton Ann Gernsbacher (MAG@Macc.Wisc.Edu)} \\ Department of Psychology, 1202 W. Johnson Street \\ Madison, WI 53706 USA
-    \AND {\large \bf Sharon J.~Derry (SDJ@Macc.Wisc.Edu)} \\ Department of Educational Psychology, 1025 W. Johnson Street \\ Madison, WI 53706 USA}
+    \author{{\large \bf Marisa Casillas (mcasillas@uchicago.edu)} \\ Department of Comparative Human Development, Rosenwald Hall, 3rd floor \\ 1101 East 58th St. \\ Chicago, IL 60637 USA
 
 abstract: >
     Include no author information in the initial submission, to facilitate
@@ -39,6 +38,31 @@ library(grid)
 library(ggplot2)
 library(xtable)
 ```
+
+
+The current paper introduces a R (REFS) package called `chattr` that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data. 
+
+The joint coordination of action by two or more agents usually involves temporal contingencies of one kind or another. Whether we are making music with others, crossing a busy intersection, or chatting with a friend, the timing of our contributions to the coordinated event is crucial to its success. In many cases, the optimal strategy for coordination involves some form of turn taking. In a typical turn-taking interaction, only one interactant makes their contribution at a time, and decisions about who contributes when can be determined flexibly or in a pre-defined manner. This sequential structure enables interactants to adapt each contribution such that it relevantly progresses the joint activity. Such flexibility makes it possible to initiate unplanned subsequences (e.g., repairing a misunderstanding) without interrupting the larger goal.
+
+Turn-taking interactions, or temporally contingent interactions much like them, appear across the animal kingdom and, in humans, may be the only reliable source of language universals. While other
+
+
+Traditionally, these kinds of interactional contingencies have been studied using qualitative of quantitative analysis of  manual measurements from video and audio recordings.
+
+
+## Contingency in conversation
+
+### Adults
+
+### Children
+
+## Tools for contingency detection (and their shortcomings)
+
+### LENA
+
+### own script
+
+
 
 # General Formatting Instructions 
 
