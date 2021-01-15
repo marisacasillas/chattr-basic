@@ -40,21 +40,15 @@ library(xtable)
 ```
 
 
-The current paper introduces a R (REFS) package called `chattr` that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data. 
+The current paper introduces an R (REFS) package called `chattr` that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data ([https://github.com/marisacasillas/chattr-basic]()).[^1] Current tools for conducting similar analyses from annotated data are either proprietary, thereby limiting access to potential users, or constructed ad-hoc, thereby introducing significant variation in the constructs being measured. The chattr package aims to improve this situation in two ways: (1) it takes inspiration from the fields of conversation analysis, psycholinguistics, and language development to provide flexible but theoretically sound measurements of temporally contingent interaction at scale and (2) its open-source toolkit accepts a handful of generic formats as input, opening up its analytical framework to a wide variety of domains (e.g., child language input, multi-party adult conversation, non-human animal signal exchanges, multi-modal contingencies produced by a single organism, etc.). The remainder of this short report reviews the theoretical basis underlying the development of chattr, describes the core functions offered by the package, and demonstrates its use in three existing datasets.
 
-The joint coordination of action by two or more agents usually involves temporal contingencies of one kind or another. Whether we are making music with others, crossing a busy intersection, or chatting with a friend, the timing of our contributions to the coordinated event is crucial to its success. In many cases, the optimal strategy for coordination involves some form of turn taking. In a typical turn-taking interaction, only one interactant makes their contribution at a time, and decisions about who contributes when can be determined flexibly or in a pre-defined manner. This sequential structure enables interactants to adapt each contribution such that it relevantly progresses the joint activity. Such flexibility makes it possible to initiate unplanned subsequences (e.g., repairing a misunderstanding) without interrupting the larger goal.
+[^1]: At time of submission, the conversion from R scripts to R package is still underway. That said, all documentation, scripts, and tests are available at the given URL. The fully packaged version will be available at the same URL (minus "-basic") by April 2021.
 
-Turn-taking interactions, or temporally contingent interactions much like them, appear across the animal kingdom and, in humans, may be the only reliable source of language universals. While other
+## Contingent interaction
 
+The joint coordination of action by two or more agents usually involves temporal contingencies of one kind or another. Whether we are making music with others, crossing a busy intersection, or chatting with a friend, the timing of our contributions to the coordinated event is crucial to its success. In many cases, the optimal strategy for coordination involves some form of turn taking. In a typical turn-taking interaction, only one interactant makes their contribution at a time, and decisions about who contributes when can be determined flexibly (as in conversation) or in a pre-defined manner (as in a debate). This sequential structure enables interactants to adapt each contribution such that it relevantly progresses the joint activity and to initiate unplanned subsequences (e.g., repairing a misunderstanding) without breaking from moving toward the the larger goal.
 
-Traditionally, these kinds of interactional contingencies have been studied using qualitative of quantitative analysis of  manual measurements from video and audio recordings.
-
-
-## Contingency in conversation
-
-### Adults
-
-### Children
+Turn-taking interactions, or temporally contingent interactions that appear much like them, are used for communication across the animal kingdom (REFS). In humans, turn-taking interactions may be the only reliable source of language universals (REFS). Traditionally, these kinds of interactional contingencies have been studied using careful inspection and analysis (both qualitative and quantitative) of manual measurements from video and audio recordings. However, recent advances in automated annotation tools (e.g., tools for vocalization detection) have opened up the possibility to investigate interactional behavior at a much larger scale, creating a need for new, validated analytical approaches.
 
 ## Tools for contingency detection (and their shortcomings)
 
@@ -62,109 +56,15 @@ Traditionally, these kinds of interactional contingencies have been studied usin
 
 ### own script
 
-
-
-# General Formatting Instructions 
-
-For general information about authoring in markdown, see **[here](http://rmarkdown.rstudio.com/authoring_basics.html).**
-
-The entire content of a paper (including figures, references, and anything else) can be no longer than six pages in the \textbf{initial submission}. In the \textbf{final submission}, the text of the paper, including an author line, must fit on six pages. Up to one additional page can be used for acknowledgements and references.
-
-The text of the paper should be formatted in two columns with an
-overall width of 7 inches (17.8 cm) and length of 9.25 inches (23.5
-cm), with 0.25 inches between the columns. Leave two line spaces
-between the last author listed and the text of the paper; the text of
-the paper (starting with the abstract) should begin no less than 2.75 inches below the top of the
-page. The left margin should be 0.75 inches and the top margin should
-be 1 inch.  \textbf{The right and bottom margins will depend on
-whether you use U.S. letter or A4 paper, so you must be sure to
-measure the width of the printed text.} Use 10~point Times Roman
-with 12~point vertical spacing, unless otherwise specified.
-
-The title should be in 14~point bold font, centered. The title should
-be formatted with initial caps (the first letter of content words
-capitalized and the rest lower case). In the initial submission, the
-phrase ``Anonymous CogSci submission'' should appear below the title,
-centered, in 11~point bold font.  In the final submission, each
-author's name should appear on a separate line, 11~point bold, and
-centered, with the author's email address in parentheses. Under each
-author's name list the author's affiliation and postal address in
-ordinary 10~point type.
-
-Indent the first line of each paragraph by 1/8~inch (except for the
-first paragraph of a new section). Do not add extra vertical space
-between paragraphs.
-
-
-# First-Level Headings
-
-First level headings should be in 12 point , initial caps, bold and
-centered. Leave one line space above the heading and 1/4~line space
-below the heading.
-
-## Second-Level Headings
-
-Second level headings should be 11 point , initial caps, bold, and
-flush left. Leave one line space above the heading and 1/4~ line
-space below the heading.
-
-### Third-Level Headings
-
-Third-level headings should be 10 point , initial caps, bold, and flush
-left. Leave one line space above the heading, but no space after the
-heading.
-
-# Formalities, Footnotes, and Floats
-
-Use standard APA citation format. Citations within the text should
-include the author's last name and year. If the authors' names are
-included in the sentence, place only the year in parentheses, as in
-[-@NewellSimon1972a], but otherwise place the entire reference in
-parentheses with the authors and year separated by a comma
-[@NewellSimon1972a]. List multiple references alphabetically and
-separate them by semicolons [@ChalnickBillman1988a; @NewellSimon1972a]. 
-Use the et. al. construction only after listing all the authors to a
-publication in an earlier reference and for citations with four or
-more authors.
-
-For more information on citations in RMarkdown, see **[here](http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html#citations).**
-
-## Footnotes
-
-Indicate footnotes with a number\footnote{Sample of the first
-footnote.} in the text. Place the footnotes in 9 point type at the
-bottom of the page on which they appear. Precede the footnote with a
-horizontal rule.\footnote{Sample of the second footnote.} You can also use 
-markdown formatting to include footnotes using this syntax [^1].
-
-[^1]: Sample of a markdown footnote.
-
-## Figures
-
-All artwork must be very dark for purposes of reproduction and should
-not be hand drawn. Number figures sequentially, placing the figure
-number and caption, in 10 point, after the figure with one line space
-above the caption and one line space below it. If necessary, leave extra white space at
-the bottom of the page to avoid splitting the figure and figure
-caption. You may float figures to the top or bottom of a column, or
-set wide figures across both columns.
-
 ## Two-column images
 
-You can read local images using png package for example and plot 
-it like a regular plot using grid.raster from the grid package. 
-With this method you have full control of the size of your image. **Note: Image must be in .png file format for the readPNG function to work.**
-
-You might want to display a wide figure across both columns. To do this, you change the `fig.env` chunk option to `figure*`. To align the image in the center of the page, set `fig.align` option to `center`. To format the width of your caption text, you set the `num.cols.cap` option to `2`.
-
 ```{r 2-col-image, fig.env = "figure*", fig.pos = "h", fig.width=4, fig.height=2, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "This image spans both columns. And the caption text is limited to 0.8 of the width of the document."}
+# Note: Image must be in .png file format for the readPNG function to work.
 img <- png::readPNG("figs/walrus.png")
 grid::grid.raster(img)
 ```
 
 ## One-column images
-
-Single column is the default option, but if you want set it explicitly, set `fig.env` to `figure`. Notice that the `num.cols` option for the caption width is set to `1`.
 
 ```{r image, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "One column image."}
 img <- png::readPNG("figs/lab_logo_stanford.png")
@@ -173,9 +73,6 @@ grid::grid.raster(img)
 
 
 ## R Plots
-
-You can use R chunks directly to plot graphs. And you can use latex floats in the
-fig.pos chunk option to have more control over the location of your plot on the page. For more information on latex placement specifiers see **[here](https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions)**
 
 ```{r plot, fig.env="figure", fig.pos = "H", fig.align = "center", fig.width=2, fig.height=2, fig.cap = "R plot" }
 x <- 0:100
@@ -189,14 +86,6 @@ ggplot2::ggplot(data = data.frame(x, y),
 
 
 ## Tables
-
-Number tables consecutively; place the table number and title (in
-10 point) above the table with one line space above the caption and
-one line space below it, as in Table 1. You may float
-tables to the top or bottom of a column, set wide tables across both
-columns.
-
-You can use the xtable function in the xtable package.
 
 ```{r xtable, results="asis"}
 n <- 100
