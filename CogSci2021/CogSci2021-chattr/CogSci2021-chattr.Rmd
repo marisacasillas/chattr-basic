@@ -52,9 +52,11 @@ Turn-taking interactions, or temporally contingent interactions that appear much
 
 ## Tools for contingency detection (and their shortcomings)
 
-### LENA
+At present, the most widely used tool with respect to automated contingency analysis of human interaction is the LENA system (REFS). The LENA system includes both a recording device and a set of proprietary software tools that enable the researcher to collect long-format (16-hour) participant-centric audio recordings and then automatically analyze them for a range of properties, including when speakers of different types are detected (e.g., near and far female adult vocalizations). The system is meant to be used with young children wearing the device, but can also be used to capture adult language environments (REFS). The software uses the detected vocalizations to find candidate regions of vocal exchange (VABs; Vocal Activity Blocks) between the target child and nearby adults and then calculates the estimated number of speaker exchanges involving the child on the basis of temporal contingency (i.e., <5 seconds of silence between child and woman/man vocalizations or vice versa), providing this information both in summary form and as vocalization metadata in their derived output file (".its" file). Validation studies of LENA's primary turn-taking measure (CTC; Conversational Turn Count) suggest that the outcome is noisy, with reliability estimates between 0.3 and 0.6 (REFS; Bulgarelli et al., under review; Cristia et al., under review), and that CTC errors are worse for younger infants than older ones (REFS).[^2] Because the LENA system has enabled researchers to quickly and easily extract estimates from many hours of audio across many children, it has stimulated a number of new research lines investigating the predictive value of CTC for children's language development outcomes (REFS). Unfortunately, however, the software is proprietary, expensive, and can only be used with recordings made with the LENA device. It is also designed specifically to work for child wearers and so the CTC output has little utility for those interested in adult-centric audio or even vocal and multi-modal exchanges between non-human animals.
 
-### own script
+[^2]: Note that most CTC error estimates inherit error from earlier steps in the processing pipeline (e.g., misidentifying the speech as silence).
+
+Other 
 
 ## Two-column images
 
