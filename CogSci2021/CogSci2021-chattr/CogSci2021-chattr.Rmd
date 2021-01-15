@@ -56,7 +56,15 @@ At present, the most widely used tool with respect to automated contingency anal
 
 [^2]: Note that most CTC error estimates inherit error from earlier steps in the processing pipeline (e.g., misidentifying the speech as silence).
 
-Other 
+Outside of the LENA context, 
+
+- Roberts et al (2015)
+- Heldner & Edlund? Bosch
+- Animal studies??
+
+- Variation in relevant timing windows (applicable windows differ; REFS)
+- Variation in what vocalizations "count"
+- Variation in how many "speakers" are involved
 
 ## Two-column images
 
