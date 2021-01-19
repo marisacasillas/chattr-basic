@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  12 JAN 2021 11:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  19 JAN 2021 09:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -26,79 +26,39 @@ File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 Conference Style for COGSCI -- last modified December 31, 2018
 \titlebox=\skip49
 ) (/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/pslatex/pslatex.sty
-Package: pslatex 1996/07/24 v1.2 pslatex emulation (DPC)
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 65.
+Package: pslatex 2021/01/13 v1.3 pslatex emulation (DPC)
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 66.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/ptmcm/m/n on input line 65.
+(Font)                  OT1/cmr/m/n --> OT1/ptmcm/m/n on input line 66.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/ptmcm/m/n on input line 65.
-LaTeX Font Info:    Redeclaring symbol font `letters' on input line 66.
+(Font)                  OT1/cmr/bx/n --> OT1/ptmcm/m/n on input line 66.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 67.
 LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
-(Font)                  OML/cmm/m/it --> OML/ptmcm/m/it on input line 66.
+(Font)                  OML/cmm/m/it --> OML/ptmcm/m/it on input line 67.
 LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
-(Font)                  OML/cmm/b/it --> OML/ptmcm/m/it on input line 66.
-LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 67.
+(Font)                  OML/cmm/b/it --> OML/ptmcm/m/it on input line 67.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 68.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
-(Font)                  OMS/cmsy/m/n --> OMS/pzccm/m/n on input line 67.
+(Font)                  OMS/cmsy/m/n --> OMS/pzccm/m/n on input line 68.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/cmsy/b/n --> OMS/pzccm/m/n on input line 67.
-LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 68.
+(Font)                  OMS/cmsy/b/n --> OMS/pzccm/m/n on input line 68.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 69.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
-(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 68.
+(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 69.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 68.
+(Font)                  OMX/cmex/m/n --> OMX/psycm/m/n on input line 69.
 \symbold=\mathgroup4
 \symitalic=\mathgroup5
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 74.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 74.
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 75.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 74.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 75.
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 75.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 76.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 75.
+(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 76.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 75.
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 226.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 230.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 234.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 243.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 384.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 388.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 392.
-
-
-LaTeX Warning: Font shape declaration has incorrect series value `mc'.
-               It should not contain an `m'! Please correct it.
-               Found on input line 401.
-
+(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 76.
 ) (/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count185
@@ -351,22 +311,228 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 147.
 )
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdft
+ex.def
+File: l3backend-pdftex.def 2021-01-09 L3 backend support: PDF output (pdfTeX)
+\l__kernel_color_stack_int=\count280
+\l__pdf_internal_box=\box52
+) (./CogSci2021-chattr.aux)
+\openout1 = `CogSci2021-chattr.aux'.
 
-! LaTeX Error: Missing \begin{document}.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 61.
+LaTeX Font Info:    Trying to load font information for OMS+pzccm on input line
+ 61.
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omspzccm.fd
+File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
+)
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
+Package caption Info: End \AtBeginDocument code.
+Package hyperref Info: Link coloring OFF on input line 61.
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitl
+estring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count281
+)
+LaTeX Info: Redefining \ref on input line 61.
+LaTeX Info: Redefining \pageref on input line 61.
+LaTeX Info: Redefining \nameref on input line 61.
+(./CogSci2021-chattr.out) (./CogSci2021-chattr.out)
+\@outlinefile=\write4
+\openout4 = `CogSci2021-chattr.out'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.58 \textbackslash
-                    author\{\{\large \bf Marisa Casillas (mcasillas@uchicago...
- 
+
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/context/base/mkii/supp-pdf.mki
+i
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count282
+\scratchdimen=\dimen161
+\scratchbox=\box53
+\nofMPsegments=\count283
+\nofMParguments=\count284
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count285
+\MPscratchDim=\dimen162
+\MPnumerator=\count286
+\makeMPintoPDFobject=\count287
+\everyMPtoPDFconversion=\toks24
+)
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-ba
+se.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys
+.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+\c@maskedRefs=\count288
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/apacite/english.apc
+File: english.apc 2013/07/21 v6.03 apacite language file
+LaTeX Info: Redefining \BPBI on input line 129.
+LaTeX Info: Redefining \BHBI on input line 130.
+)
+LaTeX Font Info:    Trying to load font information for OT1+ptmcm on input line
+ 64.
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ptmcm.fd
+File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
+)
+LaTeX Font Info:    Trying to load font information for OML+ptmcm on input line
+ 64.
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptmcm.fd
+File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
+)
+LaTeX Font Info:    Trying to load font information for OMX+psycm on input line
+ 64.
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxpsycm.fd
+File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 64.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 64.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 64.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
+
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
+
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \vbox (badness 10000) detected at line 64
+ []
+
+
+Package hyperref Warning: Suppressing link with empty target on input line 87.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
+
+Underfull \hbox (badness 5217) in paragraph at lines 84--108
+\OT1/ptm/m/n/10 The cur-rent pa-per in-tro-duces an R (REFS) pack-age
+ []
+
+
+Underfull \hbox (badness 2293) in paragraph at lines 84--108
+\OT1/ptm/m/n/10 called \OT1/pcr/m/n/10 chattr \OT1/ptm/m/n/10 that fa-cil-i-tat
+es the de-tec-tion and anal-y-
+ []
+
+LaTeX Font Info:    Trying to load font information for OML+ptm on input line 1
+55.
+(/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptm.fd
+File: omlptm.fd 
+)
+LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 155.
+[1{/Users/mcasillas/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.ma
+p}
+
+
+
+]
+<figs/minisequence-1.pdf, id=45, 505.89pt x 94.3525pt>
+File: figs/minisequence-1.pdf Graphic file (type pdf)
+<use figs/minisequence-1.pdf>
+Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 270.
+(pdftex.def)             Requested size: 505.88875pt x 94.35225pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 1648) has occurred while \output is active []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 305--326
+\OT1/ptm/m/n/10 call, \OT1/pcr/m/n/10 fetch[]chatter[]LENA(filename, interactan
+ts =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 305--326
+\OT1/pcr/m/n/10 "OC", default.lxonly = FALSE, nearonly = TRUE)
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 1502) in paragraph at lines 327--346
+[]\OT1/ptm/m/n/10 Suppose in-stead that I am in-ter-ested in in-ves-ti-gat-ing
+ []
+
+
+Underfull \hbox (badness 1097) in paragraph at lines 327--346
+\OT1/ptm/m/n/10 how adult con-ver-sa-tional pat-terns vary across struc-tured
+ []
+
+
+Underfull \hbox (badness 1286) in paragraph at lines 327--346
+\OT1/ptm/m/n/10 the func-tion call ac-cord-ingly be-fore us-ing it over each
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--346
+\OT1/pcr/m/n/10 = 1500, allowed.gap = 1000, allowed.overlap =
+ []
+
+[3 <./figs/minisequence-1.pdf>] [4
+
+] (./CogSci2021-chattr.aux)
+Package rerunfilecheck Info: File `CogSci2021-chattr.out' has not changed.
+(rerunfilecheck)             Checksum: 4CB011F35AB817199664524255653439;377.
+ ) 
 Here is how much of TeX's memory you used:
- 7740 strings out of 479304
- 118252 string characters out of 5862811
- 428730 words of memory out of 5000000
- 24862 multiletter control sequences out of 15000+600000
- 403937 words of font info for 28 fonts, out of 8000000 for 9000
+ 8753 strings out of 479304
+ 136580 string characters out of 5862811
+ 450484 words of memory out of 5000000
+ 25754 multiletter control sequences out of 15000+600000
+ 439937 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,0n,74p,231b,191s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 71i,11n,74p,660b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Us
+ers/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrb8a
+.pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8
+a.pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a
+.pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.
+pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.
+pfb>
+Output written on CogSci2021-chattr.pdf (4 pages, 117096 bytes).
+PDF statistics:
+ 108 PDF objects out of 1000 (max. 8388607)
+ 90 compressed objects within 1 object stream
+ 27 named destinations out of 1000 (max. 500000)
+ 54 words of extra memory for PDF output out of 10000 (max. 10000000)
+
