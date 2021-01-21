@@ -71,6 +71,7 @@ run_chatter_pipeline <- function(
   
   # step 1. read in the file
   spchtbl <- read_spchtbl(filepath = tbl, tbltype = tbltype,
+                          cliptier = cliptier,
                           lxonly = lxonly, nearonly = nearonly)
   
   # step 2. run the speech annotations through the tt behavior detection pipeline
