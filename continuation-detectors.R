@@ -72,95 +72,133 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
     dplyr::rename(cont.spkr = response.spkr, cont.start.ms = response.start.ms,
       cont.stop.ms = response.stop.ms) %>%
     mutate(has.prompt = 1)
-  contingent.utts.basic <- full_join(prompts.basic, responses.basic,
-    by = c("cont.spkr", "cont.start.ms", "cont.stop.ms"))
+  if (nrow(prompts.basic) > 0 | nrow(responses.basic) > 0) {
+    if (nrow(prompts.basic) > 0 & nrow(responses.basic) > 0) {
+      contingent.utts.basic <- full_join(prompts.basic, responses.basic,
+                                         by = c("cont.spkr", "cont.start.ms",
+                                                "cont.stop.ms"))
+    } else if (nrow(prompts.basic) > 0) {
+      contingent.utts.basic <- prompts.basic %>%
+        mutate(has.prompt = NA)
+    } else if (nrow(responses.basic) > 0) {
+      contingent.utts.basic <- responses.basic %>%
+        mutate(has.response = NA)
+    }
+  } else {
+    contingent.utts.basic <- tibble(
+      cont.spkr = character(),
+      cont.start.ms = numeric(),
+      cont.stop.ms = numeric(),
+      has.prompt = numeric(),
+      has.response = numeric()
+    )
+  }
   # for each speaker in contingent utts
   unique.cont.spkrs <- unique(contingent.utts.basic$cont.spkr)
   cont.spkrs.continuations <- tibble()
-  for (spkr in unique.cont.spkrs) {
-    spkr.int.utts <- int.utts %>%
-      filter(speaker == spkr) %>%
-      dplyr::select(speaker, start.ms, stop.ms)
-    cont.spkr.tbl <- contingent.utts.basic %>%
-      filter(cont.spkr == spkr) %>%
-      full_join(spkr.int.utts, by = c(
-        "cont.spkr" = "speaker", "cont.start.ms" = "start.ms",
-        "cont.stop.ms" = "stop.ms")) %>%
-      arrange(cont.start.ms)
-    cont.spkr.tbl$stop.prev.ms <- c(
-      0, cont.spkr.tbl$cont.stop.ms[1:nrow(cont.spkr.tbl)-1])
-    cont.spkr.tbl$response.prev.spkr <- c(
-      NA, cont.spkr.tbl$has.response[1:nrow(cont.spkr.tbl)-1])
-    cont.spkr.tbl <- cont.spkr.tbl %>%
-      mutate(new.turn = case_when(
-        response.prev.spkr == 1 ~ 1,
-        has.prompt == 1 ~ 1,
-        cont.start.ms - stop.prev.ms > allowed.gap ~ 1,
-        TRUE ~ 0))
-    cont.spkr.tbl$cont.spkr.turn.num <- cumsum(cont.spkr.tbl$new.turn == 1)
-    cont.spkr.tbl <- cont.spkr.tbl %>%
-      dplyr::select(-stop.prev.ms, -response.prev.spkr, -new.turn) %>%
-      ungroup()
-    cont.spkr.tbl.multiincrement <- cont.spkr.tbl %>%
-      group_by(cont.spkr, cont.spkr.turn.num) %>%
-      summarize(
-        `.groups` = "drop",
-        cont.spkr.prev.increment.start = min(cont.start.ms),
-        cont.spkr.post.increment.stop = max(cont.stop.ms),
-        cont.spkr.n.increments = n()) %>%
-      filter(cont.spkr.n.increments > 1) %>%
-      left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
-        by = c("cont.spkr" = "speaker",
-          "cont.spkr.prev.increment.start" = "start.ms")) %>%
-      left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
-        by = c("cont.spkr" = "speaker",
-          "cont.spkr.post.increment.stop" = "stop.ms")) %>%
-      dplyr::rename("cont.spkr.prev.increment.stop" = "stop.ms",
-        "cont.spkr.post.increment.start" = "start.ms") %>%
-      ungroup() %>%
-      dplyr::select(cont.spkr, cont.spkr.turn.num, cont.spkr.n.increments,
-        cont.spkr.prev.increment.start, cont.spkr.prev.increment.stop,
-        cont.spkr.post.increment.start, cont.spkr.post.increment.stop)
-    spkr.contingent.utts.basic <- contingent.utts.basic %>%
-      filter(cont.spkr == spkr) %>%
-      left_join(dplyr::select(cont.spkr.tbl, c("cont.start.ms", "cont.spkr.turn.num")),
-        by = "cont.start.ms") %>%
-      left_join(cont.spkr.tbl.multiincrement,
-        by = c("cont.spkr.turn.num", "cont.spkr")) %>%
-      mutate(
-        cont.spkr.prev.increment.start = ifelse(
-          cont.spkr.prev.increment.start == cont.start.ms,
-          NA, cont.spkr.prev.increment.start),
-        cont.spkr.prev.increment.stop = ifelse(
-          is.na(cont.spkr.prev.increment.start),
-          NA, cont.spkr.prev.increment.stop),
-        cont.spkr.post.increment.start = ifelse(
-          cont.spkr.post.increment.start == cont.start.ms,
-          NA, cont.spkr.post.increment.start),
-        cont.spkr.post.increment.stop = ifelse(
-          is.na(cont.spkr.post.increment.start),
-          NA, cont.spkr.post.increment.stop)
-      ) %>%
-      replace_na(list(cont.spkr.n.increments = 1))
-    cont.spkrs.continuations <- bind_rows(cont.spkrs.continuations,
-      spkr.contingent.utts.basic)
+  if (length(unique.cont.spkrs) > 0) {
+    for (spkr in unique.cont.spkrs) {
+      spkr.int.utts <- int.utts %>%
+        filter(speaker == spkr) %>%
+        dplyr::select(speaker, start.ms, stop.ms)
+      cont.spkr.tbl <- contingent.utts.basic %>%
+        filter(cont.spkr == spkr) %>%
+        full_join(spkr.int.utts, by = c(
+          "cont.spkr" = "speaker", "cont.start.ms" = "start.ms",
+          "cont.stop.ms" = "stop.ms")) %>%
+        arrange(cont.start.ms)
+      cont.spkr.tbl$stop.prev.ms <- c(
+        0, cont.spkr.tbl$cont.stop.ms[1:nrow(cont.spkr.tbl)-1])
+      cont.spkr.tbl$response.prev.spkr <- c(
+        NA, cont.spkr.tbl$has.response[1:nrow(cont.spkr.tbl)-1])
+      if ("has.prompt" %in% names(cont.spkr.tbl)) {
+        cont.spkr.tbl <- cont.spkr.tbl %>%
+          mutate(new.turn = case_when(
+            response.prev.spkr == 1 ~ 1,
+            has.prompt == 1 ~ 1,
+            cont.start.ms - stop.prev.ms > allowed.gap ~ 1,
+            TRUE ~ 0))
+        
+      } else {
+        browser()
+      }
+      cont.spkr.tbl$cont.spkr.turn.num <- cumsum(cont.spkr.tbl$new.turn == 1)
+      cont.spkr.tbl <- cont.spkr.tbl %>%
+        dplyr::select(-stop.prev.ms, -response.prev.spkr, -new.turn) %>%
+        ungroup()
+      cont.spkr.tbl.multiincrement <- cont.spkr.tbl %>%
+        group_by(cont.spkr, cont.spkr.turn.num) %>%
+        summarize(
+          `.groups` = "drop",
+          cont.spkr.prev.increment.start = min(cont.start.ms),
+          cont.spkr.post.increment.stop = max(cont.stop.ms),
+          cont.spkr.n.increments = n()) %>%
+        filter(cont.spkr.n.increments > 1) %>%
+        left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
+                  by = c("cont.spkr" = "speaker",
+                         "cont.spkr.prev.increment.start" = "start.ms")) %>%
+        left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
+                  by = c("cont.spkr" = "speaker",
+                         "cont.spkr.post.increment.stop" = "stop.ms")) %>%
+        dplyr::rename("cont.spkr.prev.increment.stop" = "stop.ms",
+                      "cont.spkr.post.increment.start" = "start.ms") %>%
+        ungroup() %>%
+        dplyr::select(cont.spkr, cont.spkr.turn.num, cont.spkr.n.increments,
+                      cont.spkr.prev.increment.start, cont.spkr.prev.increment.stop,
+                      cont.spkr.post.increment.start, cont.spkr.post.increment.stop)
+      spkr.contingent.utts.basic <- contingent.utts.basic %>%
+        filter(cont.spkr == spkr) %>%
+        left_join(dplyr::select(cont.spkr.tbl, c("cont.start.ms", "cont.spkr.turn.num")),
+                  by = "cont.start.ms") %>%
+        left_join(cont.spkr.tbl.multiincrement,
+                  by = c("cont.spkr.turn.num", "cont.spkr")) %>%
+        mutate(
+          cont.spkr.prev.increment.start = ifelse(
+            cont.spkr.prev.increment.start == cont.start.ms,
+            NA, cont.spkr.prev.increment.start),
+          cont.spkr.prev.increment.stop = ifelse(
+            is.na(cont.spkr.prev.increment.start),
+            NA, cont.spkr.prev.increment.stop),
+          cont.spkr.post.increment.start = ifelse(
+            cont.spkr.post.increment.start == cont.start.ms,
+            NA, cont.spkr.post.increment.start),
+          cont.spkr.post.increment.stop = ifelse(
+            is.na(cont.spkr.post.increment.start),
+            NA, cont.spkr.post.increment.stop)
+        ) %>%
+        replace_na(list(cont.spkr.n.increments = 1))
+      cont.spkrs.continuations <- bind_rows(cont.spkrs.continuations,
+                                            spkr.contingent.utts.basic)
+    }
   }
   # add these continuation utterance start/stop times into the main tibble
-  tttbl <- tttbl %>%
-    left_join(dplyr::select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
-      "cont.spkr.prev.increment.start", "cont.spkr.prev.increment.stop",
-      "cont.spkr.n.increments")),
-      by = c("prompt.spkr" = "cont.spkr", "prompt.start.ms" = "cont.start.ms")) %>%
-    dplyr::rename("prompt.prev.increment.start" = "cont.spkr.prev.increment.start",
-      "prompt.prev.increment.stop" = "cont.spkr.prev.increment.stop",
-      "prompt.n.increments" = "cont.spkr.n.increments") %>%
-    left_join(dplyr::select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
-      "cont.spkr.post.increment.start", "cont.spkr.post.increment.stop",
-      "cont.spkr.n.increments")),
-      by = c("response.spkr" = "cont.spkr", "response.start.ms" = "cont.start.ms")) %>%
-    dplyr::rename("response.post.increment.start" = "cont.spkr.post.increment.start",
-      "response.post.increment.stop" = "cont.spkr.post.increment.stop",
-      "response.n.increments" = "cont.spkr.n.increments")
+  if (nrow(cont.spkrs.continuations) > 0) {
+    tttbl <- tttbl %>%
+      left_join(dplyr::select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
+                                                          "cont.spkr.prev.increment.start", "cont.spkr.prev.increment.stop",
+                                                          "cont.spkr.n.increments")),
+                by = c("prompt.spkr" = "cont.spkr", "prompt.start.ms" = "cont.start.ms")) %>%
+      dplyr::rename("prompt.prev.increment.start" = "cont.spkr.prev.increment.start",
+                    "prompt.prev.increment.stop" = "cont.spkr.prev.increment.stop",
+                    "prompt.n.increments" = "cont.spkr.n.increments") %>%
+      left_join(dplyr::select(cont.spkrs.continuations, c("cont.spkr", "cont.start.ms",
+                                                          "cont.spkr.post.increment.start", "cont.spkr.post.increment.stop",
+                                                          "cont.spkr.n.increments")),
+                by = c("response.spkr" = "cont.spkr", "response.start.ms" = "cont.start.ms")) %>%
+      dplyr::rename("response.post.increment.start" = "cont.spkr.post.increment.start",
+                    "response.post.increment.stop" = "cont.spkr.post.increment.stop",
+                    "response.n.increments" = "cont.spkr.n.increments")
+  } else {
+    tttbl <- tttbl %>%
+      mutate(
+        prompt.prev.increment.start = NA,
+        prompt.prev.increment.stop = NA,
+        prompt.n.increments = NA,
+        response.post.increment.start = NA,
+        response.post.increment.stop = NA,
+        response.n.increments = NA,
+      )
+  }
 
   # clean up for return
   if (!("addressee" %in% names(tttbl))) {

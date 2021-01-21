@@ -182,8 +182,12 @@ fetch_intseqs <- function(tttbl, allowed.gap) {
         `.groups` = "drop",
         seq.start.ms = min(anchor.L.start.ms),
         seq.stop.ms = max(anchor.R.stop.ms))
-    tooclose.intseqs$prev.seq.end <- c(
-      NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
+    if (nrow(tooclose.intseqs) > 1) {
+      tooclose.intseqs$prev.seq.end <- c(
+        NA, tooclose.intseqs$seq.stop.ms[1:(nrow(tooclose.intseqs)-1)])
+    } else {
+      tooclose.intseqs$prev.seq.end <- NA
+    }
     tooclose.intseqs <- tooclose.intseqs %>%
       mutate(ms.since.prev.intseq = seq.start.ms - prev.seq.end) %>%
       filter(ms.since.prev.intseq <= allowed.gap) %>%

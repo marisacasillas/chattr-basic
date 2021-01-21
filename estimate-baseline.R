@@ -104,9 +104,10 @@ fetch_randomruns <- function(
         print(paste0("Random run of turn transition detection: ",
                      i, " of ", n.runs))
         run.idx <- which(random.tttbls$random.run.num == i)
+        shuff.spchtbl <- shuffle_vocs(spchtbl)
         random.tttbls[run.idx,
                       1:(length(random.tttbls)-1)] <- fetch_transitions(
-                        shuffle_vocs(spchtbl), allowed.gap, allowed.overlap,
+                        shuff.spchtbl, allowed.gap, allowed.overlap,
                         min.utt.dur, target.ptcp, interactants,
                         addressee.tags, mode)
       }
