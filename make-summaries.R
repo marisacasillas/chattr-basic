@@ -36,6 +36,10 @@ summarize_tttbl <- function(tttbl, data.type) {
         tt.summary, intseq.summary.empty)
     } else {
       annot.clips <- tttbl %>%
+        mutate(
+          clip.start.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[2]),
+          clip.end.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[3]),
+          clip.duration.msec = clip.end.msec - clip.start.msec) %>%
         distinct(annot.clip, clip.start.msec, clip.duration.msec) %>%
         mutate(data.type = data.type) %>%
         select(data.type, annot.clip, clip.start.msec, clip.duration.msec)
