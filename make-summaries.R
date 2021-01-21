@@ -20,11 +20,14 @@ summarize_tttbl <- function(tttbl, data.type) {
     filter(!is.na(prompt.spkr)|!is.na(response.spkr))
   if (nrow(tttbl) > 0) {
     tttbl <- tttbl %>%
+      rowwise() %>%
       mutate(
         clip.start.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[2]),
         clip.end.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[3]),
         clip.duration.msec = clip.end.msec - clip.start.msec,
-        clip.duration.min = clip.duration.msec/60000,
+        clip.duration.min = clip.duration.msec/60000)
+    tttbl <- tttbl %>%
+      mutate(
         pmt = ifelse(is.na(prompt.spkr), 0, 1),
         pmt.timing = start.ms - prompt.stop.ms,
         rsp = ifelse(is.na(response.spkr), 0, 1),
