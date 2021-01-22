@@ -31,36 +31,57 @@ check_tttbl <- function(tttbl) {
 }
 
 # crop utterances to annotated clip boundaries
-# and add associated annotated clip
+# and add associated annotated clip in a separate column
+# if it's not there already
 crop_to_annots <- function(spchtbl) {
   if (check_spchtbl(spchtbl)) {
-    ann.idx <- which(grepl(start.ann, spchtbl$speaker))
-    anns <- spchtbl[ann.idx,]
-    spch <- spchtbl[-ann.idx,]
-    spch$annot.clip <- "none assigned"
-    for (i in 1:nrow(anns)) {
-      ann.name <- anns$speaker[i]
-      spch.ann <- which(
-        spch$start.ms >= anns$start.ms[i] &
-          spch$stop.ms <= anns$stop.ms[i])
-      spch$annot.clip[spch.ann] <- ann.name
-      # include (and crop) utterances that spill over
-      # annotated boundaries
-      spch.ann.overleft <- which(
-        spch$start.ms < anns$start.ms[i] &
-          spch$stop.ms > anns$start.ms[i] &
-          spch$stop.ms <= anns$stop.ms[i])
-      spch$start.ms[spch.ann.overleft] <- anns$start.ms[i]
-      spch$annot.clip[spch.ann.overleft] <- ann.name
-      spch.ann.overright <- which(
-        spch$stop.ms > anns$stop.ms[i] &
-          spch$start.ms < anns$stop.ms[i] &
-          spch$start.ms >= anns$start.ms[i])
-      spch$stop.ms[spch.ann.overright] <- anns$stop.ms[i]
-      spch$annot.clip[spch.ann.overright] <- ann.name
+    if ("annot.clip" %in% names(spchtbl)) {
+     anns <- unique(spchtbl$annot.clip)
+     for (i in 1:length(anns)) {
+       ann.start.ms <- as.numeric(unlist(str_split(anns[i], "[_-]"))[2])
+       ann.stop.ms <- as.numeric(unlist(str_split(anns[i], "[_-]"))[2])
+       # crop utterances that spill over annotated boundaries
+       spch.ann.overleft <- which(
+         spchtbl$start.ms < ann.start.ms &
+           spchtbl$stop.ms > ann.start.ms &
+           spchtbl$stop.ms <= ann.stop.ms)
+       spchtbl$start.ms[spch.ann.overleft] <- ann.start.ms
+       spch.ann.overright <- which(
+         spchtbl$stop.ms > ann.stop.ms &
+           spchtbl$start.ms < ann.stop.ms &
+           spchtbl$start.ms >= ann.start.ms)
+       spchtbl$stop.ms[spch.ann.overright] <- ann.stop.ms
+     }
+     return(spchtbl)
+    } else {
+      ann.idx <- which(grepl(start.ann, spchtbl$speaker))
+      anns <- spchtbl[ann.idx,]
+      spch <- spchtbl[-ann.idx,]
+      spch$annot.clip <- "none assigned"
+      for (i in 1:nrow(anns)) {
+        ann.name <- anns$speaker[i]
+        spch.ann <- which(
+          spch$start.ms >= anns$start.ms[i] &
+            spch$stop.ms <= anns$stop.ms[i])
+        spch$annot.clip[spch.ann] <- ann.name
+        # include (and crop) utterances that spill over
+        # annotated boundaries
+        spch.ann.overleft <- which(
+          spch$start.ms < anns$start.ms[i] &
+            spch$stop.ms > anns$start.ms[i] &
+            spch$stop.ms <= anns$stop.ms[i])
+        spch$start.ms[spch.ann.overleft] <- anns$start.ms[i]
+        spch$annot.clip[spch.ann.overleft] <- ann.name
+        spch.ann.overright <- which(
+          spch$stop.ms > anns$stop.ms[i] &
+            spch$start.ms < anns$stop.ms[i] &
+            spch$start.ms >= anns$start.ms[i])
+        spch$stop.ms[spch.ann.overright] <- anns$stop.ms[i]
+        spch$annot.clip[spch.ann.overright] <- ann.name
+      }
+      return(spch)
     }
   }
-  return(spch)
 }
 
 # extract focus child speech utterances only
