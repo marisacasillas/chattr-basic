@@ -11,14 +11,18 @@ randomize_intervals <- function(num_intervals, period) {
 }
 
 shuffle_vocs <- function(tbl) {
-  unique.spkrs <- unique(tbl$speaker)[which((!grepl(
-    ann.marker, unique(tbl$speaker))))]
+  # only include utterances occurring within annotated clips
+  # (clips over-hanging utterances)
+  tbl.cropped <- crop_to_annots(tbl)
+  # shuffle vocalizations by speaker within clips
+  unique.spkrs <- unique(tbl.cropped$speaker)[which((!grepl(
+    ann.marker, unique(tbl.cropped$speaker))))]
   unique.clips <- unique(tbl$speaker)[which((grepl(
     ann.marker, unique(tbl$speaker))))]
-  if (!("duration" %in% names(tbl))) {
-    tbl$duration <- tbl$stop.ms - tbl$start.ms
+  if (!("duration" %in% names(tbl.cropped))) {
+    tbl.cropped$duration <- tbl.cropped$stop.ms - tbl.cropped$start.ms
   }
-  shuffled.tbl <- tbl %>%
+  shuffled.tbl <- tbl.cropped %>%
     filter(grepl(ann.marker, speaker))
   for (spkr in unique.spkrs) {
     for (clip in unique.clips) {
@@ -26,7 +30,7 @@ shuffle_vocs <- function(tbl) {
       clip.on <- tbl$start.ms[clip.idx]
       clip.off <- tbl$stop.ms[clip.idx]
       clip.dur <- tbl$duration[clip.idx]
-      spkr.vocs <- tbl %>%
+      spkr.vocs <- tbl.cropped %>%
         filter(speaker == spkr &
                  start.ms >= clip.on & stop.ms <= clip.off)
       if (nrow(spkr.vocs) > 0) {
