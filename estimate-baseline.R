@@ -22,14 +22,18 @@ shuffle_vocs <- function(tbl) {
   if (!("duration" %in% names(tbl.cropped))) {
     tbl.cropped$duration <- tbl.cropped$stop.ms - tbl.cropped$start.ms
   }
-  shuffled.tbl <- tbl.cropped %>%
-    filter(grepl(ann.marker, speaker))
+  if("annot.clip" %in% names(tbl.cropped)) {
+    shuffled.tbl <- tibble()
+  } else {
+    shuffled.tbl <- tbl.cropped %>%
+      filter(grepl(ann.marker, speaker))
+  }
   for (spkr in unique.spkrs) {
     for (clip in unique.clips) {
       clip.idx <- which(tbl$speaker == clip)
       clip.on <- tbl$start.ms[clip.idx]
       clip.off <- tbl$stop.ms[clip.idx]
-      clip.dur <- tbl$duration[clip.idx]
+      clip.dur <- clip.off - clip.on
       spkr.vocs <- tbl.cropped %>%
         filter(speaker == spkr &
                  start.ms >= clip.on & stop.ms <= clip.off)
