@@ -3,3 +3,6 @@
 *.its
 .DS_Store
 CogSci2021/CogSci2021-chattr/.Rhistory
+CogSci2021/CogSci2021-chattr/tt.bigtable.rand.all.csv
+CogSci2021/CogSci2021-chattr/tt.bigtable.real.all.csv
+CogSci2021/CogSci2021-chattr/tt.bigtable.summ.all.csv
