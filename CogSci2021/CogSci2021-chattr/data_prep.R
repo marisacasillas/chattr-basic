@@ -36,12 +36,83 @@ if (reread.data == FALSE) {
   tt.bigtable.summary <- tibble()
   
   # ITS files
+  standard.code.areas.its <- tibble(
+    start.ms = seq(34, 20*60, 30)*60000,
+    stop.ms = start.ms + 60000,
+    duration = 60000,
+    value = as.character(1:(length(seq(34, 20*60, 30))))
+    ) %>%
+    mutate(
+      speaker = paste0("annotated-", as.character(start.ms), "_",
+                       as.character(stop.ms), "-", value)
+    ) %>%
+    select(speaker, start.ms, stop.ms, duration, value)
   its.files <- list.files(input.data.path, "*.its")
   if (length(its.files) > 0) {
+    # NB: We're going to break up the normal fetch_chatter_LENA() function
+    # so we can subset to the one-minute segments that were hand annotated
     for (file in its.files) {
-      ttdata <- fetch_chatter_LENA(
+      
+      # Decisions for comparability:
+      # allowed interactants: FA, MA, and CX
+      # nearonly: yes (far speech in Praat data is on combo tiers)
+      # lxonly: no (no lx info for CXN vocs)
+      # min.dur: 600ms (min LENA annot dur)
+      # max.ovlp: 0ms (no ovlp possible w/ LENA)
+      
+      # step 1. read in the file
+      spchtbl <- read_spchtbl(filepath = paste0(input.data.path, file),
+                              tbltype = "lena-its",
+                              cliptier = ".alloneclip",
+                              nearonly = TRUE,
+                              lxonly = FALSE) %>%
+        filter(!(grepl("annotated-", speaker)))
+      # Manually add in the regions matching the one-minute annotations
+      max.start <- max(spchtbl$start.ms)
+      code.areas <- standard.code.areas.its %>%
+        filter((start.ms <= max.start & stop.ms >= max.start) |
+                 (start.ms <= max.start & stop.ms < max.start))
+      spchtbl <- bind_rows(code.areas, spchtbl)
+
+      # step 2. run the speech annotations through the tt behavior
+      # detection pipeline
+      ttinfotbls <- fetch_chattr_tttbl(
+        spchtbl = spchtbl,
+        interactants = "(FA)|(MA)|(CX)",
+        min.utt.dur = 600,
+        allowed.overlap = 0,
+        target.ptcp = "CH", n.runs = 10)
+      
+      # step 3a. add real and random data to big tables
+      tt.bigtable <- bind_rows(tt.bigtable,
+                               ttinfotbls$real.tt.vals %>%
+                                 mutate(filename = file))
+      tt.bigtable.rand <- bind_rows(tt.bigtable.rand,
+                                    ttinfotbls$random.tt.vals %>%
+                                      mutate(filename = file))
+
+      # step 3b. create a summary of the tt behavior by clip and overall,
+      # incl. the random baseline and add it to the big tables
+      tt.summary <- summarize_chattr(ttinfotbls)
+      tt.bigtable.summary <- bind_rows(tt.bigtable.summary,
+                                       tt.summary %>%
+                                         mutate(filename = file))
+    }
+  }
+  
+  # BST TXT files
+  bsttxt.files <- list.files(input.data.path, "C.*.txt")
+  if (length(bsttxt.files) > 0) {
+    for (file in bsttxt.files) {
+      ttdata <- fetch_chatter_BST(
         paste0(input.data.path, file),
-        nearonly = TRUE,
+        cliptier = "code",
+        target.ptcp = "CHI",
+        # nearonly = TRUE, # No need to include since implicit in interactants
+        lxonly = FALSE,
+        interactants = "(FA)|(MA)|(CX)",
+        min.utt.dur = 600,
+        allowed.overlap = 0,
         n.runs = 10)
       tt.bigtable <- bind_rows(tt.bigtable,
                                ttdata$real.tt.vals %>%
@@ -54,13 +125,14 @@ if (reread.data == FALSE) {
                                          mutate(filename = file))
     }
   }
-  
-  # TXT files
-  txt.files <- list.files(input.data.path, "*.txt")
-  if (length(txt.files) > 0) {
-    for (file in txt.files) {
+
+  # AAS TXT files
+  aastxt.files <- list.files(input.data.path, "\\d{4}.txt")
+  if (length(aastxt.files) > 0) {
+    for (file in aastxt.files) {
       ttdata <- fetch_chatter_AAS(
         paste0(input.data.path, file),
+        cliptier = "code_num",
         n.runs = 10)
       tt.bigtable <- bind_rows(tt.bigtable,
                                ttdata$real.tt.vals %>%
@@ -73,9 +145,16 @@ if (reread.data == FALSE) {
                                  mutate(filename = file))
     }
   }
-  write_csv(tt.bigtable, bigtable.filename.real)
-  write_csv(tt.bigtable.rand, bigtable.filename.rand)
-  write_csv(tt.bigtable.summary, bigtable.filename.summary)
+  
+  write_csv(left_join(tt.bigtable, rec.metadata,
+                      by = c("filename" = "annot_filename")),
+            bigtable.filename.real)
+  write_csv(left_join(tt.bigtable.rand, rec.metadata,
+                      by = c("filename" = "annot_filename")),
+            bigtable.filename.rand)
+  write_csv(left_join(tt.bigtable.summary, rec.metadata,
+                      by = c("filename" = "annot_filename")),
+            bigtable.filename.summary)
 }
 # merge rec info into turn-taking behavior
 tt.bigtable <- tt.bigtable %>%
