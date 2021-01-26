@@ -133,6 +133,7 @@ if (reread.data == FALSE) {
       ttdata <- fetch_chatter_AAS(
         paste0(input.data.path, file),
         cliptier = "code_num",
+        addressee.tags = "[T]",
         n.runs = 10)
       tt.bigtable <- bind_rows(tt.bigtable,
                                ttdata$real.tt.vals %>%
