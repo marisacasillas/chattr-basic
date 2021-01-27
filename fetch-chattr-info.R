@@ -96,7 +96,7 @@ fetch_chatter_LENA <- function(
   cliptier = default.cliptier, lxonly = default.lxonly, nearonly = FALSE,
   # fetch_transitions() and fetch_intseqs() arguments
   allowed.gap = default.max.gap, allowed.overlap = default.max.overlap,
-  min.utt.dur = default.min.utt.dur,
+  min.utt.dur = 599,
   target.ptcp = "CH", interactants = default.interactants,
   addressee.tags = default.addressee.tags, mode = default.mode,
   # estimate_baseline() arguments
