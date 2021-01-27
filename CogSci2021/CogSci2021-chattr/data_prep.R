@@ -12,7 +12,7 @@ source("../../make-summaries.R")
 
 input.data.path <- "../../../chattr-paper/annotated-data/CogSci-subset/"
 metadata.path <- "../../../chattr-paper/metadata/CogSci-subset/"
-reread.data <- FALSE  # only set to TRUE if you want to re-do
+reread.data <- TRUE  # only set to TRUE if you want to re-do
                       # the search for turn-taking behaviors
                       # set to FALSE for doing analysis with
                       # the already-run data
@@ -52,7 +52,7 @@ if (reread.data == FALSE) {
     # NB: We're going to break up the normal fetch_chatter_LENA() function
     # so we can subset to the one-minute segments that were hand annotated
     for (file in its.files) {
-      
+      print(file)
       # Decisions for comparability:
       # allowed interactants: FA, MA, and CX
       # nearonly: yes (far speech in Praat data is on combo tiers)
@@ -79,7 +79,7 @@ if (reread.data == FALSE) {
       ttinfotbls <- fetch_chattr_tttbl(
         spchtbl = spchtbl,
         interactants = "(FA)|(MA)|(CX)",
-        min.utt.dur = 600,
+        min.utt.dur = 599,
         allowed.overlap = 0,
         target.ptcp = "CH", n.runs = 10)
       
@@ -104,6 +104,7 @@ if (reread.data == FALSE) {
   bsttxt.files <- list.files(input.data.path, "C.*.txt")
   if (length(bsttxt.files) > 0) {
     for (file in bsttxt.files) {
+      print(file)
       ttdata <- fetch_chatter_BST(
         paste0(input.data.path, file),
         cliptier = "code",
@@ -111,7 +112,7 @@ if (reread.data == FALSE) {
         # nearonly = TRUE, # No need to include since implicit in interactants
         lxonly = FALSE,
         interactants = "(FA)|(MA)|(CX)",
-        min.utt.dur = 600,
+        min.utt.dur = 599,
         allowed.overlap = 0,
         n.runs = 10)
       tt.bigtable <- bind_rows(tt.bigtable,
@@ -130,6 +131,7 @@ if (reread.data == FALSE) {
   aastxt.files <- list.files(input.data.path, "\\d{4}.txt")
   if (length(aastxt.files) > 0) {
     for (file in aastxt.files) {
+      print(file)
       ttdata <- fetch_chatter_AAS(
         paste0(input.data.path, file),
         cliptier = "code_num",
@@ -157,9 +159,9 @@ if (reread.data == FALSE) {
                       by = c("filename" = "annot_filename")),
             bigtable.filename.summary)
 }
-# merge rec info into turn-taking behavior
-tt.bigtable <- tt.bigtable %>%
-  left_join(rec.metadata, by = c("filename" = "annot_filename"))
-if (reread.data == FALSE) {
-  write_csv(tt.bigtable, bigtable.recdata.filename)
-}
+# # merge rec info into turn-taking behavior
+# tt.bigtable <- tt.bigtable %>%
+#   left_join(rec.metadata, by = c("filename" = "annot_filename"))
+# if (reread.data == FALSE) {
+#   write_csv(tt.bigtable, bigtable.recdata.filename)
+# }
