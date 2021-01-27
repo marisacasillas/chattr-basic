@@ -20,6 +20,7 @@ bigtable.filename.real <- "tt.bigtable.real.all.csv"
 bigtable.filename.rand <- "tt.bigtable.rand.all.csv"
 bigtable.filename.summary <- "tt.bigtable.summ.all.csv"
 bigtable.recdata.filename <- "tt.bigtable.all.with.recdata.csv"
+coded.regions.filename <- "coded.regions.csv"
 
 
 # Read in metadata
@@ -34,6 +35,7 @@ if (reread.data == FALSE) {
   tt.bigtable <- tibble()
   tt.bigtable.rand <- tibble()
   tt.bigtable.summary <- tibble()
+  coded.regions.tbl <- tibble()
   
   # ITS files
   standard.code.areas.its <- tibble(
@@ -73,6 +75,9 @@ if (reread.data == FALSE) {
         filter((start.ms <= max.start & stop.ms >= max.start) |
                  (start.ms <= max.start & stop.ms < max.start))
       spchtbl <- bind_rows(code.areas, spchtbl)
+      # Save the full list of coded regions for later
+      coded.regions.tbl <- bind_rows(coded.regions.tbl, code.areas %>%
+                                   mutate(filename = file))
 
       # step 2. run the speech annotations through the tt behavior
       # detection pipeline
@@ -81,8 +86,9 @@ if (reread.data == FALSE) {
         interactants = "(FA)|(MA)|(CX)",
         min.utt.dur = 599,
         allowed.overlap = 0,
-        target.ptcp = "CH", n.runs = 10)
-      
+        target.ptcp = "CH",
+        n.runs = 10)
+
       # step 3a. add real and random data to big tables
       tt.bigtable <- bind_rows(tt.bigtable,
                                ttinfotbls$real.tt.vals %>%
@@ -105,6 +111,7 @@ if (reread.data == FALSE) {
   if (length(bsttxt.files) > 0) {
     for (file in bsttxt.files) {
       print(file)
+
       ttdata <- fetch_chatter_BST(
         paste0(input.data.path, file),
         cliptier = "code",
@@ -115,6 +122,7 @@ if (reread.data == FALSE) {
         min.utt.dur = 599,
         allowed.overlap = 0,
         n.runs = 10)
+
       tt.bigtable <- bind_rows(tt.bigtable,
                                ttdata$real.tt.vals %>%
                                  mutate(filename = file))
@@ -124,6 +132,19 @@ if (reread.data == FALSE) {
       tt.bigtable.summary <- bind_rows(tt.bigtable.summary,
                                        ttdata$tt.summary %>%
                                          mutate(filename = file))
+      
+      # Save the full list of coded regions for later
+      code.areas <- read_delim(paste0(input.data.path, file),
+                          "\t", col_names =
+                            c("tier", "speaker", "start.ms",
+                              "stop.ms", "duration", "value")) %>%
+        filter(tier == "code") %>%
+        select(-tier) %>%
+        mutate(
+          speaker = paste0("annotated-", start.ms, "_", stop.ms, "-", value),
+          value = as.character(value),
+          filename = file)
+      coded.regions.tbl <- bind_rows(coded.regions.tbl, code.areas)
     }
   }
 
@@ -132,6 +153,7 @@ if (reread.data == FALSE) {
   if (length(aastxt.files) > 0) {
     for (file in aastxt.files) {
       print(file)
+
       ttdata <- fetch_chatter_AAS(
         paste0(input.data.path, file),
         cliptier = "code_num",
@@ -146,6 +168,19 @@ if (reread.data == FALSE) {
       tt.bigtable.summary <- bind_rows(tt.bigtable.summary,
                                ttdata$tt.summary %>%
                                  mutate(filename = file))
+      
+      # Save the full list of coded regions for later
+      code.areas <- read_delim(paste0(input.data.path, file),
+                               "\t", col_names =
+                                 c("tier", "speaker", "start.ms",
+                                   "stop.ms", "duration", "value")) %>%
+        filter(tier == "code_num") %>%
+        select(-tier) %>%
+        mutate(
+          speaker = paste0("annotated-", start.ms, "_", stop.ms, "-", value),
+          value = as.character(value),
+          filename = file)
+      coded.regions.tbl <- bind_rows(coded.regions.tbl, code.areas)
     }
   }
   
@@ -158,6 +193,11 @@ if (reread.data == FALSE) {
   write_csv(left_join(tt.bigtable.summary, rec.metadata,
                       by = c("filename" = "annot_filename")),
             bigtable.filename.summary)
+  
+  write_csv(coded.regions.tbl %>%
+              rename("annot.clip" = speaker, "annot.clip.dur.ms" = duration) %>%
+              select(annot.clip, annot.clip.dur.ms, filename),
+            coded.regions.filename)
 }
 # # merge rec info into turn-taking behavior
 # tt.bigtable <- tt.bigtable %>%
