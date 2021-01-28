@@ -1,0 +1,317 @@
+filename,annot.clip,language,age_mo_round,prop.is.cx,prop.is.ma,prop.is.fa
+0643.txt,annotated-11124000_11184000-tt-1,Tseltal,2,0,0,1
+0643.txt,annotated-11184000_11484000-extension_tt-1,Tseltal,2,0.1,0,1
+0643.txt,annotated-17763000_17823000-va-2,Tseltal,2,0.5,0,0.5
+0643.txt,annotated-1946000_2246000-random-1,Tseltal,2,1,0,0
+0643.txt,annotated-20364000_20664000-random-6,Tseltal,2,1,0,0
+0643.txt,annotated-26502000_26802000-random-8,Tseltal,2,0.6666666666666666,0,0.3333333333333333
+0643.txt,annotated-26870000_26930000-tt-4,Tseltal,2,0,0,1
+0643.txt,annotated-29940000_30000000-tt-5,Tseltal,2,1,0,0
+0643.txt,annotated-31085000_31145000-va-5,Tseltal,2,0,1,0
+0643.txt,annotated-4926000_5226000-random-2,Tseltal,2,0,0,1
+1143.txt,annotated-12549000_12699000-random-4,Yélî Dnye,8,0,0,1
+1143.txt,annotated-19850000_19910000-tt-1,Yélî Dnye,8,0,0,1
+1143.txt,annotated-20060000_20120000-tt-2,Yélî Dnye,8,0,0,1
+1143.txt,annotated-20355000_20415000-tt-3,Yélî Dnye,8,0,0,1
+1143.txt,annotated-21265000_21325000-tt-4,Yélî Dnye,8,0,0,1
+1143.txt,annotated-22005000_22155000-random-6,Yélî Dnye,8,0,0,1
+1143.txt,annotated-23084000_23144000-tt-5,Yélî Dnye,8,0,0,1
+1143.txt,annotated-26095000_26245000-random-7,Yélî Dnye,8,0,0,1
+1143.txt,annotated-28551000_28701000-random-8,Yélî Dnye,8,1,0,0
+1143.txt,annotated-30300000_30450000-random-9,Yélî Dnye,8,0,0,1
+1143.txt,annotated-4646000_4796000-random-2,Yélî Dnye,8,1,0,0
+1143.txt,annotated-6596000_6746000-random-3,Yélî Dnye,8,0,0,1
+1143.txt,annotated-8534000_8586000-ext-va-1,Yélî Dnye,8,0,0,0
+1143.txt,annotated-8586000_8646000-va-1,Yélî Dnye,8,0,0,1
+2109.txt,annotated-14676000_14736000-tt-2,Tseltal,7,0,1,0
+2109.txt,annotated-15473000_15533000-va-1,Tseltal,7,0,0,1
+2109.txt,annotated-15546000_15833000-extension_tt-3,Tseltal,7,0,0,1
+2109.txt,annotated-15833000_15893000-tt-3,Tseltal,7,0,0,1
+2109.txt,annotated-15893000_15906000-extension_tt-3,Tseltal,7,0,0,1
+2109.txt,annotated-20171000_20231000-va-2,Tseltal,7,0,0,1
+2109.txt,annotated-22675000_22975000-random-7,Tseltal,7,0,0,1
+2109.txt,annotated-24338000_24398000-tt-4,Tseltal,7,0,0,1
+2109.txt,annotated-24562000_24622000-va-4,Tseltal,7,0,0,1
+2109.txt,annotated-25200000_25260000-tt-5,Tseltal,7,0,0,1
+2109.txt,annotated-29116000_29416000-random-8,Tseltal,7,0,0,1
+2109.txt,annotated-30718000_30778000-va-5,Tseltal,7,0,0,1
+2109.txt,annotated-31613000_31913000-random-9,Tseltal,7,0,0.18181818181818182,0.8181818181818182
+2109.txt,annotated-3381000_3681000-random-1,Tseltal,7,0,0,1
+2109.txt,annotated-3912000_4212000-random-2,Tseltal,7,0,0,1
+2109.txt,annotated-4322000_4382000-tt-1,Tseltal,7,0,0,1
+2625.txt,annotated-12237000_12537000-random-3,Tseltal,32,0,0,1
+2625.txt,annotated-12677000_12977000-random-4,Tseltal,32,0.1111111111111111,0.1111111111111111,0.7777777777777778
+2625.txt,annotated-16406000_16706000-random-5,Tseltal,32,0,0.5,0.5
+2625.txt,annotated-16706000_16766000-va-3,Tseltal,32,0,0.75,0.5
+2625.txt,annotated-18146000_18206000-va-4,Tseltal,32,0.3333333333333333,0.3333333333333333,0.3333333333333333
+2625.txt,annotated-18459000_18759000-random-6,Tseltal,32,0.3333333333333333,0,0.6666666666666666
+2625.txt,annotated-2516000_2576000-va-1,Tseltal,32,1,0,0
+2625.txt,annotated-2721000_2781000-va-2,Tseltal,32,0.3333333333333333,0.6666666666666666,0.6666666666666666
+2625.txt,annotated-30412000_30712000-random-8,Tseltal,32,1,0,0
+2625.txt,annotated-32506000_32566000-va-5,Tseltal,32,1,0,0
+2625.txt,annotated-32702000_32762000-tt-4,Tseltal,32,0,0,1
+2625.txt,annotated-33154000_33214000-tt-5,Tseltal,32,0,0,1
+2625.txt,annotated-4748000_5048000-random-1,Tseltal,32,0,0,1
+2625.txt,annotated-8681000_8741000-tt-1,Tseltal,32,1,0,0
+2625.txt,annotated-8741000_8801000-tt-2,Tseltal,32,1,0,0
+2625.txt,annotated-8801000_9101000-extension_tt-2,Tseltal,32,0.5714285714285714,0,0.42857142857142855
+2625.txt,annotated-9458000_9758000-random-2,Tseltal,32,0.8333333333333334,0,0.16666666666666666
+2625.txt,annotated-9974000_10034000-tt-3,Tseltal,32,0,0,1
+2977.txt,annotated-19907000_20057000-random-7,Yélî Dnye,13,0,1,0
+2977.txt,annotated-2091000_2241000-random-2,Yélî Dnye,13,0,0,1
+2977.txt,annotated-21025000_21085000-tt-4,Yélî Dnye,13,0,1,1
+2977.txt,annotated-21085000_21385000-ext-tt-4,Yélî Dnye,13,0.38461538461538464,0.8461538461538461,0.15384615384615385
+2977.txt,annotated-22686000_22836000-random-9,Yélî Dnye,13,0,0.16666666666666666,0.8333333333333334
+2977.txt,annotated-26272000_26332000-tt-5,Yélî Dnye,13,0,0,1
+2977.txt,annotated-27976000_28036000-va-5,Yélî Dnye,13,1,0,0
+2977.txt,annotated-3587000_3647000-va-1,Yélî Dnye,13,0,1,0
+2977.txt,annotated-526000_676000-random-1,Yélî Dnye,13,0.8,0.4,0
+2977.txt,annotated-5858000_5918000-tt-2,Yélî Dnye,13,0,1,0
+2977.txt,annotated-6315000_6465000-random-3,Yélî Dnye,13,1,1,1
+2977.txt,annotated-6664000_6724000-tt-3,Yélî Dnye,13,0,1,0
+2977.txt,annotated-877000_937000-tt-1,Yélî Dnye,13,0,1,0
+2977.txt,annotated-9948000_10098000-random-4,Yélî Dnye,13,0,0,0
+3026.txt,annotated-13562000_13622000-tt-3,Tseltal,36,0,0,1
+3026.txt,annotated-15449000_15749000-random-5,Tseltal,36,0,0,1
+3026.txt,annotated-16867000_17112000-extension_tt-4,Tseltal,36,0,0,1
+3026.txt,annotated-1705000_1765000-va-1,Tseltal,36,0,0,1
+3026.txt,annotated-17112000_17172000-tt-4,Tseltal,36,0,0,1
+3026.txt,annotated-17172000_17227000-extension_tt-4,Tseltal,36,0,0,1
+3026.txt,annotated-1772000_2072000-random-1,Tseltal,36,0.2,0,1
+3026.txt,annotated-18232000_18532000-random-6,Tseltal,36,0,0,1
+3026.txt,annotated-2263000_2323000-tt-1,Tseltal,36,0,0,1
+3026.txt,annotated-26506000_26566000-tt-5,Tseltal,36,1,0,0
+3026.txt,annotated-29228000_29528000-random-7,Tseltal,36,0,0.5,0.75
+3026.txt,annotated-3275000_3335000-va-2,Tseltal,36,0,0,1
+3026.txt,annotated-5355000_5415000-tt-2,Tseltal,36,0,0,1
+3026.txt,annotated-5731000_5791000-va-3,Tseltal,36,0,0,1
+3026.txt,annotated-5809000_6109000-random-2,Tseltal,36,0,0,1
+3026.txt,annotated-7252000_7312000-va-4,Tseltal,36,0,0,1
+3026.txt,annotated-8834000_9134000-random-3,Tseltal,36,0,0,1
+3729.txt,annotated-10656000_10806000-random-4,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-17142000_17202000-va-2,Yélî Dnye,3.5,1,0,0
+3729.txt,annotated-17481000_17541000-tt-3,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-17544000_17604000-va-3,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-17791000_17851000-va-4,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-18337000_18487000-random-7,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-1874000_2024000-random-1,Yélî Dnye,3.5,1,0,0
+3729.txt,annotated-19623000_19683000-tt-4,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-24068000_24128000-tt-5,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-24128000_24428000-ext-tt-5,Yélî Dnye,3.5,0.1111111111111111,0,1
+3729.txt,annotated-2897000_2957000-va-1,Yélî Dnye,3.5,0,0,1
+3729.txt,annotated-6323000_6383000-tt-1,Yélî Dnye,3.5,0,1,0.6666666666666666
+3729.txt,annotated-9945000_10005000-tt-2,Yélî Dnye,3.5,0,0,1
+3956.txt,annotated-11224000_11374000-random-4,Yélî Dnye,26,1,0,0
+3956.txt,annotated-14455000_14515000-tt-4,Yélî Dnye,26,0,1,0
+3956.txt,annotated-14654000_14804000-random-5,Yélî Dnye,26,0,1,0
+3956.txt,annotated-2244000_2394000-random-1,Yélî Dnye,26,0.4,0,0.6
+3956.txt,annotated-23176000_23236000-va-5,Yélî Dnye,26,0,1,0
+3956.txt,annotated-23621000_23771000-random-7,Yélî Dnye,26,0,0.3333333333333333,0.6666666666666666
+3956.txt,annotated-24699000_24849000-random-8,Yélî Dnye,26,0,1,0
+3956.txt,annotated-27103000_27253000-random-9,Yélî Dnye,26,0,0,1
+3956.txt,annotated-28648000_28708000-tt-5,Yélî Dnye,26,0,1,0
+3956.txt,annotated-3411000_3471000-tt-1,Yélî Dnye,26,0,0,1
+3956.txt,annotated-3833000_3893000-va-1,Yélî Dnye,26,0,0,1
+3956.txt,annotated-5638000_5698000-tt-2,Yélî Dnye,26,0,0,1
+3956.txt,annotated-5784000_5934000-random-2,Yélî Dnye,26,0.5,0,1
+3956.txt,annotated-6216000_6276000-va-2,Yélî Dnye,26,1,0,0
+3956.txt,annotated-6812000_6872000-va-3,Yélî Dnye,26,0.6666666666666666,0,0.3333333333333333
+3956.txt,annotated-6872000_7172000-ext-va-3,Yélî Dnye,26,1,0.125,0.125
+3956.txt,annotated-7367000_7427000-tt-3,Yélî Dnye,26,1,0,0
+3956.txt,annotated-8284000_8344000-va-4,Yélî Dnye,26,1,0.5,0
+3956.txt,annotated-8630000_8780000-random-3,Yélî Dnye,26,0.5,0.6666666666666666,0
+4569.txt,annotated-13650000_13800000-random-4,Yélî Dnye,20,0,0,1
+4569.txt,annotated-14115000_14175000-va-3,Yélî Dnye,20,1,0,0
+4569.txt,annotated-16185000_16245000-tt-4,Yélî Dnye,20,1,0,0
+4569.txt,annotated-17516000_17666000-random-5,Yélî Dnye,20,0,0,1
+4569.txt,annotated-20405000_20465000-va-5,Yélî Dnye,20,1,0,0
+4569.txt,annotated-25976000_26036000-tt-5,Yélî Dnye,20,1,0,0
+4569.txt,annotated-29616000_29766000-random-8,Yélî Dnye,20,1,0,0
+4569.txt,annotated-31309000_31459000-random-9,Yélî Dnye,20,0,0,1
+4569.txt,annotated-5443000_5503000-va-1,Yélî Dnye,20,0,0,1
+4569.txt,annotated-5503000_5653000-random-2,Yélî Dnye,20,1,0,0
+4569.txt,annotated-7096000_7122000-ext-tt-1,Yélî Dnye,20,0,0,1
+4569.txt,annotated-7122000_7182000-tt-1,Yélî Dnye,20,0,0,1
+4569.txt,annotated-7182000_7216000-ext-tt-1,Yélî Dnye,20,0,0,1
+4569.txt,annotated-7216000_7276000-tt-2,Yélî Dnye,20,0,0,1
+4569.txt,annotated-7276000_7516000-ext-tt-1,Yélî Dnye,20,0,0,1
+4569.txt,annotated-7923000_7983000-tt-3,Yélî Dnye,20,0.3333333333333333,0,1
+4569.txt,annotated-8263000_8323000-va-2,Yélî Dnye,20,1,0,0
+4569.txt,annotated-9212000_9362000-random-3,Yélî Dnye,20,1,0,1
+5019.txt,annotated-10898000_11048000-random-3,Yélî Dnye,36,1,0,0
+5019.txt,annotated-14509000_14659000-random-4,Yélî Dnye,36,0,0,1
+5019.txt,annotated-14917000_15006000-ext-va-5,Yélî Dnye,36,0.5,0,1
+5019.txt,annotated-15006000_15066000-va-5,Yélî Dnye,36,0.25,0,1
+5019.txt,annotated-15066000_15277000-ext-va-5,Yélî Dnye,36,0,0,1
+5019.txt,annotated-15652000_15802000-random-5,Yélî Dnye,36,0.5,0,0.5
+5019.txt,annotated-18016000_18166000-random-6,Yélî Dnye,36,1,0,0
+5019.txt,annotated-21683000_21833000-random-7,Yélî Dnye,36,0.2,0,0.8
+5019.txt,annotated-25403000_25553000-random-8,Yélî Dnye,36,1,0,0
+5019.txt,annotated-27357000_27507000-random-9,Yélî Dnye,36,0.8,0,0.6
+5019.txt,annotated-2821000_2881000-tt-1,Yélî Dnye,36,0,0,1
+5019.txt,annotated-30193000_30253000-tt-5,Yélî Dnye,36,0,0,1
+5019.txt,annotated-3027000_3087000-va-2,Yélî Dnye,36,1,0,0
+5019.txt,annotated-3605000_3665000-tt-2,Yélî Dnye,36,1,0,0
+5019.txt,annotated-3665000_3725000-tt-3,Yélî Dnye,36,1,0,0
+5019.txt,annotated-3837000_3897000-va-3,Yélî Dnye,36,1,0,0
+5019.txt,annotated-4311000_4371000-va-4,Yélî Dnye,36,0,0,1
+5019.txt,annotated-4416000_4566000-random-1,Yélî Dnye,36,1,0,0
+5019.txt,annotated-7436000_7586000-random-2,Yélî Dnye,36,0,0,1
+6216.txt,annotated-1567000_1867000-random-1,Tseltal,27,0,0,1
+6216.txt,annotated-16555000_16615000-va-3,Tseltal,27,0,0,1
+6216.txt,annotated-17788000_17848000-tt-4,Tseltal,27,0,1,1
+6216.txt,annotated-18248000_18548000-random-6,Tseltal,27,0,0.6470588235294118,0.5882352941176471
+6216.txt,annotated-18785000_19085000-random-7,Tseltal,27,0,0.4444444444444444,0.8888888888888888
+6216.txt,annotated-23844000_24144000-random-8,Tseltal,27,0,0,1
+6216.txt,annotated-24934000_24994000-tt-5,Tseltal,27,0,1,0
+6216.txt,annotated-25345000_25405000-va-4,Tseltal,27,0,0.5714285714285714,0.42857142857142855
+6216.txt,annotated-27323000_27383000-va-5,Tseltal,27,0,0.25,1
+6216.txt,annotated-28990000_29290000-random-9,Tseltal,27,0,0.3333333333333333,0.6666666666666666
+6216.txt,annotated-3363000_3663000-random-2,Tseltal,27,0,0,1
+6216.txt,annotated-4466000_4526000-tt-2,Tseltal,27,0,0,1
+6216.txt,annotated-6383000_6443000-tt-3,Tseltal,27,0,0,1
+6216.txt,annotated-6443000_6743000-extension_tt-3,Tseltal,27,0,0,1
+6216.txt,annotated-7475000_7775000-random-3,Tseltal,27,0,0,1
+6216.txt,annotated-7890000_7950000-va-1,Tseltal,27,0,0,1
+6216.txt,annotated-866000_926000-tt-1,Tseltal,27,0,0,1
+6216.txt,annotated-8880000_8940000-va-2,Tseltal,27,0,0,1
+6934.txt,annotated-1061000_1121000-tt-1,Yélî Dnye,17,0,1,0
+6934.txt,annotated-13256000_13406000-random-4,Yélî Dnye,17,1,0,0
+6934.txt,annotated-19798000_19858000-va-3,Yélî Dnye,17,1,0,0
+6934.txt,annotated-22402000_22462000-va-4,Yélî Dnye,17,1,1,0
+6934.txt,annotated-22712000_22862000-random-6,Yélî Dnye,17,0,0.5,0.5
+6934.txt,annotated-2330000_2390000-tt-2,Yélî Dnye,17,1,0,0
+6934.txt,annotated-23662000_23812000-random-7,Yélî Dnye,17,1,0,0
+6934.txt,annotated-26309000_26369000-va-5,Yélî Dnye,17,1,0,1
+6934.txt,annotated-26925000_26985000-tt-5,Yélî Dnye,17,1,0,0
+6934.txt,annotated-30474000_30624000-random-8,Yélî Dnye,17,0,0,1
+6934.txt,annotated-33083000_33233000-random-9,Yélî Dnye,17,1,0,0
+6934.txt,annotated-3571000_3721000-random-1,Yélî Dnye,17,0,1,0
+6934.txt,annotated-7124000_7184000-tt-3,Yélî Dnye,17,0,1,0
+6934.txt,annotated-7326000_7386000-va-1,Yélî Dnye,17,0,1,0
+6934.txt,annotated-7386000_7686000-ext-va-1,Yélî Dnye,17,0,1,0
+6934.txt,annotated-7771000_7831000-tt-4,Yélî Dnye,17,0,1,0
+6934.txt,annotated-8280000_8340000-va-2,Yélî Dnye,17,0,1,0
+7176.txt,annotated-1701000_2001000-random-1,Tseltal,4,0.14285714285714285,0,0.8571428571428571
+7176.txt,annotated-19226000_19286000-tt-1,Tseltal,4,0,0,1
+7176.txt,annotated-19495000_19555000-tt-2,Tseltal,4,0,0,1
+7176.txt,annotated-22116000_22176000-va-4,Tseltal,4,0,0,1
+7176.txt,annotated-23405000_23465000-tt-3,Tseltal,4,0,0,1
+7176.txt,annotated-23480000_23557000-extension_tt-4,Tseltal,4,0,0,1
+7176.txt,annotated-23557000_23617000-tt-4,Tseltal,4,0,0,1
+7176.txt,annotated-23617000_23840000-extension_tt-4,Tseltal,4,0,0,1
+7176.txt,annotated-23840000_23900000-va-5,Tseltal,4,0.3333333333333333,0,0.3333333333333333
+7176.txt,annotated-30145000_30445000-random-8,Tseltal,4,0,0,1
+7176.txt,annotated-30559000_30619000-tt-5,Tseltal,4,0,0,1
+7220.txt,annotated-15218000_15278000-va-4,Tseltal,22,0,0,1
+7220.txt,annotated-15434000_15734000-random-5,Tseltal,22,0,0,1
+7220.txt,annotated-2014000_2314000-random-1,Tseltal,22,0.75,0,0.25
+7220.txt,annotated-2406000_2706000-random-2,Tseltal,22,1,0,0.16666666666666666
+7220.txt,annotated-30469000_30529000-va-5,Tseltal,22,0.3333333333333333,0,0.6666666666666666
+7220.txt,annotated-30589000_30889000-random-9,Tseltal,22,1,0,0
+7220.txt,annotated-4466000_4766000-extension_tt-1,Tseltal,22,0,0,1
+7220.txt,annotated-4766000_4826000-tt-1,Tseltal,22,0.25,0,1
+7220.txt,annotated-5019000_5079000-tt-2,Tseltal,22,0.5,0,1
+7220.txt,annotated-5094000_5154000-tt-3,Tseltal,22,0,0,1
+7220.txt,annotated-5201000_5261000-va-1,Tseltal,22,1,0,0
+7220.txt,annotated-5414000_5474000-tt-4,Tseltal,22,0,0,1
+7220.txt,annotated-6114000_6414000-random-3,Tseltal,22,0,0,1
+7220.txt,annotated-6427000_6487000-tt-5,Tseltal,22,0.6,0,0.6
+7220.txt,annotated-7735000_7795000-va-2,Tseltal,22,0,0,1
+7220.txt,annotated-9856000_9916000-va-3,Tseltal,22,0.5,0,1
+7326.txt,annotated-14175000_14235000-tt-4,Tseltal,14,1,0,0
+7326.txt,annotated-14838000_15138000-random-5,Tseltal,14,0,0,1
+7326.txt,annotated-18352000_18652000-random-6,Tseltal,14,0,0,1
+7326.txt,annotated-26875000_26935000-va-3,Tseltal,14,0,0,1
+7326.txt,annotated-26999000_27299000-random-8,Tseltal,14,0,0,1
+7326.txt,annotated-27377000_27677000-random-9,Tseltal,14,0,0,1
+7326.txt,annotated-27797000_27857000-va-5,Tseltal,14,0,0,1
+7326.txt,annotated-27857000_28157000-extension_va-5,Tseltal,14,0,0,1
+7326.txt,annotated-28461000_28521000-tt-5,Tseltal,14,0,0,1
+7326.txt,annotated-3782000_4082000-random-1,Tseltal,14,0,0,1
+7326.txt,annotated-4382000_4442000-tt-1,Tseltal,14,0,0,1
+7326.txt,annotated-6365000_6425000-tt-2,Tseltal,14,0,0,1
+7326.txt,annotated-6534000_6594000-tt-3,Tseltal,14,0.3333333333333333,0,0.6666666666666666
+7326.txt,annotated-6918000_7218000-random-2,Tseltal,14,0.07692307692307693,0,0.9230769230769231
+7326.txt,annotated-8681000_8741000-va-1,Tseltal,14,0,0,1
+7326.txt,annotated-9778000_10078000-random-3,Tseltal,14,0,0,1
+8018.txt,annotated-2466000_2616000-random-1,Yélî Dnye,9,0,0,1
+8018.txt,annotated-24830000_24890000-va-4,Yélî Dnye,9,0,1,0
+8018.txt,annotated-24964000_25024000-tt-3,Yélî Dnye,9,0,0,1
+8018.txt,annotated-25368000_25428000-tt-4,Yélî Dnye,9,0,1,0
+8018.txt,annotated-25515000_25575000-tt-5,Yélî Dnye,9,0,1,0.3333333333333333
+8018.txt,annotated-26678000_26927000-ext-va-5,Yélî Dnye,9,0.3333333333333333,0,0.6666666666666666
+8018.txt,annotated-26927000_26987000-va-5,Yélî Dnye,9,0,0,1
+8018.txt,annotated-26987000_27038000-ext-va-5,Yélî Dnye,9,0,0,1
+8018.txt,annotated-27038000_27188000-random-9,Yélî Dnye,9,0,0,1
+8018.txt,annotated-3190000_3340000-random-2,Yélî Dnye,9,0,0,1
+8018.txt,annotated-4167000_4227000-va-1,Yélî Dnye,9,0,0.5,0.5
+8018.txt,annotated-4242000_4302000-va-2,Yélî Dnye,9,1,0,1
+8018.txt,annotated-4488000_4548000-va-3,Yélî Dnye,9,0,0,1
+8018.txt,annotated-5270000_5420000-random-3,Yélî Dnye,9,0,0,1
+8018.txt,annotated-6153000_6213000-tt-1,Yélî Dnye,9,0,0,1
+8018.txt,annotated-7536000_7686000-random-4,Yélî Dnye,9,0,0,1
+8018.txt,annotated-8855000_8915000-tt-2,Yélî Dnye,9,1,0,0.6666666666666666
+8018.txt,annotated-9680000_9830000-random-5,Yélî Dnye,9,0,1,0
+8179.txt,annotated-10337000_10397000-va-2,Tseltal,6,0,0,1
+8179.txt,annotated-20123000_20183000-va-3,Tseltal,6,0,0,1
+8179.txt,annotated-20981000_21281000-random-6,Tseltal,6,0,0.5,0.5
+8179.txt,annotated-2316000_2616000-random-2,Tseltal,6,0,0,1
+8179.txt,annotated-26680000_26980000-extension_tt-2,Tseltal,6,0.3,0.9,0
+8179.txt,annotated-26980000_27040000-tt-2,Tseltal,6,0,1,0
+8179.txt,annotated-27056000_27116000-tt-3,Tseltal,6,0,1,0
+8179.txt,annotated-27158000_27218000-tt-4,Tseltal,6,0.3333333333333333,0.6666666666666666,0
+8179.txt,annotated-27350000_27410000-tt-5,Tseltal,6,0,1,0
+8179.txt,annotated-28949000_29249000-random-7,Tseltal,6,0,1,0
+8179.txt,annotated-30001000_30301000-random-8,Tseltal,6,0.3333333333333333,0.6666666666666666,0
+8179.txt,annotated-31241000_31541000-random-9,Tseltal,6,0,0,1
+8179.txt,annotated-32886000_32946000-va-4,Tseltal,6,1,0,0.3333333333333333
+8179.txt,annotated-35890000_35950000-va-5,Tseltal,6,0.3333333333333333,0,1
+8179.txt,annotated-6396000_6696000-random-3,Tseltal,6,1,0,0
+8179.txt,annotated-8938000_8998000-tt-1,Tseltal,6,1,0,0
+8427.txt,annotated-1783000_1933000-random-1,Yélî Dnye,1,0,0,1
+8427.txt,annotated-2138000_2198000-tt-1,Yélî Dnye,1,0,0,1
+8427.txt,annotated-2201000_2261000-tt-2,Yélî Dnye,1,0,0,1
+8427.txt,annotated-22171000_22231000-tt-3,Yélî Dnye,1,0,1,0
+8427.txt,annotated-22242000_22302000-tt-4,Yélî Dnye,1,0,1,0
+8427.txt,annotated-22360000_22510000-random-6,Yélî Dnye,1,0,1,0
+8427.txt,annotated-2273000_2333000-va-1,Yélî Dnye,1,0,0,1
+8427.txt,annotated-23019000_23079000-tt-5,Yélî Dnye,1,0,1,0
+8427.txt,annotated-23079000_23379000-ext-tt-5,Yélî Dnye,1,0,1,0
+8427.txt,annotated-2333000_2483000-random-2,Yélî Dnye,1,0,0,0.8333333333333334
+8427.txt,annotated-26324000_26474000-random-8,Yélî Dnye,1,0,0,1
+8427.txt,annotated-8136000_8286000-random-4,Yélî Dnye,1,0,0,1
+8787.txt,annotated-14770000_15070000-random-5,Tseltal,11,0,0,1
+8787.txt,annotated-15241000_15301000-va-2,Tseltal,11,0,0,1
+8787.txt,annotated-19257000_19557000-random-6,Tseltal,11,0.25,0,1
+8787.txt,annotated-21812000_21872000-tt-3,Tseltal,11,0,0.6666666666666666,0.3333333333333333
+8787.txt,annotated-24797000_24857000-va-3,Tseltal,11,0,1,1
+8787.txt,annotated-24857000_24917000-tt-4,Tseltal,11,0,1,1
+8787.txt,annotated-25505000_25805000-random-7,Tseltal,11,0.3333333333333333,0.16666666666666666,0.6666666666666666
+8787.txt,annotated-26978000_27278000-random-8,Tseltal,11,0,0,1
+8787.txt,annotated-27999000_28059000-va-4,Tseltal,11,0,0,1
+8787.txt,annotated-28128000_28188000-tt-5,Tseltal,11,0,0,1
+8787.txt,annotated-29369000_29669000-random-9,Tseltal,11,0.25,0,1
+8787.txt,annotated-35024000_35084000-va-5,Tseltal,11,0,0,1
+8787.txt,annotated-3816000_4116000-random-1,Tseltal,11,0,0,1
+8787.txt,annotated-4978000_5038000-tt-1,Tseltal,11,0,0,1
+8787.txt,annotated-5891000_6191000-random-2,Tseltal,11,0,0,1
+8787.txt,annotated-9032000_9092000-tt-2,Tseltal,11,0,0,1
+8787.txt,annotated-9092000_9392000-extension_tt-2,Tseltal,11,0,0,1
+8787.txt,annotated-9492000_9552000-va-1,Tseltal,11,0,0,1
+9732.txt,annotated-1114000_1264000-random-1,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-11248000_11308000-va-4,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-12160000_12323000-ext-tt-2,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-12323000_12383000-tt-2,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-12383000_12520000-ext-tt-2,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-13782000_13842000-tt-3,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-20507000_20657000-random-7,Yélî Dnye,4.5,1,0,0
+9732.txt,annotated-21518000_21578000-tt-4,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-22915000_22975000-tt-5,Yélî Dnye,4.5,0,1,0
+9732.txt,annotated-23178000_23238000-va-5,Yélî Dnye,4.5,0,0.25,0.75
+9732.txt,annotated-23376000_23526000-random-8,Yélî Dnye,4.5,0,1,0
+9732.txt,annotated-2979000_3039000-va-1,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-4270000_4330000-tt-1,Yélî Dnye,4.5,0,1,0
+9732.txt,annotated-4696000_4846000-random-2,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-5128000_5188000-va-2,Yélî Dnye,4.5,0,0,1
+9732.txt,annotated-7756000_7816000-va-3,Yélî Dnye,4.5,0,0,1

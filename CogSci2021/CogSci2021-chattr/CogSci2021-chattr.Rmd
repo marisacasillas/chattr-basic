@@ -36,13 +36,20 @@ knitr::opts_chunk$set(fig.width=3, fig.height=3, fig.crop = F,
 ```{r, libraries}
 library(png)
 library(grid)
-library(ggplot2)
 library(xtable)
+library(tidyverse)
+library(ggridges)
+source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
+sem <- function (x) {
+  sd(x) / sqrt(length(x))
+}
+# source("summarize_data.R")
+
 ```
 
 # Introduction
 
-The current paper introduces an R (REFS) package called `chattr` that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data (URL redacted<!--[https://github.com/marisacasillas/chattr-basic]()-->). Current tools for conducting similar analyses from annotated data are either proprietary, thereby limiting access to potential users, or constructed ad-hoc, thereby introducing significant variation in the constructs being measured across studies. The `chattr` package aims to improve this situation in two ways: (1) It takes inspiration from the fields of conversation analysis, psycholinguistics, and language development to provide flexible but theoretically sound measurements of temporally contingent interaction at scale and (2) its open-source toolkit accepts a handful of generic formats as input, opening up its analytical framework to a wide variety of domains (e.g., child language input, multi-party adult conversation, non-human animal signal exchanges, multi-modal contingencies produced by a single organism, etc.). The remainder of this short report reviews the theoretical basis underlying the development of `chattr`, describes the core functions offered by the package, and demonstrates its use in three existing datasets.
+The current paper introduces an R (REFS) package called `chattr` that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data (URL redacted<!--[https://github.com/marisacasillas/chattr-basic]()-->).[^1] Current tools for conducting similar analyses from annotated data are either proprietary, thereby limiting access to potential users, or constructed ad-hoc, thereby introducing significant variation in the constructs being measured across studies. The `chattr` package aims to improve this situation in two ways: (1) It takes inspiration from the fields of conversation analysis, psycholinguistics, and language development to provide flexible but theoretically sound measurements of temporally contingent interaction at scale and (2) its open-source toolkit accepts a handful of generic formats as input, opening up its analytical framework to a wide variety of domains (e.g., child language input, multi-party adult conversation, non-human animal signal exchanges, multi-modal contingencies produced by a single organism, etc.). The remainder of this short report reviews the theoretical basis underlying the development of `chattr`, describes the core functions offered by the package, and demonstrates its use in three existing datasets.
 
 [^1]: At time of submission, the conversion from R scripts to R package is still underway. That said, all documentation, scripts, and tests are available at the given URL and the fully packaged version will be available before May 2021.
 
@@ -98,43 +105,27 @@ Suppose that I am interested in studying child-child interactions using LENA dat
 
 Suppose instead that I am interested in investigating how adult conversational patterns vary in a dataset with multiple structured cooperative contexts (e.g., different phases during board games). I would ensure that the annotations are formatted as tab-delimited text (see the `chattr` documentation). Then I would use the Basic Speech Table call `fetch_chatter_BST()` to fetch turn-taking information. I could also, e.g., employ a minimum utterance duration and a more strict temporal window for contingency, as well as calculate 10 randomized simulations of turn-taking rates to assess the baseline likelihood of finding a contingency: `fetch_chatter_BST(filename, min.utt.dur = 1500, allowed.gap = 1000, allowed.overlap = 600, n.runs = 10)`. As before, this call yields detailed tables of detected turn-taking behavior ready for the author's statistical analysis of choice.
 
-```{r packages_and_globals, include=FALSE, echo=FALSE, warning=FALSE}
-library(papaja)
-library(tidyverse)
-library(ggridges)
-# to be turned into a package...
-
-reread.data <- FALSE # only set to TRUE if you want to re-do
-                    # the search for turn-taking behaviors
-                    # set to FALSE for doing analysis with
-                    # the already-run data
-
-input.data.path <- "annotated-data/raw/"
-metadata.path <- "metadata/"
-LENA.interactants <- c("FAN", "MAN")
-bigtable.filename <- "tt.bigtable.all.csv"
-bigtable.recdata.filename <- "tt.bigtable.all.with.recdata.csv"
-
-pd <- position_dodge(0.1)
-
-```
-
-
 # Pilot analysis
 
 We demonstrate the use of `chattr` with three child language environment datsasets from rural Indigenous communities. The first two, Tseltal (Mayan; Chiapas, Mexico; N = 10) and Yélî Dnye (isolate; Milne Bay, Papua New Guinea; N = 10), come from the Casillas HomeBank corpus (REFS) and were made with near parallel methods: children under age 3;0 wore an Olympus WS-832/853 audio recorder during a day at home for 8--11 hours. The third corpus, Tsimane' (Tsimane'; Bolivia; N = 10) features children under 6;0 who wore one of multiple recording devices (LENA, Olympus, or USB) during a day at home for 5.5--17.5 hours (REFS); we focus here on the LENA recordings (N = 17). In each dataset we assess the baseline turn-taking rate and duration of interactional sequences over age and by interactant type. For the Tsimane' corpus we briefly compare `chattr` estimates to what is given by the LENA system.
 
 ## Study 1. Tseltal and Yélî Dnye
 
-We analyze interactional behavior in 20 clips for each recording: 5 randomly selected clips (5 min for Tseltal and 2.5 min for Yélî Dnye), 5 clips manually selected for day-peak turn-taking behavior of the target child with one or more interactants (each 1 min), 5 clips manually selected for day-peak vocal activity by the target child (each 1 min), and a single 5-minute expansion on the most verbally active turn-taking or vocal activity clip. Each clip was manually annotated for all hearable speech, including addressee coding (e.g., target-child-directed vs. other-directed; see REFS for details). Despite documented differences in caregiver-child interactional style (REFS), day-long linguistic input estimates show similar patterns in these two communities. While female adult speech constitutes the majority of directed and overhearable speech input in both communities, Yélî children show a marked increase in directed speech from other children with age. This pattern appears more weakly in the Tseltal data. We therefore expected to find that: (1) turn-taking rates are higher and interactional burst durations are longer in turn-taking clips than in vocal activity and random clips, (2) rates and durations are overall similar between the two communities, and (3) interactional sequences involving other children increase with age, particularly for Yélî children.
+We analyze interactional behavior in 20 clips for each recording: 5 randomly selected clips (5 min for Tseltal and 2.5 min for Yélî Dnye), 5 clips manually selected for day-peak turn-taking behavior of the target child with one or more interactants (each 1 min), 5 clips manually selected for day-peak vocal activity by the target child (each 1 min), and a single 5-minute expansion on the most verbally active turn-taking or vocal activity clip. Each clip was manually annotated for all hearable speech, including addressee coding (e.g., target-child-directed vs. other-directed; see REFS for details). Despite documented differences in caregiver-child interactional style (REFS), day-long linguistic input estimates show similar patterns in these two communities. While female adult speech constitutes the majority of directed and overhearable speech input in both communities, Yélî children show a marked increase in directed speech from other children with age. This pattern appears more weakly in the Tseltal data. We therefore expected to find that: (1) turn-taking rates are higher in turn-taking clips than in vocal activity and random clips, (2) rates are overall similar between the two communities, and (3) interactional sequences involving other children increase with age, particularly for Yélî children.
 
 ### Methods
 
-We use the `fetch_chatter_AAS()` call, which is specifically designed for those using the ACLEW Annotation Scheme (REFS): that allows 2000 ms of gap and 1000 ms of overlap between at turn transitions and searches over all annotated utterances (any duration, content, and from any speaker). We limit our analysis to utterances directed exclusively to the target child. We also indicate the annotated regions by using the `cliptier` argument (see documentation) and specify that we would like 10 random simulations of the data.
+We use the `fetch_chatter_AAS()` call, which is specifically designed for those using the ACLEW Annotation Scheme (REFS): that allows 2000 ms of gap and 1000 ms of overlap between at turn transitions and searches over all annotated utterances (any duration, content, and from any speaker). We limit our analysis to utterances directed exclusively to the target child. We also indicate the annotated regions by using the `cliptier` argument (see documentation).
 
-```{r tseyelprep, message=FALSE, warning=FALSE, include=FALSE}
-tse.data <- 
+```{r tseyel.ttr.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red)."}
+ttr.tsyd <- png::readPNG("figs/ttr-tsyd.png")
+grid::grid.raster(ttr.tsyd)
+```
 
+
+```{r tseyel.is.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by language."}
+is.tsyd <- png::readPNG("figs/is-tsyd.png")
+grid::grid.raster(is.tsyd)
 ```
 
 ### Results
@@ -145,7 +136,19 @@ The Tsimane' recordings were manually annotated for one minute, every 30 minutes
 
 ### Methods
 
-We first use the `fetch_chatter_BST()` call with the manually annotated data, matching conditions of the call as closely as possible to what can be compared in the LENA output files, that is: include woman, man, and other-child speech, both linguistic and non-linguistic, with a minimum utterance duration of 600ms (the LENA lower limit) and no overlap allowed (meaningful overlap is not possible in LENA). With the automatic LENA annotations on the same recordings (in the same 1-minute segments) we adjust the defaults on `fetch_chatter_LENA()` to reflect the same restrictions. In both cases we also run 10 random simulations of the data for each file.
+We first use the `fetch_chatter_BST()` call with the manually annotated data, matching conditions of the call as closely as possible to what can be compared in the LENA output files, that is: include woman, man, and other-child speech, both linguistic and non-linguistic, with a minimum utterance duration of 600ms (the LENA lower limit) and no overlap allowed (meaningful overlap is not possible in LENA). With the automatic LENA annotations on the same recordings (in the same 1-minute segments) we adjust the defaults on `fetch_chatter_LENA()` to reflect the same restrictions.
+
+
+```{r tsi.ttr.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Turn transition rate by annotation type (LENA automated vs. manual) in the same audio clips. Clips are a periodic random sample of the daylong recording."}
+ttr.tsi <- png::readPNG("figs/ttr-tsi.png")
+grid::grid.raster(ttr.tsi)
+```
+
+
+```{r tsi.is.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by annotation type (LENA automated vs. manual) in the same audio clips."}
+is.tsyd <- png::readPNG("figs/is-tsi.png")
+grid::grid.raster(is.tsyd)
+```
 
 ### Results
 

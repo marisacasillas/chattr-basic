@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  19 JAN 2021 09:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  27 JAN 2021 21:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -429,95 +429,153 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 Underfull \vbox (badness 10000) detected at line 64
  []
 
-
-Package hyperref Warning: Suppressing link with empty target on input line 87.
-
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 90.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 90.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
-
-Underfull \hbox (badness 5217) in paragraph at lines 84--108
-\OT1/ptm/m/n/10 The cur-rent pa-per in-tro-duces an R (REFS) pack-age
- []
-
-
-Underfull \hbox (badness 2293) in paragraph at lines 84--108
-\OT1/ptm/m/n/10 called \OT1/pcr/m/n/10 chattr \OT1/ptm/m/n/10 that fa-cil-i-tat
-es the de-tec-tion and anal-y-
- []
-
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 90.
 LaTeX Font Info:    Trying to load font information for OML+ptm on input line 1
-55.
+53.
 (/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptm.fd
 File: omlptm.fd 
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 155.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 153.
 [1{/Users/mcasillas/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.ma
 p}
 
 
 
 ]
-<figs/minisequence-1.pdf, id=45, 505.89pt x 94.3525pt>
+<figs/minisequence-1.pdf, id=57, 505.89pt x 94.3525pt>
 File: figs/minisequence-1.pdf Graphic file (type pdf)
 <use figs/minisequence-1.pdf>
-Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 270.
+Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 268.
 (pdftex.def)             Requested size: 505.88875pt x 94.35225pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \vbox (badness 1648) has occurred while \output is active []
-
-[2]
-Underfull \hbox (badness 10000) in paragraph at lines 305--326
-\OT1/ptm/m/n/10 call, \OT1/pcr/m/n/10 fetch[]chatter[]LENA(filename, interactan
-ts =
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 305--326
-\OT1/pcr/m/n/10 "OC", default.lxonly = FALSE, nearonly = TRUE)
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+[2]
+Underfull \hbox (badness 1515) in paragraph at lines 303--319
+\OT1/ptm/m/n/10 and I would change the de-fault in-ter-ac-tants to in-clude
+ []
 
-Underfull \hbox (badness 1502) in paragraph at lines 327--346
+
+Underfull \hbox (badness 2150) in paragraph at lines 303--319
+\OT1/ptm/m/n/10 the re-quire-ment for lin-guis-tic con-tent (this in-for-ma-tio
+n
+ []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 303--319
+\OT1/ptm/m/n/10 is un-avail-able in LENA out-put for non-target chil-dren).
+ []
+
+
+Underfull \hbox (badness 5519) in paragraph at lines 303--319
+\OT1/ptm/m/n/10 The cus-tomized call, \OT1/pcr/m/n/10 fetch[]chatter[]LENA(file
+name,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--319
+\OT1/pcr/m/n/10 interactants = "CX", default.lxonly = FALSE)
+ []
+
+
+Underfull \hbox (badness 1939) in paragraph at lines 303--319
+\OT1/ptm/m/n/10 vo-cal-iza-tion, whether it was part of a multi-increment
+ []
+
+
+Underfull \hbox (badness 1502) in paragraph at lines 320--333
 []\OT1/ptm/m/n/10 Suppose in-stead that I am in-ter-ested in in-ves-ti-gat-ing
  []
 
 
-Underfull \hbox (badness 1097) in paragraph at lines 327--346
-\OT1/ptm/m/n/10 how adult con-ver-sa-tional pat-terns vary across struc-tured
+Underfull \hbox (badness 2894) in paragraph at lines 320--333
+\OT1/ptm/m/n/10 mul-ti-ple struc-tured co-op-er-a-tive con-texts (e.g., dif-fer
+-ent
  []
 
 
-Underfull \hbox (badness 1286) in paragraph at lines 327--346
-\OT1/ptm/m/n/10 the func-tion call ac-cord-ingly be-fore us-ing it over each
+Underfull \hbox (badness 10000) in paragraph at lines 320--333
+\OT1/ptm/m/n/10 gency: \OT1/pcr/m/n/10 fetch[]chatter[]BST(filename, min.utt.du
+r
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--346
+Underfull \hbox (badness 10000) in paragraph at lines 320--333
 \OT1/pcr/m/n/10 = 1500, allowed.gap = 1000, allowed.overlap =
  []
 
-[3 <./figs/minisequence-1.pdf>] [4
+[3 <./figs/minisequence-1.pdf>]
+<figs/tseyel.ttr.fig-1.pdf, id=87, 252.945pt x 252.945pt>
+File: figs/tseyel.ttr.fig-1.pdf Graphic file (type pdf)
+<use figs/tseyel.ttr.fig-1.pdf>
+Package pdftex.def Info: figs/tseyel.ttr.fig-1.pdf  used on input line 390.
+(pdftex.def)             Requested size: 252.94438pt x 252.94438pt.
 
-] (./CogSci2021-chattr.aux)
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 390--391
+ [][] 
+ []
+
+<figs/tseyel.is.fig-1.pdf, id=88, 252.945pt x 182.6825pt>
+File: figs/tseyel.is.fig-1.pdf Graphic file (type pdf)
+<use figs/tseyel.is.fig-1.pdf>
+Package pdftex.def Info: figs/tseyel.is.fig-1.pdf  used on input line 401.
+(pdftex.def)             Requested size: 252.94438pt x 182.68204pt.
+
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 401--402
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+<figs/tsi.ttr.fig-1.pdf, id=89, 252.945pt x 252.945pt>
+File: figs/tsi.ttr.fig-1.pdf Graphic file (type pdf)
+<use figs/tsi.ttr.fig-1.pdf>
+Package pdftex.def Info: figs/tsi.ttr.fig-1.pdf  used on input line 445.
+(pdftex.def)             Requested size: 252.94438pt x 252.94438pt.
+
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 445--446
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figs/tsi.is.fig-1.pdf, id=90, 252.945pt x 182.6825pt>
+File: figs/tsi.is.fig-1.pdf Graphic file (type pdf)
+<use figs/tsi.is.fig-1.pdf>
+Package pdftex.def Info: figs/tsi.is.fig-1.pdf  used on input line 456.
+(pdftex.def)             Requested size: 252.94438pt x 182.68204pt.
+
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 456--457
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4 <./figs/tseyel.ttr.fig-1.pdf> <./figs/tseyel.is.fig-1.pdf>] [5 <./figs/tsi.t
+tr.fig-1.pdf> <./figs/tsi.is.fig-1.pdf>] (./CogSci2021-chattr.aux)
 Package rerunfilecheck Info: File `CogSci2021-chattr.out' has not changed.
-(rerunfilecheck)             Checksum: 4CB011F35AB817199664524255653439;377.
+(rerunfilecheck)             Checksum: 2858549F0126E49739B4DE97F7B68486;575.
  ) 
 Here is how much of TeX's memory you used:
- 8753 strings out of 479304
- 136580 string characters out of 5862811
+ 8821 strings out of 479304
+ 137887 string characters out of 5862811
  450484 words of memory out of 5000000
- 25754 multiletter control sequences out of 15000+600000
+ 25794 multiletter control sequences out of 15000+600000
  439937 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  71i,11n,74p,660b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -529,10 +587,10 @@ a.pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a
 .pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.
 pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on CogSci2021-chattr.pdf (4 pages, 117096 bytes).
+Output written on CogSci2021-chattr.pdf (5 pages, 687133 bytes).
 PDF statistics:
- 108 PDF objects out of 1000 (max. 8388607)
- 90 compressed objects within 1 object stream
- 27 named destinations out of 1000 (max. 500000)
- 54 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 173 PDF objects out of 1000 (max. 8388607)
+ 137 compressed objects within 2 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 98 words of extra memory for PDF output out of 10000 (max. 10000000)
 

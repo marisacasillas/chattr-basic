@@ -83,28 +83,26 @@ between each term.
 
 The current paper introduces an R (REFS) package called \texttt{chattr}
 that facilitates the detection and analysis of temporally contingent
-interactions in pre-annotated data
-(\href{}{https://github.com/marisacasillas/chattr-basic}).\footnote{At
-  time of submission, the conversion from R scripts to R package is
-  still underway. That said, all documentation, scripts, and tests are
-  available at the given URL. The fully packaged version will be
-  available at the same URL (minus ``-basic'') before May 2021.} Current
-tools for conducting similar analyses from annotated data are either
-proprietary, thereby limiting access to potential users, or constructed
-ad-hoc, thereby introducing significant variation in the constructs
-being measured across studies. The \texttt{chattr} package aims to
-improve this situation in two ways: (1) It takes inspiration from the
-fields of conversation analysis, psycholinguistics, and language
-development to provide flexible but theoretically sound measurements of
-temporally contingent interaction at scale and (2) its open-source
-toolkit accepts a handful of generic formats as input, opening up its
-analytical framework to a wide variety of domains (e.g., child language
-input, multi-party adult conversation, non-human animal signal
-exchanges, multi-modal contingencies produced by a single organism,
-etc.). The remainder of this short report reviews the theoretical basis
-underlying the development of \texttt{chattr}, describes the core
-functions offered by the package, and demonstrates its use in three
-existing datasets.
+interactions in pre-annotated data (URL redacted).\footnote{At time of
+  submission, the conversion from R scripts to R package is still
+  underway. That said, all documentation, scripts, and tests are
+  available at the given URL and the fully packaged version will be
+  available before May 2021.} Current tools for conducting similar
+analyses from annotated data are either proprietary, thereby limiting
+access to potential users, or constructed ad-hoc, thereby introducing
+significant variation in the constructs being measured across studies.
+The \texttt{chattr} package aims to improve this situation in two ways:
+(1) It takes inspiration from the fields of conversation analysis,
+psycholinguistics, and language development to provide flexible but
+theoretically sound measurements of temporally contingent interaction at
+scale and (2) its open-source toolkit accepts a handful of generic
+formats as input, opening up its analytical framework to a wide variety
+of domains (e.g., child language input, multi-party adult conversation,
+non-human animal signal exchanges, multi-modal contingencies produced by
+a single organism, etc.). The remainder of this short report reviews the
+theoretical basis underlying the development of \texttt{chattr},
+describes the core functions offered by the package, and demonstrates
+its use in three existing datasets.
 
 \hypertarget{contingent-interaction}{%
 \subsection{Contingent interaction}\label{contingent-interaction}}
@@ -303,46 +301,168 @@ turns contain some linguistic material (REFS).
 \subsubsection{Example use cases}\label{example-use-cases}}
 
 Suppose that I am interested in studying child-child interactions using
-LENA data. I would first collect the LENA .its files of interest (e.g.,
-from HomeBank or from my own source) into a local directory on my
-computer. Then I would use \texttt{fetch\_chatter\_LENA()} with each
-file, but I would change the default interactants to include only ``OC''
-(i.e.~any non-target-child vocalization), remove the requirement for
-turns to have linguistic content (which is not automatically estimated
-for other children in LENA's output), and specify my interest in nearby
-interactants only (i.e., not ``far'' detected vocalizations). This
+LENA data. I would first collect the LENA .its files of interest into a
+local directory on my computer. Then I would use
+\texttt{fetch\_chatter\_LENA()}, and I would change the default
+interactants to include only ``CX'' (i.e.~non-target-child
+vocalizations) and remove the requirement for linguistic content (this
+information is unavailable in LENA output for non-target children). The
 customized call,
-\texttt{fetch\_chatter\_LENA(filename,\ interactants\ =\ "OC",\ default.lxonly\ =\ FALSE,\ nearonly\ =\ TRUE)}
-would then return a table that shows, for each target child vocalization
-in each .its file, what other vocalizations it was grouped with into
-turns, which vocalizations from other children were detected as possible
-prompts and responses to target child vocalizations, and the grouping of
-those target child vocalizations and their prompts and responses into
-interactional sequences. For each file I would also get a second table
-that gives overall descriptive statistics about turns, transitions, and
-interactional sequences for that file. From these tables I could conduct
-tests of my hypotheses about child-child interactions (e.g., they
-increase in frequency and duration with age; REFS) and plot the results.
+\texttt{fetch\_chatter\_LENA(filename,\ interactants\ =\ "CX",\ default.lxonly\ =\ FALSE)}
+would then return a table that shows, for each target child
+vocalization, whether it was part of a multi-increment turn, whether it
+had a temporally contingent prompt and/or response, and whether it was
+part of a longer interactional sequence, among other details. From these
+tables I could conduct tests of my hypotheses about child-child
+interactions (e.g., they increase in frequency and duration with age;
+REFS) and plot the results.
 
 Suppose instead that I am interested in investigating how adult
-conversational patterns vary across structured cooperative contexts
-(e.g., at different phases during board games). I would first find a
-dataset with both utterance and game phase annotations (or recordings of
-games that I could annotate by hand or using an automated tool). I would
-ensure that the annotations are formatted as a tab-delimited text file
-as specified in the \texttt{chattr} documentation. Then I would use the
-most general call, \texttt{fetch\_chatter\_BST()} (BST stands for Basic
-Speech Table) to fetch turn-taking information across the recording.
-Perhaps I am interested in a minimum utterance duration and a more
-strict temporal window for contingency (all expressed in milliseconds).
-I might also want to calculate 10 randomized simulations of turn-taking
-rates as a sanity check for how many of the detected transitions are
-spurious. I would then customize the function call accordingly before
-using it over each file, as in
+conversational patterns vary in a dataset with multiple structured
+cooperative contexts (e.g., different phases during board games). I
+would ensure that the annotations are formatted as tab-delimited text
+(see the \texttt{chattr} documentation). Then I would use the Basic
+Speech Table call \texttt{fetch\_chatter\_BST()} to fetch turn-taking
+information. I could also, e.g., employ a minimum utterance duration and
+a more strict temporal window for contingency, as well as calculate 10
+randomized simulations of turn-taking rates to assess the baseline
+likelihood of finding a contingency:
 \texttt{fetch\_chatter\_BST(filename,\ min.utt.dur\ =\ 1500,\ allowed.gap\ =\ 1000,\ allowed.overlap\ =\ 600,\ n.runs\ =\ 10)}.
-As in the previous example, this call should result in tables of
-turn-taking behavior that could be used in conjunction with my
-annotations of game phase to test my hypotheses.
+As before, this call yields detailed tables of detected turn-taking
+behavior ready for the author's statistical analysis of choice.
+
+\hypertarget{pilot-analysis}{%
+\section{Pilot analysis}\label{pilot-analysis}}
+
+We demonstrate the use of \texttt{chattr} with three child language
+environment datsasets from rural Indigenous communities. The first two,
+Tseltal (Mayan; Chiapas, Mexico; N = 10) and Yélî Dnye (isolate; Milne
+Bay, Papua New Guinea; N = 10), come from the Casillas HomeBank corpus
+(REFS) and were made with near parallel methods: children under age 3;0
+wore an Olympus WS-832/853 audio recorder during a day at home for 8--11
+hours. The third corpus, Tsimane' (Tsimane'; Bolivia; N = 10) features
+children under 6;0 who wore one of multiple recording devices (LENA,
+Olympus, or USB) during a day at home for 5.5--17.5 hours (REFS); we
+focus here on the LENA recordings (N = 17). In each dataset we assess
+the baseline turn-taking rate and duration of interactional sequences
+over age and by interactant type. For the Tsimane' corpus we briefly
+compare \texttt{chattr} estimates to what is given by the LENA system.
+
+\hypertarget{study-1.-tseltal-and-yuxe9luxee-dnye}{%
+\subsection{Study 1. Tseltal and Yélî
+Dnye}\label{study-1.-tseltal-and-yuxe9luxee-dnye}}
+
+We analyze interactional behavior in 20 clips for each recording: 5
+randomly selected clips (5 min for Tseltal and 2.5 min for Yélî Dnye), 5
+clips manually selected for day-peak turn-taking behavior of the target
+child with one or more interactants (each 1 min), 5 clips manually
+selected for day-peak vocal activity by the target child (each 1 min),
+and a single 5-minute expansion on the most verbally active turn-taking
+or vocal activity clip. Each clip was manually annotated for all
+hearable speech, including addressee coding (e.g., target-child-directed
+vs.~other-directed; see REFS for details). Despite documented
+differences in caregiver-child interactional style (REFS), day-long
+linguistic input estimates show similar patterns in these two
+communities. While female adult speech constitutes the majority of
+directed and overhearable speech input in both communities, Yélî
+children show a marked increase in directed speech from other children
+with age. This pattern appears more weakly in the Tseltal data. We
+therefore expected to find that: (1) turn-taking rates are higher in
+turn-taking clips than in vocal activity and random clips, (2) rates are
+overall similar between the two communities, and (3) interactional
+sequences involving other children increase with age, particularly for
+Yélî children.
+
+\hypertarget{methods}{%
+\subsubsection{Methods}\label{methods}}
+
+We use the \texttt{fetch\_chatter\_AAS()} call, which is specifically
+designed for those using the ACLEW Annotation Scheme (REFS): that allows
+2000 ms of gap and 1000 ms of overlap between at turn transitions and
+searches over all annotated utterances (any duration, content, and from
+any speaker). We limit our analysis to utterances directed exclusively
+to the target child. We also indicate the annotated regions by using the
+\texttt{cliptier} argument (see documentation).
+
+\begin{CodeChunk}
+\begin{figure}[h]
+
+{\centering \includegraphics{figs/tseyel.ttr.fig-1} 
+
+}
+
+\caption[Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red)]{Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red).}\label{fig:tseyel.ttr.fig}
+\end{figure}
+\end{CodeChunk}
+
+\begin{CodeChunk}
+\begin{figure}[h]
+
+{\centering \includegraphics{figs/tseyel.is.fig-1} 
+
+}
+
+\caption[Proportion of interactional sequences involving at least one non-target child across age, by language]{Proportion of interactional sequences involving at least one non-target child across age, by language.}\label{fig:tseyel.is.fig}
+\end{figure}
+\end{CodeChunk}
+
+\hypertarget{results}{%
+\subsubsection{Results}\label{results}}
+
+\hypertarget{study-2.-tsimane}{%
+\subsection{Study 2. Tsimane'}\label{study-2.-tsimane}}
+
+The Tsimane' recordings were manually annotated for one minute, every 30
+minutes, starting at the 34th minute (34 min, 64 min, 94 min, etc.).
+Annotations included (a) when speech was occurring and (b) what type of
+speaker produced it (i.e., the target child, a nearby woman/man/other
+child, or other noise sources). Prior analysis shows comparably low
+rates of directed speech in these Tsimane' data to the Tseltal and Yélî
+Dnye recordings, again with a high proportion of directed input coming
+from other children. We therefore expected to find that: (1) turn-taking
+rates are overall similar to what we found in the random samples of the
+other two communities, (2) turn-taking sequences involving other
+children are comparable or more frequent than found in the random
+samples of the other two communities, and (3) interactional sequences
+involving other children increase with age.
+
+\hypertarget{methods-1}{%
+\subsubsection{Methods}\label{methods-1}}
+
+We first use the \texttt{fetch\_chatter\_BST()} call with the manually
+annotated data, matching conditions of the call as closely as possible
+to what can be compared in the LENA output files, that is: include
+woman, man, and other-child speech, both linguistic and non-linguistic,
+with a minimum utterance duration of 600ms (the LENA lower limit) and no
+overlap allowed (meaningful overlap is not possible in LENA). With the
+automatic LENA annotations on the same recordings (in the same 1-minute
+segments) we adjust the defaults on \texttt{fetch\_chatter\_LENA()} to
+reflect the same restrictions.
+
+\begin{CodeChunk}
+\begin{figure}[h]
+
+{\centering \includegraphics{figs/tsi.ttr.fig-1} 
+
+}
+
+\caption[Turn transition rate by annotation type (LENA automated vs]{Turn transition rate by annotation type (LENA automated vs. manual) in the same audio clips. Clips are a periodic random sample of the daylong recording.}\label{fig:tsi.ttr.fig}
+\end{figure}
+\end{CodeChunk}
+
+\begin{CodeChunk}
+\begin{figure}[h]
+
+{\centering \includegraphics{figs/tsi.is.fig-1} 
+
+}
+
+\caption[Proportion of interactional sequences involving at least one non-target child across age, by annotation type (LENA automated vs]{Proportion of interactional sequences involving at least one non-target child across age, by annotation type (LENA automated vs. manual) in the same audio clips.}\label{fig:tsi.is.fig}
+\end{figure}
+\end{CodeChunk}
+
+\hypertarget{results-1}{%
+\subsubsection{Results}\label{results-1}}
 
 \hypertarget{limitations}{%
 \subsection{Limitations}\label{limitations}}
