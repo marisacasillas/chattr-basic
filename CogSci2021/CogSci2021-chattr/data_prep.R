@@ -118,7 +118,7 @@ if (reread.data == FALSE) {
         target.ptcp = "CHI",
         # nearonly = TRUE, # No need to include since implicit in interactants
         lxonly = FALSE,
-        interactants = "(FA)|(MA)|(CX)",
+        interactants = "(FA)|(MA)|(UC)",
         min.utt.dur = 599,
         allowed.overlap = 0,
         n.runs = 10)
