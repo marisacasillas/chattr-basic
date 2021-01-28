@@ -334,6 +334,60 @@ write_csv(tsi.real.ttr.summary, "tsi.real.ttr.summary.csv")
 write_csv(tsi.real.is.summary, "tsi.real.is.summary.csv")
 write_csv(tsi.real.is.summary.byclip, "tsi.real.is.summary.byclip.csv")
 
+# Write out descriptive data
+tseyel.real.ttr.minisummary <- tseyel.real.ttr.summary %>%
+  group_by(language, `Clip type`, filename) %>%
+  summarize(ptcp.mean.ttr.all = mean(ttr.all)) %>%
+  group_by(language, `Clip type`) %>%
+  summarize(
+    pop.mean.ttr.all = mean(ptcp.mean.ttr.all),
+    pop.median.ttr.all = median(ptcp.mean.ttr.all),
+    pop.sd.ttr.all = sd(ptcp.mean.ttr.all),
+    pop.min.ttr.all = min(ptcp.mean.ttr.all),
+    pop.max.ttr.all = max(ptcp.mean.ttr.all),
+  ) %>%
+  mutate(
+    `mean (sd; range), median` = 
+      paste0(round(pop.mean.ttr.all, 1), " (",
+             round(pop.sd.ttr.all, 1), "; ",
+             round(pop.min.ttr.all, 1), "-",
+             round(pop.max.ttr.all, 1), "), ",
+             round(pop.median.ttr.all, 1)),
+    `Clip type` = case_when(
+      `Clip type` == "active" ~ "active (manual)",
+      `Clip type` == "random" ~ "random (manual)"
+    )) %>%
+  rename("Corpus" = language) %>%
+  select(Corpus, `Clip type`, `mean (sd; range), median`)
+
+tsi.real.ttr.minisummary <- tsi.real.ttr.summary %>%
+  group_by(rec_type, filename) %>%
+  summarize(ptcp.mean.ttr.all = mean(ttr.all)) %>%
+  group_by(rec_type) %>%
+  summarize(
+    pop.mean.ttr.all = mean(ptcp.mean.ttr.all),
+    pop.median.ttr.all = median(ptcp.mean.ttr.all),
+    pop.sd.ttr.all = sd(ptcp.mean.ttr.all),
+    pop.min.ttr.all = min(ptcp.mean.ttr.all),
+    pop.max.ttr.all = max(ptcp.mean.ttr.all),
+  ) %>%
+  mutate(
+    language = "Tsimane'",
+    `Clip type` = case_when(
+      rec_type == "LENA" ~ "random (LENA)",
+      rec_type == "manual" ~ "random (manual)"),
+    `mean (sd; range), median` = 
+      paste0(round(pop.mean.ttr.all, 1), " (",
+             round(pop.sd.ttr.all, 1), "; ",
+             round(pop.min.ttr.all, 1), "-",
+             round(pop.max.ttr.all, 1), "), ",
+             round(pop.median.ttr.all, 1)),
+    Corpus = "Tsimane'") %>%
+  select(Corpus, `Clip type`, `mean (sd; range), median`)
+
+minisummary <- bind_rows(tseyel.real.ttr.minisummary,
+                         tsi.real.ttr.minisummary)
+write_csv(minisummary, "minisummary-descriptives.csv")
 
 
 # Models
@@ -357,7 +411,7 @@ is.tsi.m2 <- lmer(prop.is.cx ~
                      data = tsi.real.is.summary.byclip)
 # summary(is.tsi.m2)
 
-
+# Write out models
 all.models <- bind_rows(
   broom.mixed::tidy(ttr.tseyel.m1) %>%
     mutate(model = "ttr_TSYD"),
@@ -369,7 +423,3 @@ all.models <- bind_rows(
     mutate(model = "is_TSI"))
 
 write_csv(all.models, "all.models.csv")
-
-# A linear mixed effects regression of turn-transitions per minute with predictors of clip type, corpus, and their interaction and a random intercept for child reveals that, indeed, random clips have significantly lower turn-transition rates (B = `r stat1`, SE = `r round(coef(summary(ttr.tseyel.m1))[ , "Std. Error"][2],2)`, t = `r round(coef(summary(ttr.tseyel.m1))[ , "t value"][2],2)`) and there is no evidence for a significant difference in turn-taking rates between languages (t = `r round(coef(summary(ttr.tseyel.m1))[ , "t value"][3],2)`) and no evidence for a clip type-language interaction (t = `r round(coef(summary(ttr.tseyel.m1))[ , "t value"][4],2)`).
-
-# A linear mixed effects regression of the proportion of interactional sequences that feature at least one non-target child with predictors of age (in months), corpus, and their interaction and a random intercept for child reveals that, as expected, there is a significant age-by-corpus interaction by which Yélî children show a larger increase in other-child interactional sequences with age compared to Tseltal children (B = `r round(coef(summary(is.tseyel.m2))[ , "Estimate"][4],2)`, SE = `r round(coef(summary(is.tseyel.m2))[ , "Std. Error"][4],2)`, t = `r round(coef(summary(is.tseyel.m2))[ , "t value"][4],2)`). There is no evidence for simple effects of age (t = `r round(coef(summary(is.tseyel.m2))[ , "t value"][2],2)`) or language (t = `r round(coef(summary(is.tseyel.m2))[ , "t value"][3],2)`).

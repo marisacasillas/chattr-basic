@@ -44,6 +44,7 @@ sem <- function (x) {
   sd(x) / sqrt(length(x))
 }
 # source("summarize_data.R")
+model.outputs <- read_csv("all.models.csv")
 
 ```
 
@@ -130,6 +131,18 @@ grid::grid.raster(is.tsyd)
 
 ### Results
 
+The mean rate of turn transitions in the Tseltal corpus was 3 and \textbf{XX} transitions per minute for the random and active clips, respectfully. The mean rates in the Yélî Dnye corpus were 2.4 and 12.8 for the random and active clips. Overall the distribution of turn taking rates across annotated clips was similar between the two sites (Table 1). A linear mixed effects regression of turn-transitions per minute with predictors of clip type, corpus, and their interaction and a random intercept for child reveals that, indeed, random clips have significantly lower turn-transition rates (B = `r round(subset(model.outputs, model == "ttr_TSYD")$estimate[2],2)`, SE = `r round(subset(model.outputs, model == "ttr_TSYD")$std.error[2],2)`, t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[2],2)`) and there is no evidence for a significant difference in turn-taking rates between languages (t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[3],2)`) and no evidence for a clip type-language interaction (t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[4],2)`).
+
+A second linear mixed effects regression of the proportion of interactional sequences that feature at least one non-target child with predictors of age (in months), corpus, and their interaction and a random intercept for child reveals that, as expected, there is a significant age-by-corpus interaction by which Yélî children show a larger increase in other-child interactional sequences with age compared to Tseltal children (B = `r round(subset(model.outputs, model == "is_TSYD")$estimate[4],2)`, SE = `r round(subset(model.outputs, model == "is_TSYD")$std.error[4],2)`, t = `r round(subset(model.outputs, model == "is_TSYD")$statistic[4],2)`). There is no evidence for simple effects of age (t = `r round(subset(model.outputs, model == "is_TSYD")$statistic[2],2)`) or language (t = `r round(subset(model.outputs, model == "is_TSYD")$statistic[3],2)`).
+
+
+```{r descriptivestats, results="asis"}
+desc.stats <- xtable(read_csv("minisummary-descriptives.csv"))
+
+print(desc.stats, type="latex", comment = F, table.placement = "h",
+      include.rownames=FALSE)
+```
+
 ## Study 2. Tsimane'
 
 The Tsimane' recordings were manually annotated for one minute, every 30 minutes, starting at the 34th minute (34 min, 64 min, 94 min, etc.). Annotations included (a) when speech was occurring and (b) what type of speaker produced it (i.e., the target child, a nearby woman/man/other child, or other noise sources). Prior analysis shows comparably low rates of directed speech in these Tsimane' data to the Tseltal and Yélî Dnye recordings, again with a high proportion of directed input coming from other children. We therefore expected to find that: (1) turn-taking rates are overall similar to what we found in the random samples of the other two communities, (2) turn-taking sequences involving other children are comparable or more frequent than found in the random samples of the other two communities, and (3) interactional sequences involving other children increase with age.
@@ -138,12 +151,10 @@ The Tsimane' recordings were manually annotated for one minute, every 30 minutes
 
 We first use the `fetch_chatter_BST()` call with the manually annotated data, matching conditions of the call as closely as possible to what can be compared in the LENA output files, that is: include woman, man, and other-child speech, both linguistic and non-linguistic, with a minimum utterance duration of 600ms (the LENA lower limit) and no overlap allowed (meaningful overlap is not possible in LENA). With the automatic LENA annotations on the same recordings (in the same 1-minute segments) we adjust the defaults on `fetch_chatter_LENA()` to reflect the same restrictions.
 
-
 ```{r tsi.ttr.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Turn transition rate by annotation type (LENA automated vs. manual) in the same audio clips. Clips are a periodic random sample of the daylong recording."}
 ttr.tsi <- png::readPNG("figs/ttr-tsi.png")
 grid::grid.raster(ttr.tsi)
 ```
-
 
 ```{r tsi.is.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by annotation type (LENA automated vs. manual) in the same audio clips."}
 is.tsyd <- png::readPNG("figs/is-tsi.png")
@@ -152,6 +163,13 @@ grid::grid.raster(is.tsyd)
 
 ### Results
 
+A linear mixed effects regression of turn-transitions per minute with predictors of annotation type (LENA automated vs. manual) and a random intercept for child reveals that turn-transition rates are similar between the two annotation methods (B = `r round(subset(model.outputs, model == "ttr_TSI")$estimate[2],2)`, SE = `r round(subset(model.outputs, model == "ttr_TSI")$std.error[2],2)`, t = `r round(subset(model.outputs, model == "ttr_TSI")$statistic[2],2)`). Consistent with our hypothesis, the mean rate of turn transitions was similar to what we found in the Tseltal and Yélî Dnye random clips, at 3.2 transitions per minute, though with fewer instances of rates above 5/min (Table 1).
+
+A second linear mixed effects regression of the proportion of interactional sequences that feature at least one non-target child with predictors of age (in months), annotation type (LENA vs. manual), and their interaction and a random intercept for child reveals that, as expected, there is a significant increase in other-child interactional sequences with age (B = `r round(subset(model.outputs, model == "is_TSI")$estimate[2],2)`, SE = `r round(subset(model.outputs, model == "is_TSI")$std.error[2],2)`, t = `r round(subset(model.outputs, model == "is_TSI")$statistic[2],2)`). There is no evidence for simple effects of annotation type (t = `r round(subset(model.outputs, model == "is_TSI")$statistic[3],2)`) or for an age-annotation type interaction (t = `r round(subset(model.outputs, model == "is_TSI")$statistic[4],2)`).
+
+# Discussion
+
+To be added!
 
 ## Limitations
 
