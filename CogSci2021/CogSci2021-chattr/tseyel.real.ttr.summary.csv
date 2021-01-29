@@ -11,7 +11,7 @@ filename,annot.clip,language,age_mo_round,tot.n.tt.cx,tot.n.tt.ma,tot.n.tt.fa,to
 0643.txt,annotated-26150000_26210000-va-3,Tseltal,2,0,0,0,0,60000,0,0,0,0,active
 0643.txt,annotated-26502000_26802000-random-8,Tseltal,2,5,0,1,6,300000,1,0,0.2,1.2,random
 0643.txt,annotated-26870000_26930000-tt-4,Tseltal,2,0,0,4,4,60000,0,0,4,4,active
-0643.txt,annotated-29940000_30000000-tt-5,Tseltal,2,1,0,0,1,NA,NA,NA,NA,NA,active
+0643.txt,annotated-29940000_30000000-tt-5,Tseltal,2,1,0,0,1,60000,1,0,0,1,active
 0643.txt,annotated-30522000_30582000-va-4,Tseltal,2,0,0,0,0,60000,0,0,0,0,active
 0643.txt,annotated-31085000_31145000-va-5,Tseltal,2,0,2,0,2,60000,0,2,0,2,active
 0643.txt,annotated-4926000_5226000-random-2,Tseltal,2,0,0,1,1,300000,0,0,0.2,0.2,random
