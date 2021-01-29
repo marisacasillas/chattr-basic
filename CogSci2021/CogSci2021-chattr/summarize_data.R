@@ -1,10 +1,16 @@
 library(lme4)
 library(broom.mixed)
 library(ggpubr)
+source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
 real.data <- read_csv("tt.bigtable.real.all.csv")
 rand.data <- read_csv("tt.bigtable.rand.all.csv")
 code.areas <- read_csv("coded.regions.csv")
+
+sem <- function (x) {
+  sd(x) / sqrt(length(x))
+}
+
 
 tseyel.real <- real.data %>%
   filter(grepl("(Tse)|(Yel)", language)) %>%
