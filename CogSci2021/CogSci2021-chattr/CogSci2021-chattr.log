@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  29 JAN 2021 16:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.12)  29 JAN 2021 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -435,6 +435,14 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 110.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 110.
+<figs/minisequence-1.pdf, id=45, 505.89pt x 94.3525pt>
+File: figs/minisequence-1.pdf Graphic file (type pdf)
+<use figs/minisequence-1.pdf>
+Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 136.
+(pdftex.def)             Requested size: 505.88875pt x 94.35225pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [1{/Users/mcasillas/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.ma
 p}
 
@@ -442,131 +450,130 @@ p}
 
 ]
 LaTeX Font Info:    Trying to load font information for OML+ptm on input line 1
-79.
+90.
 (/Users/mcasillas/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptm.fd
 File: omlptm.fd 
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 179.
-<figs/minisequence-1.pdf, id=58, 505.89pt x 94.3525pt>
-File: figs/minisequence-1.pdf Graphic file (type pdf)
-<use figs/minisequence-1.pdf>
-Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 222.
-(pdftex.def)             Requested size: 505.88875pt x 94.35225pt.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 190.
+<figs/workflow-1.pdf, id=59, 505.89pt x 160.6pt>
+File: figs/workflow-1.pdf Graphic file (type pdf)
+<use figs/workflow-1.pdf>
+Package pdftex.def Info: figs/workflow-1.pdf  used on input line 210.
+(pdftex.def)             Requested size: 505.88875pt x 160.5996pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[2]
-Underfull \hbox (badness 1533) in paragraph at lines 294--309
+[2 <./figs/minisequence-1.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 305--320
 []\OT1/ptm/m/n/10 Default set-tings are de-signed for hu-man spon-ta-neous
  []
 
 
-Underfull \hbox (badness 1701) in paragraph at lines 313--325
+Underfull \hbox (badness 1701) in paragraph at lines 324--336
 \OT1/ptm/m/n/10 fetch turn-taking in-for-ma-tion. I might also de-sire to,
  []
 
 
-Underfull \hbox (badness 1178) in paragraph at lines 313--325
+Underfull \hbox (badness 1178) in paragraph at lines 324--336
 \OT1/ptm/m/n/10 as-sess the base-line like-li-hood of find-ing a con-tin-gency:
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 313--325
+Underfull \hbox (badness 10000) in paragraph at lines 324--336
 \OT1/pcr/m/n/10 fetch[]chatter[]BST(filename, min.utt.dur = 1500,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 313--325
+Underfull \hbox (badness 10000) in paragraph at lines 324--336
 \OT1/pcr/m/n/10 allowed.gap = 1000, allowed.overlap = 600,
  []
-
-[3 <./figs/minisequence-1.pdf>]
-<figs/tseyel.ttr.fig-1.pdf, id=89, 252.945pt x 252.945pt>
-File: figs/tseyel.ttr.fig-1.pdf Graphic file (type pdf)
-<use figs/tseyel.ttr.fig-1.pdf>
-Package pdftex.def Info: figs/tseyel.ttr.fig-1.pdf  used on input line 393.
-(pdftex.def)             Requested size: 252.94438pt x 252.94438pt.
-
-Overfull \hbox (9.03313pt too wide) in paragraph at lines 393--394
- [][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figs/tseyel.is.fig-1.pdf, id=90, 252.945pt x 182.6825pt>
-File: figs/tseyel.is.fig-1.pdf Graphic file (type pdf)
-<use figs/tseyel.is.fig-1.pdf>
-Package pdftex.def Info: figs/tseyel.is.fig-1.pdf  used on input line 404.
-(pdftex.def)             Requested size: 252.94438pt x 182.68204pt.
-
-Overfull \hbox (9.03313pt too wide) in paragraph at lines 404--405
- [][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Overfull \hbox (4.10684pt too wide) in paragraph at lines 439--451
- [][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[4 <./figs/tseyel.ttr.fig-1.pdf>]
-<figs/tsi.ttr.fig-1.pdf, id=109, 252.945pt x 252.945pt>
-File: figs/tsi.ttr.fig-1.pdf Graphic file (type pdf)
-<use figs/tsi.ttr.fig-1.pdf>
-Package pdftex.def Info: figs/tsi.ttr.fig-1.pdf  used on input line 490.
+[3 <./figs/workflow-1.pdf>]
+<figs/tseyel.ttr.fig-1.pdf, id=97, 252.945pt x 252.945pt>
+File: figs/tseyel.ttr.fig-1.pdf Graphic file (type pdf)
+<use figs/tseyel.ttr.fig-1.pdf>
+Package pdftex.def Info: figs/tseyel.ttr.fig-1.pdf  used on input line 389.
 (pdftex.def)             Requested size: 252.94438pt x 252.94438pt.
 
-Overfull \hbox (9.03313pt too wide) in paragraph at lines 490--491
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 389--390
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/tsi.is.fig-1.pdf, id=110, 252.945pt x 182.6825pt>
-File: figs/tsi.is.fig-1.pdf Graphic file (type pdf)
-<use figs/tsi.is.fig-1.pdf>
-Package pdftex.def Info: figs/tsi.is.fig-1.pdf  used on input line 501.
+<figs/tseyel.is.fig-1.pdf, id=98, 252.945pt x 182.6825pt>
+File: figs/tseyel.is.fig-1.pdf Graphic file (type pdf)
+<use figs/tseyel.is.fig-1.pdf>
+Package pdftex.def Info: figs/tseyel.is.fig-1.pdf  used on input line 400.
 (pdftex.def)             Requested size: 252.94438pt x 182.68204pt.
 
-Overfull \hbox (9.03313pt too wide) in paragraph at lines 501--502
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 400--401
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4 <./figs/tseyel.ttr.fig-1.pdf> <./figs/tseyel.is.fig-1.pdf>]
+Overfull \hbox (4.10684pt too wide) in paragraph at lines 471--483
+ [][] 
+ []
+
+<figs/tsi.ttr.fig-1.pdf, id=121, 252.945pt x 252.945pt>
+File: figs/tsi.ttr.fig-1.pdf Graphic file (type pdf)
+<use figs/tsi.ttr.fig-1.pdf>
+Package pdftex.def Info: figs/tsi.ttr.fig-1.pdf  used on input line 488.
+(pdftex.def)             Requested size: 252.94438pt x 252.94438pt.
+
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 488--489
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+<figs/tsi.is.fig-1.pdf, id=122, 252.945pt x 182.6825pt>
+File: figs/tsi.is.fig-1.pdf Graphic file (type pdf)
+<use figs/tsi.is.fig-1.pdf>
+Package pdftex.def Info: figs/tsi.is.fig-1.pdf  used on input line 499.
+(pdftex.def)             Requested size: 252.94438pt x 182.68204pt.
 
-Underfull \hbox (badness 7433) in paragraph at lines 512--520
+Overfull \hbox (9.03313pt too wide) in paragraph at lines 499--500
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5 <./figs/tsi.ttr.fig-1.pdf> <./figs/tsi.is.fig-1.pdf>]
+Underfull \hbox (badness 7433) in paragraph at lines 523--531
  []\OT1/ptm/b/n/10 Results[] \OT1/ptm/m/n/10 A lin-ear mixed ef-fects re-gres-s
 ion of turn-
  []
 
-[5 <./figs/tseyel.is.fig-1.pdf> <./figs/tsi.ttr.fig-1.pdf>] [6
+[6
 
- <./figs/tsi.is.fig-1.pdf>] (./CogSci2021-chattr.aux)
+] (./CogSci2021-chattr.aux)
 Package rerunfilecheck Info: File `CogSci2021-chattr.out' has not changed.
-(rerunfilecheck)             Checksum: D0614C4E368E039F28D9100A76F1DFB6;642.
+(rerunfilecheck)             Checksum: 1FDE8FDAD03DAC893ECBDBD9CC6C9D12;643.
  ) 
 Here is how much of TeX's memory you used:
- 8828 strings out of 479304
- 137962 string characters out of 5862811
- 450522 words of memory out of 5000000
- 25797 multiletter control sequences out of 15000+600000
+ 8837 strings out of 479304
+ 138161 string characters out of 5862811
+ 448522 words of memory out of 5000000
+ 25804 multiletter control sequences out of 15000+600000
  440790 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,11n,74p,660b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,11n,74p,660b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Us
 ers/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
 pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrb8a
@@ -575,10 +582,10 @@ a.pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a
 .pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.
 pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on CogSci2021-chattr.pdf (6 pages, 690081 bytes).
+Output written on CogSci2021-chattr.pdf (6 pages, 832346 bytes).
 PDF statistics:
- 181 PDF objects out of 1000 (max. 8388607)
- 144 compressed objects within 2 object streams
- 48 named destinations out of 1000 (max. 500000)
- 106 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 192 PDF objects out of 1000 (max. 8388607)
+ 150 compressed objects within 2 object streams
+ 49 named destinations out of 1000 (max. 500000)
+ 111 words of extra memory for PDF output out of 10000 (max. 10000000)
 

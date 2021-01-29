@@ -43,6 +43,12 @@ The current paper introduces an R (REFS) package called `chattr` that facilitate
 
 [^1]: At time of submission, the conversion from R scripts to R package is still underway. That said, all documentation, scripts, and tests are available at the given URL and the fully packaged version will be available before May 2021.
 
+```{r minisequence, fig.env = "figure*", fig.pos = "h", fig.width=7, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "An example of a brief dyadic interaction between two English speakers: A (green) and B (orange). The producers here use both single- and multi-unit turns. There are 6 turns (3 from each producer), 4 turn transitions (two each from B to A and vice versa; black arrows), and one interactional sequence (the contiguous block of producer continuation/transition marked with green/orange arrows; the other turn ('but-. what's it for?') has no transitions and so is not an interactional sequence)."}
+# Note: Image must be in .png file format for the readPNG function to work.
+example <- png::readPNG("figs/chattr-turn-transitions.png")
+grid::grid.raster(example)
+```
+
 ## Contingent interaction
 
 The joint coordination of action by two or more agents usually involves temporal contingencies. Whether we are making music with others, crossing a busy intersection, or chatting with a friend, the timing of our contributions to a coordinated event is crucial to its success. In many cases, the optimal strategy for coordination involves some form of turn taking. In a typical turn-taking interaction, only one interactant makes their contribution at a time, and decisions about who contributes when can be determined flexibly (as in conversation) or in a pre-defined manner (as in a debate). This sequential structure enables interactants to adapt each contribution such that it relevantly progresses the joint activity and to initiate unplanned subsequences (e.g., repairing a misunderstanding) without breaking from moving toward the the larger goal.
@@ -55,13 +61,12 @@ At present, the most widely used tool with respect to automated contingency anal
 
 [^2]: Note that most CTC error estimates inherit error from earlier steps in the processing pipeline (e.g., misidentifying speech as silence).
 
-Beyond LENA, approaches to extracting temporal contingencies over whole corpora have been much more variable. For example, in studies of adult conversation, researchers vary in what timing windows qualify as contingent, what types of contributions count toward turn taking, the modality in which communication is taking place, in how many interactants are considered to be involved (or are of interest), and so on, as is suitable to the research question (REFS; Roberts et al (2015) Heldner & Edlund? Bosch Animal studies??). These studies, while heterogenous in data types and determinants for how and when to count turn-taking exchanges, have typically been inspired by core concepts from conversation analysis, building up significant theoretical common ground for understanding moment-to-moment processes of interactant coordination. Much of the work on language development, by contrast, has inherited the somewhat idiosyncratic concepts and terminology introduced by the LENA system, leaving a conceptual disjunct between work on turn-taking behaviors in children, adults, and non-human animals. Given the various restrictions on existing tools and free variations in analysis across studies, there is a clear need for a free, flexible, and theoretically grounded tool that can extract temporal contingencies at scale; `chattr` aims to fill this need. The following text briefly describes the package and its use before turning to examples with real datasets from the child language literature.  
-
-```{r minisequence, fig.env = "figure*", fig.pos = "h", fig.width=7, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "An example of a brief dyadic interaction between two English speakers: A (green) and B (orange). The producers here use both single- and multi-unit turns. There are 6 turns (3 from each producer), 4 turn transitions (two each from B to A and vice versa; black arrows), and one interactional sequence (the contiguous block of producer continuation/transition marked with green/orange arrows; the other turn ('but-. what's it for?') has no transitions and so is not an interactional sequence):"}
-# Note: Image must be in .png file format for the readPNG function to work.
-example <- png::readPNG("figs/chattr-turn-transitions.png")
-grid::grid.raster(example)
+```{r workflow, fig.env = "figure*", fig.pos = "h", fig.width=7, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "Example workflow for an annotation file using `chattr`."}
+workflow <- png::readPNG("figs/ex-workflow.png")
+grid::grid.raster(workflow)
 ```
+
+Beyond LENA, approaches to extracting temporal contingencies over whole corpora have been much more variable. For example, in studies of adult conversation, researchers vary in what timing windows qualify as contingent, what types of contributions count toward turn taking, the modality in which communication is taking place, in how many interactants are considered to be involved (or are of interest), and so on, as is suitable to the research question (REFS; Roberts et al (2015) Heldner & Edlund? Bosch Animal studies??). These studies, while heterogenous in data types and determinants for how and when to count turn-taking exchanges, have typically been inspired by core concepts from conversation analysis, building up significant theoretical common ground for understanding moment-to-moment processes of interactant coordination. Much of the work on language development, by contrast, has inherited the somewhat idiosyncratic concepts and terminology introduced by the LENA system, leaving a conceptual disjunct between work on turn-taking behaviors in children, adults, and non-human animals. Given the various restrictions on existing tools and free variations in analysis across studies, there is a clear need for a free, flexible, and theoretically grounded tool that can extract temporal contingencies at scale; `chattr` aims to fill this need. The following text briefly describes the package and its use before turning to examples with real datasets from the child language literature.  
 
 # The `chattr` system
 
@@ -86,7 +91,7 @@ Default settings are designed for human spontaneous conversation, including conv
 
 ### Example use case
 
-Suppose that I am interested in investigating how adult turn-taking varies in a dataset across semi-structured contexts (e.g., during board game play). I would ensure that the annotations are formatted as tab-delimited text (see the `chattr` documentation). Then I would use the Basic Speech Table call `fetch_chatter_BST()` to fetch turn-taking information. I might also desire to, e.g., employ a minimum utterance duration and a more strict temporal window for contingency, as well as calculate 10 randomized simulations of turn-taking rates to assess the baseline likelihood of finding a contingency: `fetch_chatter_BST(filename, min.utt.dur = 1500, allowed.gap = 1000, allowed.overlap = 600, n.runs = 10)`. This call yields detailed tables of detected turn-taking behavior ready for the author's statistical analysis of choice (Figure XX).
+Suppose that I am interested in investigating how adult turn-taking varies in a dataset across semi-structured contexts (e.g., during board game play). I would ensure that the annotations are formatted as tab-delimited text (see the `chattr` documentation). Then I would use the Basic Speech Table call `fetch_chatter_BST()` to fetch turn-taking information. I might also desire to, e.g., employ a minimum utterance duration and a more strict temporal window for contingency, as well as calculate 10 randomized simulations of turn-taking rates to assess the baseline likelihood of finding a contingency: `fetch_chatter_BST(filename, min.utt.dur = 1500, allowed.gap = 1000, allowed.overlap = 600, n.runs = 10)`. This call yields detailed tables of detected turn-taking behavior ready for the author's statistical analysis of choice (Figure 2).
 
 # Pilot analysis
 
@@ -96,29 +101,31 @@ We demonstrate the use of `chattr` with three child language environment dataset
 
 We analyze interactional behavior in 20 clips for each recording: 9 randomly selected clips (5 min for Tseltal and 2.5 min for Yélî Dnye), 5 clips manually selected for day-peak turn-taking behavior of the target child with one or more interactants (each 1 min), 5 clips manually selected for day-peak vocal activity by the target child (each 1 min), and one 5-minute expansion on the most active turn-taking or vocal activity clip. Each clip was manually annotated for all hearable speech, including addressee coding (e.g., target-child-directed vs. other-directed; see REFS for details). Despite documented differences in caregiver-child interactional style (REFS), day-long linguistic input estimates show similar directed linguistic input patterns in these two communities. While female adult speech constitutes the majority of linguistic input in both communities, Yélî children show a marked increase in directed speech from other children with age. This pattern appears more weakly in the Tseltal data. We therefore expected to find that: (1) turn-taking rates are higher in turn-taking clips than in vocal activity and random clips, (2) rates are overall similar between the two communities, and (3) interactional sequences involving other children increase with age, particularly for Yélî children.
 
+```{r tseyel.ttr.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red)."}
+ttr.tsyd <- png::readPNG("figs/ttr-tsyd.png")
+grid::grid.raster(ttr.tsyd)
+```
+
+```{r tseyel.is.fig, fig.env = "figure", fig.pos = "h!", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by language."}
+is.tsyd <- png::readPNG("figs/is-tsyd.png")
+grid::grid.raster(is.tsyd)
+```
+
 ### Methods
 
 We use the `fetch_chatter_AAS()` call, which is specifically designed for those using the ACLEW Annotation Scheme (REFS)[^4]: that allows 2000 ms of gap and 1000 ms of overlap between at turn transitions and searches over all annotated utterances (any duration, content, and from any speaker). We limit our analysis to utterances directed exclusively to the target child. We also indicate the annotated regions by using the `cliptier` argument (see documentation).
 
 [^4] ACLEW is a working group that has provided a flexible manual annotation template friendly for use with open source speech processing tools (REFS).
 
-```{r tseyel.ttr.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red)."}
-ttr.tsyd <- png::readPNG("figs/ttr-tsyd.png")
-grid::grid.raster(ttr.tsyd)
-```
-
-
-```{r tseyel.is.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by language."}
-is.tsyd <- png::readPNG("figs/is-tsyd.png")
-grid::grid.raster(is.tsyd)
-```
-
 ### Results
 
-The mean rate of turn transitions in the Tseltal corpus was 3 and \textbf{XX} transitions per minute for the random and active clips, respectfully. The mean rates in the Yélî Dnye corpus were 2.4 and 12.8 for the random and active clips. Overall the distribution of turn taking rates across annotated clips was similar between the two sites (Table 1). A linear mixed effects regression of turn-transitions per minute with predictors of clip type, corpus, and their interaction and a random intercept for child reveals that, indeed, random clips have significantly lower turn-transition rates (B = `r round(subset(model.outputs, model == "ttr_TSYD")$estimate[2],2)`, SE = `r round(subset(model.outputs, model == "ttr_TSYD")$std.error[2],2)`, t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[2],2)`) and there is no evidence for a significant difference in turn-taking rates between languages (t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[3],2)`) and no evidence for a clip type-language interaction (t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[4],2)`).
+The mean rate of turn transitions in the Tseltal corpus was 3 and 11.8 transitions per minute for the random and active clips, respectfully. The mean rates in the Yélî Dnye corpus were 2.4 and 12.8 for the random and active clips. Overall the distribution of turn taking rates across annotated clips was similar between the two sites (Table 1). A linear mixed effects regression of turn-transitions per minute with predictors of clip type, corpus, and their interaction and a random intercept for child reveals that, indeed, random clips have significantly lower turn-transition rates (B = `r round(subset(model.outputs, model == "ttr_TSYD")$estimate[2],2)`, SE = `r round(subset(model.outputs, model == "ttr_TSYD")$std.error[2],2)`, t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[2],2)`) and there is no evidence for a significant difference in turn-taking rates between languages (t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[3],2)`) and no evidence for a clip type-language interaction (t = `r round(subset(model.outputs, model == "ttr_TSYD")$statistic[4],2)`).
 
 A second linear mixed effects regression of the proportion of interactional sequences that feature at least one non-target child with predictors of age (in months), corpus, and their interaction and a random intercept for child reveals that, as expected, there is a significant age-by-corpus interaction by which Yélî children show a larger increase in other-child interactional sequences with age compared to Tseltal children (B = `r round(subset(model.outputs, model == "is_TSYD")$estimate[4],2)`, SE = `r round(subset(model.outputs, model == "is_TSYD")$std.error[4],2)`, t = `r round(subset(model.outputs, model == "is_TSYD")$statistic[4],2)`). There is no evidence for simple effects of age (t = `r round(subset(model.outputs, model == "is_TSYD")$statistic[2],2)`) or language (t = `r round(subset(model.outputs, model == "is_TSYD")$statistic[3],2)`).
 
+## Study 2. Tsimane'
+
+These Tsimane' recordings were first automatically analyzed with LENA and then subsequently (and independently) manually annotated in one minute clips, every 60 minutes, starting at the 34th minute (34 min, 94 min, 154 min, etc.) in Praat (REFS). Both annotation formats include information regarding (a) when speech was occurring and (b) what type of speaker produced it (i.e., the target child, a nearby woman/man/other child, or other noise sources) for each of the hand-annotated minutes. Prior analysis shows comparably low rates of directed speech in these Tsimane' data to the Tseltal and Yélî Dnye recordings, again with a high proportion of directed input coming from other children. We therefore expected to find that: (1) turn-taking rates are overall similar to what we found in the random samples of the other two communities, (2) turn-taking sequences involving other children are comparable or more frequent than found in the random samples of the other two communities, (3) interactional sequences involving other children increase with age, and (4) manual and automated speech annotations of the same audio clips result in similar turn-taking estimates.
 
 ```{r descriptivestats, results="asis"}
 desc.stats <- xtable(read_csv("minisummary-descriptives.csv"))
@@ -127,23 +134,19 @@ print(desc.stats, type="latex", comment = F, table.placement = "h",
       include.rownames=FALSE)
 ```
 
-## Study 2. Tsimane'
-
-These Tsimane' recordings were first automatically analyzed with LENA and then subsequently (and independently) manually annotated in one minute clips, every 60 minutes, starting at the 34th minute (34 min, 94 min, 154 min, etc.) in Praat (REFS). Both annotation formats include information regarding (a) when speech was occurring and (b) what type of speaker produced it (i.e., the target child, a nearby woman/man/other child, or other noise sources) for each of the hand-annotated minutes. Prior analysis shows comparably low rates of directed speech in these Tsimane' data to the Tseltal and Yélî Dnye recordings, again with a high proportion of directed input coming from other children. We therefore expected to find that: (1) turn-taking rates are overall similar to what we found in the random samples of the other two communities, (2) turn-taking sequences involving other children are comparable or more frequent than found in the random samples of the other two communities, (3) interactional sequences involving other children increase with age, and (4) manual and automated speech annotations of the same audio clips result in similar turn-taking estimates.
-
-### Methods
-
-We first use the `fetch_chatter_BST()` call with the manually annotated data, matching conditions of the call as closely as possible to what can be compared in the LENA output files, that is: include woman, man, and other-child speech, both linguistic and non-linguistic, with a minimum utterance duration of 600ms (the LENA lower limit) and no overlap allowed (meaningful overlap is not possible in LENA). With the automatic LENA annotations on the same recordings (in the same 1-minute segments) we adjust the defaults on `fetch_chatter_LENA()` to reflect the same restrictions.
-
 ```{r tsi.ttr.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Turn transition rate by annotation type (LENA automated vs. manual) in the same audio clips. Clips are a periodic random sample of the daylong recording."}
 ttr.tsi <- png::readPNG("figs/ttr-tsi.png")
 grid::grid.raster(ttr.tsi)
 ```
 
-```{r tsi.is.fig, fig.env = "figure", fig.pos = "h", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by annotation type (LENA automated vs. manual) in the same audio clips."}
+```{r tsi.is.fig, fig.env = "figure", fig.pos = "h!", fig.align = "center", fig.width=3.5, fig.height=3.5, fig.cap = "Proportion of interactional sequences involving at least one non-target child across age, by annotation type (LENA automated vs. manual) in the same audio clips."}
 is.tsyd <- png::readPNG("figs/is-tsi.png")
 grid::grid.raster(is.tsyd)
 ```
+
+### Methods
+
+We first use the `fetch_chatter_BST()` call with the manually annotated data, matching conditions of the call as closely as possible to what can be compared in the LENA output files, that is: include woman, man, and other-child speech, both linguistic and non-linguistic, with a minimum utterance duration of 600ms (the LENA lower limit) and no overlap allowed (meaningful overlap is not possible in LENA). With the automatic LENA annotations on the same recordings (in the same 1-minute segments) we adjust the defaults on `fetch_chatter_LENA()` to reflect the same restrictions.
 
 ### Results
 
