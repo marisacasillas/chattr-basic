@@ -6,6 +6,9 @@ source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/f
 real.data <- read_csv("tt.bigtable.real.all.csv")
 rand.data <- read_csv("tt.bigtable.rand.all.csv")
 code.areas <- read_csv("coded.regions.csv")
+code.areas$annot.clip[which(
+  code.areas$annot.clip == "annotated-29940000_3e+07-tt-5")] <- 
+  "annotated-29940000_30000000-tt-5"
 
 sem <- function (x) {
   sd(x) / sqrt(length(x))
@@ -100,10 +103,10 @@ tseyel.ttr.plot <- ggplot(data = tseyel.real.ttr.summary,
   expand_limits(x = 2.75) +
   scale_fill_manual(values = c("red", "steelblue1")) +
   scale_color_manual(values = c("red", "steelblue1")) +
-  geom_pointrange(data = tseyel.rand,
-                  aes(x = language, y = avg.ttr,
-                      ymin = ymin, ymax = ymax), color = "black",
-                  position = position_dodge(0.1)) +
+  # geom_pointrange(data = tseyel.rand,
+  #                 aes(x = language, y = avg.ttr,
+  #                     ymin = ymin, ymax = ymax), color = "black",
+  #                 position = position_dodge(0.1)) +
   theme(legend.position = "bottom")
 ggexport(tseyel.ttr.plot,
          filename = paste0("figs/","ttr-tsyd.png"),
@@ -263,10 +266,10 @@ tsi.ttr.plot <- ggplot(data = tsi.real.ttr.summary,
   scale_color_manual(values = c("steelblue4", "steelblue1")) +
   guides(color = guide_legend(title = "Version"),
          fill = guide_legend(title = "Version")) +
-  geom_pointrange(data = tsi.rand,
-                  aes(x = language, y = avg.ttr,
-                      ymin = ymin, ymax = ymax), color = "black",
-                  position = position_dodge(0.1)) +
+  # geom_pointrange(data = tsi.rand,
+  #                 aes(x = language, y = avg.ttr,
+  #                     ymin = ymin, ymax = ymax), color = "black",
+  #                 position = position_dodge(0.1)) +
   theme(legend.position = "bottom")
 ggexport(tsi.ttr.plot,
          filename = paste0("figs/","ttr-tsi.png"),
