@@ -199,9 +199,3 @@ if (reread.data == FALSE) {
               select(annot.clip, annot.clip.dur.ms, filename),
             coded.regions.filename)
 }
-# # merge rec info into turn-taking behavior
-# tt.bigtable <- tt.bigtable %>%
-#   left_join(rec.metadata, by = c("filename" = "annot_filename"))
-# if (reread.data == FALSE) {
-#   write_csv(tt.bigtable, bigtable.recdata.filename)
-# }
