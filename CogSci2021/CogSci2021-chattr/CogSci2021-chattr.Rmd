@@ -6,7 +6,7 @@ document-params: "10pt, letterpaper"
 
 author-information: > 
     \author{{\large \bf Marisa Casillas (mcasillas@uchicago.edu)} \\ Comparative Human Development, 1101 E. 58th St. \\ Chicago, IL 60637 USA
-    \AND {\large \bf Camila Scaff (camila.scaff@iem.uzh.ch)} \\ Institute of evolutionary medecine, University of Zurich \\ Zurich, Switzerland POSTCODE}
+    \AND {\large \bf Camila Scaff (camila.scaff@iem.uzh.ch)} \\ Institute of Evolutionary Medicine, University of Zurich \\ Zurich, Switzerland CH-8057}
 
 abstract: >
     In this article, the R package chattr is presented. This package enables a variety of functions on temporal contingencies of pre-annotated interactional data from the most common output formats (.txt, .eaf, .rttms, .its). Interactional data is extremely common, from spontaneous human conversations to multi-modal contingencies produced by a single organism. Analysis and detection of contingencies among language studies are extremly needed, particularly with the rise of more powerful, longlasting and ubiquitous recording devices. Most notably, child language studies have  blablabla. Chattr uses pre-annotated data and provides flexible and customizable functions for (a) Turn-taking rates; (b) Duration of interactional sequences, (c) plotting?  , (d) Run simulations to assess the baseline likelihood of finding contingencies, and (e) Comparing different annotation systems. The purpose of this package is to allow convenient management and analysis of interactional data of highly distinct contexts, fields and situations. We demonstrate some the uses chattr with three child language environment datasets. 
