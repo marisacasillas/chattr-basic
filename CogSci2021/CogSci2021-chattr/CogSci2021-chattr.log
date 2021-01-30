@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.29)  29 JAN 2021 18:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.29)  29 JAN 2021 18:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -563,7 +563,7 @@ ion of turn-
  []
 
 
-Underfull \hbox (badness 2418) in paragraph at lines 633--638
+Underfull \hbox (badness 2418) in paragraph at lines 631--636
  \OT1/ptm/m/n/10 home lan-guage en-vi-ron-ments us-ing au-to-matic speech
  []
 
@@ -589,10 +589,10 @@ a.pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a
 .pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.
 pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.
 pfb>
-Output written on CogSci2021-chattr.pdf (7 pages, 850034 bytes).
+Output written on CogSci2021-chattr.pdf (7 pages, 849580 bytes).
 PDF statistics:
- 233 PDF objects out of 1000 (max. 8388607)
- 190 compressed objects within 2 object streams
+ 234 PDF objects out of 1000 (max. 8388607)
+ 191 compressed objects within 2 object streams
  73 named destinations out of 1000 (max. 500000)
  111 words of extra memory for PDF output out of 10000 (max. 10000000)
 
