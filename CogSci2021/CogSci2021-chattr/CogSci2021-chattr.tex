@@ -101,22 +101,22 @@ conversation; R; automated speech annotation.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-The current paper introduces an R (REFS) package called \texttt{chattr}
-that facilitates the detection and analysis of temporally contingent
-interactions in pre-annotated data (URL redacted).\footnote{At time of
-  submission, the conversion from R scripts to R package is still
-  underway. That said, all documentation, scripts, and tests are
-  available at the given URL and the fully packaged version will be
-  available before May 2021.} The utility of this package extends across
-studies of adult and child human interactions, non-human animal
-communication, and contingencies within multi-modal signals. Despite
-significant common conceptual ground between these domains, definitions
-of contingency phenomena and implementations of contingency detection
-remain fairly inconsistent, foregoing critical opportunities for the
-accumulation of shared construct validity across domains. In part, these
-divergences are due to the lack of flexible tools for contingency
-analysis; existing systems are either constructed ad-hoc or are
-proprietary, and thereby limited in who can use them. The
+The current paper introduces an R (R Core Team, 2020) package called
+\texttt{chattr} that facilitates the detection and analysis of
+temporally contingent interactions in pre-annotated data (URL
+redacted).\footnote{At time of submission, the conversion from R scripts
+  to R package is still underway. That said, all documentation, scripts,
+  and tests are available at the given URL and the fully packaged
+  version will be available before May 2021.} The utility of this
+package extends across studies of adult and child human interactions,
+non-human animal communication, and contingencies within multi-modal
+signals. Despite significant common conceptual ground between these
+domains, definitions of contingency phenomena and implementations of
+contingency detection remain fairly inconsistent, foregoing critical
+opportunities for the accumulation of shared construct validity across
+domains. In part, these divergences are due to the lack of flexible
+tools for contingency analysis; existing systems are either constructed
+ad-hoc or are proprietary, and thereby limited in who can use them. The
 \texttt{chattr} package aims to improve this situation in two ways: (1)
 It takes inspiration from the fields of conversation analysis,
 psycholinguistics, and language development to provide theoretically
@@ -159,9 +159,10 @@ misunderstanding) without breaking from moving toward the the larger
 goal.
 
 Turn-taking (and similar temporally contingent) interactions are
-essential for communication across the animal kingdom (REFS). In humans,
+essential for communication across the animal kingdom (Fröhlich et al.,
+2016; Pika, Wilkinson, Kendrick, \& Vernes, 2018). In humans,
 turn-taking interactions may be the only reliable source of language
-universals (REFS). Traditionally, these kinds of interactional
+universals (Levinson, 2019). Traditionally, these kinds of interactional
 contingencies have been studied using careful inspection and analysis
 (both qualitative and quantitative) of manual measurements from video
 and audio recordings. However, recent advances in automated annotation
@@ -174,35 +175,38 @@ need for new, and validated analytical approaches.
 limitations)}\label{current-contingency-detection-approaches-and-their-limitations}}
 
 At present, the most widely used tool with respect to automated
-contingency analysis of human interaction is the LENA system (REFS). The
-LENA system was built to be used with young children, but has also been
-employed to capture adult language environments (REFS). The system
-includes both a recording device and a set of proprietary software tools
-that enable the user to first collect long-format (16-hour)
-participant-centric audio recordings and second, automatically analyze
-them for a range of properties, such as when vocalizations occur by
-speakers of different types (e.g., near/far female adult vocalizations).
-The software then uses the detected vocalizations to find candidate
-regions of vocal exchange (VABs; Vocal Activity Blocks) between the
-target child and nearby adults. It then calculates the estimated number
-of speaker exchanges that involve the child, using temporal contingency
-to associate speaking turns from different speaker types (i.e.,
-\textless5 seconds of silence between child and woman/man vocalizations
-or vice versa). This extremely convenient system, which has been
-critical to spurring on new research on language development and
-turn-taking (REFS) has a few unfortunate drawbacks. Reliability
-estimates for turn count estimates are between 0.3 and 0.6 (REFS;
-Bulgarelli et al., under review; Cristia et al., under review), with
-systematically worse errors for younger infants than older ones
-(REFS).\footnote{Note that most CTC error estimates inherit error from
-  earlier steps in the processing pipeline (e.g., misidentifying speech
-  as silence).} The system is also proprietary, expensive, and can only
-be used with recordings made with the LENA hardware. Therefore, research
-groups who lack generous funding or who have unique hardware and storage
-requirements will struggle to benefit from the system. Lastly, LENA is
-designed specifically for child-centric recordings, improving the
-accuracy of its application in the developmental language context, but
-offering minimal utility for those working in other domains.
+contingency analysis of human interaction is the LENA system (Greenwood,
+Thiemann-Bourque, Walker, Buzhardt, \& Gilkerson, 2011). The LENA system
+was built to be used with young children, but has also been employed to
+capture adult language environments (e.g., Rodríguez-Arauz,
+Ramírez-Esparza, García-Sierra, Ikizer, \& Fernández-Gómez, 2019). The
+system includes both a recording device and a set of proprietary
+software tools that enable the user to first collect long-format
+(16-hour) participant-centric audio recordings and second, automatically
+analyze them for a range of properties, such as when vocalizations occur
+by speakers of different types (e.g., near/far female adult
+vocalizations). The software then uses the detected vocalizations to
+find candidate regions of vocal exchange (VABs; Vocal Activity Blocks)
+between the target child and nearby adults. It then calculates the
+estimated number of speaker exchanges that involve the child, using
+temporal contingency to associate speaking turns from different speaker
+types (i.e., \textless5 seconds of silence between child and woman/man
+vocalizations or vice versa). This extremely convenient system, which
+has been critical to spurring on new research on language development
+and turn-taking (e.g., Romeo et al., 2018) has a few unfortunate
+drawbacks. Reliability estimates for turn count estimates are between
+0.3 and 0.6 (Cristia, Bulgarelli, \& Bergelson, 2020), with
+systematically worse errors for younger infants than older ones (Ferjan
+Ramírez, Hippe, \& Kuhl, 2021).\footnote{Note that most CTC error
+  estimates inherit error from earlier steps in the processing pipeline
+  (e.g., misidentifying speech as silence).} The system is also
+proprietary, expensive, and can only be used with recordings made with
+the LENA hardware. Therefore, research groups who lack generous funding
+or who have unique hardware and storage requirements will struggle to
+benefit from the system. Lastly, LENA is designed specifically for
+child-centric recordings, improving the accuracy of its application in
+the developmental language context, but offering minimal utility for
+those working in other domains.
 
 \begin{CodeChunk}
 \begin{figure*}[h]
@@ -221,8 +225,9 @@ conversation, researchers vary in what timing windows qualify as
 contingent, what types of contributions count toward turn taking, the
 modality in which communication is taking place, in how many
 interactants are considered to be involved (or are of interest), and so
-on, as is suitable to the research question (REFS; Roberts et al (2015)
-Heldner \& Edlund? Bosch Animal studies??). These studies, while
+on, as is suitable to the research question (e.g., Ten Bosch, Oostdijk,
+\& Boves, 2005; Fröhlich et al., 2016; Heldner \& Edlund, 2010; Pika et
+al., 2018; Roberts, Torreira, \& Levinson, 2015). These studies, while
 heterogenous in data types and determinants for how and when to count
 turn-taking exchanges, have typically been inspired by core concepts
 from conversation analysis, building up significant theoretical common
@@ -247,10 +252,11 @@ detailed data on temporal contingencies in pre-annotated data. To keep
 things simple, it has a single core function for each type of input that
 it takes: (a) LENA .its files; (b) tab delimited .txt tables with one
 production (i.e., utterance) per row, as can be exported from Praat,
-ELAN, and so forth (REFS); and (c) .rttm tables, a common output format
-used with automated speech diarization systems.\footnote{Users
+ELAN, and so forth (Boersma \& Weenink, 2021; Wittenburg, Brugman,
+Russel, Klassmann, \& Sloetjes, 2006); and (c) .rttm tables, a common
+output format used with automated speech diarization systems.\footnote{Users
   interested in a fully open-source pipeline for child language
-  environments should check out Lavechin et al.'s (REFS) voice type
+  environments should check out Lavechin et al.'s (2021) voice type
   classifier.}
 
 Users can use the default settings for each function---which include
@@ -270,10 +276,11 @@ of 'turn', `transition', and `interactional sequence' fit those of the
 user; our default definitions differ from those typically used in the
 language development literature and are somewhat restricted compared to
 their full (and human conversation-specific) theoretical meanings in
-conversation analysis (e.g., see REFS). We briefly summarize these core
-concepts here. The same concepts are illustrated in Figure 1. We use the
-concepts of `producer' and `recipient'/`addressee' rather than `speaker'
-and `listener' to underscore the utility of these concepts across
+conversation analysis (e.g., see Sacks, Schegloff, \& Jefferson, 1974,
+and @schegloff2007sequence). We briefly summarize these core concepts
+here. The same concepts are illustrated in Figure 1. We use the concepts
+of `producer' and `recipient'/`addressee' rather than `speaker' and
+`listener' to underscore the utility of these concepts across
 modalities, species, and interactional contexts:
 
 A \emph{`turn'} comprises one or more closely occurring emissions by the
@@ -305,18 +312,18 @@ can more substantially build on joint goals.
 Default settings are designed for human spontaneous conversation,
 including conversation, which demonstrates fairly robust timing patterns
 (with some systematic variation) across the signed and spoken languages
-that have been analyzed (REFS). The three most critical default settings
-are that: (a) up to 2000 ms of transitional gap or up to 1000 ms of
-transitional overlap is allowed between turns, (b) turn transitions can
-occur with turns of any duration, content, and between any potential
-interactional partner, and (c) when there are multiple potential prompts
-or responses (e.g., two interactants answer a question nearly
-simultaneously), \texttt{chattr} picks the turn that begins soonest.
-Users interested in emulating LENA's CTC measure with their .its files
-can use a specialized version of the tool in which the target producer
-is assumed to be ``CH'' (target child), potential interactants limited
-to ``FA'' and ``MA'' (female and male adult), and analyzed turns contain
-some linguistic material (REFS).
+that have been analyzed (Levinson, 2019). The three most critical
+default settings are that: (a) up to 2000 ms of transitional gap or up
+to 1000 ms of transitional overlap is allowed between turns, (b) turn
+transitions can occur with turns of any duration, content, and between
+any potential interactional partner, and (c) when there are multiple
+potential prompts or responses (e.g., two interactants answer a question
+nearly simultaneously), \texttt{chattr} picks the turn that begins
+soonest. Users interested in emulating LENA's CTC measure with their
+.its files can use a specialized version of the tool in which the target
+producer is assumed to be ``CH'' (target child), potential interactants
+limited to ``FA'' and ``MA'' (female and male adult), and analyzed turns
+contain some linguistic material.
 
 \hypertarget{example-use-case}{%
 \subsubsection{Example use case}\label{example-use-case}}
@@ -345,19 +352,20 @@ us to examine interactional patterns at scale in these corpora, evading
 months of manual annotation achieving the same aim. The first two
 corpora, Tseltal (Mayan; Chiapas, Mexico; N = 10) and Yélî Dnye
 (isolate; Milne Bay, Papua New Guinea; N = 10), come from the Casillas
-HomeBank corpus (REFS) and were made with near parallel methods:
-children under age 3;0 wore an Olympus WS-832/853 audio recorder during
-a day at home for 8--11 hours. The third corpus, Tsimane' (Tsimane';
-Bolivia; N = 27) features children under 6;0 who wore one of multiple
-recording devices (LENA, Olympus, or USB) during a day at home for 4--21
-hours (REFS); we focus here on the subset of those 27 recordings made
-with LENA (N = 17). In each dataset we assess the baseline turn-taking
-rate and duration of interactional sequences over age and by interactant
-type. For the Tsimane' corpus we briefly compare \texttt{chattr}
-estimates on both LENA (automated) and manually created annotations of
-the same recording minutes. Here \texttt{chattr} gives a brief glimpse
-into how reliably known patterns from these children's linguistic input
-(REFS) are recapitulated in their turn-taking behavior.
+HomeBank corpus (Casillas et al., 2017) and were made with near parallel
+methods: children under age 3;0 wore an Olympus WS-832/853 audio
+recorder during a day at home for 8--11 hours. The third corpus,
+Tsimane' (Tsimane'; Bolivia; N = 27) features children under 6;0 who
+wore one of multiple recording devices (LENA, Olympus, or USB) during a
+day at home for 4--21 hours (Scaff, Stieglitz, Casillas, \& Cristia,
+n.d.); we focus here on the subset of those 27 recordings made with LENA
+(N = 17). In each dataset we assess the baseline turn-taking rate and
+duration of interactional sequences over age and by interactant type.
+For the Tsimane' corpus we briefly compare \texttt{chattr} estimates on
+both LENA (automated) and manually created annotations of the same
+recording minutes. Here \texttt{chattr} gives a brief glimpse into how
+previously documented patterns in these children's linguistic input are
+recapitulated in their turn-taking behavior.
 
 \hypertarget{study-1.-tseltal-and-yuxe9luxee-dnye}{%
 \subsection{Study 1. Tseltal and Yélî
@@ -371,17 +379,18 @@ selected for day-peak vocal activity by the target child (each 1 min),
 and one 5-minute expansion on the most active turn-taking or vocal
 activity clip. Each clip was manually annotated for all hearable speech,
 including addressee coding (e.g., target-child-directed
-vs.~other-directed; see REFS for details). Despite documented
-differences in caregiver-child interactional style (REFS), day-long
-linguistic input estimates show similar directed linguistic input
-patterns in these two communities. While female adult speech constitutes
-the majority of linguistic input in both communities, Yélî children show
-a marked increase in directed speech from other children with age. This
-pattern appears more weakly in the Tseltal data. We therefore expected
-to find that: (1) turn-taking rates are higher in turn-taking clips than
-in vocal activity and random clips, (2) rates are overall similar
-between the two communities, and (3) interactional sequences involving
-other children increase with age, particularly for Yélî children.
+vs.~other-directed; see Casillas et al.~(2020b, 2020a) for details).
+Despite documented differences in caregiver-child interactional style,
+day-long linguistic input estimates show similar directed linguistic
+input patterns in these two communities. While female adult speech
+constitutes the majority of linguistic input in both communities, Yélî
+children show a marked increase in directed speech from other children
+with age. This pattern appears more weakly in the Tseltal data. We
+therefore expected to find that: (1) turn-taking rates are higher in
+turn-taking clips than in vocal activity and random clips, (2) rates are
+overall similar between the two communities, and (3) interactional
+sequences involving other children increase with age, particularly for
+Yélî children.
 
 \begin{CodeChunk}
 \begin{figure}[h]
@@ -409,16 +418,16 @@ other children increase with age, particularly for Yélî children.
 \subsubsection{Methods}\label{methods}}
 
 We use the \texttt{fetch\_chatter\_AAS()} call, which is specifically
-designed for those using the ACLEW Annotation Scheme (REFS){[}\^{}4{]}:
-that allows 2000 ms of gap and 1000 ms of overlap between at turn
-transitions and searches over all annotated utterances (any duration,
-content, and from any speaker). We limit our analysis to utterances
-directed exclusively to the target child. We also indicate the annotated
-regions by using the \texttt{cliptier} argument (see documentation).
+designed for those using the ACLEW{[}\^{}4{]} Annotation Scheme
+(Casillas, Bergelson, et al., 2017): that allows 2000 ms of gap and 1000
+ms of overlap between at turn transitions and searches over all
+annotated utterances (any duration, content, and from any speaker). We
+limit our analysis to utterances directed exclusively to the target
+child. We also indicate the annotated regions by using the
+\texttt{cliptier} argument (see documentation).
 
-{[}\^{}4{]} ACLEW is a working group that has provided a flexible manual
-annotation template friendly for use with open source speech processing
-tools (REFS).
+{[}\^{}4{]}
+\href{https://sites.google.com/view/aclewdid/home}{sites.google.com/view/aclewdid/}.
 
 \hypertarget{results}{%
 \subsubsection{Results}\label{results}}
@@ -451,20 +460,21 @@ evidence for simple effects of age (t = 0.2) or language (t = -0.99).
 These Tsimane' recordings were first automatically analyzed with LENA
 and then subsequently (and independently) manually annotated in one
 minute clips, every 60 minutes, starting at the 34th minute (34 min, 94
-min, 154 min, etc.) in Praat (REFS). Both annotation formats include
-information regarding (a) when speech was occurring and (b) what type of
-speaker produced it (i.e., the target child, a nearby woman/man/other
-child, or other noise sources) for each of the hand-annotated minutes.
-Prior analysis shows comparably low rates of directed speech in these
-Tsimane' data to the Tseltal and Yélî Dnye recordings, again with a high
-proportion of directed input coming from other children. We therefore
-expected to find that: (1) turn-taking rates are overall similar to what
-we found in the random samples of the other two communities, (2)
-turn-taking sequences involving other children are comparable or more
-frequent than found in the random samples of the other two communities,
-(3) interactional sequences involving other children increase with age,
-and (4) manual and automated speech annotations of the same audio clips
-result in similar turn-taking estimates.
+min, 154 min, etc.) in Praat (Boersma \& Weenink, 2021; Scaff et al.,
+n.d.). Both annotation formats include information regarding (a) when
+speech was occurring and (b) what type of speaker produced it (i.e., the
+target child, a nearby woman/man/other child, or other noise sources)
+for each of the hand-annotated minutes. Prior analysis shows comparably
+low rates of directed speech in these Tsimane' data to the Tseltal and
+Yélî Dnye recordings, again with a high proportion of directed input
+coming from other children. We therefore expected to find that: (1)
+turn-taking rates are overall similar to what we found in the random
+samples of the other two communities, (2) turn-taking sequences
+involving other children are comparable or more frequent than found in
+the random samples of the other two communities, (3) interactional
+sequences involving other children increase with age, and (4) manual and
+automated speech annotations of the same audio clips result in similar
+turn-taking estimates.
 
 \begin{table}[h]
 \centering
@@ -573,6 +583,127 @@ REDACTED
 \setlength{\leftskip}{0.125in}
 
 \noindent
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-PRAAT}{}%
+Boersma, P., \& Weenink, D. (2021). Praat: Doing phonetics by computer.
+Retrieved from \url{http://www.praat.org}
+
+\leavevmode\hypertarget{ref-casillas2017workflow}{}%
+Casillas, M., Bergelson, E., Warlaumont, A. S., Cristia, A., Soderstrom,
+M., VanDam, M., \& Sloetjes, H. (2017). A new workflow for
+semi-automatized annotations: Tests with long-form naturalistic
+recordings of children's language environments. In F. Lacerda, D. House,
+M. Heldner, J. Gustafson, S. Strömbergsson, \& M. Włodarczak (Eds.),
+\emph{Proceedings of the 18th annual conference of the international
+speech communication association (INTERSPEECH 2017)} (pp. 2098--2102).
+Stockholm, Sweden. \url{http://doi.org/10.21437/Interspeech.2017-1418}
+
+\leavevmode\hypertarget{ref-Casillas-HB}{}%
+Casillas, M., Brown, P., \& Levinson, S. C. (2017). Casillas HomeBank
+corpus. \url{http://doi.org/10.21415/T51X12}
+
+\leavevmode\hypertarget{ref-casillas2020rossel}{}%
+Casillas, M., Brown, P., \& Levinson, S. C. (2020a). Early language
+experience in a papuan community. \emph{Journal of Child Language},
+1--23.
+
+\leavevmode\hypertarget{ref-casillas2020tseltal}{}%
+Casillas, M., Brown, P., \& Levinson, S. C. (2020b). Early language
+experience in a tseltal mayan village. \emph{Child Development},
+\emph{91}(5), 1819--1835.
+
+\leavevmode\hypertarget{ref-cristia2020accuracy}{}%
+Cristia, A., Bulgarelli, F., \& Bergelson, E. (2020). Accuracy of the
+language environment analysis system segmentation and metrics: A
+systematic review. \emph{Journal of Speech, Language, and Hearing
+Research}, \emph{63}(4), 1093--1105.
+
+\leavevmode\hypertarget{ref-ferjan2021comparing}{}%
+Ferjan Ramírez, N., Hippe, D. S., \& Kuhl, P. K. (2021). Comparing
+automatic and manual measures of parent--infant conversational turns: A
+word of caution. \emph{Child Development}, 1--10.
+
+\leavevmode\hypertarget{ref-frohlich2016unpeeling}{}%
+Fröhlich, M., Kuchenbuch, P., Müller, G., Fruth, B., Furuichi, T.,
+Wittig, R. M., \& Pika, S. (2016). Unpeeling the layers of language:
+Bonobos and chimpanzees engage in cooperative turn-taking sequences.
+\emph{Scientific Reports}, \emph{6}(1), 1--14.
+
+\leavevmode\hypertarget{ref-LENA}{}%
+Greenwood, C. R., Thiemann-Bourque, K., Walker, D., Buzhardt, J., \&
+Gilkerson, J. (2011). Assessing children's home language environments
+using automatic speech recognition technology. \emph{Communication
+Disorders Quarterly}, \emph{32}(2), 83--92.
+
+\leavevmode\hypertarget{ref-heldner2010pauses}{}%
+Heldner, M., \& Edlund, J. (2010). Pauses, gaps and overlaps in
+conversations. \emph{Journal of Phonetics}, \emph{38}(4), 555--568.
+
+\leavevmode\hypertarget{ref-lavechin2021vtc}{}%
+Lavechin, M., Bousbib, R., Bredin, H., Dupoux, E., \& Cristia, A.
+(2021). An open-source voice type classifier for child-centered daylong
+recordings. Retrieved from \url{http://arxiv.org/abs/2005.12656}
+
+\leavevmode\hypertarget{ref-levinson2019interactional}{}%
+Levinson, S. C. (2019). Interactional foundations of language: The
+interaction engine hypothesis. In \emph{Human language: From genes and
+brain to behavior} (pp. 189--200). MIT Press.
+
+\leavevmode\hypertarget{ref-pika2018taking}{}%
+Pika, S., Wilkinson, R., Kendrick, K. H., \& Vernes, S. C. (2018).
+Taking turns: Bridging the gap between human and animal communication.
+\emph{Proceedings of the Royal Society B}, \emph{285}(1880), 20180598.
+
+\leavevmode\hypertarget{ref-R}{}%
+R Core Team. (2020). \emph{R: A language and environment for statistical
+computing}. Vienna, Austria: R Foundation for Statistical Computing.
+Retrieved from \url{https://www.R-project.org/}
+
+\leavevmode\hypertarget{ref-roberts2015effects}{}%
+Roberts, S. G., Torreira, F., \& Levinson, S. C. (2015). The effects of
+processing and sequence organization on the timing of turn taking: A
+corpus study. \emph{Frontiers in Psychology}, \emph{6}, 509.
+
+\leavevmode\hypertarget{ref-rodriguez2019you}{}%
+Rodríguez-Arauz, G., Ramírez-Esparza, N., García-Sierra, A., Ikizer, E.
+G., \& Fernández-Gómez, M. J. (2019). You go before me, please:
+Behavioral politeness and interdependent self as markers of simpatía in
+latinas. \emph{Cultural Diversity and Ethnic Minority Psychology},
+\emph{25}(3), 379.
+
+\leavevmode\hypertarget{ref-romeo2018beyond}{}%
+Romeo, R. R., Leonard, J. A., Robinson, S. T., West, M. R., Mackey, A.
+P., Rowe, M. L., \& Gabrieli, J. D. E. (2018). Beyond the
+30-million-word gap: Children's conversational exposure is associated
+with language-related brain function. \emph{Psychological Science},
+\emph{29}(5), 700--710.
+
+\leavevmode\hypertarget{ref-sacks1974simplest}{}%
+Sacks, H., Schegloff, E. A., \& Jefferson, G. (1974). A simplest
+systematics for the organization of turn taking for conversation. In
+\emph{Studies in the organization of conversational interaction} (pp.
+7--55). Elsevier.
+
+\leavevmode\hypertarget{ref-scaffIPlanguage}{}%
+Scaff, C., Stieglitz, J., Casillas, M., \& Cristia, A. (n.d.). Daylong
+audio recordings of young children in a forager-farmer society show low
+levels of verbal input with minimal age-related change.
+
+\leavevmode\hypertarget{ref-schegloff2007sequence}{}%
+Schegloff, E. A. (2007). \emph{Sequence organization in interaction: A
+primer in conversation analysis i} (Vol. 1). Cambridge university press.
+
+\leavevmode\hypertarget{ref-ten2005temporal}{}%
+Ten Bosch, L., Oostdijk, N., \& Boves, L. (2005). On temporal aspects of
+turn taking in conversational dialogues. \emph{Speech Communication},
+\emph{47}(1-2), 80--86.
+
+\leavevmode\hypertarget{ref-ELAN}{}%
+Wittenburg, P., Brugman, H., Russel, A., Klassmann, A., \& Sloetjes, H.
+(2006). ELAN: A professional framework for multimodality research. In
+\emph{Proceedings of the Fifth International Conference on Language
+Resources and Evaluation} (pp. 1556--1559).
 
 \bibliographystyle{apacite}
 
