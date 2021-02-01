@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.29)  1 FEB 2021 14:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2021.1.29)  1 FEB 2021 15:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -536,12 +536,6 @@ Overfull \hbox (2.00688pt too wide) in paragraph at lines 483--484
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Underfull \hbox (badness 7433) in paragraph at lines 507--514
- []\OT1/ptm/b/n/10 Results[] \OT1/ptm/m/n/10 A lin-ear mixed ef-fects re-gres-s
-ion of turn-
- []
-
 [5 <./figs/tsi.ttr.fig-1.pdf> <./figs/tsi.is.fig-1.pdf>]
 Underfull \hbox (badness 2418) in paragraph at lines 603--608
  \OT1/ptm/m/n/10 home lan-guage en-vi-ron-ments us-ing au-to-matic speech
@@ -554,11 +548,11 @@ Package rerunfilecheck Info: File `CogSci2021-chattr.out' has not changed.
 Here is how much of TeX's memory you used:
  8864 strings out of 479304
  138615 string characters out of 5862811
- 451522 words of memory out of 5000000
+ 450522 words of memory out of 5000000
  25808 multiletter control sequences out of 15000+600000
  440790 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,11n,74p,660b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,11n,74p,663b,329s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Us
 ers/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
 pfb></Users/mcasillas/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrb8a

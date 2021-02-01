@@ -73,13 +73,13 @@ constructed ad-hoc per study (i.e., are variable in construct).
 \texttt{Chattr}'s theoretically motivated, customizable, and open source
 code provides a set of core functions that allow users to quickly and
 automatically extract contingency information in data already annotated
-for interactant activity (via manual or automated work). We demonstrate
-the use of \texttt{chattr} by testing predictions about turn-taking
-behavior in three language development corpora. We find that the package
-effectively recovers documented variation in linguistic input given both
-manual and automatically created speech annotations and note future
-directions for package development key to its use across multiple
-research domains.
+for interactant activity (via manual or automated annotation). We
+demonstrate the use of \texttt{chattr} by testing predictions about
+turn-taking behavior in three language development corpora. We find that
+the package effectively recovers documented variation in linguistic
+input given both manual and automatically created speech annotations and
+note future directions for package development key to its use across
+multiple research domains.
 
 \textbf{Keywords:}
 Contingency; interaction; turn taking; LENA; communication; R; software.
@@ -117,7 +117,7 @@ functions, and demonstrate its use in three existing datasets.
 
 }
 
-\caption[An example of a brief dyadic interaction between two English speakers]{An example of a brief dyadic interaction between two English speakers: A (green) and B (orange). The producers here use both single- and multi-unit turns. There are 6 turns (3 from each producer), 4 turn transitions (two each from B to A and vice versa; black arrows), and one interactional sequence (the contiguous block of producer continuation/transition marked with green/orange arrows; the other turn ('but-. what's it for?') has no transitions and so is not an interactional sequence).}\label{fig:minisequence}
+\caption[An example of a brief dyadic interaction between two English speakers]{An example of a brief dyadic interaction between two English speakers: A (green) and B (orange). The producers here use both single- and multi-unit turns. There are 6 turns (3 from each producer), 4 turn transitions (two each from B to A and vice versa; black arrows), and one interactional sequence (the contiguous block of producer continuation/transition marked with green/orange arrows; the other turn ('but-. what's it for?') has no transitions and so is not in an interactional sequence).}\label{fig:minisequence}
 \end{figure*}
 \end{CodeChunk}
 
@@ -139,11 +139,11 @@ breaking progress toward the larger goal.
 
 Turn-taking (and similar) interactions are essential for communication
 across the animal kingdom (Fröhlich et al., 2016; Pika, Wilkinson,
-Kendrick, \& Vernes, 2018), including AI systems interacting with human
+Kendrick, \& Vernes, 2018), as well as AI systems interacting with human
 users. In humans, turn-taking interactions may be the only reliable
 source of language universals (Levinson, 2019). Traditionally, these
 kinds of interactional contingencies have been studied using careful
-inspection and analysis (both qualitative and quantitative) of manual
+inspection and analysis, both qualitative and quantitative, of manual
 measurements from video and audio recordings. However, recent advances
 in recording devices and automated annotation software (e.g., for voice
 detection) have created a growing need for new analytical approaches
@@ -193,7 +193,7 @@ offers minimal utility for those working in other domains.
 
 }
 
-\caption[Example workflow for an annotation file using `chattr`]{Example workflow for an annotation file using `chattr`.}\label{fig:workflow}
+\caption[Example workflow for an annotation file using `chattr']{Example workflow for an annotation file using `chattr'.}\label{fig:workflow}
 \end{figure*}
 \end{CodeChunk}
 
@@ -227,20 +227,20 @@ In brief, \texttt{chattr} is an R package that gives both summary and
 detailed data on temporal contingencies in pre-annotated data. To keep
 things simple, it has a single core function for each type of input that
 it takes: (a) LENA .its files; (b) tab delimited .txt tables with one
-production (e.g., utterance) per row, as can be exported from Praat,
-ELAN, and so forth (see Figure 2; Wittenburg, Brugman, Russel,
-Klassmann, \& Sloetjes, 2006; Boersma \& Weenink, 2021); and (c) .rttm
-tables, a common output format used with automated speech diarization
-systems.\footnote{Users interested in a fully open-source pipeline for
-  child language environments should try Lavechin et al.'s (2021) voice
-  type classifier.} Users can use the default settings for each
-function---including limits on the relevant temporal windows, potential
-interactants, and which productions are considered---or can customize as
-desired. More advanced users can capitalize on the numerous
-sub-functions utilized by the core input-type functions to tailor
-\texttt{chattr}'s functions to their unique needs. All settings, output
-information types, and theoretical background is thoroughly summarized
-in the online documentation on the project's GitHub repository.
+production/utterance per row (e.g., exported from Praat, ELAN, etc.,
+Figure 2; Wittenburg, Brugman, Russel, Klassmann, \& Sloetjes, 2006;
+Boersma \& Weenink, 2021); and (c) .rttm tables, a common output format
+used with automated speech diarization systems.\footnote{If interested
+  in a fully open-source pipeline for child language environments, try
+  Lavechin et al.'s (2021) voice type classifier.} Users can use the
+default settings for each function---including limits on the relevant
+temporal windows, potential interactants, and which productions are
+considered---or can customize as desired. More advanced users can
+capitalize on the numerous sub-functions utilized by the core input-type
+functions to tailor \texttt{chattr}'s functions to their unique needs.
+All settings, output information types, and theoretical background is
+thoroughly summarized in the online documentation on the project's
+GitHub repository.
 
 \hypertarget{core-concepts}{%
 \subsubsection{Core concepts}\label{core-concepts}}
@@ -263,7 +263,7 @@ pauses in production so long as (a) there is no intervening emission
 from another producer and (b) the pause in production is short. An
 example of a single-unit turn in English is ``Jane is the one in the
 hat.''. An example of a multi-unit turn in English is ``Jane is the one
-in the hat {[}pause{]} third from the left.''.
+in the hat {[}pause{]} third from the left.''
 
 A \emph{`turn transition'} occurs when one producer's turn stops and
 another producer's turn begins. Every turn transition has a
@@ -319,32 +319,32 @@ for the author's statistical analysis of choice.
 
 We demonstrate the use of \texttt{chattr} with three child language
 environment datasets from unrelated rural Indigenous communities:
-specifically, we sanity check the basic performance on the analysis tool
-on corpora for which we have strong \emph{a priori} hypotheses. These
-recordings document children's verbal interactional patterns over full
-days at home in understudied and rural populations, for which use of a
-tool like LENA would be challenging. \texttt{Chattr} allows us to
-examine interactional patterns at scale in these corpora, evading months
-of manual annotation that would achieve the same, and making it easy to
-do so for both conventional (child-adult interaction) and
-non-conventional (child-child interactional) catgories relevant to
-development in these contexts. The first two corpora, Tseltal (Mayan;
-Chiapas, Mexico; N = 10) and Yélî Dnye (isolate; Milne Bay, Papua New
-Guinea; N = 10), come from the Casillas HomeBank repository (Casillas et
-al., 2017) and were made with near parallel methods: children under age
-3;0 wore an Olympus WS-832/853 audio recorder at home for 8--11 hours.
-The third corpus, Tsimane' (Tsimane'; Bolivia; 40 recordings from 27
-children) features children under 6;0 who wore one of multiple recording
-devices (LENA, Olympus, or USB) at home for 4--21 hours (Scaff,
-Stieglitz, Casillas, \& Cristia, n.d.); we focus here on the subset of
-those 17 recordings made with LENA (from 13 children). In each dataset
-we assess the baseline turn-taking rate over age and the frequency of
-interactions with other children. For the Tsimane' corpus can also
-compare \texttt{chattr} estimates on both LENA (automated) and manually
-created annotations of the same recording minutes. This brief analysis
-tests whether previously documented patterns in these children's
-linguistic input are recapitulated in their turn-taking behavior, as
-detected by \texttt{chattr}.
+specifically, we sanity check \texttt{chattr}`s performance on corpora
+for which we have strong a priori hypotheses about basic turn-taking
+patterns. The analyzed recordings document children's verbal
+interactional patterns over full days at home in understudied and rural
+populations, for which use of a tool like LENA would be challenging.
+\texttt{Chattr} allows us to examine interactional patterns at scale in
+these corpora, evading months of manual annotation that would achieve
+the same, and making it easy to do so for both conventional (child-adult
+interaction) and non-conventional (child-child interactional) categories
+relevant to development in these contexts. The first two corpora,
+Tseltal (Mayan; Chiapas, Mexico; N = 10) and Yélî Dnye (isolate; Milne
+Bay, Papua New Guinea; N = 10), come from the Casillas HomeBank
+repository (Casillas et al., 2017) and were made with near parallel
+methods: children under age 3;0 wore an Olympus WS-832/853 audio
+recorder at home for 8--11 hours. The third corpus, Tsimane' (Tsimane';
+Bolivia; 40 recordings from 27 children) features children under 6;0 who
+wore one of multiple recording devices (LENA, Olympus, or USB) at home
+for 4--21 hours (Scaff, Stieglitz, Casillas, \& Cristia, n.d.); we focus
+here on the subset of those 17 recordings made with LENA (from 13
+children). In each dataset we assess the baseline turn-taking rate over
+age and the frequency of interactions with other children. For the
+Tsimane' corpus can also compare \texttt{chattr} estimates on both LENA
+(automated) and manually created annotations of the same recording
+minutes. This pilot studies thus test whether previously documented
+patterns in these children's linguistic input are recapitulated in their
+turn-taking behavior, as detected by \texttt{chattr}.
 
 \hypertarget{study-1.-tseltal-and-yuxe9luxee-dnye}{%
 \subsection{Study 1. Tseltal and Yélî
@@ -365,8 +365,8 @@ communities. While female adult speech constitutes the majority of
 linguistic input in both communities, Yélî children show a marked
 increase in directed speech from other children with age. This pattern
 appears more weakly in the Tseltal data. We therefore expected to find
-that: (1) turn-taking rates are higher in turn-taking clips than in
-vocal activity and random clips, (2) rates are similar between the two
+that: (1) turn-taking rates are higher in turn-taking and vocal activity
+clips than in random clips, (2) rates are similar between the two
 communities, and (3) interactional sequences involving other children
 increase with age, particularly for Yélî children.
 
@@ -377,7 +377,7 @@ increase with age, particularly for Yélî children.
 
 }
 
-\caption[Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red)]{Turn transition rate by corpus, divided across random (blue) and manually selected turn-taking/high-vocal-activity clips (red).}\label{fig:tseyel.ttr.fig}
+\caption[Turn transition rate by corpus, divided across manually selected turn-taking/high-vocal-activity clips (red) and random clips (blue)]{Turn transition rate by corpus, divided across manually selected turn-taking/high-vocal-activity clips (red) and random clips (blue).}\label{fig:tseyel.ttr.fig}
 \end{figure}
 \end{CodeChunk}
 
@@ -398,18 +398,18 @@ increase with age, particularly for Yélî children.
 We use \texttt{fetch\_chatter\_AAS()}, which is specifically designed
 for those using the ACLEW\footnote{\href{https://sites.google.com/view/aclewdid/home}{sites.google.com/view/aclewdid/}.}
 Annotation Scheme (Casillas, Bergelson, et al., 2017). It allows 2000 ms
-of gap and 1000 ms of overlap between at turn transitions and searches
-over all annotated utterances (any duration, content, and from any
-speaker). We limit our analysis to utterances directed exclusively to
-the target child. We also indicate the annotated regions by using the
+of gap and 1000 ms of overlap at turn transitions and searches over all
+annotated utterances (any duration, content, and from any speaker). We
+limit our analysis to utterances directed exclusively to the target
+child. We also indicate the annotated regions by using the
 \texttt{cliptier} argument.
 
 \hypertarget{results}{%
 \subsubsection{Results}\label{results}}
 
 The mean rate of turn transitions in the Tseltal corpus was 11.8 and 3
-transitions per minute for the active and random (turn taking and vocal
-activity) clips, respectfully, and 12.8 and 2.4 transitions per minute
+transitions per minute for the active (turn taking and vocal activity)
+and random clips, respectfully, and 12.8 and 2.4 transitions per minute
 for Yélî Dnye. The distribution of turn taking rates across annotated
 clips was similar between the two sites (Table 1). A linear mixed
 effects regression of transitions per minute with predictors of clip
@@ -445,7 +445,7 @@ therefore expected to find that: (1) despite their slightly different
 operationalizations, turn-taking rates are overall similar to what we
 found in the random samples of the other two communities , (2)
 turn-taking sequences involving other children are comparable to or more
-frequent than found in the random samples of the other two communities,
+frequent than those in the random samples of the other two communities,
 (3) interactional sequences involving other children increase with age,
 and (4) manual and automated speech annotations of the same audio clips
 result in similar turn-taking estimates.
@@ -504,13 +504,13 @@ reflect these same restrictions.
 \hypertarget{results-1}{%
 \subsubsection{Results}\label{results-1}}
 
-A linear mixed effects regression of turn-transitions per minute with a
-fixed effect of annotation type (LENA vs.~manual) and a random intercept
-for child reveals that turn-transition rates are similar between the two
+A linear mixed effects regression of transitions per minute with a fixed
+effect of annotation type (LENA vs.~manual) and a random intercept for
+child reveals that turn-transition rates are similar between the two
 annotation methods (B = -0.09, SE = 0.41, t = -0.23). As expected,
 turn-transition rates are similar to what we found in the Tseltal and
 Yélî Dnye random clips, at 3.2 transitions per minute, though with fewer
-instances of rates above 5/min (Table 1).
+instances of rates above 10/min (Table 1).
 
 A second linear mixed effects regression of the proportion of
 interactional sequences featuring at least one non-target child with
@@ -537,8 +537,8 @@ behavior, and speech technology research, \texttt{chattr} aims to help
 build theoretical and methodological connections regarding the nature of
 contingent behaviors across diverse domains. While \texttt{chattr} has
 now been tested on a variety of child language datasets, new
-functionality will emerge following issue posting and feature requests
-by users. Following this beta stage of development we will make the
+functionality will emerge following user issue-posting and feature
+requests. Following the beta stage of development, we will make the
 package available on CRAN for easier distribution. A critical next step
 will also be the development of tutorial materials to accompany the
 documentation, enabling new R users to quickly apply the core functions
