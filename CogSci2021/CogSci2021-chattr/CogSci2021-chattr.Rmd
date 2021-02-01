@@ -15,7 +15,7 @@ keywords: >
     Contingency; interaction; turn taking; LENA; communication; R; software.
     
 output: cogsci2016::cogsci_paper
-#final-submission: \cogscifinalcopy
+final-submission: \cogscifinalcopy
 ---
 
 ```{r global_options, include=FALSE}
@@ -39,7 +39,7 @@ model.outputs <- read_csv("all.models.csv")
 
 # Introduction
 
-`Chattr` is an R package that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data (URL redacted<!--[https://github.com/marisacasillas/chattr-basic]()-->).[^1] Its utility extends across studies of human interaction, non-human animal communication, and contingencies within multi-modal signals. Despite significant common conceptual ground between these domains, definitions of contingency phenomena and implementations of contingency detection remain inconsistent, foregoing critical opportunities for the accumulation of shared construct validity. Such divergences are partly due to a lack of flexible contingency analysis tools: existing systems are either constructed ad-hoc, limited in use, or proprietary. `Chattr` improves this situation by: (1) taking inspiration from conversation analysis, psycholinguistics, and language development to provide theoretically sound, but customizable measurements of temporally contingent interaction at scale and (2) accepting a handful of generic formats as input, opening up its analytical framework to broad application (e.g., child language input, multi-party conversation, non-human animal signaling, event contingencies, etc.). Here we review `chattr`'s theoretical basis, describe the package's core functions, and demonstrate its use in three existing datasets.
+`Chattr` is an R package that facilitates the detection and analysis of temporally contingent interactions in pre-annotated data ([github.com/marisacasillas/chattr-basic](https://github.com/marisacasillas/chattr-basic)).[^1] Its utility extends across studies of human interaction, non-human animal communication, and contingencies within multi-modal signals. Despite significant common conceptual ground between these domains, definitions of contingency phenomena and implementations of contingency detection remain inconsistent, foregoing critical opportunities for the accumulation of shared construct validity. Such divergences are partly due to a lack of flexible contingency analysis tools: existing systems are either constructed ad-hoc, limited in use, or proprietary. `Chattr` improves this situation by: (1) taking inspiration from conversation analysis, psycholinguistics, and language development to provide theoretically sound, but customizable measurements of temporally contingent interaction at scale and (2) accepting a handful of generic formats as input, opening up its analytical framework to broad application (e.g., child language input, multi-party conversation, non-human animal signaling, event contingencies, etc.). Here we review `chattr`'s theoretical basis, describe the package's core functions, and demonstrate its use in three existing datasets.
 
 [^1]: All documentation and scripts are available at the URL; the fully packaged version will be available before May 2021.
 
@@ -157,7 +157,7 @@ The `chattr` package allows users to easily implement theoretically informed con
 
 # Acknowledgements
 
-REDACTED
+We thank Caitlin Fausey, Andrea Imhof, and Kunmi Sobowale for helpful contributions during initial code development. We are also hugely indebted to the participating families and local research assistants who made these three datasets possible. This work is supported by a NWO Veni Innovational Scheme grant (275-89-033) to MC.
 
 # References 
 
