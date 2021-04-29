@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  29 APR 2021 13:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  29 APR 2021 17:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -448,7 +448,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 100.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 100.
-<figs/minisequence-1.pdf, id=46, 505.89pt x 94.3525pt>
+<figs/minisequence-1.pdf, id=50, 505.89pt x 94.3525pt>
 File: figs/minisequence-1.pdf Graphic file (type pdf)
 <use figs/minisequence-1.pdf>
 Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 122.
@@ -456,40 +456,67 @@ Package pdftex.def Info: figs/minisequence-1.pdf  used on input line 122.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-LaTeX Font Info:    Trying to load font information for OML+ptm on input line 1
-87.
-(/usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/omlptm.fd
-File: omlptm.fd 
-)
-LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 187.
-
-Underfull \vbox (badness 7186) has occurred while \output is active []
-
 [1{/usr/local/texlive/2020/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
-<figs/workflow-1.pdf, id=61, 505.89pt x 160.6pt>
+<figs/workflow-1.pdf, id=64, 505.89pt x 160.6pt>
 File: figs/workflow-1.pdf Graphic file (type pdf)
 <use figs/workflow-1.pdf>
-Package pdftex.def Info: figs/workflow-1.pdf  used on input line 207.
+Package pdftex.def Info: figs/workflow-1.pdf  used on input line 211.
 (pdftex.def)             Requested size: 505.88875pt x 160.5996pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 [2 <./figs/minisequence-1.pdf>]
-Underfull \vbox (badness 2556) has occurred while \output is active []
-
-
-Underfull \hbox (badness 1783) in paragraph at lines 320--332
-\OT1/ptm/m/n/10 tin-gency: \OT1/pcr/m/n/10 fetch[]chatter[]BST(filename, min.ut
-t.dur
+Underfull \hbox (badness 1147) in paragraph at lines 271--282
+\OT1/ptm/m/n/10 ac-tional se-quence' fit their own study con-text; our de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 320--332
+Underfull \hbox (badness 3803) in paragraph at lines 283--291
+[]\OT1/ptm/m/n/10 A \OT1/ptm/m/it/10 `turn' \OT1/ptm/m/n/10 com-prises one or m
+ore closely oc-cur-ring
+ []
+
+
+Underfull \hbox (badness 1248) in paragraph at lines 283--291
+\OT1/ptm/m/n/10 emis-sions by the same pro-ducer. That is, a turn can
+ []
+
+
+Underfull \hbox (badness 1668) in paragraph at lines 283--291
+\OT1/ptm/m/n/10 be formed from mul-ti-ple com-plete emis-sions (e.g., ut-
+ []
+
+
+Underfull \hbox (badness 1845) in paragraph at lines 283--291
+\OT1/ptm/m/n/10 ter-ances/communicative acts) that may be sep-a-rated by
+ []
+
+
+Underfull \hbox (badness 1168) in paragraph at lines 331--349
+\OT1/ptm/m/n/10 a dataset that con-tains in-for-ma-tion about the tim-ing of
+ []
+
+
+Underfull \hbox (badness 2735) in paragraph at lines 331--349
+\OT1/pcr/m/n/10 fetch[]chatter[]BST() \OT1/ptm/m/n/10 to fetch turn-taking in-f
+or-ma-tion.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 331--349
+\OT1/ptm/m/n/10 gency: \OT1/pcr/m/n/10 fetch[]chatter[]BST(filename, min.utt.du
+r
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 331--349
 \OT1/pcr/m/n/10 = 1500, allowed.gap = 1000, allowed.overlap =
  []
 
@@ -497,113 +524,114 @@ Underfull \hbox (badness 10000) in paragraph at lines 320--332
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [3 <./figs/workflow-1.pdf>]
-<figs/tseyel.ttr.fig-1.pdf, id=99, 245.91875pt x 245.91875pt>
+<figs/tseyel.ttr.fig-1.pdf, id=103, 245.91875pt x 245.91875pt>
 File: figs/tseyel.ttr.fig-1.pdf Graphic file (type pdf)
 <use figs/tseyel.ttr.fig-1.pdf>
-Package pdftex.def Info: figs/tseyel.ttr.fig-1.pdf  used on input line 395.
+Package pdftex.def Info: figs/tseyel.ttr.fig-1.pdf  used on input line 421.
 (pdftex.def)             Requested size: 245.91814pt x 245.91814pt.
 
-Overfull \hbox (2.00688pt too wide) in paragraph at lines 395--396
+Overfull \hbox (2.00688pt too wide) in paragraph at lines 421--422
  [][] 
  []
 
-<figs/tseyel.is.fig-1.pdf, id=100, 245.91875pt x 177.66376pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figs/tseyel.is.fig-1.pdf, id=104, 245.91875pt x 177.66376pt>
 File: figs/tseyel.is.fig-1.pdf Graphic file (type pdf)
 <use figs/tseyel.is.fig-1.pdf>
-Package pdftex.def Info: figs/tseyel.is.fig-1.pdf  used on input line 406.
+Package pdftex.def Info: figs/tseyel.is.fig-1.pdf  used on input line 432.
 (pdftex.def)             Requested size: 245.91814pt x 177.66331pt.
 
-Overfull \hbox (2.00688pt too wide) in paragraph at lines 406--407
- [][] 
- []
-
-[4 <./figs/tseyel.ttr.fig-1.pdf> <./figs/tseyel.is.fig-1.pdf>]
-Overfull \hbox (4.10684pt too wide) in paragraph at lines 477--489
- [][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figs/tsi.ttr.fig-1.pdf, id=125, 245.91875pt x 245.91875pt>
-File: figs/tsi.ttr.fig-1.pdf Graphic file (type pdf)
-<use figs/tsi.ttr.fig-1.pdf>
-Package pdftex.def Info: figs/tsi.ttr.fig-1.pdf  used on input line 495.
-(pdftex.def)             Requested size: 245.91814pt x 245.91814pt.
-
-Overfull \hbox (2.00688pt too wide) in paragraph at lines 495--496
- [][] 
- []
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figs/tsi.is.fig-1.pdf, id=126, 245.91875pt x 177.66376pt>
-File: figs/tsi.is.fig-1.pdf Graphic file (type pdf)
-<use figs/tsi.is.fig-1.pdf>
-Package pdftex.def Info: figs/tsi.is.fig-1.pdf  used on input line 506.
-(pdftex.def)             Requested size: 245.91814pt x 177.66331pt.
-
-Overfull \hbox (2.00688pt too wide) in paragraph at lines 506--507
+Overfull \hbox (2.00688pt too wide) in paragraph at lines 432--433
  [][] 
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+[4]
+Overfull \hbox (4.10684pt too wide) in paragraph at lines 503--515
+ [][] 
+ []
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+<figs/tsi.ttr.fig-1.pdf, id=119, 245.91875pt x 245.91875pt>
+File: figs/tsi.ttr.fig-1.pdf Graphic file (type pdf)
+<use figs/tsi.ttr.fig-1.pdf>
+Package pdftex.def Info: figs/tsi.ttr.fig-1.pdf  used on input line 521.
+(pdftex.def)             Requested size: 245.91814pt x 245.91814pt.
 
-[5 <./figs/tsi.ttr.fig-1.pdf>]
-Underfull \hbox (badness 3148) in paragraph at lines 578--583
+Overfull \hbox (2.00688pt too wide) in paragraph at lines 521--522
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figs/tsi.is.fig-1.pdf, id=120, 245.91875pt x 177.66376pt>
+File: figs/tsi.is.fig-1.pdf Graphic file (type pdf)
+<use figs/tsi.is.fig-1.pdf>
+Package pdftex.def Info: figs/tsi.is.fig-1.pdf  used on input line 532.
+(pdftex.def)             Requested size: 245.91814pt x 177.66331pt.
+
+Overfull \hbox (2.00688pt too wide) in paragraph at lines 532--533
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5 <./figs/tseyel.ttr.fig-1.pdf> <./figs/tseyel.is.fig-1.pdf>]
+Underfull \hbox (badness 3148) in paragraph at lines 621--628
 \OT1/ptm/m/n/10 We thank Caitlin Fausey, An-drea Imhof, and Kunmi
  []
 
 
-Underfull \hbox (badness 1275) in paragraph at lines 626--631
+Underfull \vbox (badness 1102) has occurred while \output is active []
+
+[6 <./figs/tsi.ttr.fig-1.pdf> <./figs/tsi.is.fig-1.pdf>]
+Underfull \hbox (badness 1275) in paragraph at lines 676--681
  [][]\OT1/ptm/m/n/10 Delaherche, E., Chetouani, M., Mahd-haoui, A., Saint-
  []
 
 
-Underfull \hbox (badness 4378) in paragraph at lines 632--636
+Underfull \hbox (badness 4378) in paragraph at lines 682--686
  [][]\OT1/ptm/m/n/10 Duran, N. D., Pax-ton, A., & Fusaroli, R. (2019).
  []
 
 
-Underfull \hbox (badness 2418) in paragraph at lines 653--658
+Underfull \hbox (badness 2418) in paragraph at lines 703--708
  \OT1/ptm/m/n/10 home lan-guage en-vi-ron-ments us-ing au-to-matic speech
  []
 
-[6 <./figs/tsi.is.fig-1.pdf>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 745.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 795.
 [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 745.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 795.
 (./CogSci2021-chattr.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 745.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 745.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 795.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 795.
 Package rerunfilecheck Info: File `CogSci2021-chattr.out' has not changed.
-(rerunfilecheck)             Checksum: 1FDE8FDAD03DAC893ECBDBD9CC6C9D12;643.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 745.
+(rerunfilecheck)             Checksum: 318B26884C272A5C956351380D5C51B8;710.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 795.
  ) 
 Here is how much of TeX's memory you used:
- 8738 strings out of 480608
- 132842 string characters out of 5903631
- 400378 words of memory out of 5000000
- 24374 multiletter control sequences out of 15000+600000
+ 8727 strings out of 480608
+ 132644 string characters out of 5903631
+ 397383 words of memory out of 5000000
+ 24362 multiletter control sequences out of 15000+600000
  569698 words of font info for 102 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,11n,42p,656b,350s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,11n,42p,656b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
-xlive/2020/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/20
-20/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2020/texmf
--dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/font
-s/type1/urw/times/utmr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/ur
-w/times/utmri8a.pfb>
-Output written on CogSci2021-chattr.pdf (7 pages, 851953 bytes).
+exlive/2020/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2
+020/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2020/texm
+f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2020/texmf-dist/fon
+ts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/u
+rw/times/utmri8a.pfb>
+Output written on CogSci2021-chattr.pdf (7 pages, 847719 bytes).
 PDF statistics:
- 239 PDF objects out of 1000 (max. 8388607)
- 196 compressed objects within 2 object streams
- 79 named destinations out of 1000 (max. 500000)
- 111 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 245 PDF objects out of 1000 (max. 8388607)
+ 202 compressed objects within 3 object streams
+ 83 named destinations out of 1000 (max. 500000)
+ 119 words of extra memory for PDF output out of 10000 (max. 10000000)
 
