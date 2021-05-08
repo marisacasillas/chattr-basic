@@ -24,7 +24,8 @@ min.utt.dur <- 0
 ### read data into the spchtbl format
 testdata1.filename <- "test_files/AAS-tabular/test-interaction-AllCDS.txt"
 testdata1 <- read_spchtbl(filepath = testdata1.filename,
-  tbltype = "aas-elan-txt", cliptier = "clip", lxonly = FALSE, nearonly = FALSE)
+  tbltype = "aas-elan-txt", cliptier = "code",
+  lxonly = FALSE, nearonly = FALSE)
 
 ### retrieve transitions
 #### stretch
@@ -81,7 +82,7 @@ test1.luqr <- all_equal(testdata1.luqr,
 ### read data into the spchtbl format
 testdata2.filename <- "test_files/AAS-tabular/test-interaction-XDS.txt"
 testdata2 <- read_spchtbl(filepath = testdata2.filename,
-  tbltype = "aas-elan-txt", cliptier = "clip")
+  tbltype = "aas-elan-txt", cliptier = "code")
 
 ### retrieve transitions
 #### stretch
@@ -138,7 +139,7 @@ test2.luqr <- all_equal(testdata2.luqr,
 ### read data into the spchtbl format
 testdata3.filename <- "test_files/AAS-tabular/test-interaction-noCHI.txt"
 testdata3 <- read_spchtbl(filepath = testdata3.filename,
-  tbltype = "aas-elan-txt", cliptier = "clip")
+  tbltype = "aas-elan-txt", cliptier = "code")
 
 ### retrieve transitions
 #### stretch
@@ -188,41 +189,123 @@ test4fr.real <- all_equal(testdata4.fullrun$real.tt.vals,
 
 
 
-## test data 5 ----
-### read data into the spchtbl format
-testdata5.filename <- "test_files/ITS/e20100727_110707_003581.its"
-testdata5 <- read_spchtbl(filepath = testdata5.filename,
-  tbltype = "lena-its")
 
-### retrieve transitions
-testdata5.strict <- fetch_transitions(
-  spchtbl = testdata5, allowed.gap, allowed.overlap, min.utt.dur,
-  target.ptcp = "CH", interactants = "[FM]A",
-  addressee.tags = FALSE, mode = "strict")
-testdata5.strict$addressee <- as.character(
-  testdata5.strict$addressee)
+if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
+  ## test data 5 ----
+  # User doesn't necessarily have access to this file...
+  ### read data into the spchtbl format
+  testdata5.filename <- "test_files/ITS/e20100727_110707_003581.its"
+  testdata5 <- read_spchtbl(filepath = testdata5.filename,
+                            tbltype = "lena-its")
+  
+  ### retrieve transitions
+  testdata5.strict <- fetch_transitions(
+    spchtbl = testdata5, allowed.gap, allowed.overlap, min.utt.dur,
+    target.ptcp = "CH", interactants = "[FM]A",
+    addressee.tags = FALSE, mode = "strict")
+  testdata5.strict$addressee <- as.character(
+    testdata5.strict$addressee)
+  
+  ### check for a match
+  testdata5.strict.answers <- read_csv_answercols.tt(
+    "testdata5.strict-correct.csv")
+  test5.strict <- all_equal(testdata5.strict,
+                            testdata5.strict.answers, convert = TRUE)
+  
+  ### test with the metafunction
+  testdata5.fullrun <- fetch_chatter_LENA(
+    testdata5.filename, n.runs = 2)
+  testdata5.fullrun.real.answers <- read_csv_answercols.is(
+    "testdata5.fullrun.real.tt.vals.csv")
+  test5fr.real <- all_equal(testdata5.fullrun$real.tt.vals,
+                            testdata5.fullrun.real.answers, convert = TRUE)
+  # testdata5.fullrun.random.answers <- read_csv_answercols.is(
+  #   "testdata5.fullrun.random.tt.vals.csv")
+  # test5fr.random <- all_equal(testdata5.fullrun$random.tt.vals,
+  #   testdata5.fullrun.random.answers, convert = TRUE)
+  
+  # TO DO:
+  # Need to add a test for the summary once that's implemented
 
-### check for a match
-testdata5.strict.answers <- read_csv_answercols.tt(
-  "testdata5.strict-correct.csv")
-test5.strict <- all_equal(testdata5.strict,
-  testdata5.strict.answers, convert = TRUE)
-
-### test with the metafunction
-testdata5.fullrun <- fetch_chatter_LENA(
-  testdata5.filename, n.runs = 2)
-testdata5.fullrun.real.answers <- read_csv_answercols.is(
-  "testdata5.fullrun.real.tt.vals.csv")
-test5fr.real <- all_equal(testdata5.fullrun$real.tt.vals,
-  testdata5.fullrun.real.answers, convert = TRUE)
-# testdata5.fullrun.random.answers <- read_csv_answercols.is(
-#   "testdata5.fullrun.random.tt.vals.csv")
-# test5fr.random <- all_equal(testdata5.fullrun$random.tt.vals,
-#   testdata5.fullrun.random.answers, convert = TRUE)
-
-# TO DO:
-# Need to add a test for the summary once that's implemented
-
+  ## test data 5: intseq ----
+  
+  # check that each intseq has at least one prompt or response
+  check.tts.in.intseqs <- testdata5.fullrun$real.tt.vals %>%
+    group_by(intseq.num) %>%
+    summarize(
+      .groups = "drop",
+      n.prompts = length(which(!is.na(prompt.spkr))),
+      n.responses = length(which(!is.na(response.spkr)))
+    ) %>%
+    mutate(
+      n.tts = n.prompts + n.responses
+    ) %>%
+    filter(
+      n.tts == 0 & !is.na(intseq.num)
+    ) %>%
+    nrow() == 0
+  
+  # check that each vocseq has exactly 0 prompts and 0 responses
+  check.NO.tts.in.vocseqs <- testdata5.fullrun$real.tt.vals %>%
+    group_by(vocseq.num) %>%
+    summarize(
+      .groups = "drop",
+      n.prompts = length(which(!is.na(prompt.spkr))),
+      n.responses = length(which(!is.na(response.spkr)))
+    ) %>%
+    mutate(
+      n.tts = n.prompts + n.responses
+    ) %>%
+    filter(
+      n.tts > 0 & !is.na(vocseq.num)
+    ) %>%
+    nrow() == 0
+  
+  # check intseq properties via their burst behavior
+  interactional.bursts <- testdata5.fullrun$real.tt.vals %>%
+    filter(!is.na(intseq.num)) %>%
+    mutate(
+      intseq.dur.ms = intseq.stop.ms - intseq.start.ms,
+      intseq.dur.min = intseq.dur.ms/60000,
+      intseq.start.hr = intseq.start.ms/3600000) %>%
+    group_by(
+      intseq.num, intseq.start.ms, intseq.stop.ms,
+      intseq.dur.ms, intseq.dur.min, intseq.start.hr,
+      intseq.start.spkr, intseq.stop.spkr) %>%
+    summarize(
+      .groups = "drop",
+      n.intseq.prompts = sum(!is.na(prompt.start.ms)),
+      n.intseq.responses = sum(!is.na(response.start.ms)),
+      n.intseq.tts = n.intseq.prompts + n.intseq.responses
+    )
+  
+  # check that all intseqs have at least one prompt or one response
+  check.no.nonzero.n.intseq.prompts = ifelse(length(which(
+    interactional.bursts$n.intseq.tts >= 0)) == nrow(interactional.bursts),
+    TRUE, FALSE)
+  
+  # check that bursts aren't closer together than the allowed gap
+  between.intseq.times <- tibble()
+  interactional.bursts <- interactional.bursts %>%
+    arrange(intseq.num)
+  interactional.bursts$prev.intseq.stop <- c(
+    0, interactional.bursts$intseq.stop.ms[1:(nrow(interactional.bursts)-1)])
+  interactional.bursts$time.since.prev.intseq.ms <- 
+    interactional.bursts$intseq.start.ms - interactional.bursts$prev.intseq.stop
+  interactional.bursts$time.since.prev.intseq.min <- 
+    interactional.bursts$time.since.prev.intseq.ms/60000
+  check.between.intseq.times.zero <- nrow(
+    filter(interactional.bursts,
+           time.since.prev.intseq.ms <= allowed.gap)) == 0
+} else {
+  test5.strict <- "NOT TESTED: Input data not available"
+  test5fr.real <- "NOT TESTED: Input data not available"
+#   test5fr.random <- "NOT TESTED: Input data not available"
+  check.tts.in.intseqs <- "NOT TESTED: Input data not available"
+  check.NO.tts.in.vocseqs <- "NOT TESTED: Input data not available"
+  check.no.nonzero.n.intseq.prompts <- "NOT TESTED: Input data not available"
+  check.between.intseq.times.zero <- "NOT TESTED: Input data not available"
+}
 
 
 ## test data 6 ----
@@ -366,75 +449,6 @@ test1.strict.intseq <- all_equal(testdata1.strict.intseq,
 
 
 
-## test data 5: intseq ----
-
-# check that each intseq has at least one prompt or response
-check.tts.in.intseqs <- testdata5.fullrun$real.tt.vals %>%
-  group_by(intseq.num) %>%
-  summarize(
-    .groups = "drop",
-    n.prompts = length(which(!is.na(prompt.spkr))),
-    n.responses = length(which(!is.na(response.spkr)))
-  ) %>%
-  mutate(
-    n.tts = n.prompts + n.responses
-  ) %>%
-  filter(
-    n.tts == 0 & !is.na(intseq.num)
-  ) %>%
-  nrow() == 0
-
-# check that each vocseq has exactly 0 prompts and 0 responses
-check.NO.tts.in.vocseqs <- testdata5.fullrun$real.tt.vals %>%
-  group_by(vocseq.num) %>%
-  summarize(
-    .groups = "drop",
-    n.prompts = length(which(!is.na(prompt.spkr))),
-    n.responses = length(which(!is.na(response.spkr)))
-  ) %>%
-  mutate(
-    n.tts = n.prompts + n.responses
-  ) %>%
-  filter(
-    n.tts > 0 & !is.na(vocseq.num)
-  ) %>%
-  nrow() == 0
-
-# check intseq properties via their burst behavior
-interactional.bursts <- testdata5.fullrun$real.tt.vals %>%
-  filter(!is.na(intseq.num)) %>%
-  mutate(
-    intseq.dur.ms = intseq.stop.ms - intseq.start.ms,
-    intseq.dur.min = intseq.dur.ms/60000,
-    intseq.start.hr = intseq.start.ms/3600000) %>%
-  group_by(
-    intseq.num, intseq.start.ms, intseq.stop.ms,
-    intseq.dur.ms, intseq.dur.min, intseq.start.hr,
-    intseq.start.spkr, intseq.stop.spkr) %>%
-  summarize(
-    .groups = "drop",
-    n.intseq.prompts = sum(!is.na(prompt.start.ms)),
-    n.intseq.responses = sum(!is.na(response.start.ms)),
-    n.intseq.tts = n.intseq.prompts + n.intseq.responses
-  )
-
-# check that all intseqs have at least one prompt or one response
-check.no.nonzero.n.intseq.prompts = ifelse(length(which(
-  interactional.bursts$n.intseq.tts >= 0)) == nrow(interactional.bursts),
-  TRUE, FALSE)
-
-# check that bursts aren't closer together than the allowed gap
-between.intseq.times <- tibble()
-interactional.bursts <- interactional.bursts %>%
-  arrange(intseq.num)
-interactional.bursts$prev.intseq.stop <- c(
-  0, interactional.bursts$intseq.stop.ms[1:(nrow(interactional.bursts)-1)])
-interactional.bursts$time.since.prev.intseq.ms <- 
-  interactional.bursts$intseq.start.ms - interactional.bursts$prev.intseq.stop
-interactional.bursts$time.since.prev.intseq.min <- 
-  interactional.bursts$time.since.prev.intseq.ms/60000
-check.between.intseq.times.zero <- nrow(filter(interactional.bursts,
-  time.since.prev.intseq.ms <= allowed.gap)) == 0
 
 
 
@@ -456,7 +470,7 @@ all.tests <- c(
   test1.strict.tcds, test1.strict.none,
   test1.strict.intseq)
 
-print(paste0("#### ", sum(all.tests), " of ",
+print(paste0("#### ", length(which(all.tests == TRUE)), " of ",
   length(all.tests), " tests passed. ####"))
 print(paste0("Test data 1, stretch passed: ", test1.stretch))
 print(paste0("Test data 1, strict passed: ", test1.strict))

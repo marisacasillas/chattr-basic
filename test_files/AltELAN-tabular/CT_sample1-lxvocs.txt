@@ -223,4 +223,4 @@ Child Utterances		635480	635880	400	x
 Child Utterances		638910	640020	1110	x
 Child Utterances		645250	647480	2230	x
 Child Utterances		651080	651440	360	x
-Coded Segment		315193	660612	345419	
+Coded Segment		315193	660612	345419	1
