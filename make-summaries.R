@@ -3,31 +3,31 @@ summarize_chattr <- function(tttbl.list) {
   if (nrow(tttbl.list$real.tt.vals) > 0) {
     tttbl.real <- summarize_tttbl(tttbl.list$real.tt.vals, "real data")    
   } else {
-    tttbl.real <- tibble()
+    tttbl.real <- tibble::tibble()
   }
   # Random data summary
   if (nrow(tttbl.list$random.tt.vals) > 0) {
     tttbl.rand <- summarize_tttbl(tttbl.list$random.tt.vals, "random data")    
   } else {
-    tttbl.rand <- tibble()
+    tttbl.rand <- tibble::tibble()
   }
-  chattr.summary <- bind_rows(tttbl.real, tttbl.rand)
+  chattr.summary <- dplyr::bind_rows(tttbl.real, tttbl.rand)
   return(chattr.summary)
 }
 
 summarize_tttbl <- function(tttbl, data.type) {
   tttbl <- tttbl %>%
-    filter(!is.na(prompt.spkr)|!is.na(response.spkr))
+    dplyr::filter(!is.na(prompt.spkr)|!is.na(response.spkr))
   if (nrow(tttbl) > 0) {
     tttbl <- tttbl %>%
-      rowwise() %>%
-      mutate(
-        clip.start.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[2]),
-        clip.end.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[3]),
+      dplyr::rowwise() %>%
+      dplyr::mutate(
+        clip.start.msec = as.numeric(unlist(stringr::str_split(annot.clip, "[-_]"))[2]),
+        clip.end.msec = as.numeric(unlist(stringr::str_split(annot.clip, "[-_]"))[3]),
         clip.duration.msec = clip.end.msec - clip.start.msec,
         clip.duration.min = clip.duration.msec/60000)
     tttbl <- tttbl %>%
-      mutate(
+      dplyr::mutate(
         pmt = ifelse(is.na(prompt.spkr), 0, 1),
         pmt.timing = start.ms - prompt.stop.ms,
         rsp = ifelse(is.na(response.spkr), 0, 1),
@@ -35,32 +35,32 @@ summarize_tttbl <- function(tttbl, data.type) {
     tt.summary <- summarize_tts(tttbl, data.type)
   } else {
     if ("intseq.num" %in% names(tttbl)) {
-      by.clip.summary <- expand_grid(
+      by.clip.summary <- tidyr::expand_grid(
         tt.summary, intseq.summary.empty)
     } else {
       annot.clips <- tttbl %>%
-        mutate(
-          clip.start.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[2]),
-          clip.end.msec = as.numeric(unlist(str_split(annot.clip, "[-_]"))[3]),
+        dplyr::mutate(
+          clip.start.msec = as.numeric(unlist(stringr::tr_split(annot.clip, "[-_]"))[2]),
+          clip.end.msec = as.numeric(unlist(stringr::str_split(annot.clip, "[-_]"))[3]),
           clip.duration.msec = clip.end.msec - clip.start.msec) %>%
-        distinct(annot.clip, clip.start.msec, clip.duration.msec) %>%
-        mutate(data.type = data.type) %>%
-        select(data.type, annot.clip, clip.start.msec, clip.duration.msec)
-      tt.summary <- expand_grid(annot.clips, tt.summary.empty)
-      by.clip.summary <- expand_grid(
+        dplyr::distinct(annot.clip, clip.start.msec, clip.duration.msec) %>%
+        dplyr::mutate(data.type = data.type) %>%
+        dplyr::select(data.type, annot.clip, clip.start.msec, clip.duration.msec)
+      tt.summary <- tidyr::expand_grid(annot.clips, tt.summary.empty)
+      by.clip.summary <- tidyr::expand_grid(
         tt.summary, intseq.summary.empty)
     }
   }
   # check for intseqs before summarizing them
   if ("intseq.num" %in% names(tttbl)) {
     tttbl.is <- tttbl %>%
-      filter(!is.na(intseq.num))
+      dplyr::filter(!is.na(intseq.num))
     if (nrow(tttbl.is) > 0) {
       intseq.summary <- summarize_intseqs(tttbl.is)
       by.clip.summary <- tt.summary %>%
-        left_join(intseq.summary, by = c("annot.clip"))
+        dplyr::left_join(intseq.summary, by = c("annot.clip"))
       } else {
-        by.clip.summary <- expand_grid(
+        by.clip.summary <- tidyr::expand_grid(
           tt.summary, intseq.summary.empty)
       }
   }
@@ -70,9 +70,9 @@ summarize_tttbl <- function(tttbl, data.type) {
 summarize_tts <- function(tttbl, data.type) {
   tt.timings <- c(tttbl$pmt.timing, tttbl$rsp.timing)
   tt.summary <- tttbl %>%
-    group_by(annot.clip, clip.start.msec, clip.end.msec,
+    dplyr::group_by(annot.clip, clip.start.msec, clip.end.msec,
       clip.duration.msec, clip.duration.min) %>%
-    summarize(
+    dplyr::summarize(
       `.groups` = "drop",
       num.prompts = sum(pmt),
       num.responses = sum(rsp),
@@ -91,7 +91,7 @@ summarize_tts <- function(tttbl, data.type) {
       response.latency.msec.max = ifelse(sum(!(is.na(rsp.timing))) > 0,
                                        max(rsp.timing, na.rm = TRUE), NA),
       response.latency.msec.sd = sd(rsp.timing, na.rm = TRUE)) %>%
-    mutate(
+    dplyr::mutate(
       prompts.per.min = num.prompts/clip.duration.min,
       responses.per.min = num.responses/clip.duration.min,
       transitions.per.min = num.transitions/clip.duration.min,
@@ -101,7 +101,7 @@ summarize_tts <- function(tttbl, data.type) {
       transition.latency.msec.max = max(tt.timings, na.rm = TRUE),
       transition.latency.msec.sd = sd(tt.timings, na.rm = TRUE),
       data.type = data.type) %>%
-    select(
+    dplyr::select(
       data.type, annot.clip, clip.start.msec, clip.duration.msec,
       num.prompts, prompts.per.min,
       prompt.latency.msec.mean, prompt.latency.msec.median,
@@ -120,19 +120,19 @@ summarize_tts <- function(tttbl, data.type) {
 
 summarize_intseqs <- function(tttbl.is) {
   tttbl.is <- tttbl.is %>%
-    unite("prompt.unique", c(prompt.spkr, prompt.start.ms, prompt.n.increments)) %>%
-    unite("response.unique", c(response.spkr, response.start.ms, response.n.increments))
+    tidyr::unite("prompt.unique", c(prompt.spkr, prompt.start.ms, prompt.n.increments)) %>%
+    tidyr::unite("response.unique", c(response.spkr, response.start.ms, response.n.increments))
   focal.spkr <- tttbl.is$speaker[1]
   intseq.summary.by.is <- tttbl.is %>%
-    group_by(annot.clip, clip.duration.min,
+    dplyr::group_by(annot.clip, clip.duration.min,
       intseq.num, intseq.start.spkr, intseq.start.ms, intseq.stop.ms) %>%
-    summarize(
+    dplyr::summarize(
       `.groups` = "drop",
-      num.focus.vocs = n(),
+      num.focus.vocs = dplyr::n(),
       num.prompts = sum(pmt),
       num.responses = sum(rsp),
       num.transitions = num.prompts + num.responses) %>%
-    mutate(
+    dplyr::mutate(
       focus.initiated = ifelse(intseq.start.spkr == focal.spkr, 1, 0),
       other.initiated = ifelse(focus.initiated == 1, 0, 1),
       intseq.start.msec = intseq.start.ms,
@@ -149,7 +149,7 @@ summarize_intseqs <- function(tttbl.is) {
     is.other.vocs <- is.other.vocs[non.na.vocs]
     if (length(is.other.vocs) > 0) {
       n.other.vocs <- sum(as.numeric(
-        str_extract(is.other.vocs, "\\d+$")), na.rm = TRUE)
+        stringr::str_extract(is.other.vocs, "\\d+$")), na.rm = TRUE)
       is.other.vocs <- paste(is.other.vocs, collapse = ", ")
     } else {
       n.other.vocs <- 0
@@ -161,10 +161,10 @@ summarize_intseqs <- function(tttbl.is) {
       intseq.summary.by.is$intseq.num == is)] = is.other.vocs
   }
   intseq.summary <- intseq.summary.by.is %>%
-    group_by(annot.clip, clip.duration.min) %>%
-    summarize(
+    dplyr::group_by(annot.clip, clip.duration.min) %>%
+    dplyr::summarize(
       `.groups` = "drop",
-      num.intseqs = n(),
+      num.intseqs = dplyr::n(),
       intseq.duration.msec.mean = mean(intseq.duration.msec, na.rm = TRUE),
       intseq.duration.msec.median = median(intseq.duration.msec, na.rm = TRUE),
       intseq.duration.msec.min = min(intseq.duration.msec, na.rm = TRUE),
@@ -197,11 +197,11 @@ summarize_intseqs <- function(tttbl.is) {
       num.transitions.per.intseq.min = min(num.transitions, na.rm = TRUE),
       num.transitions.per.intseq.max = max(num.transitions, na.rm = TRUE),
       num.transitions.per.intseq.sd = sd(num.transitions, na.rm = TRUE)) %>%
-    mutate(intseqs.per.min = num.intseqs/clip.duration.min)
+    dplyr::mutate(intseqs.per.min = num.intseqs/clip.duration.min)
   return(intseq.summary)
 }
 
-intseq.summary.empty <- tibble(
+intseq.summary.empty <- tibble::tibble(
   num.intseqs = 0,                      
   intseq.duration.msec.mean = NA,        
   intseq.duration.msec.median = NA,      
@@ -238,7 +238,7 @@ intseq.summary.empty <- tibble(
   intseqs.per.min = 0       
 )
 
-tt.summary.empty <- tibble(
+tt.summary.empty <- tibble::tibble(
   num.prompts = 0,                   
   prompts.per.min = 0,               
   prompt.latency.msec.mean = NA,      

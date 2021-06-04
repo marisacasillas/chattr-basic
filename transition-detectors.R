@@ -2,7 +2,7 @@ ann.marker <- "annotated-" ## ALSO USED IN TABULARIZE DATA
 start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN CHATTR HELPERS
 modes <- c("strict", "stretch", "luqr", "qulr")
 
-empty.continuation.utts <- tibble(
+empty.continuation.utts <- tibble::tibble(
   speaker = character(),
   annot.clip = character(),
   start.ms = integer(),
@@ -30,31 +30,31 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   min.utt.dur, target.ptcp, interactants, addressee.tags, mode) {
   # exclude utterances deemed too short to "count"
   if (!("duration" %in% names(spchtbl))) {
-    spchtbl <- mutate(spchtbl,
+    spchtbl <- dplyr::mutate(spchtbl,
       duration = stop.ms - start.ms)
   }
-  spchtbl <- filter(spchtbl, duration > min.utt.dur)
+  spchtbl <- dplyr::filter(spchtbl, duration > min.utt.dur)
   # only include utterances occurring within annotated clips
   # (clips over-hanging utterances)
   spchtbl.cropped <- crop_to_annots(spchtbl)
-  spchtbl.annsubset <- filter(spchtbl.cropped,
+  spchtbl.annsubset <- dplyr::filter(spchtbl.cropped,
     annot.clip != "none assigned")
   # extract the interactant utterances
   if (ifelse(is.logical(interactants), interactants == FALSE, FALSE)) {
-    int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
+    int.utts <- dplyr::filter(spchtbl.annsubset, speaker != target.ptcp &
                          !grepl(start.ann, speaker))
   } else {
     if (length(interactants) > 1 | !is.character(interactants)) {
       print("Interactant value is not a regular expression.")
       return(empty.continuation.utts)
     }
-    int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
+    int.utts <- dplyr::filter(spchtbl.annsubset, speaker != target.ptcp &
                          grepl(interactants, speaker) & 
                          !grepl(start.ann, speaker))
   }
   # only include those that are addressed appropriately
   if (addressee.tags != FALSE) {
-    int.utts <- filter(int.utts, grepl(addressee.tags, addressee))
+    int.utts <- dplyr::filter(int.utts, grepl(addressee.tags, addressee))
     if (nrow(int.utts) < 1) {
       print("No utterances with the specified interactant(s).")
       return(empty.continuation.utts)
@@ -74,29 +74,29 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     print("No utterances from the specified focus speaker.")
     return(empty.continuation.utts)
   }
-  chi.utts <- mutate(
+  chi.utts <- dplyr::mutate(
     chi.utts, utt.idx = c(1:nrow(chi.utts)),
     prewindow.start = start.ms - allowed.gap,
     prewindow.stop = pmin(stop.ms, start.ms + allowed.overlap),
     postwindow.start = pmax(start.ms, stop.ms - allowed.overlap),
     postwindow.stop = stop.ms + allowed.gap)
-  sub.int.utts <- tibble()
+  sub.int.utts <- tibble::tibble()
   for (u in 1:nrow(chi.utts)) {
-    prompts <- filter(int.utts,
+    prompts <- dplyr::filter(int.utts,
       stop.ms >= chi.utts$prewindow.start[u] &
         stop.ms <= chi.utts$prewindow.stop[u] &
         start.ms < chi.utts$start.ms[u])
     if (nrow(prompts) > 0) {
       prompts$focal.utt.start.prompt = chi.utts$start.ms[u]
-      sub.int.utts <- bind_rows(sub.int.utts, prompts)
+      sub.int.utts <- dplyr::bind_rows(sub.int.utts, prompts)
     }
-    responses <- filter(int.utts,
+    responses <- dplyr::filter(int.utts,
       start.ms >= chi.utts$postwindow.start[u] &
         start.ms <= chi.utts$postwindow.stop[u] &
         stop.ms > chi.utts$stop.ms[u])
     if (nrow(responses) > 0) {
       responses$focal.utt.start.response = chi.utts$start.ms[u]
-      sub.int.utts <- bind_rows(sub.int.utts, responses)
+      sub.int.utts <- dplyr::bind_rows(sub.int.utts, responses)
     }
   }
   
@@ -104,79 +104,79 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   if ("focal.utt.start.prompt" %in% names(sub.int.utts)) {
     # align potential prompts with their focal speaker utterances
     sub.int.prompts <- sub.int.utts %>%
-      filter(!is.na(focal.utt.start.prompt)) %>%
-      mutate(
+      dplyr::filter(!is.na(focal.utt.start.prompt)) %>%
+      dplyr::mutate(
         prompt.spkr = speaker,
         prompt.start.ms = start.ms,
         prompt.stop.ms = stop.ms) %>%
       dplyr::select(prompt.spkr, prompt.start.ms, prompt.stop.ms,
                     focal.utt.start.prompt)
-    chi.utts.prompts <- right_join(chi.utts, sub.int.prompts,
+    chi.utts.prompts <- dplyr::right_join(chi.utts, sub.int.prompts,
                                    by = c("start.ms" = "focal.utt.start.prompt"))
     # choose only one prompt per utterance;
     # each prompt can only be used once...
     # establish which prompts are re-used
     prompts.used.multi.times <- chi.utts.prompts %>%
-      group_by(prompt.start.ms, prompt.spkr) %>%
-      summarize(
+      dplyr::group_by(prompt.start.ms, prompt.spkr) %>%
+      dplyr::summarize(
         `.groups` = "drop",
-        n = n()) %>%
-      filter(n > 1) %>%
-      pull(prompt.start.ms)
+        n = dplyr::n()) %>%
+      dplyr::filter(n > 1) %>%
+      dplyr::pull(prompt.start.ms)
     # establish which focal utterances are re-used
     chiutt.assoc.multi.prompts <- chi.utts.prompts %>%
-      group_by(start.ms) %>%
-      summarize(
+      dplyr::group_by(start.ms) %>%
+      dplyr::summarize(
         `.groups` = "drop",
-        n.instances = n()) %>%
-      filter (n.instances > 1) %>%
-      pull(start.ms)
+        n.instances = dplyr::n()) %>%
+      dplyr::filter (n.instances > 1) %>%
+      dplyr::pull(start.ms)
     chi.utts.prompts <- chi.utts.prompts %>%
-      mutate(
+      dplyr::mutate(
         prompt.used.elsewhere = ifelse(
           prompt.start.ms %in% prompts.used.multi.times, 1, 0),
         chiutt.used.elsewhere = ifelse(
           start.ms %in% chiutt.assoc.multi.prompts, 1, 0))
-    easy.utts.prompts <- filter(chi.utts.prompts,
+    easy.utts.prompts <- dplyr::filter(chi.utts.prompts,
                                 prompt.used.elsewhere + chiutt.used.elsewhere == 0) %>%
       dplyr::select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
     # select the contingencies among the transitions with multiple options
-    hard.utts.prompts <- filter(chi.utts.prompts,
+    hard.utts.prompts <- dplyr::filter(chi.utts.prompts,
                                 prompt.used.elsewhere + chiutt.used.elsewhere > 0) %>%
-      arrange(prompt.start.ms)
+      dplyr::arrange(prompt.start.ms)
     unique.prompt.chiutts <- unique(hard.utts.prompts$start.ms)
     for (uttstart in unique.prompt.chiutts) {
       if (uttstart %in% unique(hard.utts.prompts$start.ms)) {
         if (mode == "strict" | mode == "qulr") {
-          prompt.stop <- max(filter(
+          prompt.stop <- max(dplyr::filter(
             hard.utts.prompts, start.ms == uttstart)$prompt.stop.ms)
         } else if (mode == "stretch" | mode == "luqr") {
-          prompt.stop <- min(filter(
+          prompt.stop <- min(dplyr::filter(
             hard.utts.prompts, start.ms == uttstart)$prompt.stop.ms)
         }
         # if there are two options, pick the utterance that started earlier,
         # otherwise pick the alphabetically first speaker
-        if (nrow(filter(hard.utts.prompts,
+        if (nrow(dplyr::filter(hard.utts.prompts,
                         prompt.stop.ms == prompt.stop & start.ms == uttstart)) > 1) {
-          stimultaneous.prompts <- filter(
+          stimultaneous.prompts <- dplyr::filter(
             hard.utts.prompts, prompt.stop.ms == prompt.stop) %>%
-            arrange(prompt.start.ms)
+            dplyr::arrange(prompt.start.ms)
           prompt.start <- min(stimultaneous.prompts$prompt.start.ms)
-          stimultaneous.prompts <- filter(
+          stimultaneous.prompts <- dplyr::filter(
             stimultaneous.prompts, prompt.start.ms == prompt.start)
           if (nrow(stimultaneous.prompts) > 1) {
-            stimultaneous.prompts <- arrange(stimultaneous.prompts, prompt.spkr)
+            stimultaneous.prompts <- dplyr::arrange(stimultaneous.prompts, prompt.spkr)
           }
           stimultaneous.prompts.spkr <- stimultaneous.prompts$prompt.spkr[1]
           hard.utts.prompts <- hard.utts.prompts %>%
-            filter(
+            dplyr::filter(
               (start.ms == uttstart & prompt.stop.ms == prompt.stop &
                  prompt.spkr == stimultaneous.prompts.spkr) |
                 start.ms != uttstart & prompt.stop.ms != prompt.stop)
           next
         }
         hard.utts.prompts <- hard.utts.prompts %>%
-          filter(
+          dplyr::filter(
             (start.ms == uttstart & prompt.stop.ms == prompt.stop) |
               start.ms != uttstart & prompt.stop.ms != prompt.stop)
       }
@@ -184,89 +184,89 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     # rejoin all the prompts together
     hard.utts.prompts <- hard.utts.prompts %>%
       dplyr::select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
-    chi.utts.prompts <- bind_rows(easy.utts.prompts, hard.utts.prompts) %>%
-      arrange(start.ms)
+    chi.utts.prompts <- dplyr::bind_rows(easy.utts.prompts, hard.utts.prompts) %>%
+      dplyr::arrange(start.ms)
   } else {
-    chi.utts.prompts <- tibble()
+    chi.utts.prompts <- tibble::tibble()
   }
   
   # RESPONSES
   if ("focal.utt.start.response" %in% names(sub.int.utts)) {
     # align potential responses with their focal speaker utterances
     sub.int.responses <- sub.int.utts %>%
-      filter(!is.na(focal.utt.start.response)) %>%
-      mutate(
+      dplyr::filter(!is.na(focal.utt.start.response)) %>%
+      dplyr::mutate(
         response.spkr = speaker,
         response.start.ms = start.ms,
         response.stop.ms = stop.ms) %>%
       dplyr::select(response.spkr, response.start.ms, response.stop.ms,
                     focal.utt.start.response)
-    chi.utts.responses <- right_join(chi.utts, sub.int.responses,
+    chi.utts.responses <- dplyr::right_join(chi.utts, sub.int.responses,
                                      by = c("start.ms" = "focal.utt.start.response"))
     # choose only one prompt per utterance;
     # each prompt can only be used once...
     # establish which prompts are re-used
     responses.used.multi.times <- chi.utts.responses %>%
-      group_by(response.start.ms, response.spkr) %>%
-      summarize(
+      dplyr::group_by(response.start.ms, response.spkr) %>%
+      dplyr::summarize(
         `.groups` = "drop",
-        n = n()) %>%
-      filter(n > 1) %>%
-      pull(response.start.ms)
+        n = dplyr::n()) %>%
+      dplyr::filter(n > 1) %>%
+      dplyr::pull(response.start.ms)
     # establish which focal utterances are re-used
     chiutt.assoc.multi.response <-  chi.utts.responses %>%
-      group_by(start.ms) %>%
-      summarize(
+      dplyr::group_by(start.ms) %>%
+      dplyr::summarize(
         `.groups` = "drop",
-        n.instances = n()) %>%
-      filter (n.instances > 1) %>%
-      pull(start.ms)
+        n.instances = dplyr::n()) %>%
+      dplyr::filter (n.instances > 1) %>%
+      dplyr::pull(start.ms)
     chi.utts.responses <- chi.utts.responses %>%
-      mutate(
+      dplyr::mutate(
         response.used.elsewhere = ifelse(
           response.start.ms %in% responses.used.multi.times, 1, 0),
         chiutt.used.elsewhere = ifelse(
           start.ms %in% chiutt.assoc.multi.response, 1, 0))
-    easy.utts.responses <- filter(chi.utts.responses,
+    easy.utts.responses <- dplyr::filter(chi.utts.responses,
                                   response.used.elsewhere + chiutt.used.elsewhere == 0) %>%
       dplyr::select(-response.used.elsewhere, -chiutt.used.elsewhere)
     # select the contingencies among the transitions with multiple options
-    hard.utts.responses <- filter(chi.utts.responses,
+    hard.utts.responses <- dplyr::filter(chi.utts.responses,
                                   response.used.elsewhere + chiutt.used.elsewhere > 0) %>%
-      arrange(response.start.ms)
+      dplyr::arrange(response.start.ms)
     unique.response.chiutts <- unique(hard.utts.responses$start.ms)
     for (uttstart in unique.response.chiutts) {
       if (uttstart %in% unique(hard.utts.responses$start.ms)) {
         if (mode == "strict" | mode == "luqr") {
-          response.start <- min(filter(
+          response.start <- min(dplyr::filter(
             hard.utts.responses, start.ms == uttstart)$response.start.ms)
         } else if (mode == "stretch" | mode == "qulr") {
-          response.start <- max(filter(
+          response.start <- max(dplyr::filter(
             hard.utts.responses, start.ms == uttstart)$response.start.ms)
         }
         # if there are two options, pick the utterance that stops later,
         # otherwise pick the alphabetically first speaker
-        if (nrow(filter(hard.utts.responses,
+        if (nrow(dplyr::filter(hard.utts.responses,
                         response.start.ms == response.start & start.ms == uttstart)) > 1) {
-          stimultaneous.responses <- filter(
+          stimultaneous.responses <- dplyr::filter(
             hard.utts.responses, response.start.ms == response.start) %>%
-            arrange(response.stop.ms)
+            dplyr::arrange(response.stop.ms)
           response.stop <- max(stimultaneous.responses$response.stop.ms)
-          stimultaneous.responses <- filter(
+          stimultaneous.responses <- dplyr::filter(
             stimultaneous.responses, response.stop.ms == response.stop)
           if (nrow(stimultaneous.responses) > 1) {
-            stimultaneous.responses <- arrange(stimultaneous.responses, response.spkr)
+            stimultaneous.responses <- dplyr::arrange(stimultaneous.responses, response.spkr)
           }
           stimultaneous.responses.spkr <- stimultaneous.responses$response.spkr[1]
           hard.utts.responses <- hard.utts.responses %>%
-            filter(
+            dplyr::filter(
               (start.ms == uttstart & response.start.ms == response.start &
                  response.spkr == stimultaneous.responses.spkr) |
                 start.ms != uttstart & response.start.ms != response.start)
           next
         }
         hard.utts.responses <- hard.utts.responses %>%
-          filter(
+          dplyr::filter(
             (start.ms == uttstart & response.start.ms == response.start) |
               start.ms != uttstart & response.start.ms != response.start)
       }
@@ -274,10 +274,10 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     # rejoin all the prompts together
     hard.utts.responses <- hard.utts.responses %>%
       dplyr::select(-response.used.elsewhere, -chiutt.used.elsewhere)
-    chi.utts.responses <- bind_rows(easy.utts.responses, hard.utts.responses) %>%
-      arrange(start.ms)
+    chi.utts.responses <- dplyr::bind_rows(easy.utts.responses, hard.utts.responses) %>%
+      dplyr::arrange(start.ms)
   } else {
-    chi.utts.responses <- tibble()
+    chi.utts.responses <- tibble::tibble()
   }
 
   # combine the contingent utterances
@@ -285,12 +285,12 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     chi.utts.prompts.min <- chi.utts.prompts %>%
       dplyr::select(start.ms,
         prompt.spkr, prompt.start.ms, prompt.stop.ms) %>%
-      filter(!is.na(prompt.spkr))
-    chi.tttbl <- left_join(chi.utts, chi.utts.prompts.min,
+      dplyr::filter(!is.na(prompt.spkr))
+    chi.tttbl <- dplyr::left_join(chi.utts, chi.utts.prompts.min,
       by = "start.ms")
   } else {
     chi.tttbl <- chi.utts %>%
-      mutate(
+      dplyr::mutate(
         prompt.spkr = NA,
         prompt.start.ms = NA,
         prompt.stop.ms = NA
@@ -300,12 +300,12 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     chi.utts.responses.min <- chi.utts.responses %>%
       dplyr::select(start.ms,
         response.spkr, response.start.ms, response.stop.ms) %>%
-      filter(!is.na(response.spkr))
-    chi.tttbl <- left_join(chi.tttbl, chi.utts.responses.min,
+      dplyr::filter(!is.na(response.spkr))
+    chi.tttbl <- dplyr::left_join(chi.tttbl, chi.utts.responses.min,
       by = "start.ms")
   } else {
     chi.tttbl <- chi.tttbl %>%
-      mutate(
+      dplyr::mutate(
         response.spkr = NA,
         response.start.ms = NA,
         response.stop.ms = NA
@@ -321,7 +321,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
         response.start.ms, response.stop.ms, response.spkr)
     continuation.utts <- find_tttbl_continuations(chi.tttbl,
       chi.utts, int.utts, allowed.gap) %>%
-      mutate(
+      dplyr::mutate(
         speaker = as.character(speaker),
         annot.clip = as.character(annot.clip),
         start.ms = as.integer(start.ms),
