@@ -54,7 +54,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
     print("No utterances detected in file.")
   } else {
     # add in addressee information for each non-CHI utterance
-    xds.aastbl <- filter(aastbl, grepl('xds', tier)) %>%
+    xds.aastbl <- dplyr::filter(aastbl, grepl('xds', tier)) %>%
       dplyr::select(speaker, start.ms, value) %>%
       dplyr::rename(addressee = value)
     if (NA %in% unique(xds.aastbl$speaker)) {

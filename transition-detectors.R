@@ -82,7 +82,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     postwindow.stop = stop.ms + allowed.gap)
   sub.int.utts <- tibble::tibble()
   for (u in 1:nrow(chi.utts)) {
-    prompts <- filter(int.utts,
+    prompts <- dplyr::filter(int.utts,
       stop.ms >= chi.utts$prewindow.start[u] &
         stop.ms <= chi.utts$prewindow.stop[u] &
         start.ms < chi.utts$start.ms[u])
@@ -137,7 +137,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
           prompt.start.ms %in% prompts.used.multi.times, 1, 0),
         chiutt.used.elsewhere = ifelse(
           start.ms %in% chiutt.assoc.multi.prompts, 1, 0))
-    easy.utts.prompts <- filter(chi.utts.prompts,
+    easy.utts.prompts <- dplyr::filter(chi.utts.prompts,
                                 prompt.used.elsewhere + chiutt.used.elsewhere == 0) %>%
       dplyr::select(-prompt.used.elsewhere, -chiutt.used.elsewhere)
     # select the contingencies among the transitions with multiple options
@@ -238,10 +238,10 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     for (uttstart in unique.response.chiutts) {
       if (uttstart %in% unique(hard.utts.responses$start.ms)) {
         if (mode == "strict" | mode == "luqr") {
-          response.start <- min(filter(
+          response.start <- min(dplyr::filter(
             hard.utts.responses, start.ms == uttstart)$response.start.ms)
         } else if (mode == "stretch" | mode == "qulr") {
-          response.start <- max(filter(
+          response.start <- max(dplyr::filter(
             hard.utts.responses, start.ms == uttstart)$response.start.ms)
         }
         # if there are two options, pick the utterance that stops later,

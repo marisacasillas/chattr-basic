@@ -42,7 +42,7 @@ shuffle_vocs <- function(tbl) {
                             clip.dur - sum(spkr.vocs$duration))
         # Create shuffled speaker onsets
         ## randomize utterance order
-        spkr.vocs <- dplyr::slice(spkr.vocs, sample(1:n()))
+        spkr.vocs <- dplyr::slice(spkr.vocs, sample(1:dplyr::n()))
         ## insert randomized between-utterance periods
         spkr.vocs$onset.interval <- between.utt.durs[
           1:length(between.utt.durs) - 1]
