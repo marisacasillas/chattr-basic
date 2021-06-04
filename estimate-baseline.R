@@ -88,7 +88,7 @@ fetch_randomruns <- function(
     real.tttbl <- input.tbl
     } else if (tbltype == "intseqtbl") {
     real.tttbl <- input.tbl %>%
-      dplyr::select(-contains("seq")) # removes intseq and vocseq cols
+      dplyr::select(-dplyr::contains("seq")) # removes intseq and vocseq cols
     } else if (tbltype == "spchtbl" | is.spchtbl(spchtbl)) {
     # direct spchtbl input takes priority over input.tbl
     spchtbl <- ifelse(is.spchtbl(spchtbl), spchtbl, input.tbl)

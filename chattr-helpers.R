@@ -38,8 +38,8 @@ crop_to_annots <- function(spchtbl) {
     if ("annot.clip" %in% names(spchtbl)) {
      anns <- unique(spchtbl$annot.clip)
      for (i in 1:length(anns)) {
-       ann.start.ms <- as.numeric(unlist(str_split(anns[i], "[_-]"))[2])
-       ann.stop.ms <- as.numeric(unlist(str_split(anns[i], "[_-]"))[2])
+       ann.start.ms <- as.numeric(unlist(stringr::str_split(anns[i], "[_-]"))[2])
+       ann.stop.ms <- as.numeric(unlist(stringr::str_split(anns[i], "[_-]"))[2])
        # crop utterances that spill over annotated boundaries
        spch.ann.overleft <- which(
          spchtbl$start.ms < ann.start.ms &
@@ -117,7 +117,7 @@ expand_msec_windows <- function(utts, allowed.gap, allowed.overlap) {
       utt0.windows.msec$focal.utt.idx.psw[focal.utt.idx.psw],
       as.character(i), sep = '_')
   }
-  utt0.windows.msec <- filter(utt0.windows.msec,
+  utt0.windows.msec <- dplyr::filter(utt0.windows.msec,
     focal.utt.idx.prw != "" | focal.utt.idx.prw != "")
   return(utt0.windows.msec)
 }
@@ -125,62 +125,62 @@ expand_msec_windows <- function(utts, allowed.gap, allowed.overlap) {
 read_csv_answercols.tt <- function(filename) {
   answers <- readr::read_csv(
     filename,
-    col_types = cols(
-      speaker = col_character(),
-      annot.clip = col_character(),
-      start.ms = col_integer(),
-      stop.ms = col_integer(),
-      addressee = col_character(),
-      spkr.prev.increment.start = col_integer(),
-      spkr.prev.increment.stop = col_integer(),
-      spkr.post.increment.start = col_integer(),
-      spkr.post.increment.stop = col_integer(),
-      prompt.spkr = col_character(),
-      prompt.start.ms = col_integer(),
-      prompt.stop.ms = col_integer(),
-      prompt.prev.increment.start = col_integer(),
-      prompt.prev.increment.stop = col_integer(),
-      response.spkr = col_character(),
-      response.start.ms = col_integer(),
-      response.stop.ms = col_integer(),
-      response.post.increment.start = col_integer(),
-      response.post.increment.stop = col_integer()))
+    col_types = readr::cols(
+      speaker = readr::col_character(),
+      annot.clip = readr::col_character(),
+      start.ms = readr::col_integer(),
+      stop.ms = readr::col_integer(),
+      addressee = readr::col_character(),
+      spkr.prev.increment.start = readr::col_integer(),
+      spkr.prev.increment.stop = readr::col_integer(),
+      spkr.post.increment.start = readr::col_integer(),
+      spkr.post.increment.stop = readr::col_integer(),
+      prompt.spkr = readr::col_character(),
+      prompt.start.ms = readr::col_integer(),
+      prompt.stop.ms = readr::col_integer(),
+      prompt.prev.increment.start = readr::col_integer(),
+      prompt.prev.increment.stop = readr::col_integer(),
+      response.spkr = readr::col_character(),
+      response.start.ms = readr::col_integer(),
+      response.stop.ms = readr::col_integer(),
+      response.post.increment.start = readr::col_integer(),
+      response.post.increment.stop = readr::col_integer()))
   return(answers)
 }
 
 read_csv_answercols.is <- function(filename) {
   answers <- readr::read_csv(
     filename,
-    col_types = cols(
-      speaker = col_character(),
-      annot.clip = col_character(),
-      start.ms = col_integer(),
-      stop.ms = col_integer(),
-      addressee = col_character(),
-      spkr.n.increments = col_integer(),
-      spkr.prev.increment.start = col_integer(),
-      spkr.prev.increment.stop = col_integer(),
-      spkr.post.increment.start = col_integer(),
-      spkr.post.increment.stop = col_integer(),
-      prompt.spkr = col_character(),
-      prompt.start.ms = col_integer(),
-      prompt.stop.ms = col_integer(),
-      prompt.n.increments = col_integer(),
-      prompt.prev.increment.start = col_integer(),
-      prompt.prev.increment.stop = col_integer(),
-      response.spkr = col_character(),
-      response.start.ms = col_integer(),
-      response.stop.ms = col_integer(),
-      response.n.increments = col_integer(),
-      response.post.increment.start = col_integer(),
-      response.post.increment.stop = col_integer(),
-      intseq.num = col_integer(),
-      intseq.start.spkr = col_character(),
-      intseq.start.ms = col_integer(),
-      intseq.stop.spkr = col_character(),
-      intseq.stop.ms = col_integer(),
-      vocseq.num = col_integer(),
-      vocseq.start.ms = col_integer(),
-      vocseq.stop.ms = col_integer()))
+    col_types = readr::cols(
+      speaker = readr::col_character(),
+      annot.clip = readr::col_character(),
+      start.ms = readr::col_integer(),
+      stop.ms = readr::col_integer(),
+      addressee = readr::col_character(),
+      spkr.n.increments = readr::col_integer(),
+      spkr.prev.increment.start = readr::col_integer(),
+      spkr.prev.increment.stop = readr::col_integer(),
+      spkr.post.increment.start = readr::col_integer(),
+      spkr.post.increment.stop = readr::col_integer(),
+      prompt.spkr = readr::col_character(),
+      prompt.start.ms = readr::col_integer(),
+      prompt.stop.ms = readr::col_integer(),
+      prompt.n.increments = readr::col_integer(),
+      prompt.prev.increment.start = readr::col_integer(),
+      prompt.prev.increment.stop = readr::col_integer(),
+      response.spkr = readr::col_character(),
+      response.start.ms = readr::col_integer(),
+      response.stop.ms = readr::col_integer(),
+      response.n.increments = readr::col_integer(),
+      response.post.increment.start = readr::col_integer(),
+      response.post.increment.stop = readr::col_integer(),
+      intseq.num = readr::col_integer(),
+      intseq.start.spkr = readr::col_character(),
+      intseq.start.ms = readr::col_integer(),
+      intseq.stop.spkr = readr::col_character(),
+      intseq.stop.ms = readr::col_integer(),
+      vocseq.num = readr::col_integer(),
+      vocseq.start.ms = readr::col_integer(),
+      vocseq.stop.ms = readr::col_integer()))
   return(answers)
 }

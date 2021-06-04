@@ -60,19 +60,19 @@ testdata1.luqr$addressee <- as.character(
 ### check for a match
 testdata1.stretch.answers <- read_csv_answercols.tt(
   "testdata1.stretch-correct.csv")
-test1.stretch <- all_equal(testdata1.stretch,
+test1.stretch <- dplyr::all_equal(testdata1.stretch,
   testdata1.stretch.answers, convert = TRUE)
 testdata1.strict.answers <- read_csv_answercols.tt(
   "testdata1.strict-correct.csv")
-test1.strict <- all_equal(testdata1.strict,
+test1.strict <- dplyr::all_equal(testdata1.strict,
   testdata1.strict.answers, convert = TRUE)
 testdata1.qulr.answers <- read_csv_answercols.tt(
   "testdata1.qulr-correct.csv")
-test1.qulr <- all_equal(testdata1.qulr,
+test1.qulr <- dplyr::all_equal(testdata1.qulr,
   testdata1.qulr.answers, convert = TRUE)
 testdata1.luqr.answers <- read_csv_answercols.tt(
   "testdata1.luqr-correct.csv")
-test1.luqr <- all_equal(testdata1.luqr,
+test1.luqr <- dplyr::all_equal(testdata1.luqr,
   testdata1.luqr.answers, convert = TRUE)
 
 
@@ -117,19 +117,19 @@ testdata2.luqr$addressee <- as.character(
 ### check for a match
 testdata2.stretch.answers <- read_csv_answercols.tt(
   "testdata2.stretch-correct.csv")
-test2.stretch <- all_equal(testdata2.stretch,
+test2.stretch <- dplyr::all_equal(testdata2.stretch,
   testdata2.stretch.answers, convert = TRUE)
 testdata2.strict.answers <- read_csv_answercols.tt(
   "testdata2.strict-correct.csv")
-test2.strict <- all_equal(testdata2.strict,
+test2.strict <- dplyr::all_equal(testdata2.strict,
   testdata2.strict.answers, convert = TRUE)
 testdata2.qulr.answers <- read_csv_answercols.tt(
   "testdata2.qulr-correct.csv")
-test2.qulr <- all_equal(testdata2.qulr,
+test2.qulr <- dplyr::all_equal(testdata2.qulr,
   testdata2.qulr.answers, convert = TRUE)
 testdata2.luqr.answers <- read_csv_answercols.tt(
   "testdata2.luqr-correct.csv")
-test2.luqr <- all_equal(testdata2.luqr,
+test2.luqr <- dplyr::all_equal(testdata2.luqr,
   testdata2.luqr.answers, convert = TRUE)
 
 
@@ -177,7 +177,7 @@ testdata4.fullrun <- fetch_chatter_AAS(
   n.runs = 2)
 testdata4.fullrun.real.answers <- read_csv_answercols.is(
   "testdata4.fullrun.real.tt.vals.csv")
-test4fr.real <- all_equal(testdata4.fullrun$real.tt.vals,
+test4fr.real <- dplyr::all_equal(testdata4.fullrun$real.tt.vals,
   testdata4.fullrun.real.answers, convert = TRUE)
 # testdata4.fullrun.random.answers <- read_csv_answercols.is(
 #   "testdata4.fullrun.random.tt.vals.csv")
@@ -209,7 +209,7 @@ if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
   ### check for a match
   testdata5.strict.answers <- read_csv_answercols.tt(
     "testdata5.strict-correct.csv")
-  test5.strict <- all_equal(testdata5.strict,
+  test5.strict <- dplyr::all_equal(testdata5.strict,
                             testdata5.strict.answers, convert = TRUE)
   
   ### test with the metafunction
@@ -217,7 +217,7 @@ if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
     testdata5.filename, n.runs = 2)
   testdata5.fullrun.real.answers <- read_csv_answercols.is(
     "testdata5.fullrun.real.tt.vals.csv")
-  test5fr.real <- all_equal(testdata5.fullrun$real.tt.vals,
+  test5fr.real <- dplyr::all_equal(testdata5.fullrun$real.tt.vals,
                             testdata5.fullrun.real.answers, convert = TRUE)
   # testdata5.fullrun.random.answers <- read_csv_answercols.is(
   #   "testdata5.fullrun.random.tt.vals.csv")
@@ -231,48 +231,48 @@ if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
   
   # check that each intseq has at least one prompt or response
   check.tts.in.intseqs <- testdata5.fullrun$real.tt.vals %>%
-    group_by(intseq.num) %>%
-    summarize(
+    dplyr::group_by(intseq.num) %>%
+    dplyr::summarize(
       .groups = "drop",
       n.prompts = length(which(!is.na(prompt.spkr))),
       n.responses = length(which(!is.na(response.spkr)))
     ) %>%
-    mutate(
+    dplyr::mutate(
       n.tts = n.prompts + n.responses
     ) %>%
-    filter(
+    dplyr::filter(
       n.tts == 0 & !is.na(intseq.num)
     ) %>%
     nrow() == 0
   
   # check that each vocseq has exactly 0 prompts and 0 responses
   check.NO.tts.in.vocseqs <- testdata5.fullrun$real.tt.vals %>%
-    group_by(vocseq.num) %>%
-    summarize(
+    dplyr::group_by(vocseq.num) %>%
+    dplyr::summarize(
       .groups = "drop",
       n.prompts = length(which(!is.na(prompt.spkr))),
       n.responses = length(which(!is.na(response.spkr)))
     ) %>%
-    mutate(
+    dplyr::mutate(
       n.tts = n.prompts + n.responses
     ) %>%
-    filter(
+    dplyr::filter(
       n.tts > 0 & !is.na(vocseq.num)
     ) %>%
     nrow() == 0
   
   # check intseq properties via their burst behavior
   interactional.bursts <- testdata5.fullrun$real.tt.vals %>%
-    filter(!is.na(intseq.num)) %>%
-    mutate(
+    dplyr::filter(!is.na(intseq.num)) %>%
+    dplyr::mutate(
       intseq.dur.ms = intseq.stop.ms - intseq.start.ms,
       intseq.dur.min = intseq.dur.ms/60000,
       intseq.start.hr = intseq.start.ms/3600000) %>%
-    group_by(
+    dplyr::group_by(
       intseq.num, intseq.start.ms, intseq.stop.ms,
       intseq.dur.ms, intseq.dur.min, intseq.start.hr,
       intseq.start.spkr, intseq.stop.spkr) %>%
-    summarize(
+    dplyr::summarize(
       .groups = "drop",
       n.intseq.prompts = sum(!is.na(prompt.start.ms)),
       n.intseq.responses = sum(!is.na(response.start.ms)),
@@ -287,7 +287,7 @@ if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
   # check that bursts aren't closer together than the allowed gap
   between.intseq.times <- tibble::tibble()
   interactional.bursts <- interactional.bursts %>%
-    arrange(intseq.num)
+    dplyr::arrange(intseq.num)
   interactional.bursts$prev.intseq.stop <- c(
     0, interactional.bursts$intseq.stop.ms[1:(nrow(interactional.bursts)-1)])
   interactional.bursts$time.since.prev.intseq.ms <- 
@@ -295,7 +295,7 @@ if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
   interactional.bursts$time.since.prev.intseq.min <- 
     interactional.bursts$time.since.prev.intseq.ms/60000
   check.between.intseq.times.zero <- nrow(
-    filter(interactional.bursts,
+    dplyr::filter(interactional.bursts,
            time.since.prev.intseq.ms <= allowed.gap)) == 0
 } else {
   test5.strict <- "NOT TESTED: Input data not available"
@@ -325,7 +325,7 @@ testdata6.strict$addressee <- as.character(
 ### check for a match
 testdata6.strict.answers <- read_csv_answercols.tt(
   "testdata6.strict-correct.csv")
-test6.strict <- all_equal(testdata6.strict,
+test6.strict <- dplyr::all_equal(testdata6.strict,
   testdata6.strict.answers, convert = TRUE)
 
 
@@ -338,7 +338,7 @@ testdata7.fullrun <- fetch_chatter_BST(
   n.runs = 2)
 testdata7.fullrun.real.answers <- read_csv_answercols.is(
   "testdata7.fullrun.real.tt.vals.csv")
-test7fr.real <- all_equal(testdata7.fullrun$real.tt.vals,
+test7fr.real <- dplyr::all_equal(testdata7.fullrun$real.tt.vals,
   testdata7.fullrun.real.answers, convert = TRUE)
 # testdata7.fullrun.random.answers <- read_csv_answercols.is(
 #   "testdata7.fullrun.random.tt.vals.csv")
@@ -354,7 +354,7 @@ testdata8.fullrun <- fetch_chatter_RTTM(
   n.runs = 2)
 testdata8.fullrun.real.answers <- read_csv_answercols.is(
   "testdata8.fullrun.real.tt.vals.csv")
-test8fr.real <- all_equal(testdata8.fullrun$real.tt.vals,
+test8fr.real <- dplyr::all_equal(testdata8.fullrun$real.tt.vals,
   testdata8.fullrun.real.answers, convert = TRUE)
 # testdata8.fullrun.random.answers <- read_csv_answercols.is(
 #   "testdata8.fullrun.random.tt.vals.csv")
@@ -374,7 +374,7 @@ testdata1.strict.FC1.focus$addressee <- as.character(
   testdata1.strict.FC1.focus$addressee)
 testdata1.strict.FC1.focus.answers <- read_csv_answercols.tt(
   "testdata1.strict.FC1.focus-correct.csv")
-test1.strict.FC1.focus <- all_equal(testdata1.strict.FC1.focus,
+test1.strict.FC1.focus <- dplyr::all_equal(testdata1.strict.FC1.focus,
   testdata1.strict.FC1.focus.answers, convert = TRUE)
 
 testdata1.strict.FA1.focus <- fetch_transitions(
@@ -392,7 +392,7 @@ testdata1.strict.intFC1only$addressee <- as.character(
   testdata1.strict.intFC1only$addressee)
 testdata1.strict.intFC1only.answers <- read_csv_answercols.tt(
   "testdata1.strict.intFC1only-correct.csv")
-test1.strict.intFC1only <- all_equal(testdata1.strict.intFC1only,
+test1.strict.intFC1only <- dplyr::all_equal(testdata1.strict.intFC1only,
   testdata1.strict.intFC1only.answers, convert = TRUE)
 
 testdata1.intpattern <- "[MFU]C\\d"
@@ -402,7 +402,7 @@ testdata1.strict.intpattern <- fetch_transitions(
   addressee.tags = FALSE, mode = "strict")
 testdata1.strict.intpattern$addressee <- as.character(
   testdata1.strict.intpattern$addressee)
-test1.strict.intpattern <- all_equal(testdata1.strict.intpattern,
+test1.strict.intpattern <- dplyr::all_equal(testdata1.strict.intpattern,
   testdata1.strict.intFC1only.answers, convert = TRUE)
 
 testdata1.strict.intFC1FA1 <- fetch_transitions(
@@ -411,7 +411,7 @@ testdata1.strict.intFC1FA1 <- fetch_transitions(
   addressee.tags = "[CT]", mode = "strict")
 testdata1.strict.intFC1FA1$addressee <- as.character(
   testdata1.strict.intFC1FA1$addressee)
-test1.strict.intFC1FA1 <- all_equal(testdata1.strict.intFC1FA1,
+test1.strict.intFC1FA1 <- dplyr::all_equal(testdata1.strict.intFC1FA1,
   testdata1.strict.intFC1only.answers, convert = TRUE)
 
 testdata1.strict.intFA1only <- fetch_transitions(
@@ -433,7 +433,7 @@ testdata1.strict.none <- fetch_transitions(
   addressee.tags = FALSE, mode = "strict")
 testdata1.strict.none$addressee <- as.character(
   testdata1.strict.none$addressee)
-test1.strict.none <- all_equal(testdata1.strict.none,
+test1.strict.none <- dplyr::all_equal(testdata1.strict.none,
   testdata1.strict.answers, convert = TRUE)
 
 
@@ -444,7 +444,7 @@ testdata1.strict.intseq$addressee <- as.character(
   testdata1.strict.intseq$addressee)
 testdata1.strict.intseq.answers <- read_csv_answercols.is(
   "testdata1.strict.intseq-answers.csv")
-test1.strict.intseq <- all_equal(testdata1.strict.intseq,
+test1.strict.intseq <- dplyr::all_equal(testdata1.strict.intseq,
   testdata1.strict.intseq.answers, convert = TRUE)
 
 

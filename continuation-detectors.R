@@ -10,7 +10,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
   tttbl <- tttbl %>%
     # mark a focal speaker vocalization as initiating
     # a new turn at talk when:
-    dplyr::mutate(new.turn = case_when(
+    dplyr::mutate(new.turn = dplyr::case_when(
       # the prior focal speaker vocalization had a response
       !is.na(response.prev.spkr) ~ 1,
       # the current focal speaker vocalization has a prompt
@@ -28,7 +28,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
       `.groups` = "drop",
       spkr.prev.increment.start = min(start.ms),
       spkr.post.increment.stop = max(stop.ms),
-      spkr.n.increments = n()) %>%
+      spkr.n.increments = dplyr::n()) %>%
     dplyr::filter(spkr.n.increments > 1) %>%
     dplyr::left_join(dplyr::select(tttbl, c(start.ms, stop.ms)),
       by = c("spkr.prev.increment.start" = "start.ms")) %>%
@@ -113,7 +113,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
         NA, cont.spkr.tbl$has.response[1:nrow(cont.spkr.tbl)-1])
       if ("has.prompt" %in% names(cont.spkr.tbl)) {
         cont.spkr.tbl <- cont.spkr.tbl %>%
-          dplyr::mutate(new.turn = case_when(
+          dplyr::mutate(new.turn = dplyr::case_when(
             response.prev.spkr == 1 ~ 1,
             has.prompt == 1 ~ 1,
             cont.start.ms - stop.prev.ms > allowed.gap ~ 1,
@@ -132,7 +132,7 @@ find_tttbl_continuations <- function(tttbl, focus.utts,
           `.groups` = "drop",
           cont.spkr.prev.increment.start = min(cont.start.ms),
           cont.spkr.post.increment.stop = max(cont.stop.ms),
-          cont.spkr.n.increments = n()) %>%
+          cont.spkr.n.increments = dplyr::n()) %>%
         dplyr::filter(cont.spkr.n.increments > 1) %>%
         dplyr::left_join(dplyr::select(int.utts, c(speaker, start.ms, stop.ms)),
                   by = c("cont.spkr" = "speaker",

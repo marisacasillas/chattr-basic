@@ -30,13 +30,13 @@ read_spchtbl <- function(filepath, tbltype,
 
 aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
   aastbl <- readr::read_delim(file = tbl, delim = "\t",
-    col_names = ebtbl.colnames, col_types = cols(
-      tier = col_character(),
-      speaker = col_character(),
-      start.ms = col_integer(),
-      stop.ms = col_integer(),
-      duration = col_integer(),
-      value = col_character()
+    col_names = ebtbl.colnames, col_types = readr::cols(
+      tier = readr::col_character(),
+      speaker = readr::col_character(),
+      start.ms = readr::col_integer(),
+      stop.ms = readr::col_integer(),
+      duration = readr::col_integer(),
+      value = readr::col_character()
     ))
   # extract the top-level utterance tiers
   if (lxonly == TRUE) {
@@ -60,8 +60,8 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
     }
     if (lxonly == TRUE) {
       # now add in vocal maturity data
-      vcm.aastbl <- filter(aastbl, speaker == "CHI" & speaker != tier) %>%
-        spread(tier, value)
+      vcm.aastbl <- dplyr::filter(aastbl, speaker == "CHI" & speaker != tier) %>%
+        tidyr::spread(tier, value)
       if (!("vcm@CHI" %in% names(vcm.aastbl))) {
         vcm.aastbl$`vcm@CHI` <- NA
       }
@@ -73,7 +73,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
       }
       vcm.aastbl <- vcm.aastbl %>%
         dplyr::rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
-        dplyr::mutate(non.lx = case_when(
+        dplyr::mutate(non.lx = dplyr::case_when(
           vcm == "Y" ~ 1,
           vcm == "L" ~ 1,
           vcm == NA & lex == 0 ~ 1,
@@ -100,7 +100,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
         dplyr::mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value),
           addressee = NA) %>%
         dplyr::select(speaker, start.ms, stop.ms, addressee)
-      wide.aastbl <- bind_rows(clip.tbl, wide.aastbl) %>%
+      wide.aastbl <- dplyr::bind_rows(clip.tbl, wide.aastbl) %>%
         dplyr::filter(speaker != cliptier)
       return(wide.aastbl)
     } else if (cliptier == ".alloneclip") {
@@ -123,10 +123,10 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
 
 
 basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
-  ebtbl.ncol <- readr::read_delim(file = tbl, delim = "\t", col_types = cols(),
+  ebtbl.ncol <- readr::read_delim(file = tbl, delim = "\t", col_types = readr::cols(),
     col_names = FALSE) %>% ncol()
   if (ebtbl.ncol == 3) {
-    ebtbl <- readr::read_delim(file = tbl, delim = "\t", col_types = cols(),
+    ebtbl <- readr::read_delim(file = tbl, delim = "\t", col_types = readr::cols(),
       col_names = c("speaker", "start.ms", "stop.ms"))
     ebtbl <- ebtbl %>%
       dplyr::mutate(
@@ -135,7 +135,7 @@ basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
         stop.ms = as.integer(stop.ms)
       )
   } else if (ebtbl.ncol == 6) {
-    ebtbl <- readr::read_delim(file = tbl, delim = "\t", col_types = cols(),
+    ebtbl <- readr::read_delim(file = tbl, delim = "\t", col_types = readr::cols(),
       col_names = ebtbl.colnames)
     ebtbl <- ebtbl %>%
       dplyr::mutate(
@@ -205,7 +205,7 @@ its_to_spchtbl <- function(its.file, lxonly, nearonly) {
   colnames(spchtbl) <- c("speaker", "start.LENA", "stop.LENA")
   
   # Reformat to a chattr spchtbl format
-  spchtbl <- as_tibble(spchtbl) %>%
+  spchtbl <- tibble::as_tibble(spchtbl) %>%
     dplyr::mutate(
       start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", start.LENA))*1000)),
       stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", stop.LENA))*1000)),
@@ -272,17 +272,17 @@ rttm_to_spchtbl <- function(tbl, lxonly) {
     print("Error: rttm files must be either (a) 10 tab-delimited fields or (b) 8--10 space-delimited fields.")
   } else {
     rttmtbl <- readr::read_delim(file = tbl, delim = rttm.delim,
-                          col_names = rttmtbl.colnames, col_types = cols(
-                            segment.type = col_character(),
-                            filename = col_character(),
-                            channel = col_double(),
-                            start.sc = col_double(),
-                            duration.sc = col_double(),
-                            orthography = col_character(),
-                            speaker.type = col_character(), # XDS/VCM annots in ACLEW
-                            speaker.tier = col_character(),
-                            conf.score = col_double(),
-                            signal.lookahead = col_double())) %>%
+                          col_names = rttmtbl.colnames, col_types = readr::cols(
+                            segment.type = readr::col_character(),
+                            filename = readr::col_character(),
+                            channel = readr::col_double(),
+                            start.sc = readr::col_double(),
+                            duration.sc = readr::col_double(),
+                            orthography = readr::col_character(),
+                            speaker.type = readr::col_character(), # XDS/VCM annots in ACLEW
+                            speaker.tier = readr::col_character(),
+                            conf.score = readr::col_double(),
+                            signal.lookahead = readr::col_double())) %>%
       dplyr::mutate(
         speaker = speaker.tier,
         start.ms = start.sc * 1000,
