@@ -1,3 +1,5 @@
+library(magrittr)
+
 ebtbl.colnames <- c("tier", "speaker", "start.ms", "stop.ms", "duration", "value")
 rttmtbl.colnames <- c("segment.type", "filename", "channel", "start.sc",
                       "duration.sc", "orthography", "speaker.type",
