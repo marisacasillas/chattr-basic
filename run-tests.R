@@ -285,7 +285,7 @@ if (file.exists("test_files/ITS/e20100727_110707_003581.its")) {
     TRUE, FALSE)
   
   # check that bursts aren't closer together than the allowed gap
-  between.intseq.times <- tibble()
+  between.intseq.times <- tibble::tibble()
   interactional.bursts <- interactional.bursts %>%
     arrange(intseq.num)
   interactional.bursts$prev.intseq.stop <- c(

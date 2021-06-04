@@ -1,5 +1,3 @@
-library(tidyverse)
-
 ebtbl.colnames <- c("tier", "speaker", "start.ms", "stop.ms", "duration", "value")
 rttmtbl.colnames <- c("segment.type", "filename", "channel", "start.sc",
                       "duration.sc", "orthography", "speaker.type",
@@ -31,7 +29,7 @@ read_spchtbl <- function(filepath, tbltype,
 }
 
 aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
-  aastbl <- read_delim(file = tbl, delim = "\t",
+  aastbl <- readr::read_delim(file = tbl, delim = "\t",
     col_names = ebtbl.colnames, col_types = cols(
       tier = col_character(),
       speaker = col_character(),
@@ -42,13 +40,13 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
     ))
   # extract the top-level utterance tiers
   if (lxonly == TRUE) {
-    wide.aastbl <- filter(aastbl,
+    wide.aastbl <- dplyr::filter(aastbl,
                           (tier == "CHI" & speaker == "CHI"  &
                             !(grepl(paraling.ptrn, value)) |
                              (tier == speaker &
                                 !(grepl(paraling.ptrn, value)))))
   } else {
-    wide.aastbl <- filter(aastbl, tier == speaker)
+    wide.aastbl <- dplyr::filter(aastbl, tier == speaker)
   }
   if (nrow(wide.aastbl) == 0) {
     print("No utterances detected in file.")
@@ -75,7 +73,7 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
       }
       vcm.aastbl <- vcm.aastbl %>%
         dplyr::rename(vcm = 'vcm@CHI', lex = 'lex@CHI', mwu = 'mwu@CHI') %>%
-        mutate(non.lx = case_when(
+        dplyr::mutate(non.lx = case_when(
           vcm == "Y" ~ 1,
           vcm == "L" ~ 1,
           vcm == NA & lex == 0 ~ 1,
@@ -83,39 +81,39 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
           TRUE ~ 0
         )) %>%
         # remove non-linguistic vocalizations
-        filter(non.lx == 1) %>%
+        dplyr::filter(non.lx == 1) %>%
         dplyr::select(speaker, start.ms)
       # add all info to wide table
-      wide.aastbl <- anti_join(wide.aastbl, vcm.aastbl,
+      wide.aastbl <- dplyr::anti_join(wide.aastbl, vcm.aastbl,
         by = c("speaker", "start.ms")) %>%
-        left_join(xds.aastbl, by = c("speaker", "start.ms")) %>%
+        dplyr::left_join(xds.aastbl, by = c("speaker", "start.ms")) %>%
         dplyr::select(speaker, start.ms, stop.ms, addressee)
     } else {
-      wide.aastbl <- left_join(wide.aastbl, xds.aastbl,
+      wide.aastbl <- dplyr::left_join(wide.aastbl, xds.aastbl,
         by = c("speaker", "start.ms")) %>%
         dplyr::select(speaker, start.ms, stop.ms, addressee)
     }
     # add in information about the annotated regions
     # (if no annotation, stop and tell the user)
     if (cliptier %in% unique(aastbl$tier)) {
-      clip.tbl <- filter(aastbl, tier == cliptier) %>%
-        mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value),
+      clip.tbl <- dplyr::filter(aastbl, tier == cliptier) %>%
+        dplyr::mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value),
           addressee = NA) %>%
         dplyr::select(speaker, start.ms, stop.ms, addressee)
       wide.aastbl <- bind_rows(clip.tbl, wide.aastbl) %>%
-        filter(speaker != cliptier)
+        dplyr::filter(speaker != cliptier)
       return(wide.aastbl)
     } else if (cliptier == ".alloneclip") {
       start.first.ann <- min(wide.aastbl$start.ms)
       stop.last.ann <- max(wide.aastbl$stop.ms)
-      clip.tbl <- tibble(
+      clip.tbl <- tibble::tibble(
         speaker = paste0(ann.marker, start.first.ann, "_",
                          stop.last.ann, "-", 1),
         start.ms = start.first.ann,
         stop.ms = stop.last.ann,
         addressee = NA
       )
-      wide.aastbl <- bind_rows(clip.tbl, wide.aastbl)
+      wide.aastbl <- dplyr::bind_rows(clip.tbl, wide.aastbl)
       return(wide.aastbl)
     }  else {
       print("Error: no rows from the clip tier found.")
@@ -125,22 +123,22 @@ aas_to_spchtbl <- function(tbl, cliptier, lxonly) {
 
 
 basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
-  ebtbl.ncol <- read_delim(file = tbl, delim = "\t", col_types = cols(),
+  ebtbl.ncol <- readr::read_delim(file = tbl, delim = "\t", col_types = cols(),
     col_names = FALSE) %>% ncol()
   if (ebtbl.ncol == 3) {
-    ebtbl <- read_delim(file = tbl, delim = "\t", col_types = cols(),
+    ebtbl <- readr::read_delim(file = tbl, delim = "\t", col_types = cols(),
       col_names = c("speaker", "start.ms", "stop.ms"))
     ebtbl <- ebtbl %>%
-      mutate(
+      dplyr::mutate(
         speaker = as.character(speaker),
         start.ms = as.integer(start.ms),
         stop.ms = as.integer(stop.ms)
       )
   } else if (ebtbl.ncol == 6) {
-    ebtbl <- read_delim(file = tbl, delim = "\t", col_types = cols(),
+    ebtbl <- readr::read_delim(file = tbl, delim = "\t", col_types = cols(),
       col_names = ebtbl.colnames)
     ebtbl <- ebtbl %>%
-      mutate(
+      dplyr::mutate(
         tier = as.character(tier),
         speaker = as.character(speaker),
         start.ms = as.integer(start.ms),
@@ -157,7 +155,7 @@ basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
   if (lxonly != FALSE) {
     if (is.character(lxonly)) {
       ebtbl <- ebtbl %>%
-        filter(grepl(lxonly, value) | speaker == cliptier)
+        dplyr::filter(grepl(lxonly, value) | speaker == cliptier)
     } else {
       print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the last column; see documentation for an example.")
     }
@@ -165,22 +163,22 @@ basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
   # add in information about the annotated regions
   # (if no annotation, stop and tell the user)
   if (cliptier %in% unique(ebtbl$speaker)) {
-    clip.tbl <- filter(ebtbl, speaker == cliptier) %>%
-      mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
-    ebtbl <- bind_rows(clip.tbl, ebtbl) %>%
-      filter(speaker != cliptier)
+    clip.tbl <- dplyr::filter(ebtbl, speaker == cliptier) %>%
+      dplyr::mutate(speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", value))
+    ebtbl <- dplyr::bind_rows(clip.tbl, ebtbl) %>%
+      dplyr::filter(speaker != cliptier)
     return(ebtbl)
   } else if (cliptier == ".alloneclip") {
     start.first.ann <- min(ebtbl$start.ms)
     stop.last.ann <- max(ebtbl$stop.ms)
-    clip.tbl <- tibble(
+    clip.tbl <- tibble::tibble(
       speaker = paste0(ann.marker, start.first.ann, "_",
                        stop.last.ann, "-", 1),
       start.ms = start.first.ann,
       stop.ms = stop.last.ann,
       value = NA
     )
-    ebtbl <- bind_rows(clip.tbl, ebtbl)
+    ebtbl <- dplyr::bind_rows(clip.tbl, ebtbl)
     return(ebtbl)
   } else {
     print("Error: Specified clip tier not found.")
@@ -190,7 +188,7 @@ basictbl_to_spchtbl <- function(tbl, cliptier, lxonly) {
 
 its_to_spchtbl <- function(its.file, lxonly, nearonly) {
   # Extract the speaker segment lines from the .its file
-  its.data <- read_lines(its.file)
+  its.data <- readr::read_lines(its.file)
   if (lxonly == TRUE) {
     # conversationInfo is only present on human vocalization segments labeled as
     # speech-related vocalizations, including the target child
@@ -208,7 +206,7 @@ its_to_spchtbl <- function(its.file, lxonly, nearonly) {
   
   # Reformat to a chattr spchtbl format
   spchtbl <- as_tibble(spchtbl) %>%
-    mutate(
+    dplyr::mutate(
       start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", start.LENA))*1000)),
       stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", stop.LENA))*1000)),
       duration = stop.ms - start.ms
@@ -218,12 +216,12 @@ its_to_spchtbl <- function(its.file, lxonly, nearonly) {
       dplyr::select(speaker, start.ms, stop.ms, duration, value)
   } else {
     spchtbl <- spchtbl %>%
-      mutate(value = NA) %>%
+      dplyr::mutate(value = NA) %>%
       dplyr::select(speaker, start.ms, stop.ms, duration, value)
   }
   # Simplify speaker tiers (collapse near/far or remove far as desired)
   if (nearonly == TRUE) {
-    spchtbl <- filter(spchtbl, grepl("N$", speaker))
+    spchtbl <- dplyr::filter(spchtbl, grepl("N$", speaker))
   }
   spchtbl$speaker <- substr(spchtbl$speaker, 1, 2)
     
@@ -234,10 +232,10 @@ its_to_spchtbl <- function(its.file, lxonly, nearonly) {
   rec.start.time.lines <- which(grepl(strt.clock.ptrn, its.data.segments))
   rec.start.times <- stringr::str_match(
     its.data.segments[rec.start.time.lines], strt.clock.ptrn)[,2:3]
-  rec.start.tbl <- tibble()
+  rec.start.tbl <- tibble::tibble()
   recorded.portion <- 1
   if (length(rec.start.time.lines) == 1) {
-    rec.start.tbl <- tibble(
+    rec.start.tbl <- tibble::tibble(
       start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[1]))*1000)),
       stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[2]))*1000)),
       duration = stop.ms - start.ms,
@@ -246,34 +244,34 @@ its_to_spchtbl <- function(its.file, lxonly, nearonly) {
       dplyr::select(speaker, start.ms, stop.ms, duration, value)
   } else {
     for (i in 1:nrow(rec.start.times)) {
-      new.rec <- tibble(
+      new.rec <- tibble::tibble(
         start.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[i,1]))*1000)),
         stop.ms = as.integer(round(as.numeric(gsub("[A-Z]", "", rec.start.times[i,2]))*1000)),
         duration = stop.ms - start.ms,
         speaker = paste0(ann.marker, start.ms, "_", stop.ms, "-", recorded.portion),
         value = NA) %>%
         dplyr::select(speaker, start.ms, stop.ms, duration, value)
-      rec.start.tbl <- bind_rows(rec.start.tbl, new.rec)
+      rec.start.tbl <- dplyr::bind_rows(rec.start.tbl, new.rec)
       recorded.portion <- recorded.portion + 1
     }
   }
-  spchtbl <- bind_rows(rec.start.tbl, spchtbl)
+  spchtbl <- dplyr::bind_rows(rec.start.tbl, spchtbl)
   return(spchtbl)
 }
 
 
 rttm_to_spchtbl <- function(tbl, lxonly) {
   # Check if the table is space (traditional) or tab (ACLEW) separated
-  rttm.delim <- case_when(
-    str_count(readLines(tbl, n = 1), " ") == 9 ~ " ",
-    str_count(readLines(tbl, n = 1), "\t") > 6 |
-      str_count(readLines(tbl, n = 1), "\t") < 10 ~ "\t",
+  rttm.delim <- dplyr::case_when(
+    stringr::str_count(readLines(tbl, n = 1), " ") == 9 ~ " ",
+    stringr::str_count(readLines(tbl, n = 1), "\t") > 6 |
+      stringr::str_count(readLines(tbl, n = 1), "\t") < 10 ~ "\t",
     TRUE ~ "PROBLEM"
   )
   if (rttm.delim == "PROBLEM") {
     print("Error: rttm files must be either (a) 10 tab-delimited fields or (b) 8--10 space-delimited fields.")
   } else {
-    rttmtbl <- read_delim(file = tbl, delim = rttm.delim,
+    rttmtbl <- readr::read_delim(file = tbl, delim = rttm.delim,
                           col_names = rttmtbl.colnames, col_types = cols(
                             segment.type = col_character(),
                             filename = col_character(),
@@ -285,7 +283,7 @@ rttm_to_spchtbl <- function(tbl, lxonly) {
                             speaker.tier = col_character(),
                             conf.score = col_double(),
                             signal.lookahead = col_double())) %>%
-      mutate(
+      dplyr::mutate(
         speaker = speaker.tier,
         start.ms = start.sc * 1000,
         duration = duration.sc * 1000,
@@ -297,7 +295,7 @@ rttm_to_spchtbl <- function(tbl, lxonly) {
     if (lxonly != FALSE) {
       if (is.character(lxonly)) {
         rttmtbl <- rttmtbl %>%
-          filter(grepl(lxonly, value))
+          dplyr::filter(grepl(lxonly, value))
       } else {
         print("Invalid value for lxonly parameter. Provide a pattern that matches linguistic vocalization annotations in the sixth column of your rttm; see documentation for an example.")
       }
@@ -305,14 +303,14 @@ rttm_to_spchtbl <- function(tbl, lxonly) {
     # add clip information for whole file
     start.first.ann <- min(rttmtbl$start.ms)
     stop.last.ann <- max(rttmtbl$stop.ms)
-    clip.tbl <- tibble(
+    clip.tbl <- tibble::tibble(
       speaker = paste0(ann.marker, start.first.ann, "_",
                        stop.last.ann, "-", 1),
       start.ms = start.first.ann,
       stop.ms = stop.last.ann,
       value = NA
     )
-    rttmtbl <- bind_rows(clip.tbl, rttmtbl)
+    rttmtbl <- dplyr::bind_rows(clip.tbl, rttmtbl)
     return(rttmtbl)
   }
 }

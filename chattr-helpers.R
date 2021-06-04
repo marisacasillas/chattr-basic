@@ -86,19 +86,19 @@ crop_to_annots <- function(spchtbl) {
 
 # extract focus child speech utterances only
 extract_focus_utts <- function(utts, focus) {
-  focus.utts <- filter(utts, speaker == focus)
+  focus.utts <- dplyr::filter(utts, speaker == focus)
   return(focus.utts)
 }
 
 # create a msec table of pre- and post- utt_0 windows
 expand_msec_windows <- function(utts, allowed.gap, allowed.overlap) {
   utts <- utts %>%
-    mutate(
+    dplyr::mutate(
       prewindow.start = start.ms - allowed.gap,
       prewindow.stop = pmin(stop.ms, start.ms + allowed.overlap),
       postwindow.start = pmax(start.ms, stop.ms - allowed.overlap),
       postwindow.stop = stop.ms + allowed.gap)
-  utt0.windows.msec <- tibble(
+  utt0.windows.msec <- tibble::tibble(
     msec = c(min(utts$prewindow.start):max(utts$postwindow.stop)),
     focal.utt.idx.prw = "",
     focal.utt.idx.psw = ""
@@ -123,7 +123,7 @@ expand_msec_windows <- function(utts, allowed.gap, allowed.overlap) {
 }
 
 read_csv_answercols.tt <- function(filename) {
-  answers <- read_csv(
+  answers <- readr::read_csv(
     filename,
     col_types = cols(
       speaker = col_character(),
@@ -149,7 +149,7 @@ read_csv_answercols.tt <- function(filename) {
 }
 
 read_csv_answercols.is <- function(filename) {
-  answers <- read_csv(
+  answers <- readr::read_csv(
     filename,
     col_types = cols(
       speaker = col_character(),

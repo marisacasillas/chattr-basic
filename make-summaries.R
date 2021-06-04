@@ -3,13 +3,13 @@ summarize_chattr <- function(tttbl.list) {
   if (nrow(tttbl.list$real.tt.vals) > 0) {
     tttbl.real <- summarize_tttbl(tttbl.list$real.tt.vals, "real data")    
   } else {
-    tttbl.real <- tibble()
+    tttbl.real <- tibble::tibble()
   }
   # Random data summary
   if (nrow(tttbl.list$random.tt.vals) > 0) {
     tttbl.rand <- summarize_tttbl(tttbl.list$random.tt.vals, "random data")    
   } else {
-    tttbl.rand <- tibble()
+    tttbl.rand <- tibble::tibble()
   }
   chattr.summary <- bind_rows(tttbl.real, tttbl.rand)
   return(chattr.summary)
@@ -201,7 +201,7 @@ summarize_intseqs <- function(tttbl.is) {
   return(intseq.summary)
 }
 
-intseq.summary.empty <- tibble(
+intseq.summary.empty <- tibble::tibble(
   num.intseqs = 0,                      
   intseq.duration.msec.mean = NA,        
   intseq.duration.msec.median = NA,      
@@ -238,7 +238,7 @@ intseq.summary.empty <- tibble(
   intseqs.per.min = 0       
 )
 
-tt.summary.empty <- tibble(
+tt.summary.empty <- tibble::tibble(
   num.prompts = 0,                   
   prompts.per.min = 0,               
   prompt.latency.msec.mean = NA,      

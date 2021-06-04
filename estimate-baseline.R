@@ -23,10 +23,10 @@ shuffle_vocs <- function(tbl) {
     tbl.cropped$duration <- tbl.cropped$stop.ms - tbl.cropped$start.ms
   }
   if("annot.clip" %in% names(tbl.cropped)) {
-    shuffled.tbl <- tibble()
+    shuffled.tbl <- tibble::tibble()
   } else {
     shuffled.tbl <- tbl.cropped %>%
-      filter(grepl(ann.marker, speaker))
+      dplyr::filter(grepl(ann.marker, speaker))
   }
   for (spkr in unique.spkrs) {
     for (clip in unique.clips) {
@@ -35,14 +35,14 @@ shuffle_vocs <- function(tbl) {
       clip.off <- tbl$stop.ms[clip.idx]
       clip.dur <- clip.off - clip.on
       spkr.vocs <- tbl.cropped %>%
-        filter(speaker == spkr &
+        dplyr::filter(speaker == spkr &
                  start.ms >= clip.on & stop.ms <= clip.off)
       if (nrow(spkr.vocs) > 0) {
         between.utt.durs <- randomize_intervals(nrow(spkr.vocs) + 1,
                             clip.dur - sum(spkr.vocs$duration))
         # Create shuffled speaker onsets
         ## randomize utterance order
-        spkr.vocs <- slice(spkr.vocs, sample(1:n()))
+        spkr.vocs <- dplyr::slice(spkr.vocs, sample(1:n()))
         ## insert randomized between-utterance periods
         spkr.vocs$onset.interval <- between.utt.durs[
           1:length(between.utt.durs) - 1]
@@ -54,12 +54,12 @@ shuffle_vocs <- function(tbl) {
         spkr.vocs <- spkr.vocs %>%
           dplyr::select(-onset.interval, -dur.cum, - interval.cum)
         # Write shuffled onsets to the output table
-        shuffled.tbl <- bind_rows(shuffled.tbl, spkr.vocs)
+        shuffled.tbl <- dplyr::bind_rows(shuffled.tbl, spkr.vocs)
       }
     }
   }
   shuffled.tbl <- shuffled.tbl %>%
-    arrange(start.ms)
+    dplyr::arrange(start.ms)
   return(shuffled.tbl)
 }
 
@@ -104,10 +104,10 @@ fetch_randomruns <- function(
     if (output == "intseqtbl" | output == "tttbl") {
       # extract turn-transition tables with shuffled vocalizations
       random.tttbls <- real.tttbl[1,] %>%
-        mutate(random.run.num = 0) %>%
-        full_join(tibble(random.run.num = sort(rep(
+        dplyr::mutate(random.run.num = 0) %>%
+        dplyr::full_join(tibble::tibble(random.run.num = sort(rep(
           seq.int(1, n.runs), nrow(real.tttbl)))), by = "random.run.num") %>%
-        filter(random.run.num > 0)
+        dplyr::filter(random.run.num > 0)
       for (i in 1:n.runs) {
         print(paste0("Random run of turn transition detection: ",
                      i, " of ", n.runs))
@@ -122,18 +122,18 @@ fetch_randomruns <- function(
       if (output == "intseqtbl") {
         # extract interaction sequence tables with new tttbls of shuffled vocs
         print(paste0("Random run of intseq detection: 1 of ", n.runs))
-        current.tttbl <- filter(random.tttbls, random.run.num == 1) %>%
+        current.tttbl <- dplyr::filter(random.tttbls, random.run.num == 1) %>%
           dplyr::select(-random.run.num)
         random.intseqtbls <- fetch_intseqs(current.tttbl, allowed.gap) %>%
-          mutate(random.run.num = 1)
+          dplyr::mutate(random.run.num = 1)
         if (n.runs > 1) {
           random.intseqtbls <- random.intseqtbls %>%
-            full_join(tibble(random.run.num = sort(rep(
+            dplyr::full_join(tibble::tibble(random.run.num = sort(rep(
               seq.int(2, n.runs), nrow(real.tttbl)))), by = "random.run.num")
           for (i in 2:n.runs) {
             print(paste0("Random run of intseq detection: ", i, " of ", n.runs))
             run.idx <- which(random.intseqtbls$random.run.num == i)
-            current.tttbl <- filter(random.tttbls, random.run.num == i) %>%
+            current.tttbl <- dplyr::filter(random.tttbls, random.run.num == i) %>%
               dplyr::select(-random.run.num)
             random.intseqtbls[run.idx,
                               1:(length(random.intseqtbls)-1)] <- fetch_intseqs(

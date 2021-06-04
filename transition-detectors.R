@@ -2,7 +2,7 @@ ann.marker <- "annotated-" ## ALSO USED IN TABULARIZE DATA
 start.ann <- paste0("^", ann.marker, "\\d+", collapse = "") ## ALSO USED IN CHATTR HELPERS
 modes <- c("strict", "stretch", "luqr", "qulr")
 
-empty.continuation.utts <- tibble(
+empty.continuation.utts <- tibble::tibble(
   speaker = character(),
   annot.clip = character(),
   start.ms = integer(),
@@ -80,7 +80,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     prewindow.stop = pmin(stop.ms, start.ms + allowed.overlap),
     postwindow.start = pmax(start.ms, stop.ms - allowed.overlap),
     postwindow.stop = stop.ms + allowed.gap)
-  sub.int.utts <- tibble()
+  sub.int.utts <- tibble::tibble()
   for (u in 1:nrow(chi.utts)) {
     prompts <- filter(int.utts,
       stop.ms >= chi.utts$prewindow.start[u] &
@@ -187,7 +187,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     chi.utts.prompts <- bind_rows(easy.utts.prompts, hard.utts.prompts) %>%
       arrange(start.ms)
   } else {
-    chi.utts.prompts <- tibble()
+    chi.utts.prompts <- tibble::tibble()
   }
   
   # RESPONSES
@@ -277,7 +277,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
     chi.utts.responses <- bind_rows(easy.utts.responses, hard.utts.responses) %>%
       arrange(start.ms)
   } else {
-    chi.utts.responses <- tibble()
+    chi.utts.responses <- tibble::tibble()
   }
 
   # combine the contingent utterances
