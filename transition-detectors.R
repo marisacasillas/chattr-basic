@@ -40,7 +40,7 @@ fetch_transitions <- function(spchtbl, allowed.gap, allowed.overlap,
   spchtbl.annsubset <- filter(spchtbl.cropped,
     annot.clip != "none assigned")
   # extract the interactant utterances
-  if (ifelse(is.logical(interactants), interactants == FALSE, FALSE)) {
+  if (is.logical(interactants) & interactants == FALSE) {
     int.utts <- filter(spchtbl.annsubset, speaker != target.ptcp &
                          !grepl(start.ann, speaker))
   } else {
