@@ -36,7 +36,7 @@ fetch_chattr_tttbl <- function(
     real.tbl <- fetch_transitions(spchtbl, allowed.gap, allowed.overlap,
                                     min.utt.dur, target.ptcp, interactants,
                                     addressee.tags, mode)
-    if (output == "intseqtbl") {
+    if (output == "intseqtbl" & nrow(real.tbl) > 1) {
       print("Estimating interactional sequences...")
       real.tbl <- fetch_intseqs(real.tbl, allowed.gap)
     }
