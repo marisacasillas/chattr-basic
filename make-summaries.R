@@ -1,13 +1,17 @@
 summarize_chattr <- function(tttbl.list) {
   # Real data summary
-  if (nrow(tttbl.list$real.tt.vals) > 0) {
-    tttbl.real <- summarize_tttbl(tttbl.list$real.tt.vals, "real data")    
+  if (length(tttbl.list$real.tt.vals) > 1) {
+    if (nrow(tttbl.list$real.tt.vals) > 0) {
+      tttbl.real <- summarize_tttbl(tttbl.list$real.tt.vals, "real data")    
+    }
   } else {
     tttbl.real <- tibble()
   }
   # Random data summary
-  if (nrow(tttbl.list$random.tt.vals) > 0) {
-    tttbl.rand <- summarize_tttbl(tttbl.list$random.tt.vals, "random data")    
+  if (length(tttbl.list$random.tt.vals) > 1) {
+    if (nrow(tttbl.list$random.tt.vals) > 0) {
+      tttbl.rand <- summarize_tttbl(tttbl.list$random.tt.vals, "random data")
+    }
   } else {
     tttbl.rand <- tibble()
   }
@@ -63,6 +67,9 @@ summarize_tttbl <- function(tttbl, data.type) {
         by.clip.summary <- expand_grid(
           tt.summary, intseq.summary.empty)
       }
+  } else {
+    by.clip.summary <- expand_grid(
+      tt.summary, intseq.summary.empty)
   }
   return(by.clip.summary)
 }
